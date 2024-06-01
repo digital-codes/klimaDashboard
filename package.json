@@ -9,7 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.21"
+    "@fontsource/source-sans-pro": "^5.0.8",
+    "material-icons": "^1.13.12",
+    "vue": "^3.4.21",
+    "vuestic-ui": "^1.9.10"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

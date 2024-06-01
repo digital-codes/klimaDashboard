@@ -75,7 +75,9 @@ onMounted(() => {
 .category-values .right{
     grid-column: 2;
     gap: 10px;
+    height: 2rem;
 }
+
 
 .category-icons {
     grid-column: 1;
@@ -84,6 +86,7 @@ onMounted(() => {
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    height: 3rem;
 }
 .category-icons .right{
     grid-column: 2;
