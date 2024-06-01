@@ -21,18 +21,18 @@
 import { ref, computed, onMounted } from 'vue';
 
 const categories = ref([
-    { name: 'Category 1', value: 10, icon: vite, class: "left"}, //'category1.png' },
-    { name: 'Category 2', value: 20, icon: vue, class: "right"}, //'category2.png' },
+    { name: 'Category 1', value: 0, icon: vite, class: "left"}, //'category1.png' },
+    { name: 'Category 2', value: 0, icon: vue, class: "right"}, //'category2.png' },
 ]);
 
-import vite from "../assets/vite.svg";  
-import vue from "../assets/vue.svg";  
+import vite from "../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg";  
+import vue from "../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_bus.svg";  
 
 const sliderValue = ref(50);
 
 const updateCategoryValues = () => {
-    categories.value[0].value = sliderValue.value;
-    categories.value[1].value = 100 - sliderValue.value;
+    categories.value[1].value = sliderValue.value;
+    categories.value[0].value = 100 - sliderValue.value;
     /*
     categories.value.forEach((category) => {
         category.value = Math.floor(Math.random() * 100);
