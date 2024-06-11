@@ -6,6 +6,8 @@
         <img :src="image" alt="Card Image" class="image" />
         <div class="chart-area">
             <!-- Chart component goes here -->
+            <SizeAnimation></SizeAnimation>
+
         </div>
         <button class="button">{{ $t('button') }}</button>
         <input type="checkbox" class="checkbox" />
@@ -18,9 +20,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-import { useConfigStore } from '../services/configStore'; // Replace 'configStore' with the name of your specific store
-const configStore = useConfigStore()
+
+import SizeAnimation from "./SizeAnimation.vue"
 
 import cardMessages from './card.json';
 

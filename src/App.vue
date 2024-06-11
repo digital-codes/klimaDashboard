@@ -22,7 +22,6 @@ const switchValue = ref(false)
 
 
 <template>
-  <CardTemplate  />
   <VaLayout 
     style="height: 500px"
     :left="{ absolute: breakpoints.smDown }"
@@ -64,7 +63,10 @@ const switchValue = ref(false)
     <template #content>
       <main class="p-4">
         <h3 class="va-h3">Size Animation </h3>
-        <SizeAnimation></SizeAnimation>
+        <!-- 
+          <SizeAnimation></SizeAnimation>
+        -->
+        <CardTemplate />
         <VaSwitch
       v-model="switchValue"
       color="#5123a1"
