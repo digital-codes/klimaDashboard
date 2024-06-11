@@ -9,13 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/roboto": "^5.0.13",
     "@fontsource/source-sans-pro": "^5.0.8",
+    "axios": "^1.7.2",
     "material-icons": "^1.13.12",
+    "pinia": "^2.1.7",
     "vue": "^3.4.21",
-    "vuestic-ui": "^1.9.10"
+    "vue-i18n": "^9.13.1",
+    "vuestic-ui": "^1.9.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.77.4",
     "vite": "^5.2.0"
   }
 }

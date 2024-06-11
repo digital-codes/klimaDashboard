@@ -1,6 +1,14 @@
 <script setup>
+/*
+import { useConfigStore } from './services/configStore';
+const configStore = useConfigStore();
+configStore.setCurrentLocale('de');
+*/
+
 import HelloWorld from './components/HelloWorld.vue'
 import SizeAnimation from "./components/SizeAnimation.vue"
+
+import CardTemplate from "./components/CardTemplate.vue"
 
 import { ref } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';
@@ -14,6 +22,7 @@ const switchValue = ref(false)
 
 
 <template>
+  <CardTemplate  />
   <VaLayout 
     style="height: 500px"
     :left="{ absolute: breakpoints.smDown }"
