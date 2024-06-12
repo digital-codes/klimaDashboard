@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <p>{{ $t("hello") }}</p>
+    <p>{{ $t("title") }}</p>
     <div class="header">{{ $t("header") }}</div>
     <div class="text">{{ $t("text") }}</div>
     <img :src="image" alt="Card Image" class="image" />
@@ -19,17 +19,45 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+const { t, messages } = useI18n();
+import { ref, onBeforeMount } from 'vue';
+
 import SizeAnimation from "./SizeAnimation.vue";
 
 import cardMessages from "./card.json";
 
-// Merge card specific messages with global messages
-const messages = {
-  //...configStore.getMessages,
-  ...cardMessages,
-};
+// Merge card specific messages with global 
+
+console.log(messages.value);
 
 import image from "../assets/images/lastenrad.jpg"; // Replace with your actual image path
+
+onBeforeMount(() => {
+  // Code to execute when the component is mounted
+  console.log('before mounted')
+  console.log("1",messages.value)
+  console.log(cardMessages)
+  const msgs = messages.value
+  messages.value = {
+  ...msgs, // //...configStore.getMessages,
+  ...cardMessages
+};
+for (const key in msgs) {
+  console.log(`${key}:`, msgs[key]);
+}
+for (const key in cardMessages) {
+  console.log(`${key}:`, cardMessages[key]);
+  for (const ckey in cardMessages[key]) {
+    console.log(`${ckey}:`, cardMessages[key][ckey]);
+    messages.value[key][ckey] = cardMessages[key][ckey]
+  }
+}
+
+console.log("2",messages.value)
+});
+
+
 </script>
 
 <style scoped>

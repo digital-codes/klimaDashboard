@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 export const useConfigStore = defineStore({
     id: 'config',
     state: () => ({
-        locale: 'en', // default locale
+        locale: 'de', // default locale
         // add other config values here
         messages: {}
     }),
@@ -19,6 +19,7 @@ export const useConfigStore = defineStore({
     actions: {
         setCurrentLocale(locale) {
             this.locale = locale;
+            console.log("setCurrentLocale", locale);
         },
         // add other actions here
         setMessages(messages) {

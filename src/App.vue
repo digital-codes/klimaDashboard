@@ -1,4 +1,8 @@
 <script setup>
+// 1i8n at top !
+import { useI18n } from 'vue-i18n';
+const { t, locale, availableLocales } = useI18n();
+
 import { useConfigStore } from './services/configStore';
 const configStore = useConfigStore();
 
@@ -7,13 +11,8 @@ import SizeAnimation from "./components/SizeAnimation.vue"
 
 import CardTemplate from "./components/CardTemplate.vue"
 
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';
-
-import { i18n }  from 'vue-i18n';
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
-
 
 const showSidebar = ref(false)
 
@@ -21,18 +20,32 @@ const breakpoints = useBreakpoint()
 
 const switchValue = ref(false)
 
-const langSel = ref(configStore.getCurrentLocale)
-const languages = ["en","de","fr","es"]
+const langSel = ref("")
+//locale.value = langSel
+console.log(availableLocales)
+const languages = availableLocales
+
+console.log(langSel.value)
+console.log(locale.value)
 
 watch(langSel, (newValue, oldValue) => {
   // Code to execute when langSel changes
   console.log(newValue)
   configStore.setCurrentLocale(newValue);
-  console.log("i18n",i18n.global)
-  //t.global.locale = newValue;
-  console.log("Select: ",t('langsel'))
+  locale.value = newValue
 });
 
+onMounted(() => {
+  // Code to execute when the component is mounted
+  console.log('mounted')
+  const lang = configStore.getCurrentLocale
+  console.log(lang)
+  locale.value = lang
+  langSel.value = lang
+  console.log(locale.value)
+  console.log(langSel.value)
+
+});
 
 /*
 
