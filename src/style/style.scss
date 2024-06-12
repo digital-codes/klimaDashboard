@@ -5,7 +5,6 @@
 */
 
 :root {
-  
   /*
   font-family: "Source Sans Pro";
   */
@@ -15,8 +14,10 @@
   font-weight: 400;
 
   color-scheme: light dark;
+  /*
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,8 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 
   --va-font-family: "Roboto";
-
 }
+
+
 
 a {
   font-weight: 500;
@@ -73,10 +75,38 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
+  width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+@media (max-width: 400px) {
+  /* Your styles for small screens here */
+  #app {
+    width: 300px;
+    padding: .8rem;
+  }
+}
+
+@media (min-width:401px) and (max-width: 768px) {
+  /* Your styles for small screens here */
+  #app {
+    width: 380px;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Your styles for medium screens here */
+  #app {
+    width: 720px;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Your styles for large screens here */
 }
 
 @media (prefers-color-scheme: light) {
@@ -89,5 +119,35 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    color: #1a1a1a;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #ffffff;
+    background-color: #000000;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #1a1a1a;
+    color:#f9f9f9
+  }
+}
+
+.dark {
+  :root {
+    color: #ffffff;
+    background-color: #000000;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #1a1a1a;
+    color:#f9f9f9
+  }
+}
+

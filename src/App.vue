@@ -1,29 +1,57 @@
 <script setup>
-/*
 import { useConfigStore } from './services/configStore';
 const configStore = useConfigStore();
-configStore.setCurrentLocale('de');
-*/
 
 import HelloWorld from './components/HelloWorld.vue'
 import SizeAnimation from "./components/SizeAnimation.vue"
 
 import CardTemplate from "./components/CardTemplate.vue"
 
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';
+
+import { i18n }  from 'vue-i18n';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
 
 const showSidebar = ref(false)
 
 const breakpoints = useBreakpoint()
 
 const switchValue = ref(false)
+
+const langSel = ref(configStore.getCurrentLocale)
+const languages = ["en","de","fr","es"]
+
+watch(langSel, (newValue, oldValue) => {
+  // Code to execute when langSel changes
+  console.log(newValue)
+  configStore.setCurrentLocale(newValue);
+  console.log("i18n",i18n.global)
+  //t.global.locale = newValue;
+  console.log("Select: ",t('langsel'))
+});
+
+
+/*
+
+watch(() => configStore.currentLocale, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    import(`./locales/${newValue}.json`).then((messages) => {
+      i18n.global.setLocaleMessage(newValue, messages.default || messages);
+      i18n.global.locale = newValue;
+    });
+  }
+});
+*/
+
+
 </script>
 
 
 <template>
   <VaLayout 
-    style="height: 500px"
     :left="{ absolute: breakpoints.smDown }"
   >
     <template #top>
@@ -36,6 +64,16 @@ const switchValue = ref(false)
             LOGO
           </VaNavbarItem>
         </template>
+        <template #right>
+ <div class="max-w-xs">
+    <VaLabel>{{ $t('langsel') }}</VaLabel>
+    <VaSelect
+      v-model="langSel"
+      :options="languages"
+      :placeholder="configStore.getCurrentLocale"
+    />
+  </div>
+      </template>
       </VaNavbar>
     </template>
 

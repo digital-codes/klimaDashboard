@@ -1,18 +1,22 @@
 {
     "en": {
         "greeting": "Hello!",
-        "farewell": "Goodbye!"
+        "farewell": "Goodbye!",
+        "langsel": "Select language"
     },
     "de": {
         "greeting": "Hallo!",
-        "farewell": "Tschüß!"
+        "farewell": "Tschüß!",
+        "langsel": "Sprache wählen"
     },
     "fr": {
         "greeting": "Bonjour!",
-        "farewell": "Au revoir!"
+        "farewell": "Au revoir!",
+        "langsel": "FR Select language"
     },
     "es": {
         "greeting": "¡Hola!",
-        "farewell": "¡Adiós!"
+        "farewell": "¡Adiós!",
+        "langsel": "ES Select language"
     }
 }
