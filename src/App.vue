@@ -18,6 +18,7 @@ const showSidebar = ref(false)
 
 const breakpoints = useBreakpoint()
 
+const modeSwitch = ref(false)
 const switchValue = ref(false)
 
 const langSel = ref("")
@@ -77,6 +78,21 @@ onMounted(() => {
       </template>
     </VaSelect>
   </div>
+  <VaSwitch
+      v-model="modeSwitch"
+      color="#5123a1"
+      off-color="#ffd300"
+      style="--va-switch-checker-background-color: #252723;"
+    >
+      <template #innerLabel>
+        <div class="va-text-center">
+          <VaIcon
+            :name="modeSwitch ? 'dark_mode' : 'light_mode'"
+          />
+        </div>
+      </template>
+    </VaSwitch>
+
       </template>
       </VaNavbar>
     </template>

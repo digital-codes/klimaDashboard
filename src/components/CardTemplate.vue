@@ -3,6 +3,8 @@
     <p>{{ $t($props.name + ".title") }}</p>
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
+    <div class="mdcontent" v-html="mdText">
+    </div>
     <img :src="props.logo" alt="Card Image" class="image" />
     <div class="chart-area">
       <!-- Chart component goes here -->
@@ -20,13 +22,14 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-const { t, messages } = useI18n();
+const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount } from "vue";
 
-// name für i18n key
-//const name = ref('CardTemplate');
-//const logo = ref('../assets/images/lastenrad.jpg');
+import { computed } from "vue";
+import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 
+// name für i18n key
 const props = defineProps({
   name: {
     type: String,
@@ -38,33 +41,29 @@ const props = defineProps({
     //required: true,
   },
 });
-
-
-console.log("Name:", props.name);
-const key = ref(props.name)
-
-// chart
-import SizeAnimation from "./SizeAnimation.vue";
+console.log("Card name:", props.name);
 
 // messages i18n
 import cardMessages from "./card.json";
 
-// Merge card specific messages with global
+// mdText
+const mdText = computed(() => {
+  const md = cardMessages[locale.value].mdtext;
+  let t = marked.parse(md);
+  t = DOMPurify.sanitize(t);
+  return t;
+});
 
-console.log(messages.value);
+// chart
+import SizeAnimation from "./SizeAnimation.vue";
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
-  console.log("before mounted");
-
-  const msgs = messages.value;
-
+  // Merge card specific messages with global
   for (const key in cardMessages) {
     console.log(`${key}:`, cardMessages[key]);
     messages.value[key][props.name] = cardMessages[key];
   }
-
-  console.log("2", messages.value);
 });
 </script>
 
@@ -115,7 +114,10 @@ scriptbox {
 .select {
   /* Add your select styles here */
 }
+
+
 </style>
+
 
 <!-- 
 digital-codes: explain where and how to load global messages
