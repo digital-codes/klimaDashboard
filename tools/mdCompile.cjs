@@ -13,20 +13,16 @@ const compile = async () => {
 
     try {
         const data = await fs.promises.readFile(cardFile, 'utf8');
-        const card = JSON.parse(data);
+        const card = await JSON.parse(data);
         const languages = Object.keys(card);
-        console.log(languages);
 
         // try to read language files
         for (const language of languages) {
             const filePath = path.join(directory, `${language}.md`);
-            console.log(filePath);
             try {
                 const content = await fs.promises.readFile(filePath, 'utf8');
                 const markedContent = await marked.parse(content);
                 // Insert the marked content into the card.json file
-                console.log(content)
-                console.log(markedContent)
                 card[language]["mdpane"] = markedContent;
             } catch (err) {
                 console.error(`Error reading file: ${err}`);

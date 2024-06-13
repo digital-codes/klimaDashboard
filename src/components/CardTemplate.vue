@@ -3,7 +3,7 @@
     <p>{{ $t($props.name + ".title") }}</p>
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
-    <div class="mdcontent" v-html="mdText">
+    <div class="mdcontent" v-html="cardMessages[locale].mdpane">
     </div>
     <img :src="props.logo" alt="Card Image" class="image" />
     <div class="chart-area">
@@ -45,14 +45,6 @@ console.log("Card name:", props.name);
 
 // messages i18n
 import cardMessages from "./card.json";
-
-// mdText
-const mdText = computed(() => {
-  const md = cardMessages[locale.value].mdtext;
-  let t = marked.parse(md);
-  t = DOMPurify.sanitize(t);
-  return t;
-});
 
 // chart
 import SizeAnimation from "./SizeAnimation.vue";
