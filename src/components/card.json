@@ -1,14 +1,38 @@
 {
     "en": {
-        "title": "Title EN"
+        "title": "Title EN",
+        "header": "Header EN",
+        "text": "Text EN",
+        "button": "Button EN",
+        "option1": "Option 1 EN",
+        "option2": "Option 2 EN",
+        "option3": "Option 3 EN"
     },
     "de": {
-        "title": "Titel DE"
+        "title": "Titel DE",
+        "header": "Header DE",
+        "text": "Text DE",
+        "button": "Button DE",
+        "option1": "Option 1 DE",
+        "option2": "Option 2 DE",
+        "option3": "Option 3 DE"
     },
     "fr": {
-        "title": "Title FR"
-    },
+        "title": "Title FR",
+        "header": "Header FR",
+        "text": "Text FR",
+        "button": "Button FR",
+        "option1": "Option 1 FR",
+        "option2": "Option 2 FR",
+        "option3": "Option 3 FR"
+        },
     "es": {
-        "title": "Title ES"
-    }
+        "title": "Title ES",
+        "header": "Header ES",
+        "text": "Text ES",
+        "button": "Button ES",
+        "option1": "Option 1 ES",
+        "option2": "Option 2 ES",
+        "option3": "Option 3 ES"
+        }
 }

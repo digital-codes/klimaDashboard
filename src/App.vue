@@ -47,18 +47,6 @@ onMounted(() => {
 
 });
 
-/*
-
-watch(() => configStore.currentLocale, (newValue, oldValue) => {
-  if (newValue !== oldValue) {
-    import(`./locales/${newValue}.json`).then((messages) => {
-      i18n.global.setLocaleMessage(newValue, messages.default || messages);
-      i18n.global.locale = newValue;
-    });
-  }
-});
-*/
-
 
 </script>
 
@@ -78,13 +66,16 @@ watch(() => configStore.currentLocale, (newValue, oldValue) => {
           </VaNavbarItem>
         </template>
         <template #right>
- <div class="max-w-xs">
-    <VaLabel>{{ $t('langsel') }}</VaLabel>
+ <div class="langselect">
     <VaSelect
       v-model="langSel"
       :options="languages"
       :placeholder="configStore.getCurrentLocale"
-    />
+    >
+      <template #prepend>
+        <VaIcon name="translate" />
+      </template>
+    </VaSelect>
   </div>
       </template>
       </VaNavbar>
@@ -143,5 +134,9 @@ main {
   padding: 20px;
 }
 
+.langselect {
+  max-width: 6rem;;
+}
 
 </style>
+

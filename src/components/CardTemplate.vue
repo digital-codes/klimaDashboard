@@ -1,63 +1,71 @@
 <template>
   <div class="card">
-    <p>{{ $t("title") }}</p>
-    <div class="header">{{ $t("header") }}</div>
-    <div class="text">{{ $t("text") }}</div>
-    <img :src="image" alt="Card Image" class="image" />
+    <p>{{ $t($props.name + ".title") }}</p>
+    <div class="header">{{ $t($props.name + ".header") }}</div>
+    <div class="text">{{ $t($props.name + ".text") }}</div>
+    <img :src="props.logo" alt="Card Image" class="image" />
     <div class="chart-area">
       <!-- Chart component goes here -->
       <SizeAnimation></SizeAnimation>
     </div>
-    <button class="button">{{ $t("button") }}</button>
+    <button class="button">{{ $t($props.name + ".button") }}</button>
     <input type="checkbox" class="checkbox" />
     <select class="select">
-      <option value="option1">{{ $t("option1") }}</option>
-      <option value="option2">{{ $t("option2") }}</option>
-      <option value="option3">{{ $t("option3") }}</option>
+      <option value="option1">{{ $t($props.name + ".option1") }}</option>
+      <option value="option2">{{ $t($props.name + ".option2") }}</option>
+      <option value="option3">{{ $t($props.name + ".option3") }}</option>
     </select>
   </div>
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 const { t, messages } = useI18n();
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount } from "vue";
 
-import SizeAnimation from "./SizeAnimation.vue";
+// name für i18n key
+//const name = ref('CardTemplate');
+//const logo = ref('../assets/images/lastenrad.jpg');
 
-import cardMessages from "./card.json";
-
-// Merge card specific messages with global 
-
-console.log(messages.value);
-
-import image from "../assets/images/lastenrad.jpg"; // Replace with your actual image path
-
-onBeforeMount(() => {
-  // Code to execute when the component is mounted
-  console.log('before mounted')
-  console.log("1",messages.value)
-  console.log(cardMessages)
-  const msgs = messages.value
-  messages.value = {
-  ...msgs, // //...configStore.getMessages,
-  ...cardMessages
-};
-for (const key in msgs) {
-  console.log(`${key}:`, msgs[key]);
-}
-for (const key in cardMessages) {
-  console.log(`${key}:`, cardMessages[key]);
-  for (const ckey in cardMessages[key]) {
-    console.log(`${ckey}:`, cardMessages[key][ckey]);
-    messages.value[key][ckey] = cardMessages[key][ckey]
-  }
-}
-
-console.log("2",messages.value)
+const props = defineProps({
+  name: {
+    type: String,
+    default: "card",
+  },
+  logo: {
+    type: String,
+    default: "/images/tiles/lastenrad.jpg",
+    //required: true,
+  },
 });
 
 
+console.log("Name:", props.name);
+const key = ref(props.name)
+
+// chart
+import SizeAnimation from "./SizeAnimation.vue";
+
+// messages i18n
+import cardMessages from "./card.json";
+
+// Merge card specific messages with global
+
+console.log(messages.value);
+
+onBeforeMount(() => {
+  // Code to execute when the component is mounted
+  console.log("before mounted");
+
+  const msgs = messages.value;
+
+  for (const key in cardMessages) {
+    console.log(`${key}:`, cardMessages[key]);
+    messages.value[key][props.name] = cardMessages[key];
+  }
+
+  console.log("2", messages.value);
+});
 </script>
 
 <style scoped>
@@ -100,14 +108,13 @@ console.log("2",messages.value)
   /* Add your button styles here */
 }
 
-.checkbox {
+scriptbox {
   /* Add your checkbox styles here */
 }
 
 .select {
   /* Add your select styles here */
 }
-
 </style>
 
 <!-- 

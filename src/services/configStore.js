@@ -19,7 +19,6 @@ export const useConfigStore = defineStore({
     actions: {
         setCurrentLocale(locale) {
             this.locale = locale;
-            console.log("setCurrentLocale", locale);
         },
         // add other actions here
         setMessages(messages) {
