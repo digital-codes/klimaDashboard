@@ -14,11 +14,30 @@ import CardTemplate from "./components/CardTemplate.vue"
 import { ref, watch, onMounted } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';
 
+/* theme switch: https://ui.vuestic.dev/styles/colors */
+import { computed } from 'vue';
+import { useColors } from "vuestic-ui";
+
+const { applyPreset, currentPresetName } = useColors();
+
+const modeSwitch = computed({
+  get() { 
+    console.log("Get Mode:",currentPresetName.value)
+    return currentPresetName.value 
+  },
+  set(value) { 
+    console.log("Set Mode:",value)
+    applyPreset(value) 
+  }
+})
+
+//const modeSwitch = ref(false)
+
+
 const showSidebar = ref(false)
 
 const breakpoints = useBreakpoint()
 
-const modeSwitch = ref(false)
 const switchValue = ref(false)
 
 const langSel = ref("")
@@ -80,6 +99,7 @@ onMounted(() => {
   </div>
   <VaSwitch
       v-model="modeSwitch"
+      true-value="dark" false-value="light"
       color="#5123a1"
       off-color="#ffd300"
       style="--va-switch-checker-background-color: #252723;"
