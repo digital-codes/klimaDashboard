@@ -57,7 +57,7 @@ onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
   for (const key in cardMessages) {
-    console.log(`${key}:`, cardMessages[key]);
+    // console.log(`${key}:`, cardMessages[key]);
     if (key === "specs") continue
     messages.value[key][props.name] = cardMessages[key];
   }

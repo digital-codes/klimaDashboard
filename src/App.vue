@@ -6,9 +6,6 @@ const { t, locale, availableLocales } = useI18n();
 import { useConfigStore } from './services/configStore';
 const configStore = useConfigStore();
 
-import HelloWorld from './components/HelloWorld.vue'
-import SizeAnimation from "./components/charts/SizeAnimation.vue"
-
 //import CardTemplate from "./components/CardTemplate.vue"
 import CardTemplate from "./components/tiles/dummy/CardTemplate.vue"
 
@@ -142,9 +139,6 @@ onMounted(() => {
     <template #content>
       <main class="p-4">
         <h3 class="va-h3">Size Animation </h3>
-        <!-- 
-          <SizeAnimation></SizeAnimation>
-        -->
         <CardTemplate />
         <VaSwitch
       v-model="switchValue"
