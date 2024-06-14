@@ -3,12 +3,15 @@
     <p>{{ $t($props.name + ".title") }}</p>
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
-    <div class="mdcontent" v-html="mdText">
-    </div>
+    <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
     <img :src="props.logo" alt="Card Image" class="image" />
     <div class="chart-area">
       <!-- Chart component goes here -->
       <SizeAnimation></SizeAnimation>
+    </div>
+    <div class="chart-area">
+      <!-- Chart component goes here -->
+      <ChartTemplate :chartDataUri="cardMessages.specs.dataUrls[0]"></ChartTemplate>
     </div>
     <button class="button">{{ $t($props.name + ".button") }}</button>
     <input type="checkbox" class="checkbox" />
@@ -26,8 +29,9 @@ const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount } from "vue";
 
 import { computed } from "vue";
-import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";
+
+import ChartTemplate from "../../charts/ChartTemplate.vue"
+
 
 // name für i18n key
 const props = defineProps({
@@ -46,22 +50,15 @@ console.log("Card name:", props.name);
 // messages i18n
 import cardMessages from "./card.json";
 
-// mdText
-const mdText = computed(() => {
-  const md = cardMessages[locale.value].mdtext;
-  let t = marked.parse(md);
-  t = DOMPurify.sanitize(t);
-  return t;
-});
-
 // chart
-import SizeAnimation from "./SizeAnimation.vue";
+import SizeAnimation from "../../charts/SizeAnimation.vue";
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
   for (const key in cardMessages) {
     console.log(`${key}:`, cardMessages[key]);
+    if (key === "specs") continue
     messages.value[key][props.name] = cardMessages[key];
   }
 });

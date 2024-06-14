@@ -7,9 +7,10 @@ import { useConfigStore } from './services/configStore';
 const configStore = useConfigStore();
 
 import HelloWorld from './components/HelloWorld.vue'
-import SizeAnimation from "./components/SizeAnimation.vue"
+import SizeAnimation from "./components/charts/SizeAnimation.vue"
 
-import CardTemplate from "./components/CardTemplate.vue"
+//import CardTemplate from "./components/CardTemplate.vue"
+import CardTemplate from "./components/tiles/dummy/CardTemplate.vue"
 
 import { ref, watch, onMounted } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';

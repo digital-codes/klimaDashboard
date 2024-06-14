@@ -25,8 +25,8 @@ const categories = ref([
     { name: 'Category 2', value: 0, icon: vue, class: "right"}, //'category2.png' },
 ]);
 
-import vite from "../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg";  
-import vue from "../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_bus.svg";  
+import vite from "../../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg";  
+import vue from "../../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_bus.svg";  
 
 const sliderValue = ref(50);
 

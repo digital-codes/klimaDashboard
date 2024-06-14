@@ -26,8 +26,9 @@ const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount } from "vue";
 
 import { computed } from "vue";
-import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";
+
+import ChartTemplate from "./ChartTemplate.vue"
+
 
 // name für i18n key
 const props = defineProps({

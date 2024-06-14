@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
+const purify = require("isomorphic-dompurify")
 
 //console.log(marked)
 
@@ -14,7 +15,9 @@ const compile = async () => {
     try {
         const data = await fs.promises.readFile(cardFile, 'utf8');
         const card = await JSON.parse(data);
-        const languages = Object.keys(card);
+        const keys = Object.keys(card);
+        const languages = keys.filter(key => key !== 'specs');
+        console.log(languages)
 
         // try to read language files
         for (const language of languages) {
@@ -22,8 +25,9 @@ const compile = async () => {
             try {
                 const content = await fs.promises.readFile(filePath, 'utf8');
                 const markedContent = await marked.parse(content);
+                const purifiedContent = await purify.sanitize(markedContent)
                 // Insert the marked content into the card.json file
-                card[language]["mdpane"] = markedContent;
+                card[language]["mdpane"] = purifiedContent;
             } catch (err) {
                 console.error(`Error reading file: ${err}`);
                 return;
