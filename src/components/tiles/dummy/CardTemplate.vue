@@ -4,41 +4,26 @@
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
 
-    <!-- 
-    <VaScrollContainer
-    class="max-h-52"
-    vertical
-    >
-
-    <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
-    
-  </VaScrollContainer>
-    -->
 
     <div class="row">
       <div class="flex flex-col lg6 md12">
-        <!-- 
-          <VaImage
-            fit="fill"
-            class="image max-h-32"
-            :src="props.logo"
-          />          
-        -->
-        <img :src="props.logo" alt="Card Image" class="image" />
+        <img :src="props.logo" alt="Card Image" class="cardimage" />
       </div>
       <div class="flex flex-col lg6 md12">
           <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
       </div>
     </div>
 
+    <!-- 
     <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
 
     <img :src="props.logo" alt="Card Image" class="image" />
-    <div class="chart-area">
+    -->
+    <div class="chartpane">
       <!-- Chart component goes here -->
       <SizeAnimation></SizeAnimation>
     </div>
-    <div class="chart-area">
+    <div class="chartpane">
       <!-- Chart component goes here -->
       <ChartTemplate :chartDataUri="cardMessages.specs.dataUrls[0]"></ChartTemplate>
     </div>
@@ -119,7 +104,7 @@ onBeforeMount(() => {
   /* Add your text styles here */
 }
 
-.image {
+.image1 {
   /* Add your image styles here */
   width: 100%;
   height: auto;  

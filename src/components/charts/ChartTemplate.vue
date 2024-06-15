@@ -138,16 +138,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="chart-template">
     <v-chart
       v-if="dataLoaded"
       :option="chartOptions"
-      :style="{ height: '400px' }"
+      :style="{ height: '100%' }"
       :theme="chartTheme"
       autoresize
-      class="chartclass"
     ></v-chart>
-  </div>
 </template>
 
 <style scoped>

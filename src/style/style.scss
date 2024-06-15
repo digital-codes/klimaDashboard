@@ -149,6 +149,31 @@ button:focus-visible {
   }
 }
 
+.chartpane {
+  border-radius: 8px;
+  border: solid #f00 3px;
+  height: 16rem;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cardimage  {
+  /* Add your image styles here */
+  width: 100%;
+  height: auto;  
+  border-radius: 8px;
+  border-color: #535bf2;
+  background-color: #f9f9f9;
+  border-style: solid;
+  border-width: 3px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-height: 8rem;
+}
+
+
 .mdcontent {
   border-radius: 8px;
   border-color: #535bf2;
