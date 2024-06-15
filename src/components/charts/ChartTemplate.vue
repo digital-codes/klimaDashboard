@@ -13,7 +13,7 @@ import {
 } from "echarts/components";
 
 // optimize later
-//import "echarts"
+// import "echarts"
 
 const props = defineProps({
   /* Add your props here */
@@ -22,6 +22,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const chartTheme = ref("dark")
 
 const chartOptions = ref({});
 
@@ -133,6 +135,7 @@ onMounted(async () => {
       v-if="dataLoaded"
       :option="chartOptions"
       :style="{ height: '400px' }"
+      :theme="chartTheme"
     ></v-chart>
   </div>
 </template>
