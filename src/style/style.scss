@@ -4,6 +4,9 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 */
 
+// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark
+// https://medium.com/@brcsndr/you-dont-know-css-dark-mode-theming-and-swapping-with-css-and-design-tokens-ac1273936940
+
 :root {
   /*
   font-family: "Source Sans Pro";
@@ -14,10 +17,19 @@
   font-weight: 400;
 
   color-scheme: light dark;
+
+  --md-light-bg: #ddd;
+  --md-light-color: #333;
+
+  --md-dark-bg: #333;
+  --md-dark-color: #ddd;
+
   /*
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
   */
+
+
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,6 +38,7 @@
 
   --va-font-family: "Roboto";
 }
+
 
 a {
   font-weight: 500;
@@ -175,9 +188,14 @@ button:focus-visible {
 
 
 .mdcontent {
+  background-color: light-dark(var(--md-light-bg), var(--md-dark-bg));
+  color: light-dark(var(--md-light-color), var(--md-dark-color));
+
   border-radius: 8px;
   border-color: #535bf2;
+  /*
   background-color: #f9f9f9;
+  */
   border-style: solid;
   border-width: 3px;
   padding: 0.5rem;
