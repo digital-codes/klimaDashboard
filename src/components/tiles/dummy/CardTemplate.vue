@@ -3,7 +3,33 @@
     <p>{{ $t($props.name + ".title") }}</p>
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
+
+    <!-- 
+    <VaScrollContainer
+    class="max-h-52"
+    vertical
+    >
+
     <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+    
+  </VaScrollContainer>
+    -->
+
+    <div class="row">
+      <div class="flex flex-col lg6 md12">
+          <VaImage
+            fit="cover"
+            class="image"
+            :src="props.logo"
+          />          
+      </div>
+      <div class="flex flex-col lg6 md12">
+          <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+      </div>
+    </div>
+
+    <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+
     <img :src="props.logo" alt="Card Image" class="image" />
     <div class="chart-area">
       <!-- Chart component goes here -->
@@ -112,6 +138,12 @@ scriptbox {
   /* Add your select styles here */
 }
 
+
+</style>
+
+
+<style lang="scss" scoped>
+@import "vuestic-ui/styles/grid";
 
 </style>
 

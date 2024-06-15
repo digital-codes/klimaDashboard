@@ -27,8 +27,6 @@
   --va-font-family: "Roboto";
 }
 
-
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -85,11 +83,11 @@ button:focus-visible {
   /* Your styles for small screens here */
   #app {
     width: 300px;
-    padding: .8rem;
+    padding: 0.8rem;
   }
 }
 
-@media (min-width:401px) and (max-width: 768px) {
+@media (min-width: 401px) and (max-width: 768px) {
   /* Your styles for small screens here */
   #app {
     width: 380px;
@@ -133,7 +131,7 @@ button:focus-visible {
   }
   button {
     background-color: #1a1a1a;
-    color:#f9f9f9
+    color: #f9f9f9;
   }
 }
 
@@ -147,47 +145,50 @@ button:focus-visible {
   }
   button {
     background-color: #1a1a1a;
-    color:#f9f9f9
+    color: #f9f9f9;
   }
 }
 
 .mdcontent {
   border-radius: 8px;
-    border-color:#535bf2;
-    background-color: #f9f9f9;
-    border-style: solid;
-    border-width: 3px;
-    padding: .5rem;
-    margin-top:1rem;
-    margin-bottom: 1rem;
+  border-color: #535bf2;
+  background-color: #f9f9f9;
+  border-style: solid;
+  border-width: 3px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-height: 8rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .mdcontent {
-      img {
-        max-width: 30%;
-        height: auto;
-        margin-left:.5rem;
-        margin-top:.5rem;
-        margin-bottom:.5rem;
-      }
-      ul {
-        list-style: disc;
-        text-align: left;
-        margin-left: .5rem;
-      }
-      li {
-        margin-left: .5rem;
-      }
-    p {
-        text-align: left;
-    }
-    a {
-        text-align: left;
-    }
-    
-    h2 {
-        text-align: left;
-        font-size: 120%;
-        font-weight:700;
-      }
-    }
+  img {
+    max-width: 30%;
+    height: auto;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  ul {
+    list-style: disc;
+    text-align: left;
+    margin-left: 0.5rem;
+  }
+  li {
+    margin-left: 0.5rem;
+  }
+  p {
+    text-align: left;
+  }
+  a {
+    text-align: left;
+  }
+
+  h2 {
+    text-align: left;
+    font-size: 120%;
+    font-weight: 700;
+  }
+}
