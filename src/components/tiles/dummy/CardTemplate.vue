@@ -17,11 +17,14 @@
 
     <div class="row">
       <div class="flex flex-col lg6 md12">
+        <!-- 
           <VaImage
-            fit="cover"
-            class="image"
+            fit="fill"
+            class="image max-h-32"
             :src="props.logo"
           />          
+        -->
+        <img :src="props.logo" alt="Card Image" class="image" />
       </div>
       <div class="flex flex-col lg6 md12">
           <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
@@ -118,8 +121,17 @@ onBeforeMount(() => {
 
 .image {
   /* Add your image styles here */
-  width: 200px;
-  max-height: 200px;
+  width: 100%;
+  height: auto;  
+  border-radius: 8px;
+  border-color: #535bf2;
+  background-color: #f9f9f9;
+  border-style: solid;
+  border-width: 3px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-height: 8rem;
 }
 
 .chart-area {

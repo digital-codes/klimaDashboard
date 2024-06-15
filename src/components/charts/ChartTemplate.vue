@@ -144,6 +144,8 @@ onMounted(async () => {
       :option="chartOptions"
       :style="{ height: '400px' }"
       :theme="chartTheme"
+      autoresize
+      class="chartclass"
     ></v-chart>
   </div>
 </template>
