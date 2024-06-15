@@ -76,11 +76,40 @@ onMounted(async () => {
     ];
 
     chartOptions.value = {
+        darkMode: "auto",
+        "title": {
+            "show": true,
+            "left": "center",
+            "text": "Line chart example",
+            "textStyle": {
+                "color": "#ff0",
+                "fontSize": 20
+            }
+        },
+        "aria": {
+            "enabled":true,
+            "description": "Line chart example",
+        },
+        backgroundColor: "#333",
         xAxis: {
+            name: "X-axis",
+            nameLocation: "center",
+            nameGap: 30,
+            axisLabel: {
+            "show": true,
+            "color": "#f00",
+            },
             type: "category",
             data: dummyData.map((item) => item.date),
         },
         yAxis: {
+            name: "Y-axis",
+            nameLocation: "center",
+            nameGap: 30,
+            axisLabel: {
+            "show": true,
+            "color": "#0f0",
+            },
             type: "value",
         },
         series: [
