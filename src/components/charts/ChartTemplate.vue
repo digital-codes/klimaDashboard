@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import VChart from "vue-echarts";
 
 import { use } from "echarts/core";
@@ -15,6 +15,14 @@ import {
 // optimize later
 // import "echarts"
 
+import { useColors } from "vuestic-ui";
+const { currentPresetName } = useColors();
+
+watch(currentPresetName, (newValue, oldValue) => {
+  chartTheme.value = newValue == "dark" ? "dark" : ""
+});
+
+
 const props = defineProps({
   /* Add your props here */
   chartDataUri: {
@@ -23,7 +31,7 @@ const props = defineProps({
   },
 });
 
-const chartTheme = ref("dark")
+const chartTheme = ref("")
 
 const chartOptions = ref({});
 
@@ -36,7 +44,7 @@ onMounted(async () => {
     TitleComponent,
     TooltipComponent,
     LegendComponent,
-    GridComponent 
+    GridComponent
   ]);
 
   try {
@@ -78,13 +86,13 @@ onMounted(async () => {
     ];
 
     chartOptions.value = {
-        darkMode: "auto",
+        //darkMode: "auto",
         "title": {
             "show": true,
             "left": "center",
             "text": "Line chart example",
             "textStyle": {
-                "color": "#ff0",
+                //"color": "#0f0",
                 "fontSize": 20
             }
         },
@@ -92,14 +100,14 @@ onMounted(async () => {
             "enabled":true,
             "description": "Line chart example",
         },
-        backgroundColor: "#333",
+        // backgroundColor: "#333",
         xAxis: {
             name: "X-axis",
             nameLocation: "center",
             nameGap: 30,
             axisLabel: {
             "show": true,
-            "color": "#f00",
+            //"color": "#f00",
             },
             type: "category",
             data: dummyData.map((item) => item.date),
@@ -110,7 +118,7 @@ onMounted(async () => {
             nameGap: 30,
             axisLabel: {
             "show": true,
-            "color": "#0f0",
+            //"color": "#0f0",
             },
             type: "value",
         },

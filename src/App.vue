@@ -16,20 +16,19 @@ import { useBreakpoint } from 'vuestic-ui';
 import { computed } from 'vue';
 import { useColors } from "vuestic-ui";
 
+// mode switch 
 const { applyPreset, currentPresetName } = useColors();
 
 const modeSwitch = computed({
   get() { 
-    console.log("Get Mode:",currentPresetName.value)
     return currentPresetName.value 
   },
   set(value) { 
-    console.log("Set Mode:",value)
     applyPreset(value) 
   }
 })
 
-//const modeSwitch = ref(false)
+// ----------------------------
 
 
 const showSidebar = ref(false)
