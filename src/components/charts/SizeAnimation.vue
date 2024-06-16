@@ -11,6 +11,10 @@
                 <img :src="category.icon" :style="{ width: calculateIconSize(category.value) }" />
             </div>
         </div>
+        <!-- 
+        coloring svg:
+        https://stackoverflow.com/questions/24933430/img-src-svg-changing-the-styles-with-css
+        -->
         <div class="slider">
             <input type="range" min="0" max="100" v-model="sliderValue" @input="updateCategoryValues" />
         </div>
@@ -46,7 +50,7 @@ const calculateIconSize = (value) => {
     const ratio = value / maxCategoryValue;
     const baseSize = 50; // Change this to adjust the base size of the icons
     const maxSize = 100; // Change this to adjust the maximum size of the icons
-    return `${baseSize + (maxSize - baseSize) * ratio}px`;
+    return `${parseInt(baseSize + (maxSize - baseSize) * ratio)}px`;
 };
 
 onMounted(() => {
