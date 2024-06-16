@@ -25,8 +25,15 @@ const modeSwitch = computed({
   },
   set(value) { 
     applyPreset(value) 
+    // set color-scheme for non-vuestic components
+    if (value === "dark") {
+      document.body.style["color-scheme"] = "dark"
+    } else {
+      document.body.style["color-scheme"] = "light"
+    }
   }
 })
+
 
 // ----------------------------
 
@@ -42,8 +49,7 @@ const langSel = ref("")
 console.log(availableLocales)
 const languages = availableLocales
 
-console.log(langSel.value)
-console.log(locale.value)
+const appContainer = ref(null) 
 
 watch(langSel, (newValue, oldValue) => {
   // Code to execute when langSel changes
@@ -69,7 +75,7 @@ onMounted(() => {
 
 
 <template>
-  <VaLayout 
+  <VaLayout ref="appContainer" 
     :left="{ absolute: breakpoints.smDown }"
   >
     <template #top>
@@ -138,7 +144,7 @@ onMounted(() => {
     <template #content>
       <main class="p-4">
         <h3 class="va-h3">Size Animation </h3>
-        <CardTemplate />
+        <CardTemplate class="tile"/>
         <VaSwitch
       v-model="switchValue"
       color="#5123a1"

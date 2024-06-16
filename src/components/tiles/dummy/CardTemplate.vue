@@ -19,7 +19,7 @@
 
     <img :src="props.logo" alt="Card Image" class="image" />
     -->
-    <div class="chartpane">
+    <div class="chartpane customchart">
       <!-- Chart component goes here -->
       <SizeAnimation></SizeAnimation>
     </div>
@@ -27,20 +27,25 @@
       <!-- Chart component goes here -->
       <ChartTemplate :chartDataUri="cardMessages.specs.dataUrls[0]"></ChartTemplate>
     </div>
-    <button class="button">{{ $t($props.name + ".button") }}</button>
-    <input type="checkbox" class="checkbox" />
-    <select class="select">
-      <option value="option1">{{ $t($props.name + ".option1") }}</option>
-      <option value="option2">{{ $t($props.name + ".option2") }}</option>
-      <option value="option3">{{ $t($props.name + ".option3") }}</option>
-    </select>
+    <VaButton @click="console.log('Click')">{{ $t($props.name + ".button") }}</VaButton>
+    <VaCheckbox 
+    v-model="chktest"
+    :label="chklabel"
+    left-label
+    >{{ $t($props.name + ".checkbox") }}</VaCheckbox>
+    <VaSelect 
+      v-model="seltest"
+      :options="seloptions"
+      track-by="value"
+      >
+    </VaSelect>
   </div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, onMounted, watch } from "vue";
 
 import { computed } from "vue";
 
@@ -67,6 +72,34 @@ import cardMessages from "./card.json";
 // chart
 import SizeAnimation from "../../charts/SizeAnimation.vue";
 
+const chktest = ref(false);
+const chklabel = ref("")
+//const seltest = ref(t(props.name + ".option1"));
+//console.log("preset",props.name + ".option1")
+const seltest = ref(null);
+const seloptions = ref([
+  { value: ".option1", text: "" },
+  { value: ".option2", text: "" },
+  { value: ".option3", text: "" },
+]);
+
+onMounted(() => {
+  // seltest.value = t(props.name + ".option1");
+  seloptions.value[0].text = t(props.name + ".option1") 
+  seloptions.value[1].text = t(props.name + ".option2") 
+  seloptions.value[2].text = t(props.name + ".option3") 
+  seltest.value = seloptions.value[0]
+  chklabel.value = t(props.name + ".checkbox")
+});
+
+watch(locale, (newValue, oldValue) => {
+  //seltest.value = t(props.name + ".option1");
+  seloptions.value[0].text = t(props.name + ".option1") 
+  seloptions.value[1].text = t(props.name + ".option2") 
+  seloptions.value[2].text = t(props.name + ".option3") 
+  chklabel.value = t(props.name + ".checkbox")
+});
+
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
@@ -85,54 +118,6 @@ onBeforeMount(() => {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
-
-.dark {
-  /* Add your card styles here */
-  color: #fff;
-  border: 1px solid #222;
-  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
-  background-color: #444;
-}
-
-.header {
-  /* Add your header styles here */
-}
-
-.text {
-  /* Add your text styles here */
-}
-
-.image1 {
-  /* Add your image styles here */
-  width: 100%;
-  height: auto;  
-  border-radius: 8px;
-  border-color: #535bf2;
-  background-color: #f9f9f9;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  max-height: 8rem;
-}
-
-.chart-area {
-  /* Add your chart area styles here */
-}
-
-.button {
-  /* Add your button styles here */
-}
-
-scriptbox {
-  /* Add your checkbox styles here */
-}
-
-.select {
-  /* Add your select styles here */
 }
 
 

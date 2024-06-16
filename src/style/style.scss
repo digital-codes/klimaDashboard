@@ -24,6 +24,30 @@
   --md-dark-bg: #333;
   --md-dark-color: #ddd;
 
+  --card-light-bg: #ddf;
+  --card-light-color: #330;
+
+  --card-dark-bg: #330;
+  --card-dark-color: #ddf;
+
+  --chart-light-bg: #dfd;
+  --chart-light-color: #303;
+
+  --chart-dark-bg: #303;
+  --chart-dark-color: #dfd;
+
+  --link-light-color: #646cff;
+  --link-dark-color: #74fc7f;
+  --linkhover-light-color: #535bf2;
+  --linkhover-dark-color: #63fb62;
+
+  --tile-light-bg: #fdd;
+  --tile-light-color: #033;
+  --tile-dark-bg: #033;
+  --tile-dark-color: #fdd;
+
+
+
   /*
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -42,11 +66,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: light-dark(var(--link-light-color), var(--link-dark-color));
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: light-dark(var(--linkhover-light-color), var(--linkhover-dark-color));
 }
 
 body {
@@ -83,7 +107,10 @@ button:focus-visible {
 
 .card {
   padding: 2em;
+  background-color: light-dark(var(--card-light-bg), var(--card-dark-bg));
+  color: light-dark(var(--card-light-color), var(--card-dark-color));
 }
+
 
 #app {
   width: 1280px;
@@ -148,6 +175,7 @@ button:focus-visible {
   }
 }
 
+/*
 .dark {
   :root {
     color: #ffffff;
@@ -161,6 +189,17 @@ button:focus-visible {
     color: #f9f9f9;
   }
 }
+*/
+
+.tile {
+  background-color: light-dark(var(--tile-light-bg), var(--tile-dark-bg));
+  color: light-dark(var(--tile-light-color), var(--tile-dark-color));
+}
+
+.customchart {
+  background-color: light-dark(var(--chart-light-bg), var(--chart-dark-bg));
+  color: light-dark(var(--chart-light-color), var(--chart-dark-color));
+}
 
 .chartpane {
   border-radius: 8px;
@@ -173,11 +212,13 @@ button:focus-visible {
 
 .cardimage  {
   /* Add your image styles here */
+  background-color: light-dark(var(--md-light-bg), var(--md-dark-bg));
+  color: light-dark(var(--md-light-color), var(--md-dark-color));
+
   width: 100%;
   height: auto;  
   border-radius: 8px;
   border-color: #535bf2;
-  background-color: #f9f9f9;
   border-style: solid;
   border-width: 3px;
   padding: 0.5rem;
@@ -193,9 +234,6 @@ button:focus-visible {
 
   border-radius: 8px;
   border-color: #535bf2;
-  /*
-  background-color: #f9f9f9;
-  */
   border-style: solid;
   border-width: 3px;
   padding: 0.5rem;
