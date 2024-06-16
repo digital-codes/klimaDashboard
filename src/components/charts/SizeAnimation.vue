@@ -21,12 +21,12 @@
 import { ref, computed, onMounted } from 'vue';
 
 const categories = ref([
-    { name: 'Category 1', value: 0, icon: vite, class: "left"}, //'category1.png' },
-    { name: 'Category 2', value: 0, icon: vue, class: "right"}, //'category2.png' },
+    { name: 'Category 1', value: 0, icon: pkw, class: "left"},
+    { name: 'Category 2', value: 0, icon: bus, class: "right"},
 ]);
 
-import vite from "../../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg";  
-import vue from "../../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_bus.svg";  
+import pkw from "../../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg";  
+import bus from "../../assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_bus.svg";  
 
 const sliderValue = ref(50);
 
