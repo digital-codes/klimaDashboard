@@ -1,5 +1,4 @@
 <template>
-  <div class="card">
     <p>{{ $t($props.name + ".title") }}</p>
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
@@ -17,7 +16,6 @@
       <option value="option2">{{ $t($props.name + ".option2") }}</option>
       <option value="option3">{{ $t($props.name + ".option3") }}</option>
     </select>
-  </div>
 </template>
 
 <script setup>
@@ -45,7 +43,7 @@ const props = defineProps({
 console.log("Card name:", props.name);
 
 // messages i18n
-import cardMessages from "./card.json";
+import cardMessages from "./cardTemplate.json";
 
 // chart
 import SizeAnimation from "./SizeAnimation.vue";
@@ -62,50 +60,11 @@ onBeforeMount(() => {
 
 <style scoped>
 /* Add your card styles here */
-.card {
-  /* Add your card styles here */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
 
-.dark {
-  /* Add your card styles here */
-  color: #fff;
-  border: 1px solid #222;
-  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
-  background-color: #444;
-}
-
-.header {
-  /* Add your header styles here */
-}
-
-.text {
-  /* Add your text styles here */
-}
-
-.image {
+.image1 {
   /* Add your image styles here */
   width: 200px;
   max-height: 200px;
-}
-
-.chart-area {
-  /* Add your chart area styles here */
-}
-
-.button {
-  /* Add your button styles here */
-}
-
-scriptbox {
-  /* Add your checkbox styles here */
-}
-
-.select {
-  /* Add your select styles here */
 }
 
 

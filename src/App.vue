@@ -9,6 +9,8 @@ const configStore = useConfigStore();
 //import CardTemplate from "./components/CardTemplate.vue"
 import CardTemplate from "./components/tiles/dummy/CardTemplate.vue"
 
+import HeaderCard from "./components/HeaderCard.vue"
+
 import { ref, watch, onMounted } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';
 
@@ -20,11 +22,11 @@ import { useColors } from "vuestic-ui";
 const { applyPreset, currentPresetName } = useColors();
 
 const modeSwitch = computed({
-  get() { 
-    return currentPresetName.value 
+  get() {
+    return currentPresetName.value
   },
-  set(value) { 
-    applyPreset(value) 
+  set(value) {
+    applyPreset(value)
     // set color-scheme for non-vuestic components
     if (value === "dark") {
       document.body.style["color-scheme"] = "dark"
@@ -49,7 +51,7 @@ const langSel = ref("")
 console.log(availableLocales)
 const languages = availableLocales
 
-const appContainer = ref(null) 
+const appContainer = ref(null)
 
 watch(langSel, (newValue, oldValue) => {
   // Code to execute when langSel changes
@@ -75,9 +77,7 @@ onMounted(() => {
 
 
 <template>
-  <VaLayout ref="appContainer" 
-    :left="{ absolute: breakpoints.smDown }"
-  >
+  <VaLayout ref="appContainer" :left="{ absolute: breakpoints.smDown }">
     <template #top>
       <VaNavbar color="primary" class="py-2">
         <template #left>
@@ -89,17 +89,17 @@ onMounted(() => {
           </VaNavbarItem>
         </template>
         <template #right>
- <div class="langselect">
-    <VaSelect
-      v-model="langSel"
-      :options="languages"
-      :placeholder="configStore.getCurrentLocale"
-    >
-      <template #prepend>
-        <VaIcon name="translate" />
-      </template>
-    </VaSelect>
-  </div>
+          <div class="langselect">
+            <VaSelect v-model="langSel" :options="languages" :placeholder="configStore.getCurrentLocale">
+              <template #prepend>
+                <VaIcon name="translate" class="xlate" />
+              </template>
+            </VaSelect>
+          </div>
+          <VaButton round :icon="modeSwitch == 'dark' ? 'dark_mode' : 'light_mode'"
+            @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" />
+          <!-- 
+
   <VaSwitch
       v-model="modeSwitch"
       true-value="dark" false-value="light"
@@ -115,8 +115,9 @@ onMounted(() => {
         </div>
       </template>
     </VaSwitch>
+    -->
 
-      </template>
+        </template>
       </VaNavbar>
     </template>
 
@@ -124,7 +125,7 @@ onMounted(() => {
       <VaSidebar v-model="showSidebar">
         <VaSidebarItem>
           <VaSidebarItemContent>
-            <VaIcon name="home" /> 
+            <VaIcon name="home" />
             <VaSidebarItemTitle>
               Home
             </VaSidebarItemTitle>
@@ -143,24 +144,21 @@ onMounted(() => {
 
     <template #content>
       <main class="p-4">
+        <HeaderCard class="header" />
+        <!-- 
         <h3 class="va-h3">Size Animation </h3>
-        <CardTemplate class="tile"/>
-        <VaSwitch
-      v-model="switchValue"
-      color="#5123a1"
-      off-color="#ffd300"
-      style="--va-switch-checker-background-color: #252723;"
-    >
-      <template #innerLabel>
-        <div class="va-text-center">
-          <VaIcon
-            :name="switchValue ? 'dark_mode' : 'light_mode'"
-          />
-        </div>
-      </template>
-    </VaSwitch>
+        -->
+        <CardTemplate class="tile" />
+        <VaSwitch v-model="switchValue" color="#5123a1" off-color="#ffd300"
+          style="--va-switch-checker-background-color: #252723;">
+          <template #innerLabel>
+            <div class="va-text-center">
+              <VaIcon :name="switchValue ? 'dark_mode' : 'light_mode'" />
+            </div>
+          </template>
+        </VaSwitch>
 
-    </main>
+      </main>
     </template>
   </VaLayout>
 </template>
@@ -171,8 +169,12 @@ main {
 }
 
 .langselect {
-  max-width: 6rem;;
+  max-width: 6rem;
+  ;
 }
 
+.xlate {
+  margin-left: .5rem;
+  margin-right: .5rem;
+}
 </style>
-

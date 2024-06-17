@@ -1,0 +1,22 @@
+{
+  "en": {
+    "title": "Title EN",
+    "header": "Header EN",
+    "text": "Text EN"
+  },
+  "de": {
+    "title": "Titel DE",
+    "header": "Header DE",
+    "text": "Text DE"
+  },
+  "fr": {
+    "title": "Title FR",
+    "header": "Header FR",
+    "text": "Text FR"
+  },
+  "es": {
+    "title": "Title ES",
+    "header": "Header ES",
+    "text": "Text ES"
+  }
+}
