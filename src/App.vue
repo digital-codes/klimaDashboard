@@ -144,20 +144,11 @@ onMounted(() => {
 
     <template #content>
       <main class="p-4">
-        <HeaderCard class="header" />
+        <HeaderCard name="header"/>
         <!-- 
         <h3 class="va-h3">Size Animation </h3>
         -->
-        <CardTemplate class="tile" />
-        <VaSwitch v-model="switchValue" color="#5123a1" off-color="#ffd300"
-          style="--va-switch-checker-background-color: #252723;">
-          <template #innerLabel>
-            <div class="va-text-center">
-              <VaIcon :name="switchValue ? 'dark_mode' : 'light_mode'" />
-            </div>
-          </template>
-        </VaSwitch>
-
+        <CardTemplate name="dummy" class="tile" />
       </main>
     </template>
   </VaLayout>
