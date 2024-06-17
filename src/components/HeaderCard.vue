@@ -1,8 +1,16 @@
 <template>
   <VaCard class="headerCard">
-  <div>
-    <VaAvatar title="Klima Dashboard" :src="climate" />
-    <h1 class="headertitle">{{ $t($props.name + ".title") }}</h1>
+    <div>
+      <VaAvatar title="Klima Dashboard" :src="climate" />
+      <h1 class="headertitle">{{ $t($props.name + ".title") }}</h1>
+      <div class="headerctls">
+        <VaButtonGroup grow>
+        <VaButton  icon="create" >CO2</VaButton>
+        <VaButton  icon="create" >Energie</VaButton>
+        <VaButton  icon="add" >Mobilität</VaButton>
+        <VaButton  icon="add_circle_outline" >XYZ</VaButton>
+      </VaButtonGroup>
+      </div>
     </div>
     <p class="headertext">{{ $t($props.name + ".text") }}</p>
   </VaCard>
@@ -50,16 +58,25 @@ onBeforeMount(() => {
   margin: .5rem 0 .5rem 0;
   padding: .5rem;
   text-align: left;
+  display: flex;
+  flex-wrap: wrap;
   --va-avatar-vertical-align: top;
 }
 
 .headertitle {
   margin-left: 1rem;
-  display:inline-block;
+  display: inline-flex;
+}
+
+.headerctls {
+  display: inline-flex;
+  vertical-align: text-bottom;
+  padding-bottom: .2rem;
+  margin-left: 1rem
+  /* width:50%; */
 }
 
 .headertext {
   margin-top: 1rem;
 }
-
 </style>
