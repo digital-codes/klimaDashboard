@@ -13,7 +13,7 @@ import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount } from "vue";
 
-import climate from "../../public/icons/climate.svg";
+import climate from "/icons/climate.svg";
 
 // name für i18n key
 const props = defineProps({
