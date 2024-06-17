@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "./tools/mdCompileAll.sh; vite",
     "build": "./tools/mdCompileAll.sh; vite build",
+    "webbuild": "./tools/mdCompileAll.sh; vite -c viteWeb.config.js build",
     "preview": "vite preview"
   },
   "dependencies": {
