@@ -6,10 +6,9 @@ const { t, locale, availableLocales } = useI18n();
 import { useConfigStore } from './services/configStore';
 const configStore = useConfigStore();
 
-//import CardTemplate from "./components/CardTemplate.vue"
 import CardTemplate from "./components/tiles/dummy/CardTemplate.vue"
 
-import HeaderCard from "./components/HeaderCard.vue"
+import HeaderCard from "./components/header/HeaderCard.vue"
 
 import { ref, watch, onMounted } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';

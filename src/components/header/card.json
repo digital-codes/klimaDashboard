@@ -1,0 +1,22 @@
+{
+  "en": {
+    "title": "Dashboard EN",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  EN",
+    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789\n<img alt=\"image\" src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\"></li>\n</ul>\n</li>\n</ul>\n<p>bla bla bla</p>\n"
+  },
+  "de": {
+    "title": "Dashboard DE",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  DE",
+    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789\n<img alt=\"image\" src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\"></li>\n</ul>\n</li>\n</ul>\n<p>bla bla bla</p>\n"
+  },
+  "fr": {
+    "title": "Dashboard FR",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  FR",
+    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789\n<img alt=\"image\" src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\"></li>\n</ul>\n</li>\n</ul>\n<p>bla bla bla</p>\n"
+  },
+  "es": {
+    "title": "Dashboard ES",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  ES",
+    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789\n<img alt=\"image\" src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\"></li>\n</ul>\n</li>\n</ul>\n<p>bla bla bla</p>\n"
+  }
+}

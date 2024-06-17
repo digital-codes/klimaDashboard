@@ -1,7 +1,7 @@
 {
   "specs": {
     "dataUrls": [
-      "/data/karlsruhe/klima-tp.csv"
+      "data/karlsruhe/klima-tp.csv"
     ],
     "chart": {
       "type": "line",

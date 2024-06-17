@@ -78,7 +78,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 80vh;
 }
 
 h1 {
@@ -119,33 +119,6 @@ button:focus-visible {
   text-align: center;
 }
 
-@media (max-width: 400px) {
-  /* Your styles for small screens here */
-  #app {
-    width: 300px;
-    padding: 0.8rem;
-  }
-}
-
-@media (min-width: 401px) and (max-width: 768px) {
-  /* Your styles for small screens here */
-  #app {
-    width: 380px;
-    padding: 1rem;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* Your styles for medium screens here */
-  #app {
-    width: 720px;
-    padding: 1rem;
-  }
-}
-
-@media (min-width: 1025px) {
-  /* Your styles for large screens here */
-}
 
 @media (prefers-color-scheme: light) {
   :root {

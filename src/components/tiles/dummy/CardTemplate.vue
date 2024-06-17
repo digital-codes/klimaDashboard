@@ -4,28 +4,22 @@
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
 
-
     <div class="row">
       <div class="flex flex-col lg6 md12">
-        <img :src="props.logo" alt="Card Image" class="cardimage" />
+        <img :src="basePath + props.logo" alt="Card Image" class="cardimage" />
       </div>
       <div class="flex flex-col lg6 md12">
           <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
       </div>
     </div>
 
-    <!-- 
-    <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
-
-    <img :src="props.logo" alt="Card Image" class="image" />
-    -->
     <div class="chartpane customchart">
       <!-- Chart component goes here -->
       <SizeAnimation></SizeAnimation>
     </div>
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <ChartTemplate :chartDataUri="cardMessages.specs.dataUrls[0]"></ChartTemplate>
+      <ChartTemplate :chartDataUri="basePath + cardMessages.specs.dataUrls[0]"></ChartTemplate>
     </div>
     <VaButton @click="console.log('Click')">{{ $t($props.name + ".button") }}</VaButton>
     <VaCheckbox 
@@ -51,6 +45,8 @@ import { computed } from "vue";
 
 import ChartTemplate from "../../charts/ChartTemplate.vue"
 
+// for relocated base we need to prepend the base path to dynamic imports
+const basePath = import.meta.env.BASE_URL
 
 // name für i18n key
 const props = defineProps({
@@ -60,7 +56,8 @@ const props = defineProps({
   },
   logo: {
     type: String,
-    default: "/images/tiles/lastenrad.jpg",
+    // no leading / here 
+    default: "images/tiles/lastenrad.jpg",
     //required: true,
   },
 });
@@ -107,6 +104,7 @@ onBeforeMount(() => {
     // console.log(`${key}:`, cardMessages[key]);
     if (key === "specs") continue
     messages.value[key][props.name] = cardMessages[key];
+    // create new data uris here: use as is if strating with http else prepend base path
   }
 });
 </script>
