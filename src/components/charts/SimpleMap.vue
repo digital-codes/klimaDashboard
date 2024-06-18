@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <div class="map" id="map" ></div>
+  <div class="map" ref="theMap" ></div>
 </div>
 </template>
 
@@ -8,6 +8,21 @@
 import { ref, onMounted } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+// Import Leaflet marker images
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+// Fix Leaflet's default icon paths
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
 
 const geojsonData = {
 type: 'FeatureCollection',
@@ -35,11 +50,10 @@ features: [
 ],
 };
 
-const constainer = ref(null)
-const map = ref(null)
+const theMap = ref(null)
 
 onMounted(() => {
-    const map = L.map('map').setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
+    const map = L.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
 
     L.tileLayer(
         //'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
@@ -59,11 +73,6 @@ onMounted(() => {
         }
     },
     }).addTo(map);
-    /*
-    L.control.zoom({
-    position: 'topright',
-    }).addTo(map);
-    */
 });
 
 </script>
@@ -73,6 +82,7 @@ onMounted(() => {
   height: 100%;
   width: 100%;
   position: relative;
+  display:flex;
 }
 .map {
   height: 100%;

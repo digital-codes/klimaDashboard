@@ -78,6 +78,22 @@ onMounted(() => {
 
 });
 
+const removeTag = (tag) => {
+  currentTags.value = currentTags.value.filter(item => item !== tag);
+}
+const insertTag = (tag) => {
+  // make sure we donÄt get duplicates
+  currentTags.value = currentTags.value.filter(item => item !== tag);
+  currentTags.value.push(tag)
+}
+
+const filterTag = (tag) => {
+  if (currentTags.value.includes(tag)) {
+    removeTag(tag)
+  } else {
+    insertTag(tag)
+  }
+} 
 
 </script>
 
@@ -131,7 +147,7 @@ onMounted(() => {
 
     <template #content>
       <main class="p-4">
-        <HeaderCard name="header"/>
+        <HeaderCard name="header" @filter="filterTag" />
 
         <div v-for="(tile, index) in tiles" :key="index">
           <component v-if="currentTags.includes(tile.tag)"

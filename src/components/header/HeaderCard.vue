@@ -14,24 +14,24 @@
 
     <div v-if="breakpoint.mdUp" class="flex xs12 headerctls">
       <VaButtonGroup grow >
-        <VaButton icon="create">CO2</VaButton>
-        <VaButton icon="create">Energie</VaButton>
-        <VaButton icon="add">Mobilität</VaButton>
-        <VaButton icon="add_circle_outline">XYZ</VaButton>
-        <VaButton icon="add">Mobilität</VaButton>
+        <VaButton icon="create" @click="action('A')">CO2</VaButton>
+        <VaButton icon="create" @click="action('B')">Energie</VaButton>
+        <VaButton icon="add" @click="action('C')">Mobilität</VaButton>
+        <VaButton icon="add_circle_outline" @click="action('D')">XYZ</VaButton>
+        <VaButton icon="add" @click="action('E')">Mobilität</VaButton>
       </VaButtonGroup>
     </div>
     <div v-else class="flex xs12 headerctlssm">
       <VaButtonGroup grow>
-        <VaButton icon="create">CO2</VaButton>
-        <VaButton icon="create">Energie</VaButton>
+        <VaButton icon="create" @click="action('A')">CO2</VaButton>
+        <VaButton icon="create" @click="action('B')">Energie</VaButton>
       </VaButtonGroup>
       <VaButtonGroup grow>
-        <VaButton icon="add">Mobilität</VaButton>
-        <VaButton icon="add_circle_outline">XYZ</VaButton>
+        <VaButton icon="add" @click="action('C')">Mobilität</VaButton>
+        <VaButton icon="add_circle_outline" @click="action('D')">XYZ</VaButton>
       </VaButtonGroup>
       <VaButtonGroup grow>
-        <VaButton icon="add">Mobilität</VaButton>
+        <VaButton icon="add" @click="action('E')">Mobilität</VaButton>
       </VaButtonGroup>
     </div>
 
@@ -72,6 +72,11 @@ const props = defineProps({
   },
 });
 console.log("Card name:", props.name);
+
+const emit = defineEmits(["filter"]);
+const action = (tag) => {
+  emit("filter",tag);
+};
 
 // messages i18n
 import cardMessages from "./card.json";
