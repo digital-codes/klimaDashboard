@@ -20,7 +20,8 @@ const FooterCard = defineAsyncComponent(() => import("./components/footer/Footer
 
 const tiles = [
   {"name":"DummyLine","tag":"A","component":defineAsyncComponent(() => import("./components/tiles/dummyLine/CardTemplate.vue"))},
-  {"name":"DummyCustom","tag":"B","component":defineAsyncComponent(() => import("./components/tiles/dummyCustom/CardTemplate.vue"))}
+  {"name":"DummyCustom","tag":"B","component":defineAsyncComponent(() => import("./components/tiles/dummyCustom/CardTemplate.vue"))},
+  {"name":"DummyMap","tag":"C","component":defineAsyncComponent(() => import("./components/tiles/dummyMap/CardTemplate.vue"))}
 ]
 
 const currentTags = ref(["A","B","C","D","E"])

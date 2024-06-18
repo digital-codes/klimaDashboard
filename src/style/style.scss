@@ -30,6 +30,9 @@
   --card-dark-bg: #330;
   --card-dark-color: #ddf;
 
+  --card-dark-border: #dd4;
+  --card-light-border: #22c;
+
   --chart-light-bg: #dfd;
   --chart-light-color: #303;
 
@@ -41,10 +44,10 @@
   --linkhover-light-color: #535bf2;
   --linkhover-dark-color: #63fb62;
 
-  --tile-light-bg: #fdd;
+  --tile-light-bg: #ccc;
   --tile-light-color: #033;
   --tile-dark-bg: #033;
-  --tile-dark-color: #fdd;
+  --tile-dark-color: #ccc;
 
 
 
@@ -111,9 +114,9 @@ button:focus-visible {
   color: light-dark(var(--card-light-color), var(--card-dark-color));
 
   /* Add your card styles here */
-  border: 1px solid #ccc;
+  border: 2px solid light-dark(var(--card-light-border), var(--card-dark-border));
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
 }
 
@@ -261,5 +264,9 @@ button:focus-visible {
     text-align: left;
     font-size: 120%;
     font-weight: 700;
+  }
+
+  strong {
+    font-weight: bolder;
   }
 }
