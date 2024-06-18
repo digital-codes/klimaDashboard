@@ -18,6 +18,7 @@
         <VaButton icon="create">Energie</VaButton>
         <VaButton icon="add">Mobilität</VaButton>
         <VaButton icon="add_circle_outline">XYZ</VaButton>
+        <VaButton icon="add">Mobilität</VaButton>
       </VaButtonGroup>
     </div>
     <div v-else class="flex xs12 headerctlssm">
@@ -28,6 +29,9 @@
       <VaButtonGroup grow>
         <VaButton icon="add">Mobilität</VaButton>
         <VaButton icon="add_circle_outline">XYZ</VaButton>
+      </VaButtonGroup>
+      <VaButtonGroup grow>
+        <VaButton icon="add">Mobilität</VaButton>
       </VaButtonGroup>
     </div>
 

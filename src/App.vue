@@ -6,20 +6,24 @@ const { t, locale, availableLocales } = useI18n();
 import { useConfigStore } from './services/configStore';
 const configStore = useConfigStore();
 
-import CardTemplate from "./components/tiles/dummy/CardTemplate.vue"
+import { ref, watch, onMounted, computed } from 'vue';
+import { defineAsyncComponent } from 'vue'
 
-import DummyLine from "./components/tiles/dummyLine/CardTemplate.vue"
-
-import DummyCustom from "./components/tiles/dummyCustom/CardTemplate.vue"
-
-import HeaderCard from "./components/header/HeaderCard.vue"
-
-import { ref, watch, onMounted } from 'vue';
 import { useBreakpoint } from 'vuestic-ui';
 
 /* theme switch: https://ui.vuestic.dev/styles/colors */
-import { computed } from 'vue';
 import { useColors } from "vuestic-ui";
+
+
+const HeaderCard = defineAsyncComponent(() => import("./components/header/HeaderCard.vue"))
+const FooterCard = defineAsyncComponent(() => import("./components/footer/FooterCard.vue"))
+
+const tiles = [
+  {"name":"DummyLine","tag":"A","component":defineAsyncComponent(() => import("./components/tiles/dummyLine/CardTemplate.vue"))},
+  {"name":"DummyCustom","tag":"B","component":defineAsyncComponent(() => import("./components/tiles/dummyCustom/CardTemplate.vue"))}
+]
+
+const currentTags = ref(["A","B","C","D","E"])
 
 // mode switch 
 const { applyPreset, currentPresetName } = useColors();
@@ -39,15 +43,13 @@ const modeSwitch = computed({
   }
 })
 
-
 // ----------------------------
-
 
 const showSidebar = ref(false)
 
-const breakpoints = useBreakpoint()
+import logo from "./assets/logos/logo.png"
 
-const switchValue = ref(false)
+const breakpoints = useBreakpoint()
 
 const langSel = ref("")
 //locale.value = langSel
@@ -87,8 +89,8 @@ onMounted(() => {
           <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="showSidebar = !showSidebar" />
         </template>
         <template #center>
-          <VaNavbarItem class="font-bold text-lg">
-            LOGO
+          <VaNavbarItem>
+            <VaImage :src="logo" alt="Logo" fit="fit" class="logoimg"></VaImage>
           </VaNavbarItem>
         </template>
         <template #right>
@@ -101,25 +103,6 @@ onMounted(() => {
           </div>
           <VaButton round :icon="modeSwitch == 'dark' ? 'dark_mode' : 'light_mode'"
             @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" />
-          <!-- 
-
-  <VaSwitch
-      v-model="modeSwitch"
-      true-value="dark" false-value="light"
-      color="#5123a1"
-      off-color="#ffd300"
-      style="--va-switch-checker-background-color: #252723;"
-    >
-      <template #innerLabel>
-        <div class="va-text-center">
-          <VaIcon
-            :name="modeSwitch ? 'dark_mode' : 'light_mode'"
-          />
-        </div>
-      </template>
-    </VaSwitch>
-    -->
-
         </template>
       </VaNavbar>
     </template>
@@ -148,12 +131,15 @@ onMounted(() => {
     <template #content>
       <main class="p-4">
         <HeaderCard name="header"/>
-        <!-- 
-        <h3 class="va-h3">Size Animation </h3>
-        <CardTemplate name="dummy" class="tile" />
-        -->
-        <DummyLine name="dummyline" class="tile" />
-        <DummyCustom name="dummycustom" class="tile" />
+
+        <div v-for="(tile, index) in tiles" :key="index">
+          <component v-if="currentTags.includes(tile.tag)"
+          :is="tile.component" :name="tile.name" class="tile">
+        </component>
+        </div>
+
+        <FooterCard name="footer"/>
+
       </main>
     </template>
   </VaLayout>
@@ -173,4 +159,9 @@ main {
   margin-left: .5rem;
   margin-right: .5rem;
 }
+
+.logoimg {
+  width: 4rem;
+}
+
 </style>

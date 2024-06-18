@@ -109,6 +109,12 @@ button:focus-visible {
   padding: 2em;
   background-color: light-dark(var(--card-light-bg), var(--card-dark-bg));
   color: light-dark(var(--card-light-color), var(--card-dark-color));
+
+  /* Add your card styles here */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 
 
@@ -183,6 +189,16 @@ button:focus-visible {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+
+.chartfooter {
+  display: flex;
+  flex-wrap:wrap;
+}
+
+.chartfooter .va-chip {
+  margin-right: 0.5rem;
+} 
 
 .cardimage  {
   /* Add your image styles here */
