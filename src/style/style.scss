@@ -167,6 +167,7 @@ button:focus-visible {
 .tile {
   background-color: light-dark(var(--tile-light-bg), var(--tile-dark-bg));
   color: light-dark(var(--tile-light-color), var(--tile-dark-color));
+  margin-top:1rem;
 }
 
 .customchart {

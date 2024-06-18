@@ -8,6 +8,10 @@ const configStore = useConfigStore();
 
 import CardTemplate from "./components/tiles/dummy/CardTemplate.vue"
 
+import DummyLine from "./components/tiles/dummyLine/CardTemplate.vue"
+
+import DummyCustom from "./components/tiles/dummyCustom/CardTemplate.vue"
+
 import HeaderCard from "./components/header/HeaderCard.vue"
 
 import { ref, watch, onMounted } from 'vue';
@@ -146,8 +150,10 @@ onMounted(() => {
         <HeaderCard name="header"/>
         <!-- 
         <h3 class="va-h3">Size Animation </h3>
-        -->
         <CardTemplate name="dummy" class="tile" />
+        -->
+        <DummyLine name="dummyline" class="tile" />
+        <DummyCustom name="dummycustom" class="tile" />
       </main>
     </template>
   </VaLayout>

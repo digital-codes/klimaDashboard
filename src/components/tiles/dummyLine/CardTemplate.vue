@@ -13,10 +13,6 @@
       </div>
     </div>
 
-    <div class="chartpane customchart">
-      <!-- Chart component goes here -->
-      <SizeAnimation></SizeAnimation>
-    </div>
     <div class="chartpane">
       <!-- Chart component goes here -->
       <ChartTemplate :chartDataUri="dataUrl"></ChartTemplate>
@@ -40,18 +36,6 @@
       </VaButton>
     </div>
 
-
-    <VaCheckbox 
-    v-model="chktest"
-    :label="chklabel"
-    left-label
-    >{{ $t($props.name + ".checkbox") }}</VaCheckbox>
-    <VaSelect 
-      v-model="seltest"
-      :options="seloptions"
-      track-by="value"
-      >
-    </VaSelect>
   </div>
 </template>
 
@@ -59,8 +43,6 @@
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
-
-import { computed } from "vue";
 
 import ChartTemplate from "../../charts/ChartTemplate.vue"
 
@@ -86,38 +68,6 @@ console.log("Card name:", props.name);
 import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataLicense = ref(null)
-
-
-// chart
-import SizeAnimation from "../../charts/SizeAnimation.vue";
-
-const chktest = ref(false);
-const chklabel = ref("")
-//const seltest = ref(t(props.name + ".option1"));
-//console.log("preset",props.name + ".option1")
-const seltest = ref(null);
-const seloptions = ref([
-  { value: ".option1", text: "" },
-  { value: ".option2", text: "" },
-  { value: ".option3", text: "" },
-]);
-
-onMounted(() => {
-  // seltest.value = t(props.name + ".option1");
-  seloptions.value[0].text = t(props.name + ".option1") 
-  seloptions.value[1].text = t(props.name + ".option2") 
-  seloptions.value[2].text = t(props.name + ".option3") 
-  seltest.value = seloptions.value[0]
-  chklabel.value = t(props.name + ".checkbox")
-});
-
-watch(locale, (newValue, oldValue) => {
-  //seltest.value = t(props.name + ".option1");
-  seloptions.value[0].text = t(props.name + ".option1") 
-  seloptions.value[1].text = t(props.name + ".option2") 
-  seloptions.value[2].text = t(props.name + ".option3") 
-  chklabel.value = t(props.name + ".checkbox")
-});
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted

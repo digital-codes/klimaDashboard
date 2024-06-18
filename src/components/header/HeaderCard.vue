@@ -32,10 +32,6 @@
     </div>
 
   </VaCard>
-  <p>
-    Current breakpoint is:
-    <strong>{{ breakpoint.current }}</strong>
-  </p>
 </template>
 
 <script setup>

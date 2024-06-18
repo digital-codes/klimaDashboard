@@ -9,7 +9,7 @@
         <img :src="basePath + props.logo" alt="Card Image" class="cardimage" />
       </div>
       <div class="flex flex-col lg6 md12">
-          <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+        <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
       </div>
     </div>
 
@@ -17,52 +17,26 @@
       <!-- Chart component goes here -->
       <SizeAnimation></SizeAnimation>
     </div>
-    <div class="chartpane">
-      <!-- Chart component goes here -->
-      <ChartTemplate :chartDataUri="dataUrl"></ChartTemplate>
-    </div>
 
     <div class="chartfooter">
-      <!-- source, license, download button -->
-
       <VaChip class="mr-6 mb-2">
         License: {{ dataLicense }}
       </VaChip>
       <VaChip class="mr-6 mb-2">
         Source: {{ dataUrl }}
       </VaChip>
-      <VaButton round
-        class="mr-6 mb-2"
-        @click="console.log('Click')"
-        icon="download"
-      >
+      <VaButton round class="mr-6 mb-2" @click="console.log('Click')" icon="download">
         {{ $t($props.name + ".download") }}
       </VaButton>
     </div>
 
-
-    <VaCheckbox 
-    v-model="chktest"
-    :label="chklabel"
-    left-label
-    >{{ $t($props.name + ".checkbox") }}</VaCheckbox>
-    <VaSelect 
-      v-model="seltest"
-      :options="seloptions"
-      track-by="value"
-      >
-    </VaSelect>
-  </div>
+</div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
-
-import { computed } from "vue";
-
-import ChartTemplate from "../../charts/ChartTemplate.vue"
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL
@@ -91,34 +65,6 @@ const dataLicense = ref(null)
 // chart
 import SizeAnimation from "../../charts/SizeAnimation.vue";
 
-const chktest = ref(false);
-const chklabel = ref("")
-//const seltest = ref(t(props.name + ".option1"));
-//console.log("preset",props.name + ".option1")
-const seltest = ref(null);
-const seloptions = ref([
-  { value: ".option1", text: "" },
-  { value: ".option2", text: "" },
-  { value: ".option3", text: "" },
-]);
-
-onMounted(() => {
-  // seltest.value = t(props.name + ".option1");
-  seloptions.value[0].text = t(props.name + ".option1") 
-  seloptions.value[1].text = t(props.name + ".option2") 
-  seloptions.value[2].text = t(props.name + ".option3") 
-  seltest.value = seloptions.value[0]
-  chklabel.value = t(props.name + ".checkbox")
-});
-
-watch(locale, (newValue, oldValue) => {
-  //seltest.value = t(props.name + ".option1");
-  seloptions.value[0].text = t(props.name + ".option1") 
-  seloptions.value[1].text = t(props.name + ".option2") 
-  seloptions.value[2].text = t(props.name + ".option3") 
-  chklabel.value = t(props.name + ".checkbox")
-});
-
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
@@ -145,14 +91,11 @@ onBeforeMount(() => {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-
 </style>
 
 
 <style lang="scss" scoped>
 @import "vuestic-ui/styles/grid";
-
 </style>
 
 
