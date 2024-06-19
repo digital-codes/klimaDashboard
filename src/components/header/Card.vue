@@ -14,8 +14,8 @@
 
     <div v-if="breakpoint.mdUp" class="flex xs12 headerctls">
       <VaButtonGroup grow >
-        <VaButton icon="create" @click="action('A')">CO2</VaButton>
-        <VaButton icon="create" @click="action('B')">Energie</VaButton>
+        <VaButton icon="create" @click="action('A')" class="filterbtn" >CO2</VaButton>
+        <VaButton icon="create" @click="action('B')" class="filterbtn">Energie</VaButton>
         <VaButton icon="add" @click="action('C')">Mobilität</VaButton>
         <VaButton icon="add_circle_outline" @click="action('D')">XYZ</VaButton>
         <VaButton icon="add" @click="action('E')">Mobilität</VaButton>
@@ -23,8 +23,8 @@
     </div>
     <div v-else class="flex xs12 headerctlssm">
       <VaButtonGroup grow>
-        <VaButton icon="create" @click="action('A')">CO2</VaButton>
-        <VaButton icon="create" @click="action('B')">Energie</VaButton>
+        <VaButton icon="create" @click="action('A')" class="filterbtn">CO2</VaButton>
+        <VaButton icon="create" @click="action('B')" class="filterbtn">Energie</VaButton>
       </VaButtonGroup>
       <VaButtonGroup grow>
         <VaButton icon="add" @click="action('C')">Mobilität</VaButton>
@@ -129,9 +129,14 @@ onBeforeMount(() => {
   --va-button-group-button-margin: .1rem;
 }
 
-
-
 .headertext {
   margin-top: 1rem;
 }
+
+.filterbtn {
+  border: solid 3px #f00 !important;
+}
+
 </style>
+
+
