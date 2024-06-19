@@ -6,6 +6,7 @@ export const useConfigStore = defineStore({
         locale: 'de', // default locale
         // add other config values here
         messages: {}
+
     }),
     getters: {
         getCurrentLocale() {

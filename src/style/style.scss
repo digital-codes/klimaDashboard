@@ -238,6 +238,11 @@ button:focus-visible {
   overflow-y: scroll;
 }
 
+.fullheight {  
+  max-height: unset;
+  overflow-y: scroll;
+}
+
 .mdcontent {
   img {
     max-width: 30%;

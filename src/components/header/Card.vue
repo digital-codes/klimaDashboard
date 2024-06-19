@@ -12,27 +12,21 @@
       <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
     </div>
 
-    <div v-if="breakpoint.mdUp" class="flex xs12 headerctls">
-      <VaButtonGroup grow >
-        <VaButton icon="create" @click="action('A')" class="filterbtn" >CO2</VaButton>
-        <VaButton icon="create" @click="action('B')" class="filterbtn">Energie</VaButton>
-        <VaButton icon="add" @click="action('C')">Mobilität</VaButton>
-        <VaButton icon="add_circle_outline" @click="action('D')">XYZ</VaButton>
-        <VaButton icon="add" @click="action('E')">Mobilität</VaButton>
-      </VaButtonGroup>
-    </div>
-    <div v-else class="flex xs12 headerctlssm">
-      <VaButtonGroup grow>
-        <VaButton icon="create" @click="action('A')" class="filterbtn">CO2</VaButton>
-        <VaButton icon="create" @click="action('B')" class="filterbtn">Energie</VaButton>
-      </VaButtonGroup>
-      <VaButtonGroup grow>
-        <VaButton icon="add" @click="action('C')">Mobilität</VaButton>
-        <VaButton icon="add_circle_outline" @click="action('D')">XYZ</VaButton>
-      </VaButtonGroup>
-      <VaButtonGroup grow>
-        <VaButton icon="add" @click="action('E')">Mobilität</VaButton>
-      </VaButtonGroup>
+    <div class="flex flex-wrap">
+      <VaSwitch v-for="(filter, index) in filters" class="filter"
+      :key="index" 
+      v-model="filter.value" 
+      :label="t(props.name + '.' + filter.label)" 
+      right-label
+      @input="action(filter.name)">
+      <!-- 
+        <template #innerLabel>
+          <div class="va-text-center">
+            <VaIcon :name="filter.icon" />
+          </div>
+        </template>
+      -->
+      </VaSwitch>
     </div>
 
   </VaCard>
@@ -48,6 +42,39 @@ import climate from "/icons/climate.svg";
 import { useBreakpoint } from "vuestic-ui";
 
 const breakpoint = useBreakpoint();
+
+const filters = ref([
+  {
+    "label": "climate",
+    "value": true,
+    "icon": "co2",
+    "name": "A"
+  },
+  {
+    "label": "energy",
+    "value": true,
+    "icon": "co2",
+    "name": "B"
+  },
+  {
+    "label": "mobility",
+    "value": true,
+    "icon": "co2",
+    "name": "C"
+  },
+  {
+    "label": "buildings",
+    "value": true,
+    "icon": "co2",
+    "name": "D"
+  },
+  {
+    "label": "other",
+    "value": true,
+    "icon": "co2",
+    "name": "E"
+  }
+]);
 
 /*
 const brkPnt = () => {
@@ -75,7 +102,7 @@ console.log("Card name:", props.name);
 
 const emit = defineEmits(["filter"]);
 const action = (tag) => {
-  emit("filter",tag);
+  emit("filter", tag);
 };
 
 // messages i18n
@@ -133,10 +160,8 @@ onBeforeMount(() => {
   margin-top: 1rem;
 }
 
-.filterbtn {
-  border: solid 3px #f00 !important;
+.filter {
+  margin-right: 1rem;
 }
 
 </style>
-
-

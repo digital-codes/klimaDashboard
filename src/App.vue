@@ -6,13 +6,15 @@ const { t, locale, availableLocales } = useI18n();
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
-import { ref, watch, onMounted, computed } from 'vue';
-import { defineAsyncComponent } from 'vue'
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
 
 import { useBreakpoint } from 'vuestic-ui';
 
 /* theme switch: https://ui.vuestic.dev/styles/colors */
 import { useColors } from "vuestic-ui";
+
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 
 // mode switch 
@@ -35,8 +37,6 @@ const modeSwitch = computed({
 
 // ----------------------------
 
-const showSidebar = ref(false)
-
 import logo from "@/assets/logos/logo.png"
 
 const breakpoints = useBreakpoint()
@@ -47,6 +47,19 @@ console.log(availableLocales)
 const languages = availableLocales
 
 const appContainer = ref(null)
+
+// ----------------------------
+const showSidebar = ref(false)
+
+const menuToggle = () => {
+  showSidebar.value = !showSidebar.value
+};
+
+const goto = (path) => {
+  console.log("goto", path)
+  router.push(path)
+  showSidebar.value = false
+}
 
 watch(langSel, (newValue, oldValue) => {
   // Code to execute when langSel changes
@@ -67,22 +80,20 @@ onMounted(() => {
 
 });
 
-const removeTag = (tag) => {
-  currentTags.value = currentTags.value.filter(item => item !== tag);
-}
-const insertTag = (tag) => {
-  // make sure we donÄt get duplicates
-  currentTags.value = currentTags.value.filter(item => item !== tag);
-  currentTags.value.push(tag)
-}
-
-const filterTag = (tag) => {
-  if (currentTags.value.includes(tag)) {
-    removeTag(tag)
-  } else {
-    insertTag(tag)
-  }
-}
+// custom scroll stuff due to VaBacktoTop not working
+const bttVisible = ref(true)
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+const handleScroll = () => {
+  bttVisible.value = window.scrollY > 300;
+};
+const scoll2top = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 </script>
 
@@ -92,11 +103,14 @@ const filterTag = (tag) => {
     <template #top>
       <VaNavbar color="primary" class="py-2" fixed>
         <template #left>
-          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="showSidebar = !showSidebar" />
+          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()"  />
         </template>
         <template #center>
           <VaNavbarItem>
-            <VaImage :src="logo" alt="Logo" fit="fit" class="logoimg"></VaImage>
+            <VaImage :src="logo" 
+            title="Dashboard Logo. Click for 'Home'" 
+            fit="fit" class="logoimg" 
+            @click="router.push({ name: 'Home' })"></VaImage>
           </VaNavbarItem>
         </template>
         <template #right>
@@ -115,45 +129,37 @@ const filterTag = (tag) => {
 
     <template #left>
       <VaSidebar v-model="showSidebar">
-        <VaSidebarItem>
-          <router-link to="/">
+        <VaSidebarItem @click="goto('/')">
             <VaSidebarItemContent>
               <VaIcon name="home" size="large" />
               <VaSidebarItemTitle>
                 Home
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
-          </router-link>
         </VaSidebarItem>
-        <VaSidebarItem>
-          <router-link to="/data">
+        <VaSidebarItem @click="goto('/data')">
             <VaSidebarItemContent>
               <VaIcon name="insert_chart" size="large" />
               <VaSidebarItemTitle>
                 Data
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
-          </router-link>
         </VaSidebarItem>
-        <VaSidebarItem>
-          <router-link to="/imprint">
+        <VaSidebarItem @click="goto('/imprint')">
             <VaSidebarItemContent>
               <VaIcon name="info" size="large" />
               <VaSidebarItemTitle>
                 Imprint
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
-          </router-link>
         </VaSidebarItem>
-        <VaSidebarItem>
-          <router-link to="/gdpr">
+        <VaSidebarItem @click="goto('/gdpr')">
             <VaSidebarItemContent>
               <VaIcon name="privacy_tip" size="large" />
               <VaSidebarItemTitle>
                 Gdpr
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
-          </router-link>
         </VaSidebarItem>
       </VaSidebar>
     </template>
@@ -164,9 +170,13 @@ const filterTag = (tag) => {
 
         <router-view />
 
-        <VaBacktop @click="console.log('backtop clicked')" vertical-offset="5rem" horizontal-offset="2rem"
-          horizontal-position="right" vertical-position="bottom" visibility-height="1" speed="100">
-        </VaBacktop>
+        <!-- custom scroll to top -->
+        <VaButton v-if="bttVisible" 
+        class="btt-button" 
+        @click="scoll2top" 
+        aria-controls="back to top">
+          <VaIcon name="keyboard_arrow_up" size="medium"/>
+        </VaButton>
 
       </main>
 
@@ -187,6 +197,13 @@ main {
   padding: 20px;
 }
 
+.btt-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
 .langselect {
   max-width: 6rem;
   ;
@@ -199,6 +216,11 @@ main {
 
 .logoimg {
   width: 4rem;
+}
+
+.logoimg:hover {
+  width: 5rem;
+  cursor: pointer; 
 }
 
 .va-sidebar__title {

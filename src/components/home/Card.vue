@@ -1,8 +1,15 @@
 <template>
-  <VaCard class="gdprCard">
+  <VaImage
+    :src="logo"
+    alt="Dashboard Logo"
+    class="hero-image"
+    >
+  </VaImage>
+
+  <VaCard class="homeCard">
 
     <div class="flex xs12">
-      <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+      <div class="mdcontent fullheight" v-html="cardMessages[locale].mdpane"></div>
     </div>
 
   </VaCard>
@@ -13,8 +20,7 @@ import { useI18n } from "vue-i18n";
 const { messages, locale } = useI18n();
 import { onBeforeMount } from "vue";
 
-
-import { useBreakpoint } from "vuestic-ui";
+import logo from "@/assets/logos/logo.png"
 
 
 // name für i18n key
@@ -43,7 +49,7 @@ onBeforeMount(() => {
 <style scoped>
 /* Add your card styles here */
 
-.gdprCard {
+.homeCard {
   margin: .5rem 0 .5rem 0;
   padding: .5rem;
   text-align: left;
@@ -51,5 +57,12 @@ onBeforeMount(() => {
   flex-wrap: wrap;
 }
 
+.hero-image {
+  width: 60%;
+  height: auto;
+  margin-left:20%;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 5px 5px light-dark(#444,#ccc);
+}
 
 </style>

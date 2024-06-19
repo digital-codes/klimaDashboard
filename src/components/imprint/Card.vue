@@ -2,7 +2,7 @@
   <VaCard class="imprintCard">
 
     <div class="flex xs12">
-      <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+      <div class="mdcontent fullheight" v-html="cardMessages[locale].mdpane"></div>
     </div>
 
   </VaCard>
