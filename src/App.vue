@@ -3,7 +3,7 @@
 import { useI18n } from 'vue-i18n';
 const { t, locale, availableLocales } = useI18n();
 
-import { useConfigStore } from './services/configStore';
+import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
 import { ref, watch, onMounted, computed } from 'vue';
@@ -14,17 +14,6 @@ import { useBreakpoint } from 'vuestic-ui';
 /* theme switch: https://ui.vuestic.dev/styles/colors */
 import { useColors } from "vuestic-ui";
 
-
-const HeaderCard = defineAsyncComponent(() => import("./components/header/HeaderCard.vue"))
-const FooterCard = defineAsyncComponent(() => import("./components/footer/FooterCard.vue"))
-
-const tiles = [
-  {"name":"DummyLine","tag":"A","component":defineAsyncComponent(() => import("./components/tiles/dummyLine/CardTemplate.vue"))},
-  {"name":"DummyCustom","tag":"B","component":defineAsyncComponent(() => import("./components/tiles/dummyCustom/CardTemplate.vue"))},
-  {"name":"DummyMap","tag":"C","component":defineAsyncComponent(() => import("./components/tiles/dummyMap/CardTemplate.vue"))}
-]
-
-const currentTags = ref(["A","B","C","D","E"])
 
 // mode switch 
 const { applyPreset, currentPresetName } = useColors();
@@ -130,35 +119,47 @@ const filterTag = (tag) => {
           <VaSidebarItemContent>
             <VaIcon name="home" />
             <VaSidebarItemTitle>
-              Home
+            <router-link to="/">Home</router-link>            
             </VaSidebarItemTitle>
           </VaSidebarItemContent>
         </VaSidebarItem>
         <VaSidebarItem>
           <VaSidebarItemContent>
-            <VaIcon name="phone" />
+            <VaIcon name="home" />
             <VaSidebarItemTitle>
-              About
+            <router-link to="/data">Data</router-link>            
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+        <VaSidebarItem>
+          <VaSidebarItemContent>
+            <VaIcon name="home" />
+            <VaSidebarItemTitle>
+            <router-link to="/imprint">Imprint</router-link>            
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+        <VaSidebarItem>
+          <VaSidebarItemContent>
+            <VaIcon name="home" />
+            <VaSidebarItemTitle>
+            <router-link to="/gdpr">Gdpr</router-link>            
             </VaSidebarItemTitle>
           </VaSidebarItemContent>
         </VaSidebarItem>
       </VaSidebar>
     </template>
 
+
     <template #content>
       <main class="p-4">
-        <HeaderCard name="header" @filter="filterTag" />
 
-        <div v-for="(tile, index) in tiles" :key="index">
-          <component v-if="currentTags.includes(tile.tag)"
-          :is="tile.component" :name="tile.name" class="tile">
-        </component>
-        </div>
-
-        <FooterCard name="footer"/>
+        <router-view />
 
       </main>
+
     </template>
+
   </VaLayout>
 </template>
 

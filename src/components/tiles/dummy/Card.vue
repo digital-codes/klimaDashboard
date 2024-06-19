@@ -1,32 +1,71 @@
 <template>
+  <div class="card">
     <p>{{ $t($props.name + ".title") }}</p>
     <div class="header">{{ $t($props.name + ".header") }}</div>
     <div class="text">{{ $t($props.name + ".text") }}</div>
-    <div class="mdcontent" v-html="cardMessages[locale].mdpane">
+
+    <div class="row">
+      <div class="flex flex-col lg6 md12">
+        <img :src="basePath + props.logo" alt="Card Image" class="cardimage" />
+      </div>
+      <div class="flex flex-col lg6 md12">
+          <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+      </div>
     </div>
-    <img :src="props.logo" alt="Card Image" class="image" />
-    <div class="chart-area">
+
+    <div class="chartpane customchart">
       <!-- Chart component goes here -->
       <SizeAnimation></SizeAnimation>
     </div>
-    <button class="button">{{ $t($props.name + ".button") }}</button>
-    <input type="checkbox" class="checkbox" />
-    <select class="select">
-      <option value="option1">{{ $t($props.name + ".option1") }}</option>
-      <option value="option2">{{ $t($props.name + ".option2") }}</option>
-      <option value="option3">{{ $t($props.name + ".option3") }}</option>
-    </select>
+    <div class="chartpane">
+      <!-- Chart component goes here -->
+      <ChartTemplate :chartDataUri="dataUrl"></ChartTemplate>
+    </div>
+
+    <div class="chartfooter">
+      <!-- source, license, download button -->
+
+      <VaChip class="mr-6 mb-2">
+        License: {{ dataLicense }}
+      </VaChip>
+      <VaChip class="mr-6 mb-2">
+        Source: {{ dataUrl }}
+      </VaChip>
+      <VaButton round
+        class="mr-6 mb-2"
+        @click="console.log('Click')"
+        icon="download"
+      >
+        {{ $t($props.name + ".download") }}
+      </VaButton>
+    </div>
+
+
+    <VaCheckbox 
+    v-model="chktest"
+    :label="chklabel"
+    left-label
+    >{{ $t($props.name + ".checkbox") }}</VaCheckbox>
+    <VaSelect 
+      v-model="seltest"
+      :options="seloptions"
+      track-by="value"
+      >
+    </VaSelect>
+  </div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, onMounted, watch } from "vue";
 
 import { computed } from "vue";
 
-import ChartTemplate from "./ChartTemplate.vue"
+import ChartTemplate from "@/components/charts/ChartTemplate.vue"
 
+// for relocated base we need to prepend the base path to dynamic imports
+const basePath = import.meta.env.BASE_URL
 
 // name für i18n key
 const props = defineProps({
@@ -36,37 +75,83 @@ const props = defineProps({
   },
   logo: {
     type: String,
-    default: "/images/tiles/lastenrad.jpg",
+    // no leading / here 
+    default: "images/tiles/lastenrad.jpg",
     //required: true,
   },
 });
 console.log("Card name:", props.name);
 
 // messages i18n
-import cardMessages from "./cardTemplate.json";
+import cardMessages from "./card.json";
+const dataUrl = ref(null)
+const dataLicense = ref(null)
+
 
 // chart
-import SizeAnimation from "./SizeAnimation.vue";
+import SizeAnimation from "@/components/charts/SizeAnimation.vue";
+
+const chktest = ref(false);
+const chklabel = ref("")
+//const seltest = ref(t(props.name + ".option1"));
+//console.log("preset",props.name + ".option1")
+const seltest = ref(null);
+const seloptions = ref([
+  { value: ".option1", text: "" },
+  { value: ".option2", text: "" },
+  { value: ".option3", text: "" },
+]);
+
+onMounted(() => {
+  // seltest.value = t(props.name + ".option1");
+  seloptions.value[0].text = t(props.name + ".option1") 
+  seloptions.value[1].text = t(props.name + ".option2") 
+  seloptions.value[2].text = t(props.name + ".option3") 
+  seltest.value = seloptions.value[0]
+  chklabel.value = t(props.name + ".checkbox")
+});
+
+watch(locale, (newValue, oldValue) => {
+  //seltest.value = t(props.name + ".option1");
+  seloptions.value[0].text = t(props.name + ".option1") 
+  seloptions.value[1].text = t(props.name + ".option2") 
+  seloptions.value[2].text = t(props.name + ".option3") 
+  chklabel.value = t(props.name + ".checkbox")
+});
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
   for (const key in cardMessages) {
-    console.log(`${key}:`, cardMessages[key]);
+    // console.log(`${key}:`, cardMessages[key]);
+    if (key === "specs") continue
     messages.value[key][props.name] = cardMessages[key];
+    // create new data uris here: use as is if strating with http else prepend base path
+    if (dataUrl.value && dataUrl.value.toLowerCase().startsWith("http")) {
+      dataUrl.value = cardMessages.specs.data[0].url
+    } else {
+      dataUrl.value = basePath + cardMessages.specs.data[0].url
+    }
+    dataLicense.value = cardMessages.specs.data[0].license
   }
 });
 </script>
 
 <style scoped>
 /* Add your card styles here */
-
-.image1 {
-  /* Add your image styles here */
-  width: 200px;
-  max-height: 200px;
+.card {
+  /* Add your card styles here */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+</style>
+
+
+<style lang="scss" scoped>
+@import "vuestic-ui/styles/grid";
 
 </style>
 

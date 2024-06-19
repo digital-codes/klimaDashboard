@@ -9,34 +9,41 @@
         <img :src="basePath + props.logo" alt="Card Image" class="cardimage" />
       </div>
       <div class="flex flex-col lg6 md12">
-        <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+          <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
       </div>
     </div>
 
-    <div class="chartpane customchart">
+    <div class="chartpane">
       <!-- Chart component goes here -->
-      <SizeAnimation></SizeAnimation>
+      <ChartTemplate :chartDataUri="dataUrl"></ChartTemplate>
     </div>
 
     <div class="chartfooter">
+      <!-- source, license, download button -->
+
       <VaChip outline>
         License: {{ dataLicense }}
       </VaChip>
       <VaChip outline>
         Source: {{ dataUrl }}
       </VaChip>
-      <VaButton round @click="console.log('Click')" icon="download">
+      <VaButton round
+        @click="console.log('Click')"
+        icon="download"
+      >
         {{ $t($props.name + ".download") }}
       </VaButton>
     </div>
 
-</div>
+  </div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
+
+import ChartTemplate from "@/components/charts/ChartTemplate.vue"
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL
@@ -60,10 +67,6 @@ console.log("Card name:", props.name);
 import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataLicense = ref(null)
-
-
-// chart
-import SizeAnimation from "../../charts/SizeAnimation.vue";
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
@@ -90,8 +93,6 @@ onBeforeMount(() => {
 
 
 <style lang="scss" scoped>
-
 @import "vuestic-ui/styles/grid";
 
 </style>
-

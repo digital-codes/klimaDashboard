@@ -15,7 +15,7 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <ChartTemplate :chartDataUri="dataUrl"></ChartTemplate>
+      <SimpleMap :chartDataUri="dataUrl"></SimpleMap>
     </div>
 
     <div class="chartfooter">
@@ -43,7 +43,7 @@ import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
 
-import ChartTemplate from "../../charts/ChartTemplate.vue"
+import SimpleMap from "@/components/charts/SimpleMap.vue"
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL

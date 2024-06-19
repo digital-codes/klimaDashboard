@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+import router from '@/router';
+
 /*
 import "@fontsource/source-sans-pro"; // Defaults to weight 400
 import "@fontsource/source-sans-pro/400.css"; // Specify weight
@@ -23,7 +25,7 @@ import './style/style.scss'
 
 // internationalization
 const defaultLocale = "de"
-import messages from './locales/messages.json';
+import messages from '@/locales/messages.json';
 import { createI18n } from 'vue-i18n';
 const i18n = createI18n({
     legacy: false,
@@ -40,12 +42,13 @@ import { createPinia } from 'pinia'
 const pinia = createPinia()
 
 const app = createApp(App)
+app.use(router);
 app.use(pinia)
 app.use(i18n)
 app.use(createVuestic())
 app.mount('#app')
 
-import { useConfigStore } from './services/configStore'; // Replace 'configStore' with the name of your specific store
+import { useConfigStore } from '@/services/configStore'; // Replace 'configStore' with the name of your specific store
 const configStore = useConfigStore()
 configStore.setCurrentLocale(defaultLocale)
 configStore.setMessages(messages)
