@@ -129,6 +129,16 @@ button:focus-visible {
   min-height:100vh;
 }
 
+.va-input-wrapper__append-inner .va-select__toggle-icon {
+  color: yellow !important;
+}
+
+.va-select-option__selected-icon {
+  color: light-dark(blue, yellow) !important;
+}
+.va-select-option--selected {
+  color: light-dark(blue, yellow) !important;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -142,6 +152,8 @@ button:focus-visible {
     background-color: #f9f9f9;
     color: #1a1a1a;
   }
+
+  
 }
 
 @media (prefers-color-scheme: dark) {

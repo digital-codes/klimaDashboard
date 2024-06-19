@@ -117,7 +117,12 @@ const scoll2top = () => {
         </template>
         <template #right>
           <div class="langselect">
-            <VaSelect v-model="langSel" :options="languages" :placeholder="configStore.getCurrentLocale">
+            <VaSelect 
+              contentClass="selection" 
+              v-model="langSel" 
+              :options="languages" 
+              :placeholder="configStore.getCurrentLocale"
+            >
               <template #prepend>
                 <VaIcon name="translate" class="xlate" />
               </template>
@@ -133,7 +138,7 @@ const scoll2top = () => {
       <VaSidebar v-model="showSidebar">
         <VaSidebarItem @click="goto('/')">
             <VaSidebarItemContent>
-              <VaIcon class="material-icons" name="home" size="large" />
+              <VaIcon class="material-icons-outlined" name="home" size="large" />
               <VaSidebarItemTitle>
                 Home
               </VaSidebarItemTitle>
@@ -149,7 +154,7 @@ const scoll2top = () => {
         </VaSidebarItem>
         <VaSidebarItem @click="goto('/imprint')">
             <VaSidebarItemContent>
-              <VaIcon class="material-icons-two-tone" name="info" size="large" />
+              <VaIcon class="material-icons-outlined" name="info" size="large" />
               <VaSidebarItemTitle>
                 Imprint
               </VaSidebarItemTitle>
@@ -157,7 +162,7 @@ const scoll2top = () => {
         </VaSidebarItem>
         <VaSidebarItem @click="goto('/gdpr')">
             <VaSidebarItemContent>
-              <VaIcon class="material-icons-sharp" name="privacy_tip" size="large" />
+              <VaIcon class="material-icons-outlined" name="privacy_tip" size="large" />
               <VaSidebarItemTitle>
                 Gdpr
               </VaSidebarItemTitle>
@@ -194,6 +199,8 @@ const scoll2top = () => {
 .va-layout__area--top {
   margin-bottom: 3rem;
 }
+
+
 </style>
 
 <style scoped>
@@ -231,4 +238,10 @@ main {
   text-align: left;
   margin-left: 1rem;
 }
+
+
+</style>
+
+<style>
+
 </style>
