@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /klima/
+  RewriteBase /
 
   # Redirect Trailing Slashes, but ensure it works with the subdirectory
   RewriteCond %{REQUEST_FILENAME} !-f
