@@ -19,13 +19,11 @@
       :label="t(props.name + '.' + filter.label)" 
       right-label
       @input="action(filter.name)">
-      <!-- 
         <template #innerLabel>
           <div class="va-text-center">
             <VaIcon :name="filter.icon" />
           </div>
         </template>
-      -->
       </VaSwitch>
     </div>
 
@@ -53,25 +51,25 @@ const filters = ref([
   {
     "label": "energy",
     "value": true,
-    "icon": "co2",
+    "icon": "power",
     "name": "B"
   },
   {
     "label": "mobility",
     "value": true,
-    "icon": "co2",
+    "icon": "directions_bus",
     "name": "C"
   },
   {
     "label": "buildings",
     "value": true,
-    "icon": "co2",
+    "icon": "other_houses",
     "name": "D"
   },
   {
     "label": "other",
     "value": true,
-    "icon": "co2",
+    "icon": "settings",
     "name": "E"
   }
 ]);

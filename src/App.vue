@@ -16,6 +16,8 @@ import { useColors } from "vuestic-ui";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+import FooterCard from "@/components/footer/Card.vue"
+
 
 // mode switch 
 const { applyPreset, currentPresetName } = useColors();
@@ -131,7 +133,7 @@ const scoll2top = () => {
       <VaSidebar v-model="showSidebar">
         <VaSidebarItem @click="goto('/')">
             <VaSidebarItemContent>
-              <VaIcon name="home" size="large" />
+              <VaIcon class="material-icons" name="home" size="large" />
               <VaSidebarItemTitle>
                 Home
               </VaSidebarItemTitle>
@@ -139,7 +141,7 @@ const scoll2top = () => {
         </VaSidebarItem>
         <VaSidebarItem @click="goto('/dash')">
             <VaSidebarItemContent>
-              <VaIcon name="insert_chart" size="large" />
+              <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
               <VaSidebarItemTitle>
                 Dashboard
               </VaSidebarItemTitle>
@@ -147,7 +149,7 @@ const scoll2top = () => {
         </VaSidebarItem>
         <VaSidebarItem @click="goto('/imprint')">
             <VaSidebarItemContent>
-              <VaIcon name="info" size="large" />
+              <VaIcon class="material-icons-two-tone" name="info" size="large" />
               <VaSidebarItemTitle>
                 Imprint
               </VaSidebarItemTitle>
@@ -155,7 +157,7 @@ const scoll2top = () => {
         </VaSidebarItem>
         <VaSidebarItem @click="goto('/gdpr')">
             <VaSidebarItemContent>
-              <VaIcon name="privacy_tip" size="large" />
+              <VaIcon class="material-icons-sharp" name="privacy_tip" size="large" />
               <VaSidebarItemTitle>
                 Gdpr
               </VaSidebarItemTitle>
@@ -169,6 +171,8 @@ const scoll2top = () => {
       <main class="p-4" id="main">
 
         <router-view />
+
+        <FooterCard name="footer" id="df" />
 
         <!-- custom scroll to top -->
         <VaButton v-if="bttVisible" 

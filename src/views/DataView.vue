@@ -7,8 +7,6 @@
     </component>
   </div>
 
-  <FooterCard name="footer" id="df" />
-
 </template>
 
 <script setup>
@@ -19,8 +17,8 @@ const { t, locale, availableLocales } = useI18n();
 import { ref, watch, onMounted, computed } from 'vue';
 import { defineAsyncComponent } from 'vue'
 
+// special header for the datavies
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
-const FooterCard = defineAsyncComponent(() => import("@/components/footer/Card.vue"))
 
 // use anchor to give a unique reference to each tile
 const tiles = [
