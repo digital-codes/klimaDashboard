@@ -103,7 +103,7 @@ const scoll2top = () => {
     <template #top>
       <VaNavbar color="primary" class="py-2" fixed>
         <template #left>
-          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()"  />
+          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()" size="large" />
         </template>
         <template #center>
           <VaNavbarItem>
@@ -137,11 +137,11 @@ const scoll2top = () => {
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/data')">
+        <VaSidebarItem @click="goto('/dash')">
             <VaSidebarItemContent>
               <VaIcon name="insert_chart" size="large" />
               <VaSidebarItemTitle>
-                Data
+                Dashboard
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>

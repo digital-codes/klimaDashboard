@@ -1,17 +1,14 @@
 ## More Information
 
-**City of Karlsruhe**
-[Website](https://karlsruhe.de)
+### Source Code
 
+<img class="footerimg" src="/icons/github-mark.svg" als="github" />
 
-dlmefm lwer
-sdölfwemlfw
+[Github](https://github.com/digital-codes/klimaDashboard)
 
+  
 
-wfwälmefmwegfmewg
-
-
-**Credits**
+### Credits
 [https://vuejs.org/](https://vuejs.org/)
 
 [https://ui.vuestic.dev/](https://ui.vuestic.dev/)

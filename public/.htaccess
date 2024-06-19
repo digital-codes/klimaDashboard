@@ -2,11 +2,13 @@
   RewriteEngine On
   RewriteBase /klima/
 
-  # Redirect Trailing Slashes...
+  # Redirect Trailing Slashes, but ensure it works with the subdirectory
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(.*)/$ /$1 [L,R=301]
 
   # Handle Frontend Routes
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^ /klima/index.html [L]
+  RewriteRule ^ index.html [L]
 </IfModule>

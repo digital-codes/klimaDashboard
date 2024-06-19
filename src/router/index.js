@@ -1,14 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import HomeView from '@/views/HomeView.vue';
+/*
 import DataView from '@/views/DataView.vue';
 import ImprintView from '@/views/ImprintView.vue';
 import GdprView from '@/views/GdprView.vue';
-
-import { useConfigStore } from '@/services/configStore';
-// const configStore = useConfigStore();
-
-const store = {"instance":null}
+*/ 
 
 const routes = [
   {
@@ -17,19 +14,19 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/data',
-    name: 'Data',
-    component: DataView,
+    path: '/dash',
+    name: 'Dash',
+    component: () => import('@/views/DataView.vue'),
   },
   {
     path: '/imprint',
     name: 'Imprint',
-    component: ImprintView,
+    component:  () => import('@/views/ImprintView.vue'),
   },
   {
     path: '/gdpr',
     name: 'GDPR',
-    component: GdprView,
+    component:  () => import('@/views/GdprView.vue'),
   },
 ];
 
@@ -54,6 +51,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // Emit an event or call a method to close the sidebar
   console.log("Router gard",to,from,next)
+  const ok = routes.filter((r) => r.path === to.path)
+  if (ok.length === 0) {
+    alert("404: Redirecting to Home")
+    next({ name: 'Home' });
+  }
   next();
 });
 

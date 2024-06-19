@@ -1,14 +1,14 @@
 {
   "en": {
-    "mdpane": "<h2>More Information</h2>\n<p><strong>City of Karlsruhe</strong>\n<a href=\"https://karlsruhe.de\">Website</a></p>\n<p>dlmefm lwer\nsdölfwemlfw</p>\n<p>wfwälmefmwegfmewg</p>\n<p><strong>Credits</strong>\n<a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
+    "mdpane": "<h2>More Information</h2>\n<h3>Source Code</h3>\n<img src=\"/icons/github-mark.svg\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Credits</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
   },
   "de": {
-    "mdpane": "<h2>Weitere Infos</h2>\n<p><strong>Stadt Karlsruhe</strong>\n<a href=\"https://karlsruhe.de\">Webseite</a></p>\n<p>dlmefm lwer\nsdölfwemlfw </p>\n<p>wfwälmefmwegfmewg</p>\n<p><strong>Credits</strong>\n<a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
+    "mdpane": "<h2>Weitere Infos</h2>\n<h3>Source Code</h3>\n<img src=\"/icons/github-mark.svg\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Credits</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a>\n<br>\n<a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a>\n<br></p>\n"
   },
   "fr": {
-    "mdpane": "<h2>Plus d'informations</h2>\n<p><strong>Ville de Karlsruhe</strong>\n<a href=\"https://karlsruhe.de\">Site web</a></p>\n<p>dlmefm lwer\nsdölfwemlfw</p>\n<p>wfwälmefmwegfmewg</p>\n<p><strong>Crédits</strong>\n<a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
+    "mdpane": "<h2>Plus d'informations</h2>\n<h3>Source Code</h3>\n<img src=\"/icons/github-mark.svg\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Crédits</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
   },
   "es": {
-    "mdpane": "<h2>Más Información</h2>\n<p><strong>Ciudad de Karlsruhe</strong>\n<a href=\"https://karlsruhe.de\">Sitio web</a></p>\n<p>dlmefm lwer\nsdölfwemlfw</p>\n<p>wfwälmefmwegfmewg</p>\n<p><strong>Créditos</strong>\n<a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
+    "mdpane": "<h2>Más Información</h2>\n<h3>Source Code</h3>\n<img src=\"/icons/github-mark.svg\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Créditos</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
   }
 }

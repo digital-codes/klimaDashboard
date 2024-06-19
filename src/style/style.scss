@@ -275,4 +275,13 @@ button:focus-visible {
   strong {
     font-weight: bolder;
   }
+
+  .footerimg {
+    width: 4rem;
+    height: auto;
+    max-height: 4rem;
+    margin: .5rem;
+    padding: .3rem;
+    background-color: #ddd;
+  }
 }

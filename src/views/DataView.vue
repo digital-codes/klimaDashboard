@@ -1,19 +1,18 @@
 <template>
-  
-          <HeaderCard name="header" @filter="filterTag" id="dh" />
-  
-          <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
-            <component v-if="currentTags.includes(tile.tag)"
-            :is="tile.component" :name="tile.name" class="tile">
-          </component>
-          </div>
-  
-          <FooterCard name="footer" id="df"/>
-  
-  </template>
+
+  <HeaderCard name="header" @filter="filterTag" id="dh" />
+
+  <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
+    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" class="tile">
+    </component>
+  </div>
+
+  <FooterCard name="footer" id="df" />
+
+</template>
 
 <script setup>
-    // 1i8n at top !
+// 1i8n at top !
 import { useI18n } from 'vue-i18n';
 const { t, locale, availableLocales } = useI18n();
 
@@ -25,12 +24,12 @@ const FooterCard = defineAsyncComponent(() => import("@/components/footer/Card.v
 
 // use anchor to give a unique reference to each tile
 const tiles = [
-  {"name":"DummyLine","tag":"A","anchor":"a1","component":defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue"))},
-  {"name":"DummyCustom","tag":"B","anchor":"a2","component":defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue"))},
-  {"name":"DummyMap","tag":"C","anchor":"a3","component":defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue"))}
+  { "name": "DummyLine", "tag": "A", "anchor": "a1", "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
+  { "name": "DummyCustom", "tag": "B", "anchor": "a2", "component": defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue")) },
+  { "name": "DummyMap", "tag": "C", "anchor": "a3", "component": defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue")) }
 ]
 
-const currentTags = ref(["A","B","C","D","E"])
+const currentTags = ref(["A", "B", "C", "D", "E"])
 
 
 const removeTag = (tag) => {
@@ -48,7 +47,7 @@ const filterTag = (tag) => {
   } else {
     insertTag(tag)
   }
-} 
+}
 
 
 </script>
