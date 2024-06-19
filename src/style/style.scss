@@ -285,3 +285,10 @@ button:focus-visible {
     background-color: #ddd;
   }
 }
+
+// overwrite some vuestic stuff
+.va-sidebar {
+  position: fixed;
+  top: 0;
+  padding-top:5rem;
+}
