@@ -37,7 +37,7 @@ const modeSwitch = computed({
 
 const showSidebar = ref(false)
 
-import logo from "./assets/logos/logo.png"
+import logo from "@/assets/logos/logo.png"
 
 const breakpoints = useBreakpoint()
 
@@ -82,7 +82,7 @@ const filterTag = (tag) => {
   } else {
     insertTag(tag)
   }
-} 
+}
 
 </script>
 
@@ -90,7 +90,7 @@ const filterTag = (tag) => {
 <template>
   <VaLayout ref="appContainer" :left="{ absolute: breakpoints.smDown }">
     <template #top>
-      <VaNavbar color="primary" class="py-2">
+      <VaNavbar color="primary" class="py-2" fixed>
         <template #left>
           <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="showSidebar = !showSidebar" />
         </template>
@@ -116,45 +116,57 @@ const filterTag = (tag) => {
     <template #left>
       <VaSidebar v-model="showSidebar">
         <VaSidebarItem>
-          <VaSidebarItemContent>
-            <VaIcon name="home" />
-            <VaSidebarItemTitle>
-            <router-link to="/">Home</router-link>            
-            </VaSidebarItemTitle>
-          </VaSidebarItemContent>
+          <router-link to="/">
+            <VaSidebarItemContent>
+              <VaIcon name="home" size="large" />
+              <VaSidebarItemTitle>
+                Home
+              </VaSidebarItemTitle>
+            </VaSidebarItemContent>
+          </router-link>
         </VaSidebarItem>
         <VaSidebarItem>
-          <VaSidebarItemContent>
-            <VaIcon name="home" />
-            <VaSidebarItemTitle>
-            <router-link to="/data">Data</router-link>            
-            </VaSidebarItemTitle>
-          </VaSidebarItemContent>
+          <router-link to="/data">
+            <VaSidebarItemContent>
+              <VaIcon name="insert_chart" size="large" />
+              <VaSidebarItemTitle>
+                Data
+              </VaSidebarItemTitle>
+            </VaSidebarItemContent>
+          </router-link>
         </VaSidebarItem>
         <VaSidebarItem>
-          <VaSidebarItemContent>
-            <VaIcon name="home" />
-            <VaSidebarItemTitle>
-            <router-link to="/imprint">Imprint</router-link>            
-            </VaSidebarItemTitle>
-          </VaSidebarItemContent>
+          <router-link to="/imprint">
+            <VaSidebarItemContent>
+              <VaIcon name="info" size="large" />
+              <VaSidebarItemTitle>
+                Imprint
+              </VaSidebarItemTitle>
+            </VaSidebarItemContent>
+          </router-link>
         </VaSidebarItem>
         <VaSidebarItem>
-          <VaSidebarItemContent>
-            <VaIcon name="home" />
-            <VaSidebarItemTitle>
-            <router-link to="/gdpr">Gdpr</router-link>            
-            </VaSidebarItemTitle>
-          </VaSidebarItemContent>
+          <router-link to="/gdpr">
+            <VaSidebarItemContent>
+              <VaIcon name="privacy_tip" size="large" />
+              <VaSidebarItemTitle>
+                Gdpr
+              </VaSidebarItemTitle>
+            </VaSidebarItemContent>
+          </router-link>
         </VaSidebarItem>
       </VaSidebar>
     </template>
 
 
     <template #content>
-      <main class="p-4">
+      <main class="p-4" id="main">
 
         <router-view />
+
+        <VaBacktop @click="console.log('backtop clicked')" vertical-offset="5rem" horizontal-offset="2rem"
+          horizontal-position="right" vertical-position="bottom" visibility-height="1" speed="100">
+        </VaBacktop>
 
       </main>
 
@@ -162,6 +174,13 @@ const filterTag = (tag) => {
 
   </VaLayout>
 </template>
+
+<style>
+/* with fixed navbar we need some margin */
+.va-layout__area--top {
+  margin-bottom: 3rem;
+}
+</style>
 
 <style scoped>
 main {
@@ -182,4 +201,8 @@ main {
   width: 4rem;
 }
 
+.va-sidebar__title {
+  text-align: left;
+  margin-left: 1rem;
+}
 </style>

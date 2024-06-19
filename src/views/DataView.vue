@@ -1,14 +1,14 @@
 <template>
   
-          <HeaderCard name="header" @filter="filterTag" />
+          <HeaderCard name="header" @filter="filterTag" id="dh" />
   
-          <div v-for="(tile, index) in tiles" :key="index">
+          <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
             <component v-if="currentTags.includes(tile.tag)"
             :is="tile.component" :name="tile.name" class="tile">
           </component>
           </div>
   
-          <FooterCard name="footer"/>
+          <FooterCard name="footer" id="df"/>
   
   </template>
 
@@ -23,10 +23,11 @@ import { defineAsyncComponent } from 'vue'
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
 const FooterCard = defineAsyncComponent(() => import("@/components/footer/Card.vue"))
 
+// use anchor to give a unique reference to each tile
 const tiles = [
-  {"name":"DummyLine","tag":"A","component":defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue"))},
-  {"name":"DummyCustom","tag":"B","component":defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue"))},
-  {"name":"DummyMap","tag":"C","component":defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue"))}
+  {"name":"DummyLine","tag":"A","anchor":"a1","component":defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue"))},
+  {"name":"DummyCustom","tag":"B","anchor":"a2","component":defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue"))},
+  {"name":"DummyMap","tag":"C","anchor":"a3","component":defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue"))}
 ]
 
 const currentTags = ref(["A","B","C","D","E"])
