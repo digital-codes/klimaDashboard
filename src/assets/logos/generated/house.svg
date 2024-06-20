@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="31.768803mm"
+   height="28.055235mm"
+   viewBox="0 0 31.768803 28.055235"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   sodipodi:docname="house.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.2551429"
+     inkscape:cx="36.361332"
+     inkscape:cy="64.962624"
+     inkscape:window-width="1920"
+     inkscape:window-height="1141"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-96.308332,-143.13958)">
+    <polygon
+       fill="#000000"
+       fill-opacity="0.4"
+       points="376,291 373,294 372,294 369,297 368,297 366,299 365,299 362,302 361,302 358,305 357,305 354,308 353,308 350,311 349,311 346,314 345,314 342,317 341,317 339,319 338,319 336,321 343,321 344,322 344,381 378,381 379,380 379,364 380,363 388,363 388,325 387,326 387,327 385,329 384,329 383,330 382,330 381,331 379,331 378,332 376,332 375,333 372,333 370,331 370,329 371,328 372,328 374,326 375,326 377,324 378,324 379,323 380,323 381,322 386,322 387,323 388,322 388,321 389,320 387,318 387,317 386,316 386,304 388,302 390,302 392,304 392,307 393,308 393,311 394,312 394,317 392,319 392,321 393,322 393,323 394,323 395,322 400,322 401,323 404,323 405,324 407,324 408,325 409,325 411,327 411,328 409,330 398,330 397,329 396,329 393,326 393,325 392,326 391,326 392,327 392,363 397,363 398,362 399,362 401,364 401,381 436,381 436,322 437,321 444,321 443,320 442,320 439,317 438,317 435,314 434,314 431,311 430,311 427,308 426,308 423,305 422,305 418,301 418,283 411,283 411,294 410,295 409,295 407,293 406,293 404,291 403,291 400,288 399,288 396,285 395,285 392,282 391,282 390,281 389,282 388,282 385,285 384,285 381,288 380,288 377,291 "
+       stroke="#000000"
+       stroke-width="5"
+       id="polygon21"
+       transform="matrix(0.26458333,0,0,0.26458333,9.0052343,69.727109)" />
+    <polygon
+       fill="#000000"
+       fill-opacity="0.4"
+       points="393,350 394,349 395,349 396,348 414,348 415,349 415,354 414,355 395,355 393,353 "
+       stroke="#000000"
+       stroke-width="5"
+       id="polygon22"
+       transform="matrix(0.26458333,0,0,0.26458333,9.0052343,69.727109)" />
+    <polygon
+       fill="#000000"
+       fill-opacity="0.4"
+       points="395,345 394,344 394,343 404,333 405,333 413,341 413,342 414,342 415,343 415,344 414,345 "
+       stroke="#000000"
+       stroke-width="5"
+       id="polygon23"
+       transform="matrix(0.26458333,0,0,0.26458333,9.0052343,69.727109)" />
+  </g>
+</svg>
