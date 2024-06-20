@@ -105,14 +105,19 @@ const scoll2top = () => {
     <template #top>
       <VaNavbar color="primary" class="py-2" fixed>
         <template #left>
-          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()" size="large" />
+          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()" size="large" 
+            title="Open sidebar menu" 
+            role="switch"
+            :aria-checked="showSidebar? 'true' : 'false'"
+        />
         </template>
         <template #center>
-          <VaNavbarItem>
+          <VaNavbarItem role="link" aria-label="Click for Home">
             <VaImage :src="logo" 
             title="Dashboard Logo. Click for 'Home'" 
             fit="fit" class="logoimg" 
-            @click="router.push({ name: 'Home' })"></VaImage>
+            @click="router.push({ name: 'Home' })"
+            ></VaImage>
           </VaNavbarItem>
         </template>
         <template #right>
@@ -129,14 +134,18 @@ const scoll2top = () => {
             </VaSelect>
           </div>
           <VaButton round :icon="modeSwitch == 'dark' ? 'dark_mode' : 'light_mode'"
-            @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" />
+            @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" 
+            title="Switch to dark mode" 
+            role="switch"
+            :aria-checked="modeSwitch == 'dark' ? 'true' : 'false'"
+          />
         </template>
       </VaNavbar>
     </template>
 
     <template #left>
       <VaSidebar v-model="showSidebar">
-        <VaSidebarItem @click="goto('/')">
+        <VaSidebarItem @click="goto('/')" tabindex="0" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="home" size="large" />
               <VaSidebarItemTitle>
@@ -144,7 +153,7 @@ const scoll2top = () => {
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/dash')">
+        <VaSidebarItem @click="goto('/dash')" tabindex="1" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
               <VaSidebarItemTitle>
@@ -152,7 +161,7 @@ const scoll2top = () => {
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/imprint')">
+        <VaSidebarItem @click="goto('/imprint')" tabindex="2" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="info" size="large" />
               <VaSidebarItemTitle>
@@ -160,7 +169,7 @@ const scoll2top = () => {
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/gdpr')">
+        <VaSidebarItem @click="goto('/gdpr')" tabindex="3" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="privacy_tip" size="large" />
               <VaSidebarItemTitle>
