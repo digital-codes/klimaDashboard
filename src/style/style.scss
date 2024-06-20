@@ -120,13 +120,19 @@ button:focus-visible {
 
 }
 
-
 #app {
-  width: 1280px;
+  width: 1400px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
   min-height:100vh;
+}
+
+@media screen and (max-width: 1024px) {
+  #app {
+    width: 100%;
+    padding: 1rem;
+  }
 }
 
 .va-input-wrapper__append-inner .va-select__toggle-icon {
