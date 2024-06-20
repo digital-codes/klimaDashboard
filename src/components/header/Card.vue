@@ -160,6 +160,9 @@ onBeforeMount(() => {
 
 .filter {
   margin-right: 1rem;
+  margin-bottom: .3rem;
 }
+
+
 
 </style>
