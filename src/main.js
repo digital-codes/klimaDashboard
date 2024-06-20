@@ -15,7 +15,10 @@ import "@fontsource/roboto/latin.css"; // Defaults to weight 400
 
 // https://www.npmjs.com/package/material-icons
 // https://marella.me/material-icons/demo/
-import 'material-icons/iconfont/material-icons.css';
+//import 'material-icons/iconfont/material-icons.css';
+// import only used icons styles. NB: two-tone doesn't work with dark mode (by default)
+import 'material-icons/iconfont/filled.css';
+import 'material-icons/iconfont/outlined.css';
 
 
 import { createVuestic } from "vuestic-ui";

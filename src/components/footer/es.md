@@ -2,7 +2,7 @@
 
 ### Source Code
 
-<img class="footerimg" src="/icons/github-mark.svg" als="github" />
+<img class="footerimg" src="/icons/github-mark.png" alt="github" />
 
 [Github](https://github.com/digital-codes/klimaDashboard)
 

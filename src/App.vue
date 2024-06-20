@@ -85,7 +85,7 @@ onMounted(() => {
 // custom scroll stuff due to VaBacktoTop not working
 const bttVisible = ref(true)
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll, {passive: true});
 });
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
@@ -153,7 +153,7 @@ const scoll2top = () => {
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/dash')" tabindex="1" role="link">
+        <VaSidebarItem @click="goto('/dash')" tabindex="0" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
               <VaSidebarItemTitle>
@@ -161,7 +161,7 @@ const scoll2top = () => {
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/imprint')" tabindex="2" role="link">
+        <VaSidebarItem @click="goto('/imprint')" tabindex="0" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="info" size="large" />
               <VaSidebarItemTitle>
@@ -169,7 +169,7 @@ const scoll2top = () => {
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/gdpr')" tabindex="3" role="link">
+        <VaSidebarItem @click="goto('/gdpr')" tabindex="0" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="privacy_tip" size="large" />
               <VaSidebarItemTitle>
@@ -192,7 +192,7 @@ const scoll2top = () => {
         <VaButton v-if="bttVisible" 
         class="btt-button" 
         @click="scoll2top" 
-        aria-controls="back to top">
+        aria-controls="back to top" aria-label="Go to top">
           <VaIcon name="keyboard_arrow_up" size="medium"/>
         </VaButton>
 
