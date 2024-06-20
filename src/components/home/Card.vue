@@ -3,6 +3,7 @@
     :src="logo"
     alt="Dashboard Logo"
     class="hero-image"
+    fit="cover"
     >
   </VaImage>
 
@@ -60,6 +61,7 @@ onBeforeMount(() => {
 .hero-image {
   width: 60%;
   height: auto;
+  max-height: 10rem;
   margin-left:20%;
   margin-bottom: 1rem;
   box-shadow: 0 0 5px 5px light-dark(#444,#ccc);
