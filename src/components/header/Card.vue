@@ -1,7 +1,7 @@
 <template>
   <VaCard class="headerCard">
     <div>
-      <VaAvatar title="Klima Dashboard" :src="climate" :size="breakpoint.smUp ? 'medium' : 'small'" />
+      <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? climate_d : climate_l" :size="breakpoint.smUp ? 'medium' : 'small'" />
       <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : 'xy'">{{ $t($props.name + ".title") }}</h1>
     </div>
     <!-- 
@@ -33,13 +33,32 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 
-import climate from "/icons/climate.svg";
+import climate_l from "@/assets/icons/generated/climate_black_on_transparent.svg"
+import climate_d from "@/assets/icons/generated/climate_white_on_black.svg"
 
 import { useBreakpoint } from "vuestic-ui";
 
 const breakpoint = useBreakpoint();
+
+// mode switch 
+import { useColors } from "vuestic-ui"
+const { currentPresetName } = useColors()
+
+watch (() => currentPresetName, (newVal, oldVal) => {
+  console.log("Mode switch:", newVal)
+})
+
+const modeSwitch = "dark"
+
+/*
+const modeSwitch = computed({
+  get() {
+    return currentPresetName
+  }
+})
+*/
 
 const filters = ref([
   {
