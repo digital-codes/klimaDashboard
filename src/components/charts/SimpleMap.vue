@@ -67,7 +67,7 @@ import geojsonData2 from "@/assets/data/ka_geschwindigkeiten_short.json";
 import geojsonData3 from "@/assets/data/ka_escooter_short.json";
 import geojsonData4 from "@/assets/data/ka_districts_short.json";
 
-const geojsonData = ref(geojsonData4);
+const geojsonData = ref(geojsonData1);
 
 const theMap = ref(null);
 
