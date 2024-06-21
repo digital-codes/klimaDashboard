@@ -98,6 +98,7 @@ onMounted(() => {
     ) {
       console.log("Transforming from", crsName);
       const features = geojsonData.value.features;
+      
       for (const f of features) {
         console.log("Feature", f);
         const geom = f.geometry;
