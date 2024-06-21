@@ -1,0 +1,223 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_5a24",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        458854.201726,
+                        5429885.052601
+                    ],
+                    [
+                        458913.143022,
+                        5429849.87976
+                    ],
+                    [
+                        458954.63611,
+                        5429817.796291
+                    ],
+                    [
+                        459010.138888,
+                        5429779.324122
+                    ],
+                    [
+                        459067.678389,
+                        5429741.301861
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Ada-Lovelace-Straße",
+                "geschwindigkeit": "50"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_5a25",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        457240.613685,
+                        5429877.644109
+                    ],
+                    [
+                        457247.177377,
+                        5429869.145839
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Adenauerring",
+                "geschwindigkeit": "60"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_5a26",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        457319.740807,
+                        5429768.076411
+                    ],
+                    [
+                        457328.258764,
+                        5429753.559366
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Adenauerring",
+                "geschwindigkeit": "60"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_5a27",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        457248.051437,
+                        5429882.423136
+                    ],
+                    [
+                        457254.376,
+                        5429874.944658
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Adenauerring",
+                "geschwindigkeit": "60"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_5a28",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        456571.133587,
+                        5430301.747784
+                    ],
+                    [
+                        456596.06902,
+                        5430296.648822
+                    ],
+                    [
+                        456651.769698,
+                        5430283.081583
+                    ],
+                    [
+                        456704.559594,
+                        5430267.034849
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Adenauerring",
+                "geschwindigkeit": "60"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_5a29",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        457271.527356,
+                        5429837.192343
+                    ],
+                    [
+                        457282.436608,
+                        5429823.585112
+                    ],
+                    [
+                        457293.123222,
+                        5429809.168047
+                    ],
+                    [
+                        457310.761083,
+                        5429783.553261
+                    ],
+                    [
+                        457319.740807,
+                        5429768.076411
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Adenauerring",
+                "geschwindigkeit": "60"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_5a2a",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        457247.177377,
+                        5429869.145839
+                    ],
+                    [
+                        457271.527356,
+                        5429837.192343
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Adenauerring",
+                "geschwindigkeit": "60"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_geschwindigkeiten.fid--7f709bd9_190396c2674_6799",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        460942.346353,
+                        5423466.319115
+                    ],
+                    [
+                        460946.32085,
+                        5423491.653959
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "strassenname": "Zum Wald",
+                "geschwindigkeit": "30"
+            }
+        }
+    ],
+    "totalFeatures": 3446,
+    "numberMatched": 3446,
+    "numberReturned": 3446,
+    "timeStamp": "2024-06-21T11:08:35.715Z",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::25832"
+        }
+    }
+}

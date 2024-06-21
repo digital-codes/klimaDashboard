@@ -1,0 +1,99 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "ka_escooter.fid--7f709bd9_190396c2674_6e66",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1056352.74973,
+                    5474760.904031
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "id": 0,
+                "bike_id": "f2e54f46-8cd6-4562-9b16-61760013e684",
+                "anbieter": "Bolt",
+                "fahrzeug_typ": "scooter",
+                "soc": 51,
+                "reichweite": 25.5,
+                "stand": "2024-06-21T11:11:00Z"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_escooter.fid--7f709bd9_190396c2674_6e67",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    457123.270742,
+                    5428574.430719
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "id": 1,
+                "bike_id": "d3413dc4-6286-4cc3-87e9-de9629e38039",
+                "anbieter": "Bolt",
+                "fahrzeug_typ": "scooter",
+                "soc": 81,
+                "reichweite": 40.5,
+                "stand": "2024-06-21T11:11:00Z"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_escooter.fid--7f709bd9_190396c2674_6e68",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    456010.595927,
+                    5426612.068244
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "id": 2,
+                "bike_id": "e2a0ec6e-e528-4d0d-84b8-366a92ab456d",
+                "anbieter": "Bolt",
+                "fahrzeug_typ": "scooter",
+                "soc": 7,
+                "reichweite": 3.5,
+                "stand": "2024-06-21T11:11:00Z"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "ka_escooter.fid--7f709bd9_190396c2674_7682",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    457306.677157,
+                    5428848.462305
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "id": 2076,
+                "bike_id": "b22eb7c7-bddb-46e7-ba4a-f1e26f7b0e40",
+                "anbieter": "Voi",
+                "fahrzeug_typ": null,
+                "soc": null,
+                "reichweite": null,
+                "stand": "2024-06-21T11:11:00Z"
+            }
+        }
+    ],
+    "totalFeatures": 2077,
+    "numberMatched": 2077,
+    "numberReturned": 2077,
+    "timeStamp": "2024-06-21T11:19:32.569Z",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::25832"
+        }
+    }
+}
