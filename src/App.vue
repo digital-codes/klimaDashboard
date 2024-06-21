@@ -34,6 +34,7 @@ const modeSwitch = computed({
     } else {
       document.body.style["color-scheme"] = "light"
     }
+    configStore.setTheme(value);
   }
 })
 

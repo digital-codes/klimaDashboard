@@ -33,24 +33,25 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount, computed } from "vue";
+import { ref, onBeforeMount, computed, watch } from "vue";
 
 import climate_l from "@/assets/icons/generated/climate_black_on_transparent.svg"
-import climate_d from "@/assets/icons/generated/climate_white_on_black.svg"
+import climate_d from "@/assets/icons/generated/climate_white_on_transparent.svg"
 
 import { useBreakpoint } from "vuestic-ui";
 
 const breakpoint = useBreakpoint();
 
 // mode switch 
-import { useColors } from "vuestic-ui"
-const { currentPresetName } = useColors()
+import { useConfigStore } from '@/services/configStore';
+const configStore = useConfigStore();
+const modeSwitch = ref("light")
 
-watch (() => currentPresetName, (newVal, oldVal) => {
-  console.log("Mode switch:", newVal)
+watch (() => configStore.getTheme, (newVal, oldVal) => {
+  console.log("Mode switch1:", newVal)
+  modeSwitch.value = configStore.getTheme
 })
 
-const modeSwitch = "dark"
 
 /*
 const modeSwitch = computed({

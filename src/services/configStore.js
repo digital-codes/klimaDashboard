@@ -5,10 +5,14 @@ export const useConfigStore = defineStore({
     state: () => ({
         locale: 'de', // default locale
         // add other config values here
+        theme: "light",
         messages: {}
 
     }),
     getters: {
+        getTheme() {
+            return this.theme;
+        },
         getCurrentLocale() {
             return this.locale;
         },
@@ -18,6 +22,9 @@ export const useConfigStore = defineStore({
         }
     },
     actions: {
+        setTheme(theme) {
+            this.theme = theme;
+        },
         setCurrentLocale(locale) {
             this.locale = locale;
         },

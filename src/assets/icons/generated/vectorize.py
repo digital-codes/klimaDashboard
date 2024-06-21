@@ -56,7 +56,7 @@ def export_svg(contours, svg_path, width, height, background_color='#fff', line_
     for contour in contours:
         points = [(int(point[0][0]), int(point[0][1])) for point in contour]
         if len(points) > 2:  # Ensure there are enough points to form a polygon
-            poly = dwg.polygon(points, fill=line_color, fill_opacity = .4, stroke=line_color, stroke_width=5)
+            poly = dwg.polygon(points, fill=line_color, fill_opacity = .2, stroke=line_color, stroke_width=10)
             dwg.add(poly)
                 
     dwg.save()
