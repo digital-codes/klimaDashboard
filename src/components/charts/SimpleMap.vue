@@ -65,8 +65,9 @@ const geojsonData1 = {
 
 import geojsonData2 from "@/assets/data/ka_geschwindigkeiten_short.json";
 import geojsonData3 from "@/assets/data/ka_escooter_short.json";
+import geojsonData4 from "@/assets/data/ka_districts_short.json";
 
-const geojsonData = ref(geojsonData3);
+const geojsonData = ref(geojsonData4);
 
 const theMap = ref(null);
 
@@ -110,6 +111,15 @@ onMounted(() => {
           for (let i = 0; i < coords.length; i++) {
             const transformed = proj4(EPSG25832, EPSG4326, coords[i]);
             coords[i] = transformed;
+          }
+        }
+        if (geom.type.toLowerCase() == "polygon") {
+          const coords = geom.coordinates;
+          for (let j = 0; j < coords.length; j++) {
+            for (let i = 0; i < coords[j].length; i++) {
+              const transformed = proj4(EPSG25832, EPSG4326, coords[j][i]);
+              coords[j][i] = transformed;
+            }
           }
         }
       }
