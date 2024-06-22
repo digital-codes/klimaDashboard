@@ -63,27 +63,47 @@ const geojsonData1 = {
   ],
 };
 
-import geojsonData2 from "@/assets/data/ka_geschwindigkeiten_short.json";
-import geojsonData3 from "@/assets/data/ka_escooter_short.json";
-import geojsonData4 from "@/assets/data/ka_districts_short.json";
+import geojsonData2 from "@/assets/data/ka_geschwindigkeiten.json";
+import geojsonData3 from "@/assets/data/ka_escooter.json";
+import geojsonData4 from "@/assets/data/ka_stadtteile.json";
 
-const geojsonData = ref(geojsonData1);
+const geojsonData = ref(geojsonData3);
 
 const theMap = ref(null);
+
+const tileSource = [
+  {
+    "name": "osm",
+    "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "attr": "© OpenStreetMap contributors"
+  },
+  {
+    "name": "stadiaOsm",
+    "url": "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}@2x.png",
+    "attr": '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+  }
+]
+
+const tileIdx = 1 // which tiles to use
 
 onMounted(() => {
   const map = L.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
 
   L.tileLayer(
-    //'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    "https://tiles-eu.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png",
-
+    tileSource[tileIdx].url,
     {
       maxZoom: 19,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+      attribution: tileSource[tileIdx].attr,
     }
   ).addTo(map);
+
+  // limit number of features
+  const features = geojsonData.value.features;
+  const maxFeatures = 1000;
+  if (features.length > maxFeatures) {
+    geojsonData.value.features = features.slice(0, maxFeatures);
+    alert(`Only first ${maxFeatures} features are loaded.`);
+  }
 
   // check crs: if not WGS84, transform to WGS84
   const crs = geojsonData.value.crs;
@@ -98,7 +118,7 @@ onMounted(() => {
     ) {
       console.log("Transforming from", crsName);
       const features = geojsonData.value.features;
-      
+
       for (const f of features) {
         console.log("Feature", f);
         const geom = f.geometry;
@@ -144,6 +164,7 @@ onMounted(() => {
   position: relative;
   display: flex;
 }
+
 .map {
   height: 100%;
   width: 100%;
