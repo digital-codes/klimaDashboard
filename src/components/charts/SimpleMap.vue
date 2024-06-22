@@ -5,9 +5,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+
+//const Lref = ref(L);
+const mapInstance = ref(null);
+const theMap = ref(null);
+const Lref = ref(null);
+const tileLayer = ref(null);
+const geoLayer = ref(null);
 
 // coordinate conversion
 import proj4 from "proj4";
@@ -20,15 +27,6 @@ const EPSG4326 = "+proj=longlat +datum=WGS84 +no_defs";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
-// Fix Leaflet's default icon paths
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-});
 
 const geojsonData1 = {
   type: "FeatureCollection",
@@ -69,7 +67,6 @@ import geojsonData4 from "@/assets/data/ka_stadtteile.json";
 
 const geojsonData = ref(geojsonData3);
 
-const theMap = ref(null);
 
 const tileSource = [
   {
@@ -87,22 +84,36 @@ const tileSource = [
 const tileIdx = 1 // which tiles to use
 
 onMounted(() => {
-  const map = L.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
+  console.log("Map mounted")
+  if (!mapInstance.value) {
+    Lref.value = L;
+    // Fix Leaflet's default icon paths
+    delete Lref.value.Icon.Default.prototype._getIconUrl;
 
-  L.tileLayer(
+    Lref.value.Icon.Default.mergeOptions({
+      iconRetinaUrl: markerIcon2x,
+      iconUrl: markerIcon,
+      shadowUrl: markerShadow,
+    });
+
+    mapInstance.value = Lref.value.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
+  }
+
+  tileLayer.value = Lref.value.tileLayer(
     tileSource[tileIdx].url,
     {
       maxZoom: 19,
       attribution: tileSource[tileIdx].attr,
     }
-  ).addTo(map);
+  )
+  tileLayer.value.addTo(mapInstance.value);
 
   // limit number of features
   const features = geojsonData.value.features;
   const maxFeatures = 1000;
   if (features.length > maxFeatures) {
     geojsonData.value.features = features.slice(0, maxFeatures);
-    alert(`Only first ${maxFeatures} features are loaded.`);
+    console.log(`Only first ${maxFeatures} features are loaded.`)
   }
 
   // check crs: if not WGS84, transform to WGS84
@@ -117,10 +128,12 @@ onMounted(() => {
       crsName.includes("25832")
     ) {
       console.log("Transforming from", crsName);
+      // make sure to update crs else will be transformed again on reload
+      crs.properties.name = "WGS84"
       const features = geojsonData.value.features;
 
       for (const f of features) {
-        console.log("Feature", f);
+        //console.log("Feature", f);
         const geom = f.geometry;
         if (geom.type.toLowerCase() == "point") {
           const coords = geom.coordinates;
@@ -147,14 +160,27 @@ onMounted(() => {
     }
   }
 
-  L.geoJSON(geojsonData.value, {
+  geoLayer.value = Lref.value.geoJSON(geojsonData.value, {
     onEachFeature: (feature, layer) => {
       if (feature.properties && feature.properties.name) {
         layer.bindPopup(feature.properties.name);
       }
     },
-  }).addTo(map);
+  })
+  geoLayer.value.addTo(mapInstance.value);
 });
+
+onUnmounted(async () => {
+  console.log("Map unmounted");
+  await geoLayer.value.clearLayers();
+  await geoLayer.value.removeFrom(mapInstance.value)
+  await tileLayer.value.removeFrom(mapInstance.value)
+  // await mapInstance.value.remove();
+  mapInstance.value = null;
+});
+
+
+
 </script>
 
 <style scoped>
