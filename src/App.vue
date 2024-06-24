@@ -80,6 +80,16 @@ onMounted(() => {
   langSel.value = lang
   console.log(locale.value)
   console.log(langSel.value)
+  // try to get color prefs on mount. else we might get mix of dark and light
+  // until first switch toggle
+  try {
+    const colorPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    console.log("Initially:", colorPref === "dark" ? "dark" : "light")
+    modeSwitch.value = colorPref
+    configStore.setTheme(colorPref);
+  } catch (e) {
+    console.log("color prefs not avsailable")
+  }
 
 });
 
