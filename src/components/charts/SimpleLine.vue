@@ -23,12 +23,10 @@ const { currentPresetName } = useColors();
 
 watch(currentPresetName, (newValue, oldValue) => {
   if (newValue == "dark") {
-    chartTheme.value = "dark"
     for (let i = 0; i < chartOptions.value.series.length; i++) {
       chartOptions.value.series[i].label.color = "white"
     }
   } else {
-    chartTheme.value = ""
     for (let i = 0; i < chartOptions.value.series.length; i++) {
       chartOptions.value.series[i].label.color = "black"
     }
@@ -45,7 +43,7 @@ const props = defineProps({
 });
 
 const theChart = ref(null);
-const chartTheme = ref("")
+const chartTheme = ref(currentPresetName) // already reactive. don't watch for theme
 
 const chartOptions = ref({});
 
@@ -62,6 +60,8 @@ onMounted(async () => {
     LegendComponent,
     GridComponent
   ]);
+
+  //chartTheme.value = currentPresetName
 
   try {
     console.log("Fetching: ", props.chartDataUri);
@@ -163,13 +163,6 @@ onMounted(async () => {
         "enabled": true,
         "description": "Line chart example",
         show: true,
-        decal: {
-          show: true,
-          decals: {
-            size: .5,
-            symbol: ['circle', 'rect'],
-          }
-        },
       },
       // backgroundColor: "#333",
       xAxis: {
@@ -206,6 +199,21 @@ onMounted(async () => {
             color: 'black',
             fontSize: 12,
           },
+          // itemstyle for bar chart
+          itemStyle:
+          {
+            decal:
+            {
+              /*
+              symbol: 'circle',
+              symbolSize:1,
+              */
+              dashArrayX:5,
+              dashArrayY:1,
+              rotation: -45,
+              color:"#000",
+            }
+          }
         },
         {
           type: "line",
@@ -219,6 +227,19 @@ onMounted(async () => {
             color: 'black',
             fontSize: 12,
           },
+          // itemstyle for bar chart
+          itemStyle:
+          {
+            decal:
+            {
+              dashArrayX:5,
+              dashArrayY:1,
+              rotation: 45,
+              //symbol: 'diamond',
+              //symbolSize:1,
+              color:"#000",
+            }
+          }
         },
       ],
     };
