@@ -24,7 +24,8 @@ const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.v
 const tiles = [
   { "name": "DummyLine", "tag": "A", "anchor": "a1", "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
   { "name": "DummyCustom", "tag": "B", "anchor": "a2", "component": defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue")) },
-  { "name": "DummyMap", "tag": "C", "anchor": "a3", "component": defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue")) }
+  { "name": "DummyGraphics", "tag": "B", "anchor": "a3", "component": defineAsyncComponent(() => import("@/components/tiles/dummyGraphics/Card.vue")) },
+  { "name": "DummyMap", "tag": "C", "anchor": "a4", "component": defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue")) }
 ]
 
 const currentTags = ref(["A", "B", "C", "D", "E"])
