@@ -15,7 +15,7 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SizeAnimation></SizeAnimation>
+      <SimpleGraphics></SimpleGraphics>
     </div>
 
     <div class="chartfooter">
@@ -63,7 +63,7 @@ const dataLicense = ref(null)
 
 
 // chart
-import SizeAnimation from "@/components/charts/SizeAnimation2.vue";
+import SimpleGraphics from "@/components/charts/SimpleGraphics.vue";
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
