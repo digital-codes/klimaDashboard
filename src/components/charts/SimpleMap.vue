@@ -110,7 +110,7 @@ onMounted(() => {
 
   // limit number of features
   const features = geojsonData.value.features;
-  const maxFeatures = 1000;
+  const maxFeatures = 100;
   if (features.length > maxFeatures) {
     geojsonData.value.features = features.slice(0, maxFeatures);
     console.log(`Only first ${maxFeatures} features are loaded.`)
