@@ -22,10 +22,12 @@ import bus2 from "@/assets/logos/generated/fossils_white_on_transparent.svg?url"
 const sliderValue = ref(50);
 
 const updateCategoryValues = () => {
-    const scale = parseInt(sliderValue.value / 3)
+    const scale = sliderValue.value / 20
     /* */
-    chartOptions.value.series[0].data[0].symbolSize = 31 - scale
-    chartOptions.value.series[1].data[1].symbolSize = 1 + scale
+    chartOptions.value.graphic.elements[0].children[0].scaleX = 1 + scale
+    chartOptions.value.graphic.elements[0].children[0].scaleY = 1 + scale
+    chartOptions.value.graphic.elements[1].children[0].scaleX = 6 - scale
+    chartOptions.value.graphic.elements[1].children[0].scaleY = 6 - scale
     /* */
     /*
     chartOptions.value.graphic.elements[0].children[0].style.width = 20 * (1 + scale)
@@ -48,9 +50,9 @@ import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 // normally, only a single chart type is needed
 // unless toolbox allows to switch types (like here ...)
-import { PictorialBarChart } from "echarts/charts";
 import {
     TitleComponent,
+    GraphicComponent,
     TooltipComponent,
     LegendComponent,
     GridComponent
@@ -65,11 +67,11 @@ const { currentPresetName } = useColors();
 
 watch(currentPresetName, (newValue, oldValue) => {
     if (newValue == "dark") {
-        chartOptions.value.series[0].data[0].symbol = "image://" + pkw2
-        chartOptions.value.series[1].data[1].symbol = "image://" + bus2
+        chartOptions.value.graphic.elements[0].children[0].style.image = pkw2
+        chartOptions.value.graphic.elements[1].children[0].style.image = bus2
     } else {
-        chartOptions.value.series[0].data[0].symbol = "image://" + pkw
-        chartOptions.value.series[1].data[1].symbol = "image://" + bus
+        chartOptions.value.graphic.elements[0].children[0].style.image = pkw
+        chartOptions.value.graphic.elements[1].children[0].style.image = bus
     }
 });
 
@@ -88,80 +90,6 @@ const chartTheme = ref(currentPresetName) // already reactive. don't watch for t
 // const chartOptions = ref({});
 
 const dataLoaded = ref(false);
-
-const chartOptions = ref({
-    color: ['#bb0004', '#FFD48A'],
-    legend: {
-        data: ['S1', 'S2'],
-        left: "center",
-        top: 40,
-    },
-    title: {
-        show: true,
-        text: "title",
-        left: "center",
-        top: 10,
-    },
-    xAxis: {
-        type: "category",
-        data: ["A", "B"],
-        axisTick: {
-            show: false
-        },
-        axisLabel: {
-            interval: 0
-        }
-    },
-    yAxis: {
-        max: 11,
-        show: false
-    },
-    series: [
-        {
-            type: 'pictorialBar',
-            name: 'S1',
-            symbol: "image://" + pkw,
-            z: 10,
-            data: [
-                {
-                    value: 50,
-                    symbolPosition: 'center',
-                    symbolSize: 10,
-                    symbol: "image://" + pkw,
-                },
-                {
-                    value: 0,
-                    symbolPosition: 'center',
-                    symbolSize: 0,
-                    symbol: "image://" + bus,
-                },
-            ]
-        },
-        {
-            type: 'pictorialBar',
-            name: 'S2',
-            symbol: "image://" + bus,
-            z: 10,
-            data: [
-                {
-                    value: 0,
-                    symbolPosition: 'center',
-                    symbolSize: 0,
-                    symbol: "image://" + pkw,
-                },
-                {
-                    value: 50,
-                    symbolPosition: 'center',
-                    symbolSize: 10,
-                    symbol: "image://" + bus,
-                },
-            ]
-        },
-    ]
-}
-)
-
-/*
 
 const chartOptions = ref({
     graphic: {
@@ -185,6 +113,20 @@ const chartOptions = ref({
                             height: 20,
                         },
                     },
+                    // text not at fixed position
+                    /*
+                    {
+                        type: 'text',
+                        left: 'center',
+                        top: "top",
+                        z: 100,
+                        style: {
+                            fill: '#fff',
+                            text: 'Left',
+                            font: 'bold 26px sans-serif'
+                        }
+                    }
+                    */
                 ]
             },
             {
@@ -235,11 +177,10 @@ const chartOptions = ref({
     }
 }
 )
-*/
 
 use([
     CanvasRenderer,
-    PictorialBarChart,
+    GraphicComponent,
     TitleComponent,
     TooltipComponent,
     LegendComponent,
@@ -259,11 +200,11 @@ onMounted(async () => {
         updateCategoryValues()
         console.log("config theme:", configStore.getTheme)
         if (configStore.getTheme == "dark") {
-            chartOptions.value.series[0].data[0].symbol = "image://" + pkw2
-            chartOptions.value.series[1].data[1].symbol = "image://" + bus2
+            chartOptions.value.graphic.elements[0].children[0].style.image = pkw2
+            chartOptions.value.graphic.elements[1].children[0].style.image = bus2
         } else {
-            chartOptions.value.series[0].data[0].symbol = "image://" + pkw
-            chartOptions.value.series[1].data[1].symbol = "image://" + bus
+            chartOptions.value.graphic.elements[0].children[0].style.image = pkw
+            chartOptions.value.graphic.elements[1].children[0].style.image = bus
         }
     } catch (error) {
         console.error("Failed to load chart data:", error);
