@@ -30,12 +30,14 @@
               />
             </template>
          </VaSlider>
-          <VaSwitch v-if="controls.dataswitch" 
+
+         <VaSwitch v-if="controls.dataswitch" 
           v-model="dataCtl" 
           :label="cardMessages[locale].dstitle"  
           :false-inner-label='cardMessages[locale].dsleft'
           :true-inner-label='cardMessages[locale].dsright'
           class="flex lg2 control switch"/>
+
           <VaSwitch v-if="controls.animate" 
            v-model="aniCtl" 
           :label="cardMessages[locale].animation" 
@@ -102,7 +104,6 @@ import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataLicense = ref(null)
 
-
 // controls
 const controls = ref({
   range: false,
@@ -113,6 +114,9 @@ const rangeCtl = ref(0)
 const dataCtl = ref(0)
 const aniCtl = ref(0)
 
+watch(dataCtl, (index) => {
+  console.log("DataCtl:", index)
+})
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
@@ -123,9 +127,9 @@ onBeforeMount(() => {
     messages.value[key][props.name] = cardMessages[key];
     // create new data uris here: use as is if strating with http else prepend base path
     if (dataUrl.value && dataUrl.value.toLowerCase().startsWith("http")) {
-      dataUrl.value = cardMessages.specs.data[0].url
+      dataUrl.value = cardMessages.specs.data[dataCtl.value].url
     } else {
-      dataUrl.value = basePath + cardMessages.specs.data[0].url
+      dataUrl.value = basePath + cardMessages.specs.data[dataCtl.value].url
     }
     dataLicense.value = cardMessages.specs.data[0].license
   }

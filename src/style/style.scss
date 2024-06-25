@@ -25,9 +25,38 @@ grays:
 0-0-80 => 204 ..
 0-0-90 => 229 ...
 
+ka-grün: rgb #048500
+
 
 */
 
+@use 'sass:color';
+
+$base-blue: rgb(41,68,205);
+$base-orange: rgb(205,122,41);
+$base-yellow: rgb(228,193,23);
+$base-green: #048500;
+$base-gray: rgb(128,128,128);
+$black: rgb(0,0,0);
+$white: rgb(255,255,255);
+
+
+$dark-blue: color.adjust($base-blue,$lightness:-10%);
+$light-blue: color.adjust($base-blue,$lightness:+10%);
+
+$dark-yellow: color.adjust($base-yellow,$lightness:-10%);
+$light-orange: color.adjust($base-yellow,$lightness:+10%);
+
+$dark-yellow: color.adjust($base-yellow,$lightness:-10%);
+$light-yellow: color.adjust($base-yellow,$lightness:+10%);
+
+$dark-white: color.adjust($white,$lightness:-5%);
+$light-light-gray: color.adjust($white,$lightness:-10%);
+$light-gray: color.adjust($white,$lightness:-15%);
+
+$light-black: color.adjust($black,$lightness:+5%);
+$dark-dark-gray: color.adjust($black,$lightness:+10%);
+$dark-gray: color.adjust($black,$lightness:+15%);
 
 
 :root {
@@ -41,8 +70,8 @@ grays:
 
   color-scheme: light dark;
 
-  --md-light-bg: #ddd;
-  --md-light-color: #333;
+  --md-light-bg: $base-orange; // #ddd;
+  --md-light-color: $dark-gray; //#333;
 
   --md-dark-bg: #333;
   --md-dark-color: #ddd;
@@ -133,13 +162,20 @@ button:focus-visible {
 
 .card {
   padding: 2em;
+  /*
   background-color: light-dark(var(--card-light-bg), var(--card-dark-bg));
   color: light-dark(var(--card-light-color), var(--card-dark-color));
+  */
+  background-color: light-dark($dark-white,$light-black);
+  color: light-dark($dark-dark-gray, $light-light-gray);
+  border-color: light-dark($dark-gray,$light-gray);   // #535bf2;
 
   /* Add your card styles here */
-  border: 2px solid light-dark(var(--card-light-border), var(--card-dark-border));
+  //border: 2px solid light-dark(var(--card-light-border), var(--card-dark-border));
+  border: 2px solid;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: light-dark($black,$white);   // #535bf2;
 
 }
 
@@ -216,8 +252,14 @@ button:focus-visible {
 */
 
 .tile {
+  /*
   background-color: light-dark(var(--tile-light-bg), var(--tile-dark-bg));
   color: light-dark(var(--tile-light-color), var(--tile-dark-color));
+  */
+  background-color: light-dark($dark-white,$light-black);
+  color: light-dark($dark-dark-gray, $light-light-gray);
+  //border-color: light-dark($dark-gray,$light-gray);   // #535bf2;
+
   margin-top:1rem;
 }
 
@@ -270,11 +312,15 @@ button:focus-visible {
 
 
 .mdcontent {
+  /*
   background-color: light-dark(var(--md-light-bg), var(--md-dark-bg));
   color: light-dark(var(--md-light-color), var(--md-dark-color));
+  */
+  background-color: light-dark($dark-white,$light-black);
+  color: light-dark($dark-dark-gray, $light-light-gray);
+  border-color: light-dark($dark-gray,$light-gray);   // #535bf2;
 
   border-radius: 8px;
-  border-color: #535bf2;
   border-style: solid;
   border-width: 3px;
   padding: 0.5rem;

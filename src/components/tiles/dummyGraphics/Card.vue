@@ -13,9 +13,28 @@
       </div>
     </div>
 
+    <div class="row">
+      <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+        class="flex lg6 sm12 xs12 control range slider" track-label-visible>
+        <template #prepend>
+          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="w-[110px]" />
+        </template>
+      </VaSlider>
+      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
+        :false-inner-label='cardMessages[locale].dsleft' :true-inner-label='cardMessages[locale].dsright'
+        class="flex lg2 control switch" />
+      <VaSwitch v-if="controls.animate" v-model="aniCtl" :label="cardMessages[locale].animation"
+        :false-inner-label='cardMessages[locale].anistop' :true-inner-label='cardMessages[locale].anistart'
+        class="flex lg2 control switch" />
+    </div>
+
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleGraphics></SimpleGraphics>
+      <SimpleGraphics
+        :dataUrl = "dataUrl"
+        :range = "rangeCtl"
+        :animate = "aniCtl"
+      ></SimpleGraphics>
     </div>
 
     <div class="chartfooter">
@@ -30,7 +49,7 @@
       </VaButton>
     </div>
 
-</div>
+  </div>
 </template>
 
 <script setup>
@@ -56,14 +75,25 @@ const props = defineProps({
 });
 console.log("Card name:", props.name);
 
+// chart
+import SimpleGraphics from "@/components/charts/SimpleGraphics.vue";
+
+
 // messages i18n
 import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataLicense = ref(null)
 
 
-// chart
-import SimpleGraphics from "@/components/charts/SimpleGraphics.vue";
+// controls
+const controls = ref({
+  range: false,
+  dataswitch: false,
+  animate: false
+})
+const rangeCtl = ref(0)
+const dataCtl = ref(0)
+const aniCtl = ref(0)
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
@@ -79,19 +109,26 @@ onBeforeMount(() => {
       dataUrl.value = basePath + cardMessages.specs.data[0].url
     }
     dataLicense.value = cardMessages.specs.data[0].license
+    const specs = cardMessages.specs
+    if (specs.controls) {
+      console.log("Specs:", specs)
+      if (specs.controls.range.present) controls.value.range = specs.controls.range
+      if (specs.controls.dataswitch.present) controls.value.dataswitch = specs.controls.dataswitch
+      if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
+      console.log("Ctls:", controls.value)
+    }
   }
 });
 </script>
 
 <style scoped>
 /* Add your card styles here */
-
+.slider {
+  margin-right: 0.5rem;
+}
 </style>
 
 
 <style lang="scss" scoped>
-
 @import "vuestic-ui/styles/grid";
-
 </style>
-

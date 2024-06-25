@@ -1,11 +1,6 @@
 <template>
-    <div class="container">
         <v-chart v-if="dataLoaded" ref="theChart" :option="chartOptions" :style="{ height: '100%' }" :theme="chartTheme"
             autoresize></v-chart>
-        <div class="slider">
-            <input type="range" min="0" max="100" v-model="sliderValue" @input="updateCategoryValues" />
-        </div>
-    </div>
 </template>
 
 <script setup>
@@ -19,23 +14,10 @@ import bus from "@/assets/icons/generated/house.svg?url";
 import bus2 from "@/assets/logos/generated/fossils_white_on_transparent.svg?url";
 
 
-const sliderValue = ref(50);
-
-const updateCategoryValues = () => {
-    const scale = parseInt(sliderValue.value / 3)
-    /* */
-    chartOptions.value.series[0].data[0].symbolSize = 31 - scale
-    chartOptions.value.series[0].data[1].symbolSize = 1 + scale
-    /* */
-    /*
-    chartOptions.value.graphic.elements[0].children[0].style.width = 20 * (1 + scale)
-    chartOptions.value.graphic.elements[0].children[0].style.height = 20 * (1 + scale)
-    chartOptions.value.graphic.elements[1].children[0].style.width = 20 * (6 - scale)
-    chartOptions.value.graphic.elements[1].children[0].style.height = 20 * (6 - scale)
-    */
-    // vue-echarts updates automatically from reactive options
-    //theChart.value.setOption(chartOptions.value);
-
+const updateCategoryValues = (val) => {
+    const maxScale = 100
+    chartOptions.value.series[0].data[0].symbolSize = maxScale - val
+    chartOptions.value.series[0].data[1].symbolSize = val 
 };
 
 import { useConfigStore } from '@/services/configStore';
@@ -63,6 +45,24 @@ import { useColors } from "vuestic-ui";
 import { nextTick } from 'vue';
 const { currentPresetName } = useColors();
 
+
+const props = defineProps({
+    /* Add your props here */
+    dataUrl: {
+        type: String,
+        required: true,
+    },
+    range: {
+        type: Number,
+        default: 50
+    },
+    animate : {
+        type: Boolean,
+        default: false
+    },
+});
+
+
 watch(currentPresetName, (newValue, oldValue) => {
     if (newValue == "dark") {
         chartOptions.value.series[0].data[0].symbol = "image://" + pkw2
@@ -73,13 +73,8 @@ watch(currentPresetName, (newValue, oldValue) => {
     }
 });
 
-
-const props = defineProps({
-    /* Add your props here */
-    chartDataUri: {
-        type: String,
-        required: true,
-    },
+watch(() => props.range, (newValue, oldValue) => {
+    updateCategoryValues(newValue)
 });
 
 const theChart = ref(null);
@@ -90,7 +85,7 @@ const dataLoaded = ref(false);
 const chartOptions = ref({
     title: {
         show: true,
-        text: "title",
+        text: "Pictorial graph example",
         left: "center",
         top: 10,
     },
@@ -109,10 +104,11 @@ const chartOptions = ref({
         },
         axisLabel: {
             interval: 0
-        }
+        },
+        show:false
     },
     yAxis: {
-        max: 11,
+        max: 100,
         show: false
     },
     series: [
@@ -179,6 +175,7 @@ onMounted(async () => {
             chartOptions.value.series[0].data[0].symbol = "image://" + pkw
             chartOptions.value.series[0].data[1].symbol = "image://" + bus
         }
+        updateCategoryValues(props.range)
     } catch (error) {
         console.error("Failed to load chart data:", error);
     }
@@ -187,34 +184,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 2fr 1fr;
-    gap: 10px;
-    height: 100%;
-}
-
-.slider {
-    grid-column: 1;
-    grid-row: 2;
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    gap: 10px;
-}
-
 .chart-template {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*
-    grid-column: 1;
-    grid-row: 1;
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    gap: 10px;
-    */
 }
 </style>
