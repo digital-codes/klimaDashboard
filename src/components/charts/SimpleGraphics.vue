@@ -25,7 +25,7 @@ const updateCategoryValues = () => {
     const scale = parseInt(sliderValue.value / 3)
     /* */
     chartOptions.value.series[0].data[0].symbolSize = 31 - scale
-    chartOptions.value.series[1].data[1].symbolSize = 1 + scale
+    chartOptions.value.series[0].data[1].symbolSize = 1 + scale
     /* */
     /*
     chartOptions.value.graphic.elements[0].children[0].style.width = 20 * (1 + scale)
@@ -66,10 +66,10 @@ const { currentPresetName } = useColors();
 watch(currentPresetName, (newValue, oldValue) => {
     if (newValue == "dark") {
         chartOptions.value.series[0].data[0].symbol = "image://" + pkw2
-        chartOptions.value.series[1].data[1].symbol = "image://" + bus2
+        chartOptions.value.series[0].data[1].symbol = "image://" + bus2
     } else {
         chartOptions.value.series[0].data[0].symbol = "image://" + pkw
-        chartOptions.value.series[1].data[1].symbol = "image://" + bus
+        chartOptions.value.series[0].data[1].symbol = "image://" + bus
     }
 });
 
@@ -85,26 +85,25 @@ const props = defineProps({
 const theChart = ref(null);
 const chartTheme = ref(currentPresetName) // already reactive. don't watch for theme
 
-// const chartOptions = ref({});
-
 const dataLoaded = ref(false);
 
 const chartOptions = ref({
-    color: ['#bb0004', '#FFD48A'],
-    legend: {
-        data: ['S1', 'S2'],
-        left: "center",
-        top: 40,
-    },
     title: {
         show: true,
         text: "title",
         left: "center",
         top: 10,
     },
+    tooltip: {
+        show:true,
+        formatter: function (param) {
+            const size = param.data.symbolSize
+                return String(size);
+            },
+    },
     xAxis: {
         type: "category",
-        data: ["A", "B"],
+        data: ["Left", "Right"],
         axisTick: {
             show: false
         },
@@ -120,39 +119,30 @@ const chartOptions = ref({
         {
             type: 'pictorialBar',
             name: 'S1',
-            symbol: "image://" + pkw,
+            animationDuration: 0,
+            label: {
+                show: true,
+                position: 'top',
+                formatter: function (param) {
+                    const size = param.data.symbolSize
+                    return size;
+                },
+                offset: [0, -20],
+                fontSize: 18,
+            },
+            // symbol: "image://" + pkw,  only needed for legend
             z: 10,
             data: [
                 {
-                    value: 50,
+                    value: 5,
                     symbolPosition: 'center',
-                    symbolSize: 10,
+                    symbolSize: 5,
                     symbol: "image://" + pkw,
                 },
                 {
-                    value: 0,
+                    value: 5,
                     symbolPosition: 'center',
-                    symbolSize: 0,
-                    symbol: "image://" + bus,
-                },
-            ]
-        },
-        {
-            type: 'pictorialBar',
-            name: 'S2',
-            symbol: "image://" + bus,
-            z: 10,
-            data: [
-                {
-                    value: 0,
-                    symbolPosition: 'center',
-                    symbolSize: 0,
-                    symbol: "image://" + pkw,
-                },
-                {
-                    value: 50,
-                    symbolPosition: 'center',
-                    symbolSize: 10,
+                    symbolSize: 5,
                     symbol: "image://" + bus,
                 },
             ]
@@ -160,82 +150,6 @@ const chartOptions = ref({
     ]
 }
 )
-
-/*
-
-const chartOptions = ref({
-    graphic: {
-        elements: [
-            {
-                type: 'group',
-                left: '10%',
-                top: 'center',
-                children: [
-                    {
-                        type: "image",
-                        x: 0,
-                        y: 0,
-                        scaleX: 1,
-                        scaleY: 1,
-                        style: {
-                            image: pkw,
-                            x: 0,
-                            y: 0,
-                            width: 20,
-                            height: 20,
-                        },
-                    },
-                ]
-            },
-            {
-                type: 'group',
-                right: '10%',
-                top: 'center',
-                children: [
-                    {
-                        type: "image",
-                        x: 0,
-                        y: 0,
-                        scaleX: 1,
-                        scaleY: 1,
-                        style: {
-                            image: bus,
-                            x: 0,
-                            y: 0,
-                            width: 20,
-                            height: 20,
-                            color: "#ff0",
-                        },
-                    },
-                ]
-            },
-            {
-                    type: 'text',
-                    left: 32,
-                    top: "top",
-                    z: 100,
-                    style: {
-                        fill: '#fff',
-                        text: 'Left',
-                        font: 'bold 18px sans-serif'
-                    }
-                    },
-                    {
-                    type: 'text',
-                    right: 32,
-                    top: "top",
-                    z: 100,
-                    style: {
-                        fill: '#fff',
-                        text: 'Right',
-                        font: 'bold 18px sans-serif'
-                    }
-                    }
-        ]
-    }
-}
-)
-*/
 
 use([
     CanvasRenderer,
@@ -260,10 +174,10 @@ onMounted(async () => {
         console.log("config theme:", configStore.getTheme)
         if (configStore.getTheme == "dark") {
             chartOptions.value.series[0].data[0].symbol = "image://" + pkw2
-            chartOptions.value.series[1].data[1].symbol = "image://" + bus2
+            chartOptions.value.series[0].data[1].symbol = "image://" + bus2
         } else {
             chartOptions.value.series[0].data[0].symbol = "image://" + pkw
-            chartOptions.value.series[1].data[1].symbol = "image://" + bus
+            chartOptions.value.series[0].data[1].symbol = "image://" + bus
         }
     } catch (error) {
         console.error("Failed to load chart data:", error);

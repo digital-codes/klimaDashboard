@@ -7,6 +7,29 @@
 // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark
 // https://medium.com/@brcsndr/you-dont-know-css-dark-mode-theming-and-swapping-with-css-and-design-tokens-ac1273936940
 
+// colors 
+/*
+color,bright,hsv,rgb
+blue, y, 230-80-80, 41-68-205
+blue, n, 230-80-60, 31-51-153
+orange, y, 30-80-80, 205-122-41
+orange, n, 30-90-70, 177-99-18
+orange, n, 40-90-70, 177-123-18
+
+yellow, y 50-90-90, 228-193-23
+yellow, n 50-90-70, 177-150-18
+
+grays: 
+0-0-10 => 30-30-30
+0-0-20 => 50-50-50
+0-0-80 => 204 ..
+0-0-90 => 229 ...
+
+
+*/
+
+
+
 :root {
   /*
   font-family: "Source Sans Pro";
