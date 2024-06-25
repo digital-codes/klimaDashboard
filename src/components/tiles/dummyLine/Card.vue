@@ -15,13 +15,32 @@
 
    
     <div class="row">
-          <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+          <VaSlider v-if="controls.range.present" 
+          v-model="rangeCtl" 
+          :label="cardMessages[locale].rangetitle"
           class="flex lg6 sm12 xs12 control range"
-          :min="controls.range.min" 
-          :max="controls.range.max" />
-          <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"  
+          track-label-visible
+          >
+          <template #prepend>
+            <VaCounter
+              v-model="rangeCtl"
+              :min="controls.range.min"
+              :max="controls.range.max"
+              class="w-[110px]"
+              />
+            </template>
+         </VaSlider>
+          <VaSwitch v-if="controls.dataswitch" 
+          v-model="dataCtl" 
+          :label="cardMessages[locale].dstitle"  
+          :false-inner-label='cardMessages[locale].dsleft'
+          :true-inner-label='cardMessages[locale].dsright'
           class="flex lg2 control switch"/>
-          <VaSwitch v-if="controls.animate" v-model="aniCtl" :label="cardMessages[locale].animation"  
+          <VaSwitch v-if="controls.animate" 
+           v-model="aniCtl" 
+          :label="cardMessages[locale].animation" 
+          :false-inner-label='cardMessages[locale].anistop'
+          :true-inner-label='cardMessages[locale].anistart'
           class="flex lg2 control switch"/>
     </div>
 
@@ -113,9 +132,9 @@ onBeforeMount(() => {
   const specs = cardMessages.specs
   if (specs.controls) {
     console.log("Specs:", specs)
-    controls.value.range = specs.controls.range
-    controls.value.dataswitch = specs.controls.dataswitch
-    controls.value.animate = specs.controls.animate
+    if (specs.controls.range.present) controls.value.range = specs.controls.range
+    if (specs.controls.dataswitch.present) controls.value.dataswitch = specs.controls.dataswitch
+    if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
     console.log("Ctls:", controls.value)
   }
 });
