@@ -9,8 +9,20 @@
         <img :src="basePath + props.logo" alt="Card Image" class="cardimage" />
       </div>
       <div class="flex flex-col lg6 md12">
-          <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+        <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
       </div>
+    </div>
+
+   
+    <div class="row">
+          <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+          class="flex lg6 sm12 xs12 control range"
+          :min="controls.range.min" 
+          :max="controls.range.max" />
+          <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"  
+          class="flex lg2 control switch"/>
+          <VaSwitch v-if="controls.animate" v-model="aniCtl" :label="cardMessages[locale].animation"  
+          class="flex lg2 control switch"/>
     </div>
 
     <div class="chartpane">
@@ -27,12 +39,15 @@
       <VaChip outline>
         Source: {{ dataUrl }}
       </VaChip>
-      <VaButton round
-        @click="console.log('Click')"
-        icon="download"
-      >
+
+      <VaButton round @click="console.log('Click')" icon="download">
         {{ $t($props.name + ".download") }}
       </VaButton>
+
+      <VaButton round @click="console.log('Click')" icon="download">
+        {{ $t($props.name + ".downimage") }}
+      </VaButton>
+
     </div>
 
   </div>
@@ -68,6 +83,18 @@ import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataLicense = ref(null)
 
+
+// controls
+const controls = ref({
+  range: false,
+  dataswitch: false,
+  animate: false
+})
+const rangeCtl = ref(0)
+const dataCtl = ref(0)
+const aniCtl = ref(0)
+
+
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
@@ -83,16 +110,37 @@ onBeforeMount(() => {
     }
     dataLicense.value = cardMessages.specs.data[0].license
   }
+  const specs = cardMessages.specs
+  if (specs.controls) {
+    console.log("Specs:", specs)
+    controls.value.range = specs.controls.range
+    controls.value.dataswitch = specs.controls.dataswitch
+    controls.value.animate = specs.controls.animate
+    console.log("Ctls:", controls.value)
+  }
 });
+
 </script>
 
 <style scoped>
 /* Add your card styles here */
+
+.control {
+  margin-right: 1rem;
+  margin-bottom: .3rem;
+}
+
+.range {
+  min-width: 50%;
+}
+
+.switch {
+  min-width: 20%;
+}
 
 </style>
 
 
 <style lang="scss" scoped>
 @import "vuestic-ui/styles/grid";
-
 </style>
