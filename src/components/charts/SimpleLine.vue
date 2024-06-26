@@ -75,6 +75,7 @@ watch(() => props.range, (newValue, oldValue) => {
 
 watch(() => props.dataUrl, async (newValue, oldValue) => {
     console.log("Data URL changed:", newValue);
+    if (theChart.value) await theChart.value.clear()
     await loadData();
 
 });
@@ -83,9 +84,10 @@ watch(() => props.animate, (newValue, oldValue) => {
     console.log("Animate changed:", newValue);
 });
 
-const updateOptions = () => {
+const updateOptions = async () => {
   const keys = Object.keys(data.value[0]);
   console.log(keys)
+    chartOptions.value.xAxis.data = []
     chartOptions.value.xAxis.data = data.value.map((item) => item[datakeys.value[0]]);
     chartOptions.value.series = [];
     for (let i = 1; i < datakeys.value.length; i++) {
@@ -104,8 +106,6 @@ const updateOptions = () => {
         });
     }
     console.log("Options updated:", chartOptions.value);
-    // theChart.value[UPDATE_OPTIONS_KEY](chartOptions.value);
-   
 }
 
 const loadData = async () => {
@@ -133,6 +133,7 @@ const loadData = async () => {
             datakeys.value.push(key)
         }
         console.log("Data:", data.value);
+        console.log("Keys:", datakeys.value);
         // update options
         updateOptions();
         dataLoaded.value = true;
