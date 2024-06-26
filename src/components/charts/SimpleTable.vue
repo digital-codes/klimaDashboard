@@ -6,6 +6,7 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
+import { nextTick } from 'vue';
 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -14,7 +15,6 @@ const configStore = useConfigStore();
 import Papa from 'papaparse';
 
 import { useColors } from "vuestic-ui";
-import { nextTick } from 'vue';
 const { currentPresetName } = useColors();
 
 
@@ -66,12 +66,11 @@ const loadData = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        datakeys.value = []
         if (props.dataUrl.endsWith(".json")) {
             data.value = await response.json();
-            datakeys.value = []
         } else { // assume csv
             const csvString = await response.text();
-            datakeys.value = []
             Papa.parse(csvString, {
                 header: true,
                 dynamicTyping: true,

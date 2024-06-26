@@ -1,6 +1,14 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import VChart from "vue-echarts";
+import { nextTick } from 'vue';
+
+import VChart, { UPDATE_OPTIONS_KEY } from "vue-echarts";
+
+import { useConfigStore } from '@/services/configStore';
+const configStore = useConfigStore();
+
+// data parser
+import Papa from 'papaparse';
 
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -35,23 +43,106 @@ watch(currentPresetName, (newValue, oldValue) => {
 
 
 const props = defineProps({
-  /* Add your props here */
-  chartDataUri: {
-    type: String,
-    required: true,
-  },
+    /* Add your props here */
+    dataUrl: {
+        type: String,
+        required: true,
+    },
+    range: {
+        type: Number,
+        default: 50
+    },
+    animate: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const theChart = ref(null);
 const chartTheme = ref(currentPresetName) // already reactive. don't watch for theme
-
-const chartOptions = ref({});
-
 const dataLoaded = ref(false);
 const data = ref(null);
 const datakeys = ref(null);
 
-onMounted(async () => {
+watch(currentPresetName, (newValue, oldValue) => {
+    console.log("Theme changed:", newValue);
+    chartTheme.value = newValue;
+});
+
+watch(() => props.range, (newValue, oldValue) => {
+    console.log("Range changed:", newValue);
+});
+
+watch(() => props.dataUrl, async (newValue, oldValue) => {
+    console.log("Data URL changed:", newValue);
+    await loadData();
+
+});
+
+watch(() => props.animate, (newValue, oldValue) => {
+    console.log("Animate changed:", newValue);
+});
+
+const updateOptions = () => {
+  const keys = Object.keys(data.value[0]);
+  console.log(keys)
+    chartOptions.value.xAxis.data = data.value.map((item) => item[datakeys.value[0]]);
+    chartOptions.value.series = [];
+    for (let i = 1; i < datakeys.value.length; i++) {
+        chartOptions.value.series.push({
+            type: "line",
+            name: datakeys.value[i],
+            data: data.value.map((item) => item[datakeys.value[i]]),
+            symbol: 'circle',
+            symbolSize: 20,
+            label: {
+                show: true,
+                position: 'top',
+                color: 'black',
+                fontSize: 12,
+            },
+        });
+    }
+    console.log("Options updated:", chartOptions.value);
+    // theChart.value[UPDATE_OPTIONS_KEY](chartOptions.value);
+   
+}
+
+const loadData = async () => {
+    try {
+        console.log("Fetching: ", props.dataUrl);
+        const response = await fetch(props.dataUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        datakeys.value = []
+        if (props.dataUrl.endsWith(".json")) {
+            data.value = await response.json();
+        } else { // assume csv
+            const csvString = await response.text();
+            Papa.parse(csvString, {
+                header: true,
+                dynamicTyping: true,
+                complete: function (results) {
+                    console.log("CSV parsed:", results.data);
+                    data.value = results.data;
+                }
+            });
+        }
+        for (const key in data.value[0]) {
+            datakeys.value.push(key)
+        }
+        console.log("Data:", data.value);
+        // update options
+        updateOptions();
+        dataLoaded.value = true;
+        await nextTick();
+        console.log("Data loaded:", data);
+    } catch (error) {
+        console.error("Failed to load chart data:", error);
+    }
+}
+
   use([
     CanvasRenderer,
     LineChart,
@@ -63,13 +154,137 @@ onMounted(async () => {
     GridComponent
   ]);
 
-  //chartTheme.value = currentPresetName
+const chartOptions = ref({
+      //darkMode: "auto",
+      tooltip: {
+        trigger: 'axis'
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          dataView: { readOnly: true },
+          magicType: { type: ['line', 'bar', 'stack'] },
+          restore: {},
+        }
+      },
+      title: {
+        "show": true,
+        "left": "center",
+        "text": "Line chart example",
+        "textStyle": {
+          //"color": "#0f0",
+          "fontSize": 20
+        }
+      },
+      legend: {
+        right: 'auto',
+        top: 'bottom',
+        show: true,
+        type: 'scroll',
+      },
+      "aria": {
+        "enabled": true,
+        "description": "Line chart example",
+        show: true,
+      },
+      // backgroundColor: "#333",
+      xAxis: {
+        name: "X-axis",
+        nameLocation: "center",
+        nameGap: 30,
+        axisLabel: {
+          "show": true
+          //formatter: '{value} [Unit-X]'
+        },
+        type: "category",
+        //data: dummyData.map((item) => item.date),
+      },
+      yAxis: {
+        name: "Y-axis",
+        nameLocation: "center",
+        nameGap: 30,
+        axisLabel: {
+          "show": true
+          //formatter: '{value} [Unit-Y]'
+        },
+        type: "value",
+      },
+      series: []
+    }
+)
+
+/*
+        {
+          type: "line",
+          name: "Series 1",
+          data: dummyData.map((item) => item.value),
+          symbol: 'circle',
+          symbolSize: 20,
+          label: {
+            show: true,
+            position: 'top',
+            color: 'black',
+            fontSize: 12,
+          },
+          // itemstyle for bar chart
+          itemStyle:
+          {
+            decal:
+            {
+              dashArrayX:5,
+              dashArrayY:1,
+              rotation: -45,
+              color:"#000",
+            }
+          }
+        },
+        {
+          type: "line",
+          name: "Series 2",
+          data: dummyData2.map((item) => item.value),
+          symbol: 'diamond',
+          symbolSize: 20,
+          label: {
+            show: true,
+            position: 'top',
+            color: 'black',
+            fontSize: 12,
+          },
+          // itemstyle for bar chart
+          itemStyle:
+          {
+            decal:
+            {
+              dashArrayX:5,
+              dashArrayY:1,
+              rotation: 45,
+              //symbol: 'diamond',
+              //symbolSize:1,
+              color:"#000",
+            }
+          }
+        },
+      ],
+
+*/
+onMounted(async () => {
+
+  if (configStore.getTheme == "dark") {
+      console.log("Dark theme detected")
+  } else {
+      console.log("Light theme detected")
+  }
+
+  await loadData();
 
   try {
-    console.log("Fetching: ", props.chartDataUri);
-    const response = await fetch(props.chartDataUri);
-    const data = await response.text();
-    dataLoaded.value = true;
+    // data might have multiple series
+    const seriesCount = data.value.length
+    console.log("Series count:", seriesCount)
+
     /*
     const lines = data.split("\n");
     const xAxisData = [];
@@ -112,139 +327,6 @@ onMounted(async () => {
     ];
 
 
-    chartOptions.value = {
-      //darkMode: "auto",
-      tooltip: {
-        trigger: 'axis'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          dataZoom: {
-            yAxisIndex: 'none'
-          },
-          dataView: { readOnly: true },
-          magicType: { type: ['line', 'bar', 'stack'] },
-          restore: {},
-          saveAsImage: {
-            show: true,
-            title: 'Save As Image',
-          },
-          /*
-          myCustBut2: {
-            title: 'test option 2',
-            icon: 'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891',
-            onclick: async () => {
-              alert('Test 2');
-              const png = await theChart.value.getDataURL({
-                  pixelRatio: 2,
-                  backgroundColor: '#fff'
-              });
-              console.log(png)
-            },
-          }
-        */
-      }
-      },
-      "title": {
-        "show": true,
-        "left": "center",
-        "text": "Line chart example",
-        "textStyle": {
-          //"color": "#0f0",
-          "fontSize": 20
-        }
-      },
-      legend: {
-        right: 'auto',
-        top: 'bottom',
-        show: true,
-        type: 'scroll',
-      },
-      "aria": {
-        "enabled": true,
-        "description": "Line chart example",
-        show: true,
-      },
-      // backgroundColor: "#333",
-      xAxis: {
-        name: "X-axis",
-        nameLocation: "center",
-        nameGap: 30,
-        axisLabel: {
-          "show": true
-          //formatter: '{value} [Unit-X]'
-        },
-        type: "category",
-        data: dummyData.map((item) => item.date),
-      },
-      yAxis: {
-        name: "Y-axis",
-        nameLocation: "center",
-        nameGap: 30,
-        axisLabel: {
-          "show": true
-          //formatter: '{value} [Unit-Y]'
-        },
-        type: "value",
-      },
-      series: [
-        {
-          type: "line",
-          name: "Series 1",
-          data: dummyData.map((item) => item.value),
-          symbol: 'circle',
-          symbolSize: 20,
-          label: {
-            show: true,
-            position: 'top',
-            color: 'black',
-            fontSize: 12,
-          },
-          // itemstyle for bar chart
-          itemStyle:
-          {
-            decal:
-            {
-              /*
-              symbol: 'circle',
-              symbolSize:1,
-              */
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: -45,
-              color:"#000",
-            }
-          }
-        },
-        {
-          type: "line",
-          name: "Series 2",
-          data: dummyData2.map((item) => item.value),
-          symbol: 'diamond',
-          symbolSize: 20,
-          label: {
-            show: true,
-            position: 'top',
-            color: 'black',
-            fontSize: 12,
-          },
-          // itemstyle for bar chart
-          itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: 45,
-              //symbol: 'diamond',
-              //symbolSize:1,
-              color:"#000",
-            }
-          }
-        },
-      ],
-    };
 
 
   } catch (error) {

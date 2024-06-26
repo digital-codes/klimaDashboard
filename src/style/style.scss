@@ -214,6 +214,25 @@ button:focus-visible {
   margin-top:1rem;
 }
 
+.dataheader {
+  display:flex;
+  .header {
+    margin-left:1rem;
+    margin-bottom:0;
+  }
+  h1 {
+    line-height:3rem;
+    font-size: 2.5rem;
+    margin-left: .5rem;
+    margin-bottom:0;
+  }
+  va-avatar {
+    margin-bottom:0;
+  }
+}
+
+
+
 .customchart {
   background-color: light-dark(var(--chart-light-bg), var(--chart-dark-bg));
   color: light-dark(var(--chart-light-color), var(--chart-dark-color));

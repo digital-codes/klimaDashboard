@@ -5,6 +5,7 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
+import { nextTick } from 'vue';
 
 //import pkw from "@/assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg?url";
 import pkw from "@/assets/icons/generated/car.svg?url";
@@ -42,7 +43,6 @@ import {
 // import "echarts"
 
 import { useColors } from "vuestic-ui";
-import { nextTick } from 'vue';
 const { currentPresetName } = useColors();
 
 

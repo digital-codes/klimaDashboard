@@ -1,17 +1,12 @@
 <template>
   <div class="card">
-    <p>{{ $t($props.name + ".title") }}</p>
-    <div class="header">{{ $t($props.name + ".header") }}</div>
-    <div class="text">{{ $t($props.name + ".text") }}</div>
-
-    <div class="row">
-      <div class="flex flex-col lg6 md12">
-        <img :src="basePath + props.logo" alt="Card Image" class="cardimage" />
-      </div>
-      <div class="flex flex-col lg6 md12">
-        <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
-      </div>
+    <div class="dataheader">
+      <VaAvatar  title="Klima Dashboard" :src="basePath + props.logo" size="3rem"/>
+      <h1 >{{ $t($props.name + ".title") }}</h1>
     </div>
+
+
+    <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
 
     <div class="row">
       <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
