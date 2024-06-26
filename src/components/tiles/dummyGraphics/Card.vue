@@ -47,6 +47,11 @@
       <VaButton round @click="console.log('Click')" icon="download">
         {{ $t($props.name + ".download") }}
       </VaButton>
+
+      <VaButton round @click="console.log('Click')" icon="download">
+        {{ $t($props.name + ".downimage") }}
+      </VaButton>
+
     </div>
 
   </div>
@@ -95,6 +100,12 @@ const rangeCtl = ref(0)
 const dataCtl = ref(0)
 const aniCtl = ref(0)
 
+watch(dataCtl, (index) => {
+  console.log("DataCtl:", index)
+  dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
+  dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
+})
+
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
@@ -104,31 +115,47 @@ onBeforeMount(() => {
     messages.value[key][props.name] = cardMessages[key];
     // create new data uris here: use as is if strating with http else prepend base path
     if (dataUrl.value && dataUrl.value.toLowerCase().startsWith("http")) {
-      dataUrl.value = cardMessages.specs.data[0].url
+      dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
     } else {
-      dataUrl.value = basePath + cardMessages.specs.data[0].url
+      dataUrl.value = basePath + cardMessages.specs.data[dataCtl.value?1:0].url
+      console.log("data:", dataUrl.value)
     }
-    dataLicense.value = cardMessages.specs.data[0].license
-    const specs = cardMessages.specs
-    if (specs.controls) {
-      console.log("Specs:", specs)
-      if (specs.controls.range.present) controls.value.range = specs.controls.range
-      if (specs.controls.dataswitch.present) controls.value.dataswitch = specs.controls.dataswitch
-      if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
-      console.log("Ctls:", controls.value)
-    }
+    dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
+  }
+  const specs = cardMessages.specs
+  if (specs.controls) {
+    console.log("Specs:", specs)
+    if (specs.controls.range.present) controls.value.range = specs.controls.range
+    if ((specs.controls.dataswitch.present) && (cardMessages.specs.data.length > 1))controls.value.dataswitch = specs.controls.dataswitch
+    if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
+    console.log("Ctls:", controls.value)
   }
 });
+
 </script>
 
 <style scoped>
 /* Add your card styles here */
-.slider {
-  margin-right: 0.5rem;
+
+.control {
+  margin-right: 1rem;
+  margin-bottom: .3rem;
 }
+
+.range {
+  min-width: 50%;
+}
+
+.switch {
+  min-width: 20%;
+}
+
 </style>
 
 
 <style lang="scss" scoped>
+
 @import "vuestic-ui/styles/grid";
+
 </style>
+

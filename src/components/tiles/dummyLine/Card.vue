@@ -12,7 +12,6 @@
         <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
       </div>
     </div>
-
    
     <div class="row">
           <VaSlider v-if="controls.range.present" 
@@ -48,7 +47,7 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleLine :chartDataUri="dataUrl"></SimpleLine>
+      <SimpleLine :dataUrl="dataUrl"></SimpleLine>
     </div>
 
     <div class="chartfooter">
@@ -104,6 +103,7 @@ import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataLicense = ref(null)
 
+
 // controls
 const controls = ref({
   range: false,
@@ -116,6 +116,8 @@ const aniCtl = ref(0)
 
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index)
+  dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
+  dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
 })
 
 onBeforeMount(() => {
@@ -127,17 +129,18 @@ onBeforeMount(() => {
     messages.value[key][props.name] = cardMessages[key];
     // create new data uris here: use as is if strating with http else prepend base path
     if (dataUrl.value && dataUrl.value.toLowerCase().startsWith("http")) {
-      dataUrl.value = cardMessages.specs.data[dataCtl.value].url
+      dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
     } else {
-      dataUrl.value = basePath + cardMessages.specs.data[dataCtl.value].url
+      dataUrl.value = basePath + cardMessages.specs.data[dataCtl.value?1:0].url
+      console.log("data:", dataUrl.value)
     }
-    dataLicense.value = cardMessages.specs.data[0].license
+    dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
   }
   const specs = cardMessages.specs
   if (specs.controls) {
     console.log("Specs:", specs)
     if (specs.controls.range.present) controls.value.range = specs.controls.range
-    if (specs.controls.dataswitch.present) controls.value.dataswitch = specs.controls.dataswitch
+    if ((specs.controls.dataswitch.present) && (cardMessages.specs.data.length > 1))controls.value.dataswitch = specs.controls.dataswitch
     if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
     console.log("Ctls:", controls.value)
   }
@@ -165,5 +168,8 @@ onBeforeMount(() => {
 
 
 <style lang="scss" scoped>
+
 @import "vuestic-ui/styles/grid";
+
 </style>
+

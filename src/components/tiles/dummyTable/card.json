@@ -2,8 +2,14 @@
   "specs": {
     "data": [
       {
-        "url": "data/karlsruhe/klima-tp.csv",
-        "license": "CC BY 4.0"
+        "url": "data/testing/tbl1.json",
+        "license": "CC BY 4.0",
+        "name": "First Dataset"
+      },
+      {
+        "url": "data/testing/tbl2.csv",
+        "license": "MIT",
+        "name": "Second Dataset"
       }
     ],
     "chart": {
@@ -12,12 +18,12 @@
     },
     "controls": {
       "range": {
-        "present": true,
+        "present": false,
         "min": 1,
         "max": 100
       },
       "dataswitch": {
-        "present": false
+        "present": true
       },
       "animate": {
         "present": false

@@ -17,10 +17,10 @@
         "max": 100
       },
       "dataswitch": {
-        "present": true
+        "present": false
       },
       "animate": {
-        "present": true
+        "present": false
       }
     }
   },

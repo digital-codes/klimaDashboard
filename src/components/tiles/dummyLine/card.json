@@ -20,7 +20,7 @@
         "present": true
       },
       "animate": {
-        "present": true
+        "present": false
       }
     }
   },

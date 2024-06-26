@@ -48,6 +48,8 @@ const chartTheme = ref(currentPresetName) // already reactive. don't watch for t
 const chartOptions = ref({});
 
 const dataLoaded = ref(false);
+const data = ref(null);
+const datakeys = ref(null);
 
 onMounted(async () => {
   use([

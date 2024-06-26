@@ -9,7 +9,7 @@
         <img :src="basePath + props.logo" alt="Card Image" class="cardimage" />
       </div>
       <div class="flex flex-col lg6 md12">
-          <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+        <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
       </div>
     </div>
    
@@ -45,13 +45,9 @@
           class="flex lg2 control switch"/>
     </div>
 
-    <div class="chartpane customchart">
-      <!-- Chart component goes here -->
-      <SizeAnimation :dataUrl="dataUrl"></SizeAnimation>
-    </div>
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <ChartTemplate :dataUrl="dataUrl"></ChartTemplate>
+      <SimpleTable :dataUrl="dataUrl"></SimpleTable>
     </div>
 
     <div class="chartfooter">
@@ -82,7 +78,7 @@ import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
 
-import ChartTemplate from "@/components/charts/ChartTemplate.vue"
+import SimpleTable from "@/components/charts/SimpleTable.vue"
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL
@@ -107,9 +103,6 @@ import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataLicense = ref(null)
 
-
-// chart
-import SizeAnimation from "@/components/charts/SizeAnimation.vue";
 
 // controls
 const controls = ref({
@@ -147,7 +140,7 @@ onBeforeMount(() => {
   if (specs.controls) {
     console.log("Specs:", specs)
     if (specs.controls.range.present) controls.value.range = specs.controls.range
-    if (specs.controls.dataswitch.present) controls.value.dataswitch = specs.controls.dataswitch
+    if ((specs.controls.dataswitch.present) && (cardMessages.specs.data.length > 1))controls.value.dataswitch = specs.controls.dataswitch
     if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
     console.log("Ctls:", controls.value)
   }
@@ -155,7 +148,10 @@ onBeforeMount(() => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+@import '@/style/colors.scss';
+
 /* Add your card styles here */
 
 .control {
@@ -168,79 +164,19 @@ onBeforeMount(() => {
 }
 
 .switch {
-  min-width: 20%;
+  min-width: 10%;
+  border-color: light-dark($light-blue, $dark-orange) !important;
+  border:1px solid;
+  border-radius: 16px;
 }
+
 
 </style>
 
 
 <style lang="scss" scoped>
+
 @import "vuestic-ui/styles/grid";
 
 </style>
 
-
-<!-- 
-digital-codes: explain where and how to load global messages
-
-GitHub Copilot: To load global messages in a Vue.js application, you typically use a localization library or a global state management solution like Vuex. The code snippet you provided suggests that there is a need to merge card-specific messages with the global messages.
-
-Here are a few steps you can follow to load global messages:
-
-1. Install a localization library or set up a global state management solution like Vuex if you haven't already. Localization libraries such as vue-i18n or vuex-i18n are commonly used in Vue.js applications for managing translations.
-
-2. Create a file to store your global messages. This file can be named something like `messages.js` or `i18n.js`. In this file, you can define an object that contains your global messages in different languages. For example:
-
-   ```javascript
-   // messages.js
-
-   export default {
-     en: {
-       greeting: 'Hello',
-       goodbye: 'Goodbye',
-       // other global messages
-     },
-     // other language translations
-   };
-   ```
-
-3. Import the global messages file in your Vue component where you want to use them. For example, in your `CardTemplate.vue` component, you can import the `messages.js` file like this:
-
-   ```vue
-   <script>
-   import messages from './messages.js';
-
-   export default {
-     // component code
-   };
-   </script>
-   ```
-
-4. Merge the card-specific messages with the global messages. Based on the code snippet you provided, it seems that there is a need to merge the card-specific messages with the global messages. You can use the spread operator (`...`) to achieve this. For example:
-
-   ```vue
-   <script>
-   import messages from './messages.js';
-
-   export default {
-     data() {
-       return {
-         cardMessages: {
-           // card-specific messages
-         },
-         mergedMessages: {
-           ...messages.en, // merge global messages
-           ...this.cardMessages, // merge card-specific messages
-         },
-       };
-     },
-   };
-   </script>
-   ```
-
-   In this example, the `mergedMessages` object will contain both the global messages and the card-specific messages. You can then use `mergedMessages` in your component's template to display the appropriate messages.
-
-By following these steps, you can load global messages in your Vue.js application and merge them with card-specific messages as needed. Remember to adjust the code according to your specific localization library or global state management solution.
-
- 
--->
