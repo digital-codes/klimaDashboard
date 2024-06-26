@@ -13,6 +13,7 @@
     "@fontsource/roboto": "^5.0.13",
     "@fontsource/source-sans-pro": "^5.0.8",
     "axios": "^1.7.2",
+    "data-forge": "^1.10.2",
     "leaflet": "^1.9.4",
     "material-icons": "^1.13.12",
     "papaparse": "^5.4.1",

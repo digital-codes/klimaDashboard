@@ -9,6 +9,9 @@ const configStore = useConfigStore();
 
 // data parser
 import Papa from 'papaparse';
+// https://www.data-forge-js.com/
+// https://github.com/data-forge/data-forge-ts/blob/master/docs/guide.md
+import * as dataForge from 'data-forge'
 
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -43,19 +46,19 @@ watch(currentPresetName, (newValue, oldValue) => {
 
 
 const props = defineProps({
-    /* Add your props here */
-    dataUrl: {
-        type: String,
-        required: true,
-    },
-    range: {
-        type: Number,
-        default: 50
-    },
-    animate: {
-        type: Boolean,
-        default: false
-    },
+  /* Add your props here */
+  dataUrl: {
+    type: String,
+    required: true,
+  },
+  range: {
+    type: Number,
+    default: 50
+  },
+  animate: {
+    type: Boolean,
+    default: false
+  },
 });
 
 const theChart = ref(null);
@@ -65,156 +68,193 @@ const data = ref(null);
 const datakeys = ref(null);
 
 watch(currentPresetName, (newValue, oldValue) => {
-    console.log("Theme changed:", newValue);
-    chartTheme.value = newValue;
+  console.log("Theme changed:", newValue);
+  chartTheme.value = newValue;
 });
 
 watch(() => props.range, (newValue, oldValue) => {
-    console.log("Range changed:", newValue);
+  console.log("Range changed:", newValue);
 });
 
 watch(() => props.dataUrl, async (newValue, oldValue) => {
-    console.log("Data URL changed:", newValue);
-    if (theChart.value) await theChart.value.clear()
-    await loadData();
+  console.log("Data URL changed:", newValue);
+  if (theChart.value) await theChart.value.clear()
+  await loadData();
 
 });
 
 watch(() => props.animate, (newValue, oldValue) => {
-    console.log("Animate changed:", newValue);
+  console.log("Animate changed:", newValue);
 });
 
 const updateOptions = async () => {
-  const keys = Object.keys(data.value[0]);
-  console.log(keys)
-    chartOptions.value.xAxis.data = []
-    chartOptions.value.xAxis.data = data.value.map((item) => item[datakeys.value[0]]);
-    chartOptions.value.series = [];
-    for (let i = 1; i < datakeys.value.length; i++) {
-        chartOptions.value.series.push({
-            type: "line",
-            name: datakeys.value[i],
-            data: data.value.map((item) => item[datakeys.value[i]]),
-            symbol: 'circle',
-            symbolSize: 20,
-            label: {
-                show: true,
-                position: 'top',
-                color: 'black',
-                fontSize: 12,
-            },
-        });
+  //console.log("Updating from data:", data.value);
+  // we have to know if we get 1 or 2 series from data.
+  // assume we always have an array. 
+  // in case the inner data is an array too, we have multiple series
+  let seriesCount = 1;
+  if (Array.isArray(data.value)) {
+    // Continue with your code here...
+    if (Array.isArray(data.value[0])) {
+      seriesCount = data.value.length;
     }
-    console.log("Options updated:", chartOptions.value);
+  } else {
+    console.error("Data is not an array");
+    return
+  }
+  console.log("Series count:", seriesCount);
+  // dataframe tests
+  let dfArray = []
+  if (seriesCount == 1) {
+    const df = new dataForge.DataFrame(data.value)
+    dfArray.push(df)
+    console.log(df.head(5).toString());
+  } else {
+    for (let i = 0; i < seriesCount; i++) {
+      console.log("Processing series:", i)
+      const df = new dataForge.DataFrame(data.value[i])
+      dfArray.push(df)
+      console.log(df.head(5).toString());
+    }
+  }
+  // ready to merge into options ..
+  const arrayOfColumnNames = dfArray[0].getColumnNames();
+  console.log("Final cols:", arrayOfColumnNames)
+
+  chartOptions.value.xAxis.data = []
+  chartOptions.value.xAxis.data = arrayOfColumnNames.map((item) => item[arrayOfColumnNames]);
+  console.log("X-axis data:", chartOptions.value.xAxis.data)
+  chartOptions.value.series = [];
+  for (let i = 1; i < seriesCount; i++) {
+    chartOptions.value.series.push({
+      type: "line",
+      name: "Series " + i,
+      data: dfArray[i][arrayOfColumnNames[1]].map((item) => item[datakeys.value[i]]),
+      /*
+      type: "line",
+      name: datakeys.value[i],
+      data: data.value.map((item) => item[datakeys.value[i]]),
+      */
+      symbol: 'circle',
+      symbolSize: 20,
+      label: {
+        show: true,
+        position: 'top',
+        color: 'black',
+        fontSize: 12,
+      },
+    });
+  }
+  console.log("Options updated:", chartOptions.value);
 }
 
 const loadData = async () => {
-    try {
-        console.log("Fetching: ", props.dataUrl);
-        const response = await fetch(props.dataUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        datakeys.value = []
-        if (props.dataUrl.endsWith(".json")) {
-            data.value = await response.json();
-        } else { // assume csv
-            const csvString = await response.text();
-            Papa.parse(csvString, {
-                header: true,
-                dynamicTyping: true,
-                complete: function (results) {
-                    console.log("CSV parsed:", results.data);
-                    data.value = results.data;
-                }
-            });
-        }
-        for (const key in data.value[0]) {
-            datakeys.value.push(key)
-        }
-        console.log("Data:", data.value);
-        console.log("Keys:", datakeys.value);
-        // update options
-        updateOptions();
-        dataLoaded.value = true;
-        await nextTick();
-        console.log("Data loaded:", data);
-    } catch (error) {
-        console.error("Failed to load chart data:", error);
+  try {
+    console.log("Fetching: ", props.dataUrl);
+    const response = await fetch(props.dataUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    datakeys.value = []
+    if (props.dataUrl.endsWith(".json")) {
+      data.value = await response.json();
+    } else { // assume csv
+      const csvString = await response.text();
+      Papa.parse(csvString, {
+        header: true,
+        dynamicTyping: true,
+        complete: function (results) {
+          console.log("CSV parsed:", results.data);
+          data.value = results.data;
+        }
+      });
+    }
+    for (const key in data.value[0]) {
+      datakeys.value.push(key)
+    }
+    console.log("Data:", data.value);
+    console.log("Keys:", datakeys.value);
+    // finally update options
+    await nextTick();
+    await updateOptions();
+    await nextTick();
+    dataLoaded.value = true;
+  } catch (error) {
+    console.error("Failed to load chart data:", error);
+  }
 }
 
-  use([
-    CanvasRenderer,
-    LineChart,
-    BarChart,
-    TitleComponent,
-    TooltipComponent,
-    ToolboxComponent,
-    LegendComponent,
-    GridComponent
-  ]);
+use([
+  CanvasRenderer,
+  LineChart,
+  BarChart,
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  LegendComponent,
+  GridComponent
+]);
 
 const chartOptions = ref({
-      //darkMode: "auto",
-      tooltip: {
-        trigger: 'axis'
+  //darkMode: "auto",
+  tooltip: {
+    trigger: 'axis'
+  },
+  toolbox: {
+    show: true,
+    feature: {
+      dataZoom: {
+        yAxisIndex: 'none'
       },
-      toolbox: {
-        show: true,
-        feature: {
-          dataZoom: {
-            yAxisIndex: 'none'
-          },
-          dataView: { readOnly: true },
-          magicType: { type: ['line', 'bar', 'stack'] },
-          restore: {},
-        }
-      },
-      title: {
-        "show": true,
-        "left": "center",
-        "text": "Line chart example",
-        "textStyle": {
-          //"color": "#0f0",
-          "fontSize": 20
-        }
-      },
-      legend: {
-        right: 'auto',
-        top: 'bottom',
-        show: true,
-        type: 'scroll',
-      },
-      "aria": {
-        "enabled": true,
-        "description": "Line chart example",
-        show: true,
-      },
-      // backgroundColor: "#333",
-      xAxis: {
-        name: "X-axis",
-        nameLocation: "center",
-        nameGap: 30,
-        axisLabel: {
-          "show": true
-          //formatter: '{value} [Unit-X]'
-        },
-        type: "category",
-        //data: dummyData.map((item) => item.date),
-      },
-      yAxis: {
-        name: "Y-axis",
-        nameLocation: "center",
-        nameGap: 30,
-        axisLabel: {
-          "show": true
-          //formatter: '{value} [Unit-Y]'
-        },
-        type: "value",
-      },
-      series: []
+      dataView: { readOnly: true },
+      magicType: { type: ['line', 'bar', 'stack'] },
+      restore: {},
     }
+  },
+  title: {
+    "show": true,
+    "left": "center",
+    "text": "Line chart example",
+    "textStyle": {
+      //"color": "#0f0",
+      "fontSize": 20
+    }
+  },
+  legend: {
+    right: 'auto',
+    top: 'bottom',
+    show: true,
+    type: 'scroll',
+  },
+  "aria": {
+    "enabled": true,
+    "description": "Line chart example",
+    show: true,
+  },
+  // backgroundColor: "#333",
+  xAxis: {
+    name: "X-axis",
+    nameLocation: "center",
+    nameGap: 30,
+    axisLabel: {
+      "show": true
+      //formatter: '{value} [Unit-X]'
+    },
+    type: "category",
+    //data: dummyData.map((item) => item.date),
+  },
+  yAxis: {
+    name: "Y-axis",
+    nameLocation: "center",
+    nameGap: 30,
+    axisLabel: {
+      "show": true
+      //formatter: '{value} [Unit-Y]'
+    },
+    type: "value",
+  },
+  series: []
+}
 )
 
 /*
@@ -274,9 +314,9 @@ const chartOptions = ref({
 onMounted(async () => {
 
   if (configStore.getTheme == "dark") {
-      console.log("Dark theme detected")
+    console.log("Dark theme detected")
   } else {
-      console.log("Light theme detected")
+    console.log("Light theme detected")
   }
 
   await loadData();
