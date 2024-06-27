@@ -99,9 +99,33 @@ const updateOptions = async () => {
 
   if (df.hasSeries("Datum")) {
     console.log("With Datum")
-    datakeys.value = df.getSeries("Datum").toArray()
+    const chartData = df.toArray();
+    const dates = chartData.map(item => item.Datum);
+    console.log("Dates:", dates)
+
+    const seriesData = df.getColumnNames()
+        .filter(col => col !== 'Datum')
+        .map(col => ({
+            name: col,
+            type: 'line',
+            data: chartData.map(item => item[col])
+        }));
+    console.log("Series data:", seriesData)
+
   } else {
     console.log("No Datum")
+    const chartData = df.toArray();
+    const dates = chartData.map(item => item.date);
+    console.log("Dates:", dates)
+
+    const seriesData = df.getColumnNames()
+        .filter(col => col !== 'date')
+        .map(col => ({
+            name: col,
+            type: 'line',
+            data: chartData.map(item => item[col])
+        }));
+    console.log("Series data:", seriesData)
   } 
   
 
