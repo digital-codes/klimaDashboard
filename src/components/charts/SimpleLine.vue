@@ -88,10 +88,23 @@ watch(() => props.animate, (newValue, oldValue) => {
 });
 
 const updateOptions = async () => {
-  //console.log("Updating from data:", data.value);
+  console.log("Updating from data:", data.value);
   // we have to know if we get 1 or 2 series from data.
   // assume we always have an array. 
   // in case the inner data is an array too, we have multiple series
+  const df = new dataForge.DataFrame(data.value)
+  console.log(df.head(3).toString());
+  const cols = df.getColumnNames()
+  console.log("Cols:", cols)
+
+  if (df.hasSeries("Datum")) {
+    console.log("With Datum")
+    datakeys.value = df.getSeries("Datum").toArray()
+  } else {
+    console.log("No Datum")
+  } 
+  
+
   let seriesCount = 1;
   if (Array.isArray(data.value)) {
     // Continue with your code here...
@@ -178,25 +191,21 @@ const loadData = async () => {
     datakeys.value = []
     if (props.dataUrl.endsWith(".json")) {
       data.value = await response.json();
+      //console.log("JSON:", data.value);
+      await updateOptions()
     } else { // assume csv
       const csvString = await response.text();
+      //console.log("raw CSV:",csvString)
       Papa.parse(csvString, {
         header: true,
         dynamicTyping: true,
-        complete: function (results) {
-          console.log("CSV parsed:", results.data);
+        complete: async function (results) {
+          //console.log("CSV parsed:", results.data);
           data.value = results.data;
+          await updateOptions()
         }
       });
     }
-    for (const key in data.value[0]) {
-      datakeys.value.push(key)
-    }
-    console.log("Data:", data.value);
-    console.log("Keys:", datakeys.value);
-    // finally update options
-    await nextTick();
-    await updateOptions();
     await nextTick();
     dataLoaded.value = true;
   } catch (error) {
