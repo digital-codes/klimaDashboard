@@ -100,7 +100,7 @@ const updateOptions = async () => {
     }
   } else {
     console.error("Data is not an array");
-    return
+    data.value = [data.value]
   }
   console.log("Series count:", seriesCount);
   // dataframe tests
@@ -109,6 +109,12 @@ const updateOptions = async () => {
     const df = new dataForge.DataFrame(data.value)
     dfArray.push(df)
     console.log(df.head(5).toString());
+
+    const dt = df.toArray();
+    console.log("Data:", dt)
+    const cols = df.getColumnNames()
+    console.log("Cols:", cols)
+
   } else {
     for (let i = 0; i < seriesCount; i++) {
       console.log("Processing series:", i)
@@ -121,14 +127,28 @@ const updateOptions = async () => {
   const arrayOfColumnNames = dfArray[0].getColumnNames();
   console.log("Final cols:", arrayOfColumnNames)
 
+  if (arrayOfColumnNames.length < 2) {
+    console.error("Need at least 2 columns for charting")
+    return
+  }
+  if (arrayOfColumnNames.length == 2) {
+    chartOptions.value.yAxis.name = arrayOfColumnNames[1]
+    //chartOptions.value.xAxis.data = dfArray[0].index.map((item, index) => index);
+  } else {
+    chartOptions.value.yAxis.name = "Value"
+  }
+
+
   chartOptions.value.xAxis.data = []
-  chartOptions.value.xAxis.data = arrayOfColumnNames.map((item) => item[arrayOfColumnNames]);
+  chartOptions.value.xAxis.data = arrayOfColumnNames.map((item) => item);
+  chartOptions.value.xAxis.data = arrayOfColumnNames.map((item) => item);
   console.log("X-axis data:", chartOptions.value.xAxis.data)
   chartOptions.value.series = [];
   for (let i = 1; i < seriesCount; i++) {
     chartOptions.value.series.push({
       type: "line",
       name: "Series " + i,
+      // data: dfArray[i][arrayOfColumnNames[1]].map((item) => item[datakeys.value[i]]),
       data: dfArray[i][arrayOfColumnNames[1]].map((item) => item[datakeys.value[i]]),
       /*
       type: "line",
