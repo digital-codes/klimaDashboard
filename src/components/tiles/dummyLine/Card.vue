@@ -42,7 +42,7 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleLine :dataUrl="dataUrl"></SimpleLine>
+      <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"></SimpleLine>
     </div>
 
     <div class="chartfooter">
@@ -96,6 +96,7 @@ console.log("Card name:", props.name);
 // messages i18n
 import cardMessages from "./card.json";
 const dataUrl = ref(null)
+const dataName = ref(null)
 const dataLicense = ref(null)
 
 
@@ -113,6 +114,7 @@ watch(dataCtl, (index) => {
   console.log("DataCtl:", index)
   dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
   dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
+  dataName.value = cardMessages.specs.data[dataCtl.value?1:0].name
 })
 
 onBeforeMount(() => {

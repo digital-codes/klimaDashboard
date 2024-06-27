@@ -51,6 +51,14 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  dataName: {
+    type: String,
+    default: "LineChart",
+  },
+  dataIdx: {
+    type: Number,
+    default: 0
+  },
   range: {
     type: Number,
     default: 50
@@ -111,7 +119,7 @@ const updateOptions = async () => {
   if (df.hasSeries("Datum")) {
     console.log("With Datum")
     const chartData = df.toArray();
-    dates = chartData.map(item => item.Datum);
+    dates = chartData.map(item => item.Datum).filter((value, index, self) => self.indexOf(value) === index);
     console.log("Dates:", dates)
 
     // find number of different names to make series from
@@ -138,18 +146,43 @@ const updateOptions = async () => {
   } else {
     console.log("No Datum")
     const chartData = df.toArray();
-    dates = chartData.map(item => item.date);
+    // dates = chartData.map(item => item.date);
+    dates = chartData.map(item => item.date).filter((value, index, self) => self.indexOf(value) === index);
     console.log("Dates:", dates)
 
-    seriesData = df.getColumnNames()
-      .filter(col => col !== 'date')
-      .map(col => ({
-        name: col,
-        data: chartData.map(item => item[col])
-      }));
+    // find number of different names to make series from
+    const names = df.getSeries("name").distinct().toArray()
+    console.log("Names:", names)
+
+    seriesData = names.map(name => {
+      const filteredData = chartData.filter(item => item.name === name);
+      return {
+        name: name,
+        data: filteredData.map(item => item.value),
+        type: "line",
+        symbol: name == "cat1" ? 'circle' : "diamond",
+        symbolSize: 20,
+        label: {
+          show: true,
+          position: 'top',
+          color: 'black',
+          fontSize: 12,
+        },
+        itemStyle:
+          {
+            decal:
+            {
+              dashArrayX:5,
+              dashArrayY:1,
+              rotation: name == "cat1" ? -45:45,
+              color:"#000",
+            }
+          }
+
+      };
+    });
   }
   console.log("Final Series:", seriesData)
-
 
   chartOptions.value.xAxis.type = "category"
   chartOptions.value.xAxis.data = dates
