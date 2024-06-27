@@ -87,6 +87,14 @@ watch(() => props.animate, (newValue, oldValue) => {
   console.log("Animate changed:", newValue);
 });
 
+const parseData = (data) => {
+  if (typeof data === 'number') {
+    return data;
+  } else {
+    return parseFloat(data.replace(",", "."));
+  }
+}
+
 const updateOptions = async () => {
   console.log("Updating from data:", data.value);
   // we have to know if we get 1 or 2 series from data.
@@ -97,111 +105,56 @@ const updateOptions = async () => {
   const cols = df.getColumnNames()
   console.log("Cols:", cols)
 
+  let seriesData
+  let dates = []
+
   if (df.hasSeries("Datum")) {
     console.log("With Datum")
     const chartData = df.toArray();
-    const dates = chartData.map(item => item.Datum);
+    dates = chartData.map(item => item.Datum);
     console.log("Dates:", dates)
 
-    const seriesData = df.getColumnNames()
-        .filter(col => col !== 'Datum')
-        .map(col => ({
-            name: col,
-            type: 'line',
-            data: chartData.map(item => item[col])
-        }));
-    console.log("Series data:", seriesData)
+    // find number of different names to make series from
+    const names = df.getSeries("name").distinct().toArray()
+    console.log("Names:", names)
+
+    seriesData = names.map(name => {
+      const filteredData = chartData.filter(item => item.name === name);
+      return {
+        name: name,
+        data: filteredData.map(item => parseData(item.bodentemperatur)),
+        type: "line",
+        symbol: 'circle',
+        symbolSize: 20,
+        label: {
+          show: true,
+          position: 'top',
+          color: 'black',
+          fontSize: 12,
+        },
+      };
+    });
 
   } else {
     console.log("No Datum")
     const chartData = df.toArray();
-    const dates = chartData.map(item => item.date);
+    dates = chartData.map(item => item.date);
     console.log("Dates:", dates)
 
-    const seriesData = df.getColumnNames()
-        .filter(col => col !== 'date')
-        .map(col => ({
-            name: col,
-            type: 'line',
-            data: chartData.map(item => item[col])
-        }));
-    console.log("Series data:", seriesData)
-  } 
-  
-
-  let seriesCount = 1;
-  if (Array.isArray(data.value)) {
-    // Continue with your code here...
-    if (Array.isArray(data.value[0])) {
-      seriesCount = data.value.length;
-    }
-  } else {
-    console.error("Data is not an array");
-    data.value = [data.value]
+    seriesData = df.getColumnNames()
+      .filter(col => col !== 'date')
+      .map(col => ({
+        name: col,
+        data: chartData.map(item => item[col])
+      }));
   }
-  console.log("Series count:", seriesCount);
-  // dataframe tests
-  let dfArray = []
-  if (seriesCount == 1) {
-    const df = new dataForge.DataFrame(data.value)
-    dfArray.push(df)
-    console.log(df.head(5).toString());
-
-    const dt = df.toArray();
-    console.log("Data:", dt)
-    const cols = df.getColumnNames()
-    console.log("Cols:", cols)
-
-  } else {
-    for (let i = 0; i < seriesCount; i++) {
-      console.log("Processing series:", i)
-      const df = new dataForge.DataFrame(data.value[i])
-      dfArray.push(df)
-      console.log(df.head(5).toString());
-    }
-  }
-  // ready to merge into options ..
-  const arrayOfColumnNames = dfArray[0].getColumnNames();
-  console.log("Final cols:", arrayOfColumnNames)
-
-  if (arrayOfColumnNames.length < 2) {
-    console.error("Need at least 2 columns for charting")
-    return
-  }
-  if (arrayOfColumnNames.length == 2) {
-    chartOptions.value.yAxis.name = arrayOfColumnNames[1]
-    //chartOptions.value.xAxis.data = dfArray[0].index.map((item, index) => index);
-  } else {
-    chartOptions.value.yAxis.name = "Value"
-  }
+  console.log("Final Series:", seriesData)
 
 
-  chartOptions.value.xAxis.data = []
-  chartOptions.value.xAxis.data = arrayOfColumnNames.map((item) => item);
-  chartOptions.value.xAxis.data = arrayOfColumnNames.map((item) => item);
-  console.log("X-axis data:", chartOptions.value.xAxis.data)
-  chartOptions.value.series = [];
-  for (let i = 1; i < seriesCount; i++) {
-    chartOptions.value.series.push({
-      type: "line",
-      name: "Series " + i,
-      // data: dfArray[i][arrayOfColumnNames[1]].map((item) => item[datakeys.value[i]]),
-      data: dfArray[i][arrayOfColumnNames[1]].map((item) => item[datakeys.value[i]]),
-      /*
-      type: "line",
-      name: datakeys.value[i],
-      data: data.value.map((item) => item[datakeys.value[i]]),
-      */
-      symbol: 'circle',
-      symbolSize: 20,
-      label: {
-        show: true,
-        position: 'top',
-        color: 'black',
-        fontSize: 12,
-      },
-    });
-  }
+  chartOptions.value.xAxis.type = "category"
+  chartOptions.value.xAxis.data = dates
+  chartOptions.value.yAxis = { type: 'value' }
+  chartOptions.value.series = seriesData
   console.log("Options updated:", chartOptions.value);
 }
 
