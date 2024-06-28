@@ -156,9 +156,25 @@ const updateOptions = async () => {
 
     seriesData = names.map(name => {
       const filteredData = chartData.filter(item => item.name === name);
+      console.log("Filtered:", filteredData)
       return {
         name: name,
-        data: filteredData.map(item => item.value),
+        data: dates.map(date => {
+          const matchingData = filteredData.find(item => item.date === date);
+          if (matchingData) {
+            const value = matchingData.value;
+            const category = matchingData.date;
+            return {
+              value,
+              category
+            };
+          } else {
+            return {
+              value: null,
+              category: date
+            };
+          }
+        }),
         type: "line",
         symbol: name == "cat1" ? 'circle' : "diamond",
         symbolSize: 20,
