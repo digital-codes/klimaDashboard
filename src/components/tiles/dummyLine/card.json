@@ -10,7 +10,12 @@
           "co2"
         ],
         "classes": [
-          "category","Private Haushalte","Stadt","Industrie","Verkehr","Gewerbe+Sonstiges"
+          "category",
+          "Private Haushalte",
+          "Stadt",
+          "Industrie",
+          "Verkehr",
+          "Gewerbe+Sonstiges"
         ]
       },
       {
