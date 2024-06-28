@@ -242,7 +242,7 @@ const updateOptions = async () => {
         color: dataSymbol(index).color,
         symbolSize: 20,
         label: {
-          show: true,
+          show: false,
           position: 'top',
           color: 'black',
           fontSize: 12,
@@ -284,7 +284,7 @@ const updateOptions = async () => {
         color: dataSymbol(index).color,
         symbolSize: 20,
         label: {
-          show: true,
+          show: false,
           position: 'top',
           color: 'black',
           fontSize: 12,
@@ -358,7 +358,8 @@ use([
 const chartOptions = ref({
   //darkMode: "auto",
   tooltip: {
-    trigger: 'axis'
+    trigger: 'axis',
+    valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
   },
   toolbox: {
     show: true,
