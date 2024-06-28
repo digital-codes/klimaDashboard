@@ -50,11 +50,11 @@
     <div class="chartfooter">
       <!-- source, license, download button -->
 
-      <VaChip outline>
-        License: {{ dataLicense }}
+      <VaChip disabled outline>
+        {{ $t($props.name + ".license") }}: {{ dataLicense }}
       </VaChip>
-      <VaChip outline :href="dataUrl" target="_blank" >
-        Source
+      <VaChip :href="dataUrl" target="_blank" >
+        {{ $t($props.name + ".source") }}
       </VaChip>
 
       <VaButton round @click="console.log('Click')" icon="download">
