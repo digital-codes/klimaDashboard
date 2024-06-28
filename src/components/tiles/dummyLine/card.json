@@ -16,7 +16,7 @@
         "name": "TP-KA Friedrichsplatz 10/23",
         "xaxis": "Datum",
         "columns": ["bodentemperatur"],
-        "classes": ["name"]
+        "classes": ["name","SenseCap LBB (60) neu ✓"]
       }
     ],
     "chart": {

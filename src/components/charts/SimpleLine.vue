@@ -211,26 +211,54 @@ const updateOptions = async () => {
   }
   console.log("Initial  columns:", columns)
 
+  // don't exclude class name from columns here
   const excludeCols = [props.dataX]
+  /*
   if (classes.length > 0) {
     console.log("Class ID",props.dataClasses[0])
     excludeCols.push(props.dataClasses[0])
   }
-  console.log(" Excluding columns:", excludeCols)
+  */
 
-  const includedColumns = columns.filter(column => !excludeCols.includes(column))
+  console.log(" Excluding columns:", excludeCols)
+  // instead, include the class column here
+  const includedColumns = columns.filter(column => !(excludeCols.includes(column)))
+  if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
+    includedColumns.push(props.dataClasses[0])
+  }  
   console.log("Included columns:", includedColumns)
+
+  //const classFilter = df.where(row => classes.includes(row[props.dataClasses[0]]))
+  //const colFilter = classFilter.subset(includedColumns)
+  //console.log("Class Filter:", classFilter.toString())
+  //console.log("Column Filter:", colFilter.toString())
+
+
+  //const filteredData = df.subset(includedColumns).where(row => classes.includes(row[props.dataClasses[0]]));
+  //console.log("Filtered Data:", filteredData.toString())
+
 
   // series created from either classes or columns
   // if length of classes > 1 we have multiple series and length or columns must be 1
   // if length of columns > 1 we have multiple series and length or classes must be 1
   if (classes.length > 1) {
+    console.log("Creating series from classes")
     // create names from classes
     seriesData = classes.map((name, index) => {
-      const filteredData = chartData.filter(item => item.name === name);
+      //console.log("Name:",name,", Index:",index)
+      const filteredData = chartData.filter(item => item[props.dataClasses[0]] === name);
+      //console.log("Filtered Data:", filteredData)
       return {
         name: name,
-        data: filteredData.map(item => parseData(item[props.dataColumns[0]])),
+        //data: filteredData.map(item => parseData(item[props.dataColumns[0]])),
+        data: categories.map(position => {
+          //console.log("Position:",position)
+          if (filteredData.find(item => item[props.dataX] === position) == null) {
+            return null
+          } else {
+            return parseData(filteredData.find(item => item[props.dataX] === position)[props.dataColumns[0]])
+          }
+        }),
         type: "line",
         symbol: dataSymbol(index).symbol,
         color: dataSymbol(index).color,
@@ -255,23 +283,27 @@ const updateOptions = async () => {
     });
   } else {
     // create names from columns
-    seriesData = includedColumns.map(column => {
+    console.log("Creating series from columns")
+    seriesData = includedColumns.map((column,index) => {
+      console.log("Column:",column)
       return {
         name: column,
         //data: chartData.map((item,index) => parseData(item[column])),
-
-        
-
         data: chartData.map((item,index) => {
-
-
-        },
-
+          console.log("Item:",item,", Column:",column, "Index:",index)
+          if (item[column] == null) {
+            return null
+          }
+          return parseData(item[column])
+        }),
+        /*
         data: categories.map(position => {
-          const matchingData = filteredData.find(item => item[xId] === position);
+          console.log("Position:",position,", column:",column,", index:",index)
+          const matchingData = categories.find(item => item[props.dataX] === position);
           // find missing items
           if (matchingData) {
-            const value = matchingData.value;
+            const value = matchingData[column];
+            console.log("Matching Value:",value)
             return {
               value,
             };
@@ -281,8 +313,7 @@ const updateOptions = async () => {
             };
           }
         }),
-
-
+        */
         type: "line",
         symbol: dataSymbol(index).symbol,
         color: dataSymbol(index).color,
