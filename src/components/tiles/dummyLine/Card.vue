@@ -43,7 +43,7 @@
     <div class="chartpane">
       <!-- Chart component goes here -->
       <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
-      :daatColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY"
+      :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY"
       ></SimpleLine>
     </div>
 
@@ -102,7 +102,12 @@ const dataName = ref(null)
 const dataLicense = ref(null)
 const dataX = ref(null)
 const dataY = ref(null)
+// we can create series from classes and columns
+// NB we cannot do both
+// make sure either of the two has to be length 1 (or be empty)
+// columns is an array of column names
 const dataColumns = ref(null)
+// classes is an array starting with the class identifier followed by the class names
 const dataClasses = ref(null)
 
 

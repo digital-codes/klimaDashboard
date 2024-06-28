@@ -67,12 +67,12 @@ const props = defineProps({
   },
   // optional columns to be selected
   dataColumns: {
-    type: String,
+    type: Array,
     default: [],
   },
   // optional classes to be selected
   dataClasses: {
-    type: String,
+    type: Array,
     default: [],
   },
   // optional index.
@@ -124,6 +124,34 @@ const parseData = (data) => {
   }
 }
 
+const dataSymbol = (index) => {
+  let sym
+  const col = index % 2 ? 'red' : 'blue'
+  let pattern
+  // pattern is for bar charts, symbols is for line charts, basically
+  switch (index) {
+    case 0:
+    case 1:
+      sym = 'circle'
+      pattern = 45
+      break;
+    case 2:
+    case 3:
+      sym = 'diamond'
+      pattern = -45
+      break;
+    case 4:
+    case 5:
+      sym = 'rectangle'
+      pattern = 22
+      break;
+    default: 
+    console.error("Unknown index:",index)
+      break;
+  }
+  return {symbol:sym,color:col, pattern:pattern}   
+}
+
 const updateOptions = async () => {
   console.log("Updating from data:", data.value);
   // we have to know if we get 1 or 2 series from data.
@@ -136,11 +164,127 @@ const updateOptions = async () => {
 
   // input differs by identifiers for category (X-axis), value (Y-Axis), group
   // and selected group names
-
-
   let seriesData
   let dates = []
 
+  if (props.dataX == "") {  // no X-axis given 
+    console.log("No X-Axis")
+    return
+  }
+  console.log("X-Axis:", props.dataX)
+
+  const chartData = df.toArray();
+  dates = chartData.map(item => item[props.dataX]).filter((value, index, self) => self.indexOf(value) === index);
+  console.log("Dates:", dates)
+
+  let classes = []
+  // filter classes
+  if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
+    const classId = props.dataClasses[0]
+    console.log("Filtering by classes on:", classId)
+    if (props.dataClasses.length > 1) {
+      classes = props.dataClasses.slice(1)
+    } else {
+      classes = df.getSeries(classId).distinct().toArray()
+    }
+    console.log("Filtering classes:", classes)
+    seriesData = chartData.filter(item => classes.includes(item[classId]));
+
+  } else {
+    seriesData = chartData;
+  }
+
+  console.log("Filtered classes:", seriesData)
+
+
+  /*    
+  // find number of different names to make series from
+  const names = df.getSeries("name").distinct().toArray()
+  console.log("Names:", names)
+  */
+  let columns = []
+  if (props.dataColumns && Array.isArray(props.dataColumns) && props.dataColumns.length > 0) {
+    columns = props.dataColumns
+  } else {
+    console.log("No columns given")
+    columns = df.getColumnNames()
+  }
+  console.log("Initial  columns:", columns)
+
+  const excludeCols = [props.dataX]
+  if (classes.length > 0) {
+    console.log("Class ID",props.dataClasses[0])
+    excludeCols.push(props.dataClasses[0])
+  }
+  console.log(" Excluding columns:", excludeCols)
+
+  const includedColumns = columns.filter(column => !excludeCols.includes(column))
+  console.log("Included columns:", includedColumns)
+
+  // series created from either classes or columns
+  // if length of classes > 1 we have multiple series and length or columns must be 1
+  // if length of columns > 1 we have multiple series and length or classes must be 1
+  if (classes.length > 1) {
+    // create names from classes
+    seriesData = classes.map((name, index) => {
+      const filteredData = chartData.filter(item => item.name === name);
+      return {
+        name: name,
+        data: filteredData.map(item => parseData(item[props.dataColumns[0]])),
+        type: "line",
+        symbol: dataSymbol(index).symbol,
+        color: dataSymbol(index).color,
+        symbolSize: 20,
+        label: {
+          show: true,
+          position: 'top',
+          color: 'black',
+          fontSize: 12,
+        },
+        itemStyle:
+          {
+            decal:
+            {
+              dashArrayX:5,
+              dashArrayY:1,
+              rotation: dataSymbol(index).pattern,
+              color:"#000",
+            }
+          }
+      };
+    });
+  } else {
+    // create names from columns
+    seriesData = includedColumns.map(column => {
+      return {
+        name: column,
+        data: chartData.map((item,index) => parseData(item[column])),
+        type: "line",
+        symbol: dataSymbol(index).symbol,
+        color: dataSymbol(index).color,
+        symbolSize: 20,
+        label: {
+          show: true,
+          position: 'top',
+          color: 'black',
+          fontSize: 12,
+        },
+        itemStyle:
+          {
+            decal:
+            {
+              dashArrayX:5,
+              dashArrayY:1,
+              rotation: dataSymbol(index).pattern,
+              color:"#000",
+            }
+          }
+      };
+    });
+  }
+
+
+  /*
   if (props.dataIdx == 1) {
     console.log("With Datum")
     const chartData = df.toArray();
@@ -221,6 +365,7 @@ const updateOptions = async () => {
       };
     });
   }
+  */
   console.log("Final Series:", seriesData)
 
   chartOptions.value.xAxis.type = "category"
