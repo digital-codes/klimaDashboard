@@ -126,7 +126,8 @@ const parseData = (data) => {
 
 const dataSymbol = (index) => {
   let sym
-  const col = index % 2 ? 'red' : 'blue'
+  const isDark = configStore.getTheme == "dark"
+  const col = index % 2 ? (isDark? 'rgb(31,51,153)' : 'rgb(41,68,205)') : (isDark ? 'rgb(228,193,23)' : 'rgb(177,150,18)')
   let pattern
   // pattern is for bar charts, symbols is for line charts, basically
   switch (index) {
@@ -160,12 +161,11 @@ const updateOptions = async () => {
   const df = new dataForge.DataFrame(data.value)
   console.log(df.head(3).toString());
   const cols = df.getColumnNames()
-  console.log("Cols:", cols)
+  //console.log("Cols:", cols)
 
   // input differs by identifiers for category (X-axis), value (Y-Axis), group
   // and selected group names
   let seriesData
-  let categories = []
 
   if (props.dataX == "") {  // no X-axis given 
     console.log("No X-Axis")
@@ -174,69 +174,47 @@ const updateOptions = async () => {
   console.log("X-Axis:", props.dataX)
 
   const chartData = df.toArray();
-  categories = chartData.map(item => item[props.dataX]).filter((value, index, self) => self.indexOf(value) === index);
-  console.log("Categories:", categories)
+  let categories = chartData.map(item => item[props.dataX]).filter((value, index, self) => self.indexOf(value) === index);
+  categories = categories.filter(category => category !== null);
+  //console.log("Categories:", categories, categories.length)
 
   let classes = []
   // filter classes
   if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
     const classId = props.dataClasses[0]
-    console.log("Filtering by classes on:", classId)
+    //console.log("Filtering by classes on:", classId)
     if (props.dataClasses.length > 1) {
       classes = props.dataClasses.slice(1)
     } else {
       classes = df.getSeries(classId).distinct().toArray()
     }
-    console.log("Filtering classes:", classes)
+    //console.log("Filtering classes:", classes)
     seriesData = chartData.filter(item => classes.includes(item[classId]));
 
   } else {
     seriesData = chartData;
   }
 
-  console.log("Filtered classes:", seriesData)
+  // console.log("Filtered classes:", seriesData)
 
-
-  /*    
-  // find number of different names to make series from
-  const names = df.getSeries("name").distinct().toArray()
-  console.log("Names:", names)
-  */
   let columns = []
   if (props.dataColumns && Array.isArray(props.dataColumns) && props.dataColumns.length > 0) {
     columns = props.dataColumns
   } else {
-    console.log("No columns given")
+    //console.log("No columns given")
     columns = df.getColumnNames()
   }
-  console.log("Initial  columns:", columns)
+  //console.log("Initial  columns:", columns)
 
   // don't exclude class name from columns here
   const excludeCols = [props.dataX]
-  /*
-  if (classes.length > 0) {
-    console.log("Class ID",props.dataClasses[0])
-    excludeCols.push(props.dataClasses[0])
-  }
-  */
-
-  console.log(" Excluding columns:", excludeCols)
+  // console.log(" Excluding columns:", excludeCols)
   // instead, include the class column here
   const includedColumns = columns.filter(column => !(excludeCols.includes(column)))
   if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
     includedColumns.push(props.dataClasses[0])
   }  
-  console.log("Included columns:", includedColumns)
-
-  //const classFilter = df.where(row => classes.includes(row[props.dataClasses[0]]))
-  //const colFilter = classFilter.subset(includedColumns)
-  //console.log("Class Filter:", classFilter.toString())
-  //console.log("Column Filter:", colFilter.toString())
-
-
-  //const filteredData = df.subset(includedColumns).where(row => classes.includes(row[props.dataClasses[0]]));
-  //console.log("Filtered Data:", filteredData.toString())
-
+  // console.log("Included columns:", includedColumns)
 
   // series created from either classes or columns
   // if length of classes > 1 we have multiple series and length or columns must be 1
@@ -284,36 +262,23 @@ const updateOptions = async () => {
   } else {
     // create names from columns
     console.log("Creating series from columns")
-    seriesData = includedColumns.map((column,index) => {
-      console.log("Column:",column)
+    // if we have classes, remove the corresponding column from included columns
+    const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != props.dataClasses[0]) : includedColumns
+    seriesData = valueColumns.map((column,index) => {
+      //console.log("Column:",column)
       return {
         name: column,
-        //data: chartData.map((item,index) => parseData(item[column])),
-        data: chartData.map((item,index) => {
-          console.log("Item:",item,", Column:",column, "Index:",index)
-          if (item[column] == null) {
-            return null
-          }
-          return parseData(item[column])
-        }),
-        /*
         data: categories.map(position => {
-          console.log("Position:",position,", column:",column,", index:",index)
-          const matchingData = categories.find(item => item[props.dataX] === position);
-          // find missing items
-          if (matchingData) {
-            const value = matchingData[column];
-            console.log("Matching Value:",value)
-            return {
-              value,
-            };
+          //console.log("Position:",position)
+          const item = chartData.find(item => item[props.dataX] === position)
+          if (item == null) {
+            //console.log("No data for position:",position)
+            return null
           } else {
-            return {
-              value: null,
-            };
+            //console.log("Data at position:",position,item)
+            return parseData(chartData.find(item => item[props.dataX] === position)[column])
           }
         }),
-        */
         type: "line",
         symbol: dataSymbol(index).symbol,
         color: dataSymbol(index).color,
@@ -338,96 +303,13 @@ const updateOptions = async () => {
     });
   }
 
-
-  /*
-  if (props.dataIdx == 1) {
-    console.log("With Datum")
-    const chartData = df.toArray();
-    dates = chartData.map(item => item.Datum).filter((value, index, self) => self.indexOf(value) === index);
-    console.log("Dates:", dates)
-
-    // find number of different names to make series from
-    const names = df.getSeries("name").distinct().toArray()
-    console.log("Names:", names)
-
-    seriesData = names.map(name => {
-      const filteredData = chartData.filter(item => item.name === name);
-      return {
-        name: name,
-        data: filteredData.map(item => parseData(item.bodentemperatur)),
-        type: "line",
-        symbol: 'circle',
-        symbolSize: 20,
-        label: {
-          show: true,
-          position: 'top',
-          color: 'black',
-          fontSize: 12,
-        },
-      };
-    });
-
-  } else {
-    console.log("No Datum")
-    const chartData = df.toArray();
-    // dates = chartData.map(item => item.date);
-    dates = chartData.map(item => item.date).filter((value, index, self) => self.indexOf(value) === index);
-    console.log("Dates:", dates)
-
-    // find number of different names to make series from
-    const names = df.getSeries("name").distinct().toArray()
-    console.log("Names:", names)
-
-    seriesData = names.map(name => {
-      const filteredData = chartData.filter(item => item.name === name);
-      console.log("Filtered:", filteredData)
-      return {
-        name: name,
-        data: dates.map(date => {
-          const matchingData = filteredData.find(item => item.date === date);
-          // find missing items
-          if (matchingData) {
-            const value = matchingData.value;
-            return {
-              value,
-            };
-          } else {
-            return {
-              value: null,
-            };
-          }
-        }),
-        type: "line",
-        symbol: name == "cat1" ? 'circle' : "diamond",
-        symbolSize: 20,
-        label: {
-          show: true,
-          position: 'top',
-          color: 'black',
-          fontSize: 12,
-        },
-        itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: name == "cat1" ? -45:45,
-              color:"#000",
-            }
-          }
-
-      };
-    });
-  }
-  */
-  console.log("Final Series:", seriesData)
+  // console.log("Final Series:", seriesData)
 
   chartOptions.value.xAxis.type = "category"
   chartOptions.value.xAxis.data = categories
   chartOptions.value.yAxis = { type: 'value' }
   chartOptions.value.series = seriesData
-  console.log("Options updated:", chartOptions.value);
+  //console.log("Options updated:", chartOptions.value);
 }
 
 const loadData = async () => {
