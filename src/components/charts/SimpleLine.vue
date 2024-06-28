@@ -165,7 +165,7 @@ const updateOptions = async () => {
   // input differs by identifiers for category (X-axis), value (Y-Axis), group
   // and selected group names
   let seriesData
-  let dates = []
+  let categories = []
 
   if (props.dataX == "") {  // no X-axis given 
     console.log("No X-Axis")
@@ -174,8 +174,8 @@ const updateOptions = async () => {
   console.log("X-Axis:", props.dataX)
 
   const chartData = df.toArray();
-  dates = chartData.map(item => item[props.dataX]).filter((value, index, self) => self.indexOf(value) === index);
-  console.log("Dates:", dates)
+  categories = chartData.map(item => item[props.dataX]).filter((value, index, self) => self.indexOf(value) === index);
+  console.log("Categories:", categories)
 
   let classes = []
   // filter classes
@@ -258,7 +258,31 @@ const updateOptions = async () => {
     seriesData = includedColumns.map(column => {
       return {
         name: column,
-        data: chartData.map((item,index) => parseData(item[column])),
+        //data: chartData.map((item,index) => parseData(item[column])),
+
+        
+
+        data: chartData.map((item,index) => {
+
+
+        },
+
+        data: categories.map(position => {
+          const matchingData = filteredData.find(item => item[xId] === position);
+          // find missing items
+          if (matchingData) {
+            const value = matchingData.value;
+            return {
+              value,
+            };
+          } else {
+            return {
+              value: null,
+            };
+          }
+        }),
+
+
         type: "line",
         symbol: dataSymbol(index).symbol,
         color: dataSymbol(index).color,
@@ -369,7 +393,7 @@ const updateOptions = async () => {
   console.log("Final Series:", seriesData)
 
   chartOptions.value.xAxis.type = "category"
-  chartOptions.value.xAxis.data = dates
+  chartOptions.value.xAxis.data = categories
   chartOptions.value.yAxis = { type: 'value' }
   chartOptions.value.series = seriesData
   console.log("Options updated:", chartOptions.value);
