@@ -53,8 +53,8 @@
       <VaChip outline>
         License: {{ dataLicense }}
       </VaChip>
-      <VaChip outline>
-        Source: {{ dataUrl }}
+      <VaChip outline :href="dataUrl" target="_blank" >
+        Source
       </VaChip>
 
       <VaButton round @click="console.log('Click')" icon="download">
