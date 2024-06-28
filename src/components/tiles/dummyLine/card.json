@@ -5,15 +5,18 @@
         "url": "data/testing/line1.json",
         "license": "CC BY 4.0",
         "name": "TP-Test",
+        "xaxis": "date",
+        "yaxis": "value",
         "columns": [],
-        "classes":[]
+        "classes": []
       },
       {
         "url": "https://transparenz.karlsruhe.de/dataset/ad0659b0-9e4b-408a-8840-3f19d5ec743d/resource/df843a83-b3f6-4929-b6a8-96471508f6f2/download/sensordaten_karlsruhe_bodentemperatur_bodenfeuchte_oct_2023.csv",
         "license": "CC BY 4.0",
         "name": "TP-KA Friedrichsplatz 10/23",
-        "columns": [],
-        "classes":[]
+        "xaxis": "Datum",
+        "columns": ["bodenfeuchte"],
+        "classes": []
       }
     ],
     "chart": {

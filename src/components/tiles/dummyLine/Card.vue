@@ -43,7 +43,7 @@
     <div class="chartpane">
       <!-- Chart component goes here -->
       <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
-      :daatColumns="dataColumns" :dataClasses="dataClasses"
+      :daatColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY"
       ></SimpleLine>
     </div>
 
@@ -100,6 +100,8 @@ import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataName = ref(null)
 const dataLicense = ref(null)
+const dataX = ref(null)
+const dataY = ref(null)
 const dataColumns = ref(null)
 const dataClasses = ref(null)
 
@@ -123,13 +125,19 @@ const checkUrl = (url) => {
   }
 }
 
+const updateData = (index) => {
+  dataUrl.value = checkUrl(cardMessages.specs.data[index].url)
+  dataLicense.value = cardMessages.specs.data[index].license
+  dataName.value = cardMessages.specs.data[index].name || "Data"
+  dataX.value = cardMessages.specs.data[index].xaxis || ""
+  dataY.value = cardMessages.specs.data[index].yaxis || ""
+  dataColumns.value = cardMessages.specs.data[index].columns || []
+  dataClasses.value = cardMessages.specs.data[index].classes || []
+}
+
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index)
-  dataUrl.value = checkUrl(cardMessages.specs.data[dataCtl.value?1:0].url)
-  dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license  || "CC BY-SA 4.0"
-  dataName.value = cardMessages.specs.data[dataCtl.value?1:0].name || "Data"
-  dataColumns.value = cardMessages.specs.data[dataCtl.value?1:0].columns || []
-  dataClasses.value = cardMessages.specs.data[dataCtl.value?1:0].classes || []
+  updateData(index?1:0) 
 })
 
 onBeforeMount(() => {
@@ -139,11 +147,7 @@ onBeforeMount(() => {
     // console.log(`${key}:`, cardMessages[key]);
     if (key === "specs") continue
     messages.value[key][props.name] = cardMessages[key];
-    dataUrl.value = cardMessages.specs.data[0].url
-    dataLicense.value = cardMessages.specs.data[0].license
-    dataName.value = cardMessages.specs.data[0].name || "Data"
-    dataColumns.value = cardMessages.specs.data[0].columns || []
-    dataClasses.value = cardMessages.specs.data[0].classes || []
+    updateData(0)
   }
   const specs = cardMessages.specs
   if (specs.controls) {

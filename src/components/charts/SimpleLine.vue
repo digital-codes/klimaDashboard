@@ -55,6 +55,16 @@ const props = defineProps({
     type: String,
     default: "LineChart",
   },
+  // optional X axis identifier
+  dataX: {
+    type: String,
+    default: "",
+  },
+  // optional Y axis identifier
+  dataY: {
+    type: String,
+    default: "",
+  },
   // optional columns to be selected
   dataColumns: {
     type: String,
@@ -65,7 +75,7 @@ const props = defineProps({
     type: String,
     default: [],
   },
-  // optional index. probably not needed
+  // optional index.
   dataIdx: {
     type: Number,
     default: 0
@@ -131,7 +141,7 @@ const updateOptions = async () => {
   let seriesData
   let dates = []
 
-  if (df.hasSeries("Datum")) {
+  if (props.dataIdx == 1) {
     console.log("With Datum")
     const chartData = df.toArray();
     dates = chartData.map(item => item.Datum).filter((value, index, self) => self.indexOf(value) === index);
