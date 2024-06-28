@@ -113,6 +113,10 @@ const updateOptions = async () => {
   const cols = df.getColumnNames()
   console.log("Cols:", cols)
 
+  // input differs by identifiers for category (X-axis), value (Y-Axis), group
+  // and selected group names
+
+
   let seriesData
   let dates = []
 
@@ -161,17 +165,15 @@ const updateOptions = async () => {
         name: name,
         data: dates.map(date => {
           const matchingData = filteredData.find(item => item.date === date);
+          // find missing items
           if (matchingData) {
             const value = matchingData.value;
-            const category = matchingData.date;
             return {
               value,
-              category
             };
           } else {
             return {
               value: null,
-              category: date
             };
           }
         }),
