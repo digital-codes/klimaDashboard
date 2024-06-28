@@ -1,0 +1,53 @@
+@use 'sass:color';
+
+// colors 
+/*
+color,bright,hsv,rgb
+blue, y, 230-80-80, 41-68-205
+blue, n, 230-80-60, 31-51-153
+orange, y, 30-80-80, 205-122-41
+orange, n, 30-90-70, 177-99-18
+orange, n, 40-90-70, 177-123-18
+
+yellow, y 50-90-90, 228-193-23
+yellow, n 50-90-70, 177-150-18
+
+grays: 
+0-0-10 => 30-30-30
+0-0-20 => 50-50-50
+0-0-80 => 204 ..
+0-0-90 => 229 ...
+
+ka-grün: rgb #048500
+
+
+*/
+
+$base-blue: rgb(41,68,205);
+$base-orange: rgb(205,122,41);
+$base-yellow: rgb(228,193,23);
+$base-green: #048500;
+$base-gray: rgb(128,128,128);
+$black: rgb(0,0,0);
+$white: rgb(255,255,255);
+
+
+$dark-blue: color.adjust($base-blue,$lightness:-10%);
+$light-blue: color.adjust($base-blue,$lightness:+10%);
+$light-light-blue: color.adjust($base-blue,$lightness:+20%);
+
+$dark-orange: color.adjust($base-orange,$lightness:-10%);
+$light-orange: color.adjust($base-orange,$lightness:+10%);
+$light-light-orange: color.adjust($base-orange,$lightness:+20%);
+
+$dark-yellow: color.adjust($base-yellow,$lightness:-10%);
+$light-yellow: color.adjust($base-yellow,$lightness:+10%);
+$light-light-yellow: color.adjust($base-yellow,$lightness:+20%);
+
+$dark-white: color.adjust($white,$lightness:-5%);
+$light-light-gray: color.adjust($white,$lightness:-10%);
+$light-gray: color.adjust($white,$lightness:-15%);
+
+$light-black: color.adjust($black,$lightness:+5%);
+$dark-dark-gray: color.adjust($black,$lightness:+10%);
+$dark-gray: color.adjust($black,$lightness:+15%);
