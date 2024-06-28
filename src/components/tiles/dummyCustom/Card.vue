@@ -43,7 +43,7 @@
 
     <div class="chartpane customchart">
       <!-- Chart component goes here -->
-      <SizeAnimation :dataUrl="dataUrl"></SizeAnimation>
+      <SizeAnimation :dataUrl="dataUrl" :range="rangeCtl"></SizeAnimation>
     </div>
 
     <div class="chartfooter">
@@ -106,7 +106,7 @@ const controls = ref({
   dataswitch: false,
   animate: false
 })
-const rangeCtl = ref(0)
+const rangeCtl = ref(50)
 const dataCtl = ref(0)
 const aniCtl = ref(0)
 

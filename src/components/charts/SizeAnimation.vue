@@ -15,14 +15,20 @@
         coloring svg:
         https://stackoverflow.com/questions/24933430/img-src-svg-changing-the-styles-with-css
         -->
-        <div class="slider">
-            <input type="range" min="0" max="100" v-model="sliderValue" @input="updateCategoryValues" />
-        </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+
+
+const props = defineProps({
+  /* Add your props here */
+  range: {
+    type: Number,
+    default: 50
+  },
+});
 
 const categories = ref([
     { name: 'Category 1', value: 0, icon: pkw, class: "left"},
@@ -32,11 +38,14 @@ const categories = ref([
 import pkw from "@/assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg";  
 import bus from "@/assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_bus.svg";  
 
-const sliderValue = ref(50);
+watch(() => props.range, (newValue, oldValue) => {
+    updateCategoryValues(newValue)
+});
 
-const updateCategoryValues = () => {
-    categories.value[1].value = sliderValue.value;
-    categories.value[0].value = 100 - sliderValue.value;
+
+const updateCategoryValues = (value) => {
+    categories.value[1].value = value;
+    categories.value[0].value = 100 - value;
     /*
     categories.value.forEach((category) => {
         category.value = Math.floor(Math.random() * 100);
@@ -54,7 +63,7 @@ const calculateIconSize = (value) => {
 };
 
 onMounted(() => {
-    updateCategoryValues();
+    updateCategoryValues(props.range);
 }); 
 
 </script>

@@ -77,6 +77,7 @@ watch(() => props.range, (newValue, oldValue) => {
     updateCategoryValues(newValue)
 });
 
+
 const theChart = ref(null);
 const chartTheme = ref(currentPresetName) // already reactive. don't watch for theme
 

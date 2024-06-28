@@ -55,6 +55,17 @@ const props = defineProps({
     type: String,
     default: "LineChart",
   },
+  // optional columns to be selected
+  dataColumns: {
+    type: String,
+    default: [],
+  },
+  // optional classes to be selected
+  dataClasses: {
+    type: String,
+    default: [],
+  },
+  // optional index. probably not needed
   dataIdx: {
     type: Number,
     default: 0

@@ -91,7 +91,7 @@ const controls = ref({
   dataswitch: false,
   animate: false
 })
-const rangeCtl = ref(0)
+const rangeCtl = ref(50)
 const dataCtl = ref(0)
 const aniCtl = ref(0)
 

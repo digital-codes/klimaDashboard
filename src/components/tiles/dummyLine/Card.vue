@@ -42,7 +42,9 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"></SimpleLine>
+      <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
+      :daatColumns="dataColumns" :dataClasses="dataClasses"
+      ></SimpleLine>
     </div>
 
     <div class="chartfooter">
@@ -98,6 +100,8 @@ import cardMessages from "./card.json";
 const dataUrl = ref(null)
 const dataName = ref(null)
 const dataLicense = ref(null)
+const dataColumns = ref(null)
+const dataClasses = ref(null)
 
 
 // controls
@@ -107,14 +111,25 @@ const controls = ref({
   animate: false
 })
 const rangeCtl = ref(0)
-const dataCtl = ref(0)
-const aniCtl = ref(0)
+const dataCtl = ref(false)
+const aniCtl = ref(false)
+
+const checkUrl = (url) => {
+    // create new data uris here: use as is if starting with http else prepend base path
+    if (url && url.toLowerCase().startsWith("http")) {
+    return url
+  } else {
+    return basePath + url
+  }
+}
 
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index)
-  dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
-  dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
-  dataName.value = cardMessages.specs.data[dataCtl.value?1:0].name
+  dataUrl.value = checkUrl(cardMessages.specs.data[dataCtl.value?1:0].url)
+  dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license  || "CC BY-SA 4.0"
+  dataName.value = cardMessages.specs.data[dataCtl.value?1:0].name || "Data"
+  dataColumns.value = cardMessages.specs.data[dataCtl.value?1:0].columns || []
+  dataClasses.value = cardMessages.specs.data[dataCtl.value?1:0].classes || []
 })
 
 onBeforeMount(() => {
@@ -124,14 +139,11 @@ onBeforeMount(() => {
     // console.log(`${key}:`, cardMessages[key]);
     if (key === "specs") continue
     messages.value[key][props.name] = cardMessages[key];
-    // create new data uris here: use as is if strating with http else prepend base path
-    if (dataUrl.value && dataUrl.value.toLowerCase().startsWith("http")) {
-      dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
-    } else {
-      dataUrl.value = basePath + cardMessages.specs.data[dataCtl.value?1:0].url
-      console.log("data:", dataUrl.value)
-    }
-    dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
+    dataUrl.value = cardMessages.specs.data[0].url
+    dataLicense.value = cardMessages.specs.data[0].license
+    dataName.value = cardMessages.specs.data[0].name || "Data"
+    dataColumns.value = cardMessages.specs.data[0].columns || []
+    dataClasses.value = cardMessages.specs.data[0].classes || []
   }
   const specs = cardMessages.specs
   if (specs.controls) {
