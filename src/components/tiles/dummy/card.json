@@ -29,7 +29,7 @@
     "option1": "Option 1 EN",
     "option2": "Option 2 EN",
     "option3": "Option 3 EN",
-    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
   },
   "de": {
     "title": "Titel DE",
@@ -42,7 +42,7 @@
     "option1": "Option 1 DE",
     "option2": "Option 2 DE",
     "option3": "Option 3 DE",
-    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
   },
   "fr": {
     "title": "Title FR",
@@ -55,7 +55,7 @@
     "option1": "Option 1 FR",
     "option2": "Option 2 FR",
     "option3": "Option 3 FR",
-    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
   },
   "es": {
     "title": "Title ES",
@@ -68,6 +68,6 @@
     "option1": "Option 1 ES",
     "option2": "Option 2 ES",
     "option3": "Option 3 ES",
-    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
   }
 }

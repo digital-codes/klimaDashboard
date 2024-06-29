@@ -6,6 +6,7 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/home'),
   path.resolve(__dirname, '../src/components/header'),
   path.resolve(__dirname, '../src/components/footer'),
+  path.resolve(__dirname, '../src/components/tiles'),
 ];
 
 // Define the bash script to execute

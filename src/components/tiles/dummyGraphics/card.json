@@ -3,7 +3,8 @@
     "data": [
       {
         "url": "data/karlsruhe/klima-tp.csv",
-        "license": "CC BY 4.0"
+        "license": "CC BY 4.0",
+        "name": "TP Karlsruhe"
       }
     ],
     "chart": {
@@ -28,8 +29,10 @@
     "title": "Title EN",
     "header": "Header EN",
     "text": "Text EN",
+    "source": "Source",
+    "license": "License",
     "chart": "Chart EN",
-    "download": "Download",
+    "download": "Download Data",
     "downimage": "Get Image",
     "rangetitle": "Range Title",
     "dstitle": "Dataset",
@@ -38,14 +41,16 @@
     "animation": "Animation",
     "anistart": "Start",
     "anistop": "Stop",
-    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\">TP Karlsruhe</a></p>\n"
   },
   "de": {
     "title": "Titel DE",
     "header": "Header DE",
     "text": "Text DE",
+    "source": "Quelle",
+    "license": "Lizenz",
     "chart": "Chart DE",
-    "download": "Herunterladen",
+    "download": "Daten herunterladen",
     "downimage": "Als Bild laden",
     "rangetitle": "Range Title",
     "dstitle": "Datensatz",
@@ -54,14 +59,16 @@
     "animation": "Animation DE",
     "anistart": "Start",
     "anistop": "Stop",
-    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Quelle</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\">TP Karlsruhe</a></p>\n"
   },
   "fr": {
     "title": "Title FR",
     "header": "Header FR",
     "text": "Text FR",
+    "source": "Source FR",
+    "license": "License FR",
     "chart": "Chart FR",
-    "download": "Télécharger",
+    "download": "Télécharger data",
     "downimage": "Get Image FR",
     "rangetitle": "Range Title FR",
     "dstitle": "Dataset FR",
@@ -70,14 +77,16 @@
     "animation": "Animation FR",
     "anistart": "Start FR",
     "anistop": "Stop FR",
-    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source FR</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\">TP Karlsruhe</a></p>\n"
   },
   "es": {
     "title": "Title ES",
     "header": "Header ES",
     "text": "Text ES",
+    "source": "Source ES",
+    "license": "License ES",
     "chart": "Chart ES",
-    "download": "Descargar",
+    "download": "Descargar data",
     "downimage": "Get Image ES",
     "rangetitle": "Range Title ES",
     "dstitle": "Dataset ES",
@@ -86,6 +95,6 @@
     "animation": "Animation ES",
     "anistart": "Start ES",
     "anistop": "Stop ES",
-    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source ES</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\">TP Karlsruhe</a></p>\n"
   }
 }

@@ -34,6 +34,8 @@
     "title": "Title EN",
     "header": "Header EN",
     "text": "Text EN",
+    "source": "Source",
+    "license": "License",
     "chart": "Chart EN",
     "download": "Download Data",
     "downimage": "Get Image",
@@ -44,12 +46,14 @@
     "animation": "Animation",
     "anistart": "Start",
     "anistop": "Stop",
-    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/testing/tbl1.json\">First Dataset</a></p>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz KA</a></p>\n"
   },
   "de": {
     "title": "Titel DE",
     "header": "Header DE",
     "text": "Text DE",
+    "source": "Quelle",
+    "license": "Lizenz",
     "chart": "Chart DE",
     "download": "Daten herunterladen",
     "downimage": "Als Bild laden",
@@ -60,12 +64,14 @@
     "animation": "Animation DE",
     "anistart": "Start",
     "anistop": "Stop",
-    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Quelle</h2>\n<p><a href=\"data/testing/tbl1.json\">First Dataset</a></p>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz KA</a></p>\n"
   },
   "fr": {
     "title": "Title FR",
     "header": "Header FR",
     "text": "Text FR",
+    "source": "Source FR",
+    "license": "License FR",
     "chart": "Chart FR",
     "download": "Télécharger data",
     "downimage": "Get Image FR",
@@ -76,12 +82,14 @@
     "animation": "Animation FR",
     "anistart": "Start FR",
     "anistop": "Stop FR",
-    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source FR</h2>\n<p><a href=\"data/testing/tbl1.json\">First Dataset</a></p>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz KA</a></p>\n"
   },
   "es": {
     "title": "Title ES",
     "header": "Header ES",
     "text": "Text ES",
+    "source": "Source ES",
+    "license": "License ES",
     "chart": "Chart ES",
     "download": "Descargar data",
     "downimage": "Get Image ES",
@@ -92,6 +100,6 @@
     "animation": "Animation ES",
     "anistart": "Start ES",
     "anistop": "Stop ES",
-    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source ES</h2>\n<p><a href=\"data/testing/tbl1.json\">First Dataset</a></p>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz KA</a></p>\n"
   }
 }
