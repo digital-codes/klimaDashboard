@@ -35,8 +35,8 @@
           <VaSwitch v-if="controls.animate" 
            v-model="aniCtl" 
           :label="cardMessages[locale].animation" 
-          :false-inner-label='cardMessages[locale].anistop'
-          :true-inner-label='cardMessages[locale].anistart'
+          :false-inner-label='cardMessages[locale].no'
+          :true-inner-label='cardMessages[locale].yes'
           class="flex lg2 control switch"/>
     </div>
 
@@ -145,7 +145,10 @@ onBeforeMount(() => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+@import '@/style/colors.scss';
+
 /* Add your card styles here */
 
 .control {
@@ -158,7 +161,10 @@ onBeforeMount(() => {
 }
 
 .switch {
-  min-width: 20%;
+  min-width: 10%;
+  border-color: light-dark($light-blue, $dark-orange) !important;
+  border:1px solid;
+  border-radius: 16px;
 }
 
 </style>

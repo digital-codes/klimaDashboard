@@ -152,6 +152,13 @@ onBeforeMount(() => {
 .headertitle {
   margin-left: 1rem;
   display: inline-flex;
+  line-height: 3rem;
+}
+
+@media screen and (max-width: 639px) {
+  .headertitle {
+    line-height: 2rem;
+  }
 }
 
 .headertitlesm {

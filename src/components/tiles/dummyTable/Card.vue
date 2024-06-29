@@ -41,8 +41,8 @@
           <VaSwitch v-if="controls.animate" 
            v-model="aniCtl" 
           :label="cardMessages[locale].animation" 
-          :false-inner-label='cardMessages[locale].anistop'
-          :true-inner-label='cardMessages[locale].anistart'
+          :false-inner-label='cardMessages[locale].no'
+          :true-inner-label='cardMessages[locale].yes'
           class="flex lg2 control switch"/>
     </div>
 

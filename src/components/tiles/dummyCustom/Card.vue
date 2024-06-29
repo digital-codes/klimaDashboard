@@ -146,7 +146,10 @@ onBeforeMount(() => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+@import '@/style/colors.scss';
+
 /* Add your card styles here */
 
 .control {
@@ -159,7 +162,10 @@ onBeforeMount(() => {
 }
 
 .switch {
-  min-width: 20%;
+  min-width: 10%;
+  border-color: light-dark($light-blue, $dark-orange) !important;
+  border:1px solid;
+  border-radius: 16px;
 }
 
 </style>
