@@ -32,11 +32,25 @@
           :true-inner-label='cardMessages[locale].dsright'
           class="flex lg2 control switch"/>
 
+          <VaSwitch v-if="controls.type" 
+           v-model="typeCtl" 
+          :label="cardMessages[locale].type" 
+          :false-inner-label='cardMessages[locale].typeleft'
+          :true-inner-label='cardMessages[locale].typeright'
+          class="flex lg2 control switch"/>
+
+          <VaSwitch v-if="controls.stacked" 
+           v-model="stackCtl" 
+          :label="cardMessages[locale].stacked" 
+          :false-inner-label='cardMessages[locale].no'
+          :true-inner-label='cardMessages[locale].yes'
+          class="flex lg2 control switch"/>
+
           <VaSwitch v-if="controls.animate" 
            v-model="aniCtl" 
           :label="cardMessages[locale].animation" 
-          :false-inner-label='cardMessages[locale].anistop'
-          :true-inner-label='cardMessages[locale].anistart'
+          :false-inner-label='cardMessages[locale].no'
+          :true-inner-label='cardMessages[locale].yes'
           class="flex lg2 control switch"/>
     </div>
 
@@ -44,6 +58,7 @@
       <!-- Chart component goes here -->
       <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
       :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY"
+      :type="typeCtl?controls.type.options[1]:controls.type.options[0]" :stacked="stackCtl" :animate="aniCtl"
       ></SimpleLine>
     </div>
 
@@ -111,17 +126,25 @@ const dataY = ref(null)
 const dataColumns = ref(null)
 // classes is an array starting with the class identifier followed by the class names
 const dataClasses = ref(null)
+// chart options
+const dataType = ref(null)
+const dataStacked = ref(false)
 
 
 // controls
 const controls = ref({
   range: false,
   dataswitch: false,
-  animate: false
+  animate: false,
+  type: false,
+  stacked: false,
 })
+
 const rangeCtl = ref(0)
 const dataCtl = ref(false)
 const aniCtl = ref(false)
+const typeCtl = ref(false)
+const stackCtl = ref(false)
 
 const checkUrl = (url) => {
     // create new data uris here: use as is if starting with http else prepend base path
@@ -147,6 +170,7 @@ watch(dataCtl, (index) => {
   updateData(index?1:0) 
 })
 
+
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
@@ -161,6 +185,8 @@ onBeforeMount(() => {
     console.log("Specs:", specs)
     if (specs.controls.range.present) controls.value.range = specs.controls.range
     if ((specs.controls.dataswitch.present) && (cardMessages.specs.data.length > 1))controls.value.dataswitch = specs.controls.dataswitch
+    if (specs.controls.type.present) controls.value.type = specs.controls.type
+    if (specs.controls.stacked.present) controls.value.stacked = specs.controls.stacked
     if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
     console.log("Ctls:", controls.value)
   }

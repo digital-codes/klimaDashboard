@@ -80,6 +80,14 @@ const props = defineProps({
     type: Number,
     default: 0
   },
+  type: {
+    type: String,
+    default: "line"
+  },
+  stacked: {
+    type: Boolean,
+    default: false
+  },
   range: {
     type: Number,
     default: 50
@@ -100,6 +108,17 @@ watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
   chartTheme.value = newValue;
 });
+
+watch(() => props.type, (newValue, oldValue) => {
+  console.log("Type changed:", newValue);
+  updateOptions()
+});
+
+watch(() => props.stacked, (newValue, oldValue) => {
+  console.log("Stacked changed:", newValue);
+  updateOptions()
+});
+
 
 watch(() => props.range, (newValue, oldValue) => {
   console.log("Range changed:", newValue);
@@ -243,7 +262,8 @@ const updateOptions = async () => {
             return parseData(filteredData.find(item => item[props.dataX] === position)[props.dataColumns[0]])
           }
         }),
-        type: "line",
+        type: props.type,
+        stack:props.stacked ? 'stack' : null,
         symbol: dataSymbol(index).symbol,
         color: dataSymbol(index).color,
         symbolSize: 16,
@@ -285,7 +305,8 @@ const updateOptions = async () => {
             return parseData(chartData.find(item => item[props.dataX] === position)[column])
           }
         }),
-        type: "line",
+        type: props.type,
+        stack:props.stacked ? 'stack' : null,
         symbol: dataSymbol(index).symbol,
         color: dataSymbol(index).color,
         symbolSize: 16,
@@ -373,9 +394,9 @@ const chartOptions = ref({
       dataZoom: {
         yAxisIndex: 'none'
       },
-      dataView: { readOnly: true },
-      magicType: { type: ['line', 'bar', 'stack'] },
-      restore: {},
+      //dataView: { readOnly: true },
+      //magicType: { type: ['line', 'bar', 'stack'] },
+      //restore: {},
     }
   },
   title: {
