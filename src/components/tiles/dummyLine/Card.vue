@@ -188,8 +188,8 @@ onBeforeMount(async () => {
     // console.log(`${key}:`, cardMessages[key]);
     if (key === "specs") continue 
     // localized content pane
-    const fileName = `./${key}.content?raw`
-    const htm = await import(/* @vite-ignore */ fileName ) 
+    const fileName = `./${key}.content?url`
+    const htm = await import( fileName ) 
     content.value[key] = htm.default
     // localization data
     messages.value[key][props.name] = cardMessages[key];
