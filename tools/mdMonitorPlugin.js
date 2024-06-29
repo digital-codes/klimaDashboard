@@ -6,7 +6,11 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/home'),
   path.resolve(__dirname, '../src/components/header'),
   path.resolve(__dirname, '../src/components/footer'),
-  path.resolve(__dirname, '../src/components/tiles'),
+  path.resolve(__dirname, '../src/components/tiles/dummyCustom'),
+  path.resolve(__dirname, '../src/components/tiles/dummyGraphics'),
+  path.resolve(__dirname, '../src/components/tiles/dummyLine'),
+  path.resolve(__dirname, '../src/components/tiles/dummyMap'),
+  path.resolve(__dirname, '../src/components/tiles/dummyTable'),
 ];
 
 // Define the bash script to execute
