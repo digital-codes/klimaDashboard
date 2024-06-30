@@ -113,6 +113,9 @@ const props = defineProps({
 });
 console.log("Card name:", props.name);
 
+// read localized card content
+import cardContent from "./text.json";
+
 // read card specs and localization
 import cardMessages from "./card.json";
 const dataUrl = ref(null)
@@ -183,14 +186,14 @@ watch(typeCtl, (index) => {
 
 onBeforeMount(async () => {
   // Code to execute when the component is mounted
-  // Merge card specific messages with global
+  // localized content
+  for (const key in cardContent) {
+    content.value[key] = cardContent[key]
+  }
   for (const key in cardMessages) {
     // console.log(`${key}:`, cardMessages[key]);
+    // skip overspecs (not localized)
     if (key === "specs") continue 
-    // localized content pane
-    const fileName = `./${key}.content?url`
-    const htm = await import( fileName ) 
-    content.value[key] = htm.default
     // localization data
     messages.value[key][props.name] = cardMessages[key];
     updateData(0)

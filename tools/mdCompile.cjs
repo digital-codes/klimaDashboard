@@ -7,7 +7,8 @@ const purify = require("isomorphic-dompurify")
 
 const directory = process.cwd();
 const cardFile = path.join(directory, 'card.json');
-
+const contentFile = path.join(directory, 'text.json');
+const theContent = {} 
 
 // Read the card.json file
 const compile = async () => {
@@ -60,6 +61,8 @@ const compile = async () => {
                 const purifiedContent = await purify.sanitize(markedContent)
                 // Insert the marked content into the card.json file
                 card[language]["mdpane"] = purifiedContent;
+                // set theContent for content.json
+                theContent[language] = purifiedContent;
             } catch (err) {
                 console.error(`Error reading file: ${err}`);
                 return;
@@ -68,6 +71,9 @@ const compile = async () => {
         // Write the updated card.json file
         await fs.promises.writeFile(cardFile, JSON.stringify(card, null, 2));
         console.log(`Successfully updated ${cardFile}`);
+        // Write the content.json file
+        await fs.promises.writeFile(contentFile, JSON.stringify(theContent, null, 2));
+        console.log(`Successfully updated ${contentFile}`);
     } catch (err) {
         console.error(`Error reading card.json: ${err}`);
     }
