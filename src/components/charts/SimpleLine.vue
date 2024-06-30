@@ -387,6 +387,14 @@ const chartOptions = ref({
   tooltip: {
     trigger: 'axis',
     valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
+    /*
+    axisPointer: {
+      type: 'cross',
+      label:{
+        show: true,
+      }
+    },
+    */
   },
   toolbox: {
     show: true,
