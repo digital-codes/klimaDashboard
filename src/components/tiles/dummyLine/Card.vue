@@ -31,6 +31,8 @@
           :false-inner-label='cardMessages[locale].dsleft'
           :true-inner-label='cardMessages[locale].dsright'
           class="flex lg2 control switch"
+          offColor="rgba(100,100,100,.4)"
+          leftLabel
           />
 
           <VaSwitch v-if="controls.type" 
@@ -38,21 +40,30 @@
           :label="cardMessages[locale].type" 
           :false-inner-label='cardMessages[locale].typeleft'
           :true-inner-label='cardMessages[locale].typeright'
-          class="flex lg2 control switch"/>
+          class="flex lg2 control switch"
+          offColor="rgba(100,100,100,.4)"
+          leftLabel
+          />
 
           <VaSwitch v-if="controls.stacked" 
            v-model="stackCtl" 
           :label="cardMessages[locale].stacked" 
           :false-inner-label='cardMessages[locale].no'
           :true-inner-label='cardMessages[locale].yes'
-          class="flex lg2 control switch"/>
+          class="flex lg2 control switch"
+          offColor="rgba(100,100,100,.4)"
+          leftLabel
+          />
 
           <VaSwitch v-if="controls.animate" 
            v-model="aniCtl" 
           :label="cardMessages[locale].animation" 
           :false-inner-label='cardMessages[locale].no'
           :true-inner-label='cardMessages[locale].yes'
-          class="flex lg2 control switch"/>
+          class="flex lg2 control switch"
+          offColor="rgba(100,100,100,.4)"
+          leftLabel
+          />
     </div>
 
     <div class="chartpane">
@@ -230,7 +241,7 @@ onBeforeMount(async () => {
 .switch {
   min-width: 10%;
   border-color: light-dark($light-blue, $dark-orange) !important;
-  border:1px solid;
+  //border:1px solid;
   border-radius: 16px;
 }
 
