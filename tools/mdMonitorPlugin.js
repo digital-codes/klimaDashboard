@@ -19,10 +19,11 @@ const bashScript = path.resolve(__dirname, './mdCompileAll.sh');
 const customMarkdownPlugin = () => ({
   name: 'custom-markdown-plugin',
   handleHotUpdate({ file, server }) {
-    if (file.endsWith('.md') && markdownDirs.some(dir => file.startsWith(dir))) {
+    if ((file.endsWith("card.json") || file.endsWith('.md')) && markdownDirs.some(dir => file.startsWith(dir))) {
       // Execute the bash script
-      exec(bashScript, (error, stdout, stderr) => {
-        if (error) {
+      //exec(`${bashScript} ${dir} ${file}`, (error, stdout, stderr) => {
+        exec(`${bashScript} ${file}`, (error, stdout, stderr) => {
+          if (error) {
           console.error(`Error executing script: ${error}`);
           return;
         }
