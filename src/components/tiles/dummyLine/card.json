@@ -5,6 +5,7 @@
         "url": "https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv",
         "license": "CC-BY-4.0",
         "name": "Treibhausgasbilanz Karlsruhe",
+        "format":"csv",
         "xaxis": "year",
         "columns": [
           "co2"
@@ -22,6 +23,7 @@
         "url": "https://transparenz.karlsruhe.de/dataset/ad0659b0-9e4b-408a-8840-3f19d5ec743d/resource/df843a83-b3f6-4929-b6a8-96471508f6f2/download/sensordaten_karlsruhe_bodentemperatur_bodenfeuchte_oct_2023.csv",
         "license": "CC BY 4.0",
         "name": "Sensoren  Friedrichsplatz 10/23",
+        "format":"csv",
         "xaxis": "Datum",
         "columns": [
           "bodentemperatur"
