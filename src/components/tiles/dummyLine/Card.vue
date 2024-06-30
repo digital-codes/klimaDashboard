@@ -70,7 +70,8 @@
       <!-- Chart component goes here -->
       <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
       :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY"
-      :type="chartType" :stacked="stackCtl" :animate="aniCtl"
+      :dataFormat="dataFormat" 
+      :type="chartType" :stacked="stackCtl" :animate="aniCtl" 
       ></SimpleLine>
     </div>
 
@@ -134,6 +135,7 @@ const dataName = ref(null)
 const dataLicense = ref(null)
 const dataX = ref(null)
 const dataY = ref(null)
+const dataFormat = ref("json") // json is default
 // we can create series from classes and columns
 // NB we cannot do both
 // make sure either of the two has to be length 1 (or be empty)
@@ -180,6 +182,7 @@ const updateData = (index) => {
   dataName.value = cardMessages.specs.data[index].name || "Data"
   dataX.value = cardMessages.specs.data[index].xaxis || ""
   dataY.value = cardMessages.specs.data[index].yaxis || ""
+  dataFormat.value = cardMessages.specs.data[index].format || "json"
   dataColumns.value = cardMessages.specs.data[index].columns || []
   dataClasses.value = cardMessages.specs.data[index].classes || []
 }

@@ -65,6 +65,11 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  // optional format
+  dataFormat: {
+    type: String,
+    default: "json",
+  },
   // optional columns to be selected
   dataColumns: {
     type: Array,
@@ -183,10 +188,33 @@ const updateOptions = async () => {
   // we have to know if we get 1 or 2 series from data.
   // assume we always have an array. 
   // in case the inner data is an array too, we have multiple series
-  const df = new dataForge.DataFrame(data.value)
-  console.log(df.head(3).toString());
-  const cols = df.getColumnNames()
-  //console.log("Cols:", cols)
+  let df = new dataForge.DataFrame(data.value)
+  //console.log(df.toString())
+  //console.log("Dataframe:", df.head(3).toString());
+  let cols = df.getColumnNames()
+  console.log("Cols:", cols)
+
+  if (cols.length == 0) {
+    console.log("No columns");
+    cols = Object.keys(data.value)
+    console.log("Keys:", cols);
+    if (cols.length == 0) {
+      console.log("Again no columns")
+      return
+    }
+    const tabularData = [];
+    for (const key of cols) {
+      const items = data.value[key];
+      for (const item of items) {
+        item.key = key;
+        tabularData.push(item);
+      }
+    }
+
+    df = new dataForge.DataFrame(tabularData);
+    // df = new dataForge.DataFrame(data.value[keys[0]])
+    // console.log("Dataframe:", df.toString());
+}
 
   // input differs by identifiers for category (X-axis), value (Y-Axis), group
   // and selected group names
@@ -347,7 +375,7 @@ const loadData = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     datakeys.value = []
-    if (props.dataUrl.endsWith(".json")) {
+    if (props.dataFormat == "json") {
       data.value = await response.json();
       //console.log("JSON:", data.value);
       await updateOptions()
