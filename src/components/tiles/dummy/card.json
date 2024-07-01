@@ -1,73 +1,176 @@
 {
   "specs": {
+    "extra": [
+      {
+        "url": "https://transparenz.karlsruhe.de/dataset/ad0659b0-9e4b-408a-8840-3f19d5ec743d/resource/df843a83-b3f6-4929-b6a8-96471508f6f2/download/sensordaten_karlsruhe_bodentemperatur_bodenfeuchte_oct_2023.csv",
+        "license": "CC BY 4.0",
+        "name": "Sensoren  Friedrichsplatz 10/23",
+        "format": "csv",
+        "xaxis": "Datum",
+        "columns": [
+          "bodentemperatur"
+        ],
+        "classes": [
+          "name",
+          "SenseCap LBB (60) neu ✓",
+          "SenseCap ECE (90) neu ✓"
+        ]
+      }
+    ],
     "data": [
       {
-        "url": "data/karlsruhe/klima-tp.csv",
-        "license": "CC BY 4.0"
+        "url": "https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv",
+        "license": "CC-BY-4.0",
+        "name": "Treibhausgasbilanz Karlsruhe",
+        "format": "csv",
+        "xaxis": "year",
+        "columns": [
+          "co2"
+        ],
+        "classes": [
+          "category",
+          "Private Haushalte",
+          "Stadt",
+          "Industrie",
+          "Verkehr",
+          "Gewerbe+Sonstiges"
+        ]
+      },
+      {
+        "url": "https://co2runter.karlsruhe.de/api/dashboard/footprints/",
+        "license": "CC BY 4.0",
+        "name": "CO2 Runter",
+        "format": "json",
+        "xaxis": "name",
+        "columns": [
+          "value"
+        ],
+        "classes": [
+          "key"
+        ]
       }
     ],
     "chart": {
-      "type": "line",
       "updating": false
     },
-    "controls": [
-      {
-        "type": "button",
-        "position": "top",
-        "name": "BTN1"
+    "controls": {
+      "range": {
+        "present": false,
+        "min": 1,
+        "max": 100
+      },
+      "type": {
+        "present": true,
+        "options": [
+          "line",
+          "bar"
+        ]
+      },
+      "stacked": {
+        "present": true
+      },
+      "dataswitch": {
+        "present": true
+      },
+      "animate": {
+        "present": false
       }
-    ]
+    }
   },
   "en": {
+    "yes": "Yes",
+    "no": "No",
     "title": "Title EN",
     "header": "Header EN",
     "text": "Text EN",
+    "source": "Source",
+    "license": "License",
     "chart": "Chart EN",
-    "download": "Download",
-    "button": "Button EN",
-    "checkbox": "Check EN",
-    "option1": "Option 1 EN",
-    "option2": "Option 2 EN",
-    "option3": "Option 3 EN",
-    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
+    "type": "Type",
+    "typeleft": "Line",
+    "typeright": "Bar",
+    "stacked": "Stacked",
+    "download": "Download Data",
+    "downimage": "Get Image",
+    "rangetitle": "Range Title",
+    "dstitle": "Dataset",
+    "dsleft": "First",
+    "dsright": "Second",
+    "animation": "Animation",
+    "anistart": "Start",
+    "anistop": "Stop",
+    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz Karlsruhe</a></p>\n<p><a href=\"https://co2runter.karlsruhe.de/api/dashboard/footprints/\">CO2 Runter</a></p>\n"
   },
   "de": {
+    "yes": "Ja",
+    "no": "Nein",
     "title": "Titel DE",
     "header": "Header DE",
     "text": "Text DE",
+    "source": "Quelle",
+    "license": "Lizenz",
     "chart": "Chart DE",
-    "download": "Herunterladen",
-    "button": "Button DE",
-    "checkbox": "Check DE",
-    "option1": "Option 1 DE",
-    "option2": "Option 2 DE",
-    "option3": "Option 3 DE",
-    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
+    "type": "Typ",
+    "typeleft": "Linie",
+    "typeright": "Balken",
+    "stacked": "Gestapelt",
+    "download": "Daten herunterladen",
+    "downimage": "Als Bild laden",
+    "rangetitle": "Range Title",
+    "dstitle": "Datensatz",
+    "dsleft": "Eins",
+    "dsright": "Zwei",
+    "animation": "Animation DE",
+    "anistart": "Start",
+    "anistop": "Stop",
+    "mdpane": "<h2>Klimabilanz Karlsruhe</h2>\n<p>bla bla bla bla bla </p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Quelle</h2>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz Karlsruhe</a></p>\n<p><a href=\"https://co2runter.karlsruhe.de/api/dashboard/footprints/\">CO2 Runter</a></p>\n"
   },
   "fr": {
+    "yes": "Oui",
+    "no": "Non",
     "title": "Title FR",
     "header": "Header FR",
     "text": "Text FR",
+    "source": "Source FR",
+    "license": "License FR",
     "chart": "Chart FR",
-    "download": "Télécharger",
-    "button": "Button FR",
-    "checkbox": "Check FR",
-    "option1": "Option 1 FR",
-    "option2": "Option 2 FR",
-    "option3": "Option 3 FR",
-    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
+    "type": "Type FR",
+    "typeleft": "Line FR",
+    "typeright": "Bar FR",
+    "stacked": "Stacked FR",
+    "download": "Télécharger data",
+    "downimage": "Get Image FR",
+    "rangetitle": "Range Title FR",
+    "dstitle": "Dataset FR",
+    "dsleft": "First FR",
+    "dsright": "Second FR",
+    "animation": "Animation FR",
+    "anistart": "Start FR",
+    "anistop": "Stop FR",
+    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source FR</h2>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz Karlsruhe</a></p>\n<p><a href=\"https://co2runter.karlsruhe.de/api/dashboard/footprints/\">CO2 Runter</a></p>\n"
   },
   "es": {
+    "yes": "Sí",
+    "no": "No",
     "title": "Title ES",
     "header": "Header ES",
     "text": "Text ES",
+    "source": "Source ES",
+    "license": "License ES",
     "chart": "Chart ES",
-    "download": "Descargar",
-    "button": "Button ES",
-    "checkbox": "Check ES",
-    "option1": "Option 1 ES",
-    "option2": "Option 2 ES",
-    "option3": "Option 3 ES",
-    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source</h2>\n<p><a href=\"data/karlsruhe/klima-tp.csv\"></a></p>\n"
+    "type": "Type ES",
+    "typeleft": "Line ES",
+    "typeright": "Bar ES",
+    "stacked": "Stacked ES",
+    "download": "Descargar data",
+    "downimage": "Get Image ES",
+    "rangetitle": "Range Title ES",
+    "dstitle": "Dataset ES",
+    "dsleft": "First ES",
+    "dsright": "Second ES",
+    "animation": "Animation ES",
+    "anistart": "Start ES",
+    "anistop": "Stop ES",
+    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n<h2>Source ES</h2>\n<p><a href=\"https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv\">Treibhausgasbilanz Karlsruhe</a></p>\n<p><a href=\"https://co2runter.karlsruhe.de/api/dashboard/footprints/\">CO2 Runter</a></p>\n"
   }
 }
