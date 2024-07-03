@@ -1,13 +1,13 @@
 import pandas as pd
 import locale
+import sys
+
 locale.setlocale(locale.LC_ALL, ("de_DE","UTF-8"))
 df = pd.read_csv("KSK_Kennzahlen_Werte_2024-light_tbl1.csv",sep=";",decimal=",")
 df.rename(columns={"Unnamed: 1":"Topic",
                    "Unnamed: 4":"Einheit",
                    "Unnamed: 21":"Kommentar"},inplace=True)
 
-# drop empty lines
-df.drop(index=df[df["Jahr"].isna()].index,inplace=True)
 
 # fillna
 df["Maßnahme"].fillna(method="ffill",inplace=True)
@@ -17,6 +17,10 @@ df["Topic"].fillna(method="ffill",inplace=True)
 df["Topic"].fillna("",inplace=True)
 df["Einheit"].fillna("",inplace=True)
 df["Topic"] = df["Ziffer"] + "-" + df["Topic"] + "|" +  df["Maßnahme"]
+
+# drop empty lines after fillna !
+df.drop(index=df[df["Jahr"].isna()].index,inplace=True)
+
 df.to_csv("ksk.csv")
 
 subset_columns = [str(x) for x in range(2010,2024)]
