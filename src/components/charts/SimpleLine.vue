@@ -362,7 +362,6 @@ const updateOptions = async () => {
 
   chartOptions.value.xAxis.type = "category"
   chartOptions.value.xAxis.data = categories
-  chartOptions.value.yAxis = { type: 'value' }
   chartOptions.value.series = seriesData
   //console.log("Options updated:", chartOptions.value);
 }
@@ -438,7 +437,7 @@ const chartOptions = ref({
   title: {
     "show": true,
     "left": "center",
-    "text": "Line chart example",
+    "text": props.dataName,
     "textStyle": {
       //"color": "#0f0",
       "fontSize": 20
@@ -452,7 +451,7 @@ const chartOptions = ref({
   },
   "aria": {
     "enabled": true,
-    "description": "Line chart example",
+    "description": props.dataName,
     show: true,
   },
   // backgroundColor: "#333",
@@ -460,6 +459,7 @@ const chartOptions = ref({
     name: "X-axis",
     nameLocation: "center",
     nameGap: 30,
+    boundaryGap: true,
     axisLabel: {
       "show": true
       //formatter: '{value} [Unit-X]'
@@ -469,10 +469,16 @@ const chartOptions = ref({
   },
   yAxis: {
     name: "Y-axis",
-    nameLocation: "center",
-    nameGap: 30,
+    type: "value",
+    nameLocation: "end",
+    nameGap:10,
+    top:"top",
+    //offset:-10,
     axisLabel: {
-      "show": true
+      margin:10, // smaller on mobile
+      show: true,
+      hideOverlap: true,
+      interval: 0,
       //formatter: '{value} [Unit-Y]'
     },
     type: "value",
