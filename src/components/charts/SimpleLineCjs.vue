@@ -147,6 +147,7 @@ watch(() => props.stacked, async (newValue, oldValue) => {
   chartOptions.value.scales.y.stacked = newValue
   // stacked option is not dynamically changed. use nexttick and loaded flag
   updateOptions()
+
 });
 
 
