@@ -285,6 +285,7 @@ button:focus-visible {
 }
 
 
+
 .mdcontent {
   /*
   background-color: light-dark(var(--md-light-bg), var(--md-dark-bg));
@@ -294,16 +295,28 @@ button:focus-visible {
   color: light-dark($dark-dark-gray, $light-light-gray);
   border-color: light-dark($dark-gray,$light-gray);   // #535bf2;
 
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   border-radius: 8px;
   border-style: solid;
   border-width: 3px;
   padding: 0.5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  max-height: 8rem;
+  max-height: 14rem;
   overflow-x: hidden;
   overflow-y: scroll;
 }
+
+.card .mdcontent {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  // no border, max height
+  border-radius: unset;
+  border-style: solid;
+  border-width: 0 0 3px 0;
+  padding: 0;
+  max-height: unset;
+}
+
 
 .fullheight {  
   max-height: unset;
