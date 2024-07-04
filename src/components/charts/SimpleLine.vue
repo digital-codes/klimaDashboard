@@ -137,6 +137,8 @@ watch(() => props.dataUrl, async (newValue, oldValue) => {
   console.log("Data URL changed:", newValue);
   if (theChart.value) await theChart.value.clear()
   await loadData();
+  // also update title
+  chartOptions.value.title.text = props.dataName
 
 });
 

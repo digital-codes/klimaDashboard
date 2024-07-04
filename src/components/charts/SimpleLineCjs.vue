@@ -136,9 +136,7 @@ watch(() => props.stacked, async (newValue, oldValue) => {
   chartOptions.value.scales.x.stacked = newValue
   chartOptions.value.scales.y.stacked = newValue
   // stacked option is not dynamically changed. use nexttick and loaded flag
-  dataLoaded.value = false
-  await nextTick();
-  dataLoaded.value = true
+  updateOptions()
 });
 
 
@@ -148,9 +146,11 @@ watch(() => props.range, (newValue, oldValue) => {
 
 watch(() => props.dataUrl, async (newValue, oldValue) => {
   console.log("Data URL changed:", newValue);
-  if (theChart.value) await theChart.value.clear()
+  //if (theChart.value) await theChart.value.clear()
   await loadData();
-
+  // update title as well
+  chartOptions.value.plugins.title.text = props.dataName
+  updateOptions()
 });
 
 watch(() => props.animate, (newValue, oldValue) => {
@@ -167,6 +167,9 @@ const parseData = (data) => {
 
 
 const updateOptions = async () => {
+  dataLoaded.value = false
+  await nextTick();
+  dataLoaded.value = true
   console.log("Updating options disabled")
   return
   console.log("Updating from data:", data.value);
@@ -397,6 +400,12 @@ const chartOptions = ref({
       stacked: false
     }
   },
+  plugins: {
+    title: {
+        display: true,
+        text: props.dataName
+    }
+  }
 }
 )
 
