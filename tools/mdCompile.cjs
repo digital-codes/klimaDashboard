@@ -59,18 +59,13 @@ const compile = async () => {
                 }
                 const markedContent = await marked.parse(content);
                 const purifiedContent = await purify.sanitize(markedContent)
-                // Insert the marked content into the card.json file
-                // card[language]["mdpane"] = purifiedContent;
-                // set theContent for content.json
+                // set language content into content file
                 theContent[language] = purifiedContent;
             } catch (err) {
                 console.error(`Error reading file: ${err}`);
                 return;
             }
         }
-        // Write the updated card.json file
-        // await fs.promises.writeFile(cardFile, JSON.stringify(card, null, 2));
-        // console.log(`Successfully updated ${cardFile}`);
         // Write the content.json file
         await fs.promises.writeFile(contentFile, JSON.stringify(theContent, null, 2));
         console.log(`Successfully updated ${contentFile}`);

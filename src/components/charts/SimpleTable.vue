@@ -83,10 +83,9 @@ const loadData = async () => {
         for (const key in data.value[0]) {
             datakeys.value.push(key)
         }
-        console.log("Data:", data.value);
         dataLoaded.value = true;
         await nextTick();
-        console.log("Data loaded:", data);
+        console.log("Data loaded");
     } catch (error) {
         console.error("Failed to load chart data:", error);
     }

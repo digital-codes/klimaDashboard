@@ -161,8 +161,8 @@ use([
 onMounted(async () => {
 
     try {
-        console.log("Fetching: ", props.chartDataUri);
-        const response = await fetch(props.chartDataUri);
+        console.log("Fetching: ", props.dataUrl);
+        const response = await fetch(props.dataUrl);
         const data = await response.text();
         dataLoaded.value = true;
         await nextTick();

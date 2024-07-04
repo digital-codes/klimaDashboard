@@ -12,7 +12,7 @@
       <h1 >{{ $t($props.name + ".title") }}</h1>
     </div>
 
-    <div class="mdcontent" v-html="cardMessages[locale].mdpane"></div>
+    <div class="mdcontent" v-html="content[locale]"></div>
    
     <div class="row">
           <VaSlider v-if="controls.range.present" 
@@ -101,11 +101,14 @@ const props = defineProps({
 });
 console.log("Card name:", props.name);
 
-// messages i18n
+// read localized card content
+import cardContent from "./text.json";
+
+// read card specs and localization
 import cardMessages from "./card.json";
 const dataUrl = ref(null)
+const dataName = ref(null)
 const dataLicense = ref(null)
-
 
 // controls
 const controls = ref({
@@ -117,6 +120,18 @@ const rangeCtl = ref(0)
 const dataCtl = ref(0)
 const aniCtl = ref(0)
 
+// content pane
+const content = ref({})
+
+const checkUrl = (url) => {
+    // create new data uris here: use as is if starting with http else prepend base path
+    if (url && url.toLowerCase().startsWith("http")) {
+    return url
+  } else {
+    return basePath + url
+  }
+}
+
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index)
   dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
@@ -125,21 +140,21 @@ watch(dataCtl, (index) => {
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
-  // Merge card specific messages with global
+  // localized content
+  for (const key in cardContent) {
+    content.value[key] = cardContent[key]
+  }
   for (const key in cardMessages) {
     // console.log(`${key}:`, cardMessages[key]);
     if (key === "specs") continue
     messages.value[key][props.name] = cardMessages[key];
-    // create new data uris here: use as is if strating with http else prepend base path
-    if (dataUrl.value && dataUrl.value.toLowerCase().startsWith("http")) {
-      dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
-    } else {
-      dataUrl.value = basePath + cardMessages.specs.data[dataCtl.value?1:0].url
-      console.log("data:", dataUrl.value)
-    }
-    dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
   }
   const specs = cardMessages.specs
+// create default data uri here
+	dataUrl.value = checkUrl(specs.data[0].url)
+	dataLicense.value = specs.data[0].license
+	dataName.value = specs.data[0].name
+
   if (specs.controls) {
     console.log("Specs:", specs)
     if (specs.controls.range.present) controls.value.range = specs.controls.range
@@ -172,7 +187,6 @@ onBeforeMount(() => {
   border:1px solid;
   border-radius: 16px;
 }
-
 
 </style>
 
