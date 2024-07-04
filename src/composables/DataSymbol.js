@@ -3,7 +3,7 @@ import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
 
-const getDataSymbol = (index) => {
+const getDataSymbol = (index, lib = 'echarts') => {
     let sym
     const isDark = configStore.getTheme == "dark"
     const col = index % 2 ? (isDark ? 'rgb(31,51,153)' : 'rgb(41,68,205)') : (isDark ? 'rgb(228,193,23)' : 'rgb(177,150,18)')
@@ -18,7 +18,7 @@ const getDataSymbol = (index) => {
             break;
         case 2:
         case 3:
-            sym = 'diamond'
+            sym = lib == "echarts" ? 'diamond' : 'rectRot'
             pattern = -Math.PI / 4
             break;
         case 4:
@@ -28,7 +28,7 @@ const getDataSymbol = (index) => {
             break;
         case 6:
         case 7:
-            sym = 'rectangle'
+            sym = lib == "echarts" ? 'rectangle' : "rect"
             pattern = -Math.PI / 8
             break;
         default:
@@ -39,3 +39,19 @@ const getDataSymbol = (index) => {
 }
 
 export default getDataSymbol
+
+/*
+chartjs:
+    'circle'
+    'cross'
+    'crossRot'
+    'dash'
+    'line'
+    'rect'
+    'rectRounded'
+    'rectRot'
+    'star'
+    'triangle'
+    false
+
+*/

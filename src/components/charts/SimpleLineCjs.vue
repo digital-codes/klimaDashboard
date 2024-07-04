@@ -24,18 +24,6 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale,
 import { useColors } from "vuestic-ui";
 const { currentPresetName } = useColors();
 
-watch(currentPresetName, (newValue, oldValue) => {
-  if (newValue == "dark") {
-    for (let i = 0; i < chartOptions.value.series.length; i++) {
-      chartOptions.value.series[i].label.color = "white"
-    }
-  } else {
-    for (let i = 0; i < chartOptions.value.series.length; i++) {
-      chartOptions.value.series[i].label.color = "black"
-    }
-  }
-});
-
 
 const props = defineProps({
   /* Add your props here */
@@ -107,22 +95,44 @@ const chartData = ref({
   datasets: [
     {
       label: 'Data One',
-      backgroundColor: '#f87979',
+      backgroundColor: getDataSymbol(0).color,
+      borderWidth:3,
+      borderColor: getDataSymbol(0).color,
+      pointStyle: getDataSymbol(0,"chartjs").symbol,
+      radius: 6,
       data: [40, 20, 12]
     },
     {
       label: 'Data Two',
-      backgroundColor: '#4849f9',
+      backgroundColor: getDataSymbol(1).color,
+      borderWidth:3,
+      borderColor: getDataSymbol(1).color,
+      pointStyle: getDataSymbol(1,"chartjs").symbol,
+      radius: 6,
       data: [45, 10, 32]
     }
   ]
 }
 )
 
+/*
+watch(currentPresetName, (newValue, oldValue) => {
+  if (newValue == "dark") {
+    for (let i = 0; i < chartOptions.value.series.length; i++) {
+      chartOptions.value.series[i].label.color = "white"
+    }
+  } else {
+    for (let i = 0; i < chartOptions.value.series.length; i++) {
+      chartOptions.value.series[i].label.color = "black"
+    }
+  }
+});
+*/
 
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
-  chartTheme.value = newValue;
+  chartOptions.value.plugins.title.color = newValue == "dark" ? "white" : "black"
+  updateOptions()
 });
 
 watch(() => props.type, (newValue, oldValue) => {
@@ -389,7 +399,6 @@ const loadData = async () => {
 
 const chartOptions = ref({
   // chartjs
-  type: 'line',
   responsive: true, // requires parent div position relative
   maintainAspectRatio: false,
   scales: {
@@ -403,11 +412,19 @@ const chartOptions = ref({
   plugins: {
     title: {
         display: true,
+        color: configStore.getTheme == "dark" ? "white" : "black",
+        font: {
+          size: 22,
+          weight: "bold",
+        },
         text: props.dataName
+    },
+    legend: {
+      display: true,
+      position: 'bottom',
     }
   }
-}
-)
+})
 
 onMounted(async () => {
 
