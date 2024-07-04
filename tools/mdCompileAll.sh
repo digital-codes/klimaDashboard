@@ -64,7 +64,11 @@ else
 	for i in `ls -1 $P/src/components/tiles/`; do
 		echo $i;
 		cd $P/src/components/tiles/$i
-		node $P/tools/mdCompile.cjs
+		if test -f card.json;
+			then node $P/tools/mdCompile.cjs
+		else
+			echo "Skipping `pwd`"
+		fi
 		cd $P 
 	done
 

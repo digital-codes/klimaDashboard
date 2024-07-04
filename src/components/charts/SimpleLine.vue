@@ -8,14 +8,13 @@ import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
 // import composables
-import getDataSymbol from '@/composables/DataSymbol';
+import { lineBarDefaults, updateEchartsOptions } from '@/composables/EchartsUtils';
 
 
 // data parser
 import Papa from 'papaparse';
 // https://www.data-forge-js.com/
 // https://github.com/data-forge/data-forge-ts/blob/master/docs/guide.md
-import * as dataForge from 'data-forge'
 
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -35,19 +34,6 @@ import {
 
 import { useColors } from "vuestic-ui";
 const { currentPresetName } = useColors();
-
-watch(currentPresetName, (newValue, oldValue) => {
-  if (newValue == "dark") {
-    for (let i = 0; i < chartOptions.value.series.length; i++) {
-      chartOptions.value.series[i].label.color = "white"
-    }
-  } else {
-    for (let i = 0; i < chartOptions.value.series.length; i++) {
-      chartOptions.value.series[i].label.color = "black"
-    }
-  }
-});
-
 
 const props = defineProps({
   /* Add your props here */
@@ -118,6 +104,20 @@ watch(currentPresetName, (newValue, oldValue) => {
   chartTheme.value = newValue;
 });
 
+watch(currentPresetName, (newValue, oldValue) => {
+  if (newValue == "dark") {
+    for (let i = 0; i < chartOptions.value.series.length; i++) {
+      chartOptions.value.series[i].label.color = "white"
+    }
+  } else {
+    for (let i = 0; i < chartOptions.value.series.length; i++) {
+      chartOptions.value.series[i].label.color = "black"
+    }
+  }
+});
+
+
+
 watch(() => props.type, (newValue, oldValue) => {
   console.log("Type changed:", newValue);
   updateOptions()
@@ -146,196 +146,10 @@ watch(() => props.animate, (newValue, oldValue) => {
   console.log("Animate changed:", newValue);
 });
 
-const parseData = (data) => {
-  if (typeof data === 'number') {
-    return data;
-  } else {
-    return parseFloat(data.replace(",", "."));
-  }
-}
-
 
 const updateOptions = async () => {
-  console.log("Updating from data:", data.value);
-  // we have to know if we get 1 or 2 series from data.
-  // assume we always have an array. 
-  // in case the inner data is an array too, we have multiple series
-  let df = new dataForge.DataFrame(data.value)
-  //console.log(df.toString())
-  //console.log("Dataframe:", df.head(3).toString());
-  let cols = df.getColumnNames()
-  console.log("Cols:", cols)
-
-  if (cols.length == 0) {
-    console.log("No columns");
-    cols = Object.keys(data.value)
-    console.log("Keys:", cols);
-    if (cols.length == 0) {
-      console.log("Again no columns")
-      return
-    }
-    const tabularData = [];
-    for (const key of cols) {
-      const items = data.value[key];
-      for (const item of items) {
-        item.key = key;
-        tabularData.push(item);
-      }
-    }
-
-    df = new dataForge.DataFrame(tabularData);
-    // df = new dataForge.DataFrame(data.value[keys[0]])
-    // console.log("Dataframe:", df.toString());
-}
-
-  // input differs by identifiers for category (X-axis), value (Y-Axis), group
-  // and selected group names
-  let seriesData
-
-  if (props.dataX == "") {  // no X-axis given 
-    console.log("No X-Axis")
-    return
-  }
-  console.log("X-Axis:", props.dataX)
-
-  const chartData = df.toArray();
-  let categories = chartData.map(item => item[props.dataX]).filter((value, index, self) => self.indexOf(value) === index);
-  categories = categories.filter(category => category !== null);
-  //console.log("Categories:", categories, categories.length)
-
-  let classes = []
-  // filter classes
-  if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
-    const classId = props.dataClasses[0]
-    //console.log("Filtering by classes on:", classId)
-    if (props.dataClasses.length > 1) {
-      classes = props.dataClasses.slice(1)
-    } else {
-      classes = df.getSeries(classId).distinct().toArray()
-    }
-    //console.log("Filtering classes:", classes)
-    seriesData = chartData.filter(item => classes.includes(item[classId]));
-
-  } else {
-    seriesData = chartData;
-  }
-
-  // console.log("Filtered classes:", seriesData)
-
-  let columns = []
-  if (props.dataColumns && Array.isArray(props.dataColumns) && props.dataColumns.length > 0) {
-    columns = props.dataColumns
-  } else {
-    //console.log("No columns given")
-    columns = df.getColumnNames()
-  }
-  //console.log("Initial  columns:", columns)
-
-  // don't exclude class name from columns here
-  const excludeCols = [props.dataX]
-  // console.log(" Excluding columns:", excludeCols)
-  // instead, include the class column here
-  const includedColumns = columns.filter(column => !(excludeCols.includes(column)))
-  if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
-    includedColumns.push(props.dataClasses[0])
-  }  
-  // console.log("Included columns:", includedColumns)
-
-  // series created from either classes or columns
-  // if length of classes > 1 we have multiple series and length or columns must be 1
-  // if length of columns > 1 we have multiple series and length or classes must be 1
-  if (classes.length > 1) {
-    console.log("Creating series from classes")
-    // create names from classes
-    seriesData = classes.map((name, index) => {
-      //console.log("Name:",name,", Index:",index)
-      const filteredData = chartData.filter(item => item[props.dataClasses[0]] === name);
-      //console.log("Filtered Data:", filteredData)
-      return {
-        name: name,
-        //data: filteredData.map(item => parseData(item[props.dataColumns[0]])),
-        data: categories.map(position => {
-          //console.log("Position:",position)
-          if (filteredData.find(item => item[props.dataX] === position) == null) {
-            return null
-          } else {
-            return parseData(filteredData.find(item => item[props.dataX] === position)[props.dataColumns[0]])
-          }
-        }),
-        type: props.type,
-        stack:props.stacked ? 'stack' : null,
-        symbol: getDataSymbol(index).symbol,
-        color: getDataSymbol(index).color,
-        symbolSize: 16,
-        label: {
-          show: false,
-          position: 'top',
-          color: 'black',
-          fontSize: 12,
-        },
-        itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: getDataSymbol(index).pattern,
-              color:"#000",
-            }
-          }
-      };
-    });
-  } else {
-    // create names from columns
-    console.log("Creating series from columns")
-    // if we have classes, remove the corresponding column from included columns
-    const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != props.dataClasses[0]) : includedColumns
-    seriesData = valueColumns.map((column,index) => {
-      //console.log("Column:",column)
-      return {
-        name: column,
-        data: categories.map(position => {
-          //console.log("Position:",position)
-          const item = chartData.find(item => item[props.dataX] === position)
-          if (item == null) {
-            //console.log("No data for position:",position)
-            return null
-          } else {
-            //console.log("Data at position:",position,item)
-            return parseData(chartData.find(item => item[props.dataX] === position)[column])
-          }
-        }),
-        type: props.type,
-        stack:props.stacked ? 'stack' : null,
-        symbol: getDataSymbol(index).symbol,
-        color: getDataSymbol(index).color,
-        symbolSize: 16,
-        label: {
-          show: false,
-          position: 'top',
-          color: 'black',
-          fontSize: 12,
-        },
-        itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: getDataSymbol(index).pattern,
-              color:"#000",
-            }
-          }
-      };
-    });
-  }
-
-  // console.log("Final Series:", seriesData)
-
-  chartOptions.value.xAxis.type = "category"
-  chartOptions.value.xAxis.data = categories
-  chartOptions.value.series = seriesData
-  //console.log("Options updated:", chartOptions.value);
+  chartOptions.value = await updateEchartsOptions(chartOptions.value, 
+    data.value, props.dataX, props.dataClasses, props.dataColumns, props.type, props.stacked)
 }
 
 const loadData = async () => {
@@ -381,138 +195,9 @@ use([
   GridComponent
 ]);
 
-const chartOptions = ref({
-  //darkMode: "auto",
-  tooltip: {
-    trigger: 'axis',
-    valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
-    /*
-    axisPointer: {
-      type: 'cross',
-      label:{
-        show: true,
-      }
-    },
-    */
-  },
-  toolbox: {
-    show: true,
-    feature: {
-      dataZoom: {
-        yAxisIndex: 'none'
-      },
-      //dataView: { readOnly: true },
-      //magicType: { type: ['line', 'bar', 'stack'] },
-      //restore: {},
-    }
-  },
-  title: {
-    "show": true,
-    "left": "center",
-    "text": props.dataName,
-    "textStyle": {
-      //"color": "#0f0",
-      "fontSize": 20
-    }
-  },
-  legend: {
-    right: 'auto',
-    top: 'bottom',
-    show: true,
-    type: 'scroll',
-  },
-  "aria": {
-    "enabled": true,
-    "description": props.dataName,
-    show: true,
-  },
-  // backgroundColor: "#333",
-  xAxis: {
-    name: "X-axis",
-    nameLocation: "center",
-    nameGap: 30,
-    boundaryGap: true,
-    axisLabel: {
-      "show": true
-      //formatter: '{value} [Unit-X]'
-    },
-    type: "category",
-    //data: dummyData.map((item) => item.date),
-  },
-  yAxis: {
-    name: "Y-axis",
-    type: "value",
-    nameLocation: "end",
-    nameGap:10,
-    top:"top",
-    //offset:-10,
-    axisLabel: {
-      margin:10, // smaller on mobile
-      show: true,
-      hideOverlap: true,
-      interval: 0,
-      //formatter: '{value} [Unit-Y]'
-    },
-    type: "value",
-  },
-  series: []
-}
-)
+const chartOptions = ref(lineBarDefaults(props.dataName))
 
-/*
-        {
-          type: "line",
-          name: "Series 1",
-          data: dummyData.map((item) => item.value),
-          symbol: 'circle',
-          symbolSize: 20,
-          label: {
-            show: true,
-            position: 'top',
-            color: 'black',
-            fontSize: 12,
-          },
-          // itemstyle for bar chart
-          itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: -45,
-              color:"#000",
-            }
-          }
-        },
-        {
-          type: "line",
-          name: "Series 2",
-          data: dummyData2.map((item) => item.value),
-          symbol: 'diamond',
-          symbolSize: 20,
-          label: {
-            show: true,
-            position: 'top',
-            color: 'black',
-            fontSize: 12,
-          },
-          // itemstyle for bar chart
-          itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: 45,
-              //symbol: 'diamond',
-              //symbolSize:1,
-              color:"#000",
-            }
-          }
-        },
-      ],
 
-*/
 onMounted(async () => {
 
   if (configStore.getTheme == "dark") {
@@ -523,58 +208,6 @@ onMounted(async () => {
 
   await loadData();
 
-  try {
-    // data might have multiple series
-    const seriesCount = data.value.length
-    console.log("Series count:", seriesCount)
-
-    /*
-    const lines = data.split("\n");
-    const xAxisData = [];
-    const seriesData = [];
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].split(",");
-      xAxisData.push(line[0]);
-      seriesData.push(parseFloat(line[1]));
-    }
-    chartOptions.value = {
-      xAxis: {
-        type: "category",
-        data: data.xAxisData,
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          type: "line",
-          data: data.seriesData,
-        },
-      ],
-    };
-    */
-    const dummyData = [
-      { date: "2022-01-01", value: 10 },
-      { date: "2022-01-02", value: 15 },
-      { date: "2022-01-03", value: 8 },
-      { date: "2022-01-04", value: 12 },
-      { date: "2022-01-05", value: 6 },
-    ];
-
-    const dummyData2 = [
-      { date: "2022-01-01", value: 20 },
-      { date: "2022-01-04", value: 25 },
-      { date: "2022-01-05", value: 18 },
-      { date: "2022-01-06", value: 22 },
-      { date: "2022-01-07", value: 9 },
-    ];
-
-
-
-
-  } catch (error) {
-    console.error("Failed to load chart data:", error);
-  }
 });
 </script>
 
