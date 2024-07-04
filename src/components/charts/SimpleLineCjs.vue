@@ -2,8 +2,6 @@
 import { ref, onMounted, watch } from "vue";
 import { nextTick } from 'vue';
 
-import VChart, { UPDATE_OPTIONS_KEY } from "vue-echarts";
-
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
@@ -17,21 +15,11 @@ import Papa from 'papaparse';
 // https://github.com/data-forge/data-forge-ts/blob/master/docs/guide.md
 import * as dataForge from 'data-forge'
 
-import { use } from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-// normally, only a single chart type is needed
-// unless toolbox allows to switch types (like here ...)
-import { LineChart, BarChart } from "echarts/charts";
-import {
-  TitleComponent,
-  TooltipComponent,
-  ToolboxComponent,
-  LegendComponent,
-  GridComponent
-} from "echarts/components";
+import { Bar, Line } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, LineController, LineElement, PointElement, CategoryScale, LinearScale } from 'chart.js'
 
-// optimize later
-// import "echarts"
+ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, LineController, PointElement)
+
 
 import { useColors } from "vuestic-ui";
 const { currentPresetName } = useColors();
@@ -112,6 +100,25 @@ const chartTheme = ref(currentPresetName) // already reactive. don't watch for t
 const dataLoaded = ref(false);
 const data = ref(null);
 const datakeys = ref(null);
+const chartType = ref("line")
+
+const chartData = ref({
+  labels: ['January', 'February', 'March'],
+  datasets: [
+    {
+      label: 'Data One',
+      backgroundColor: '#f87979',
+      data: [40, 20, 12]
+    },
+    {
+      label: 'Data Two',
+      backgroundColor: '#4849f9',
+      data: [45, 10, 32]
+    }
+  ]
+}
+)
+
 
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
@@ -120,12 +127,18 @@ watch(currentPresetName, (newValue, oldValue) => {
 
 watch(() => props.type, (newValue, oldValue) => {
   console.log("Type changed:", newValue);
+  chartType.value = newValue
   updateOptions()
 });
 
-watch(() => props.stacked, (newValue, oldValue) => {
+watch(() => props.stacked, async (newValue, oldValue) => {
   console.log("Stacked changed:", newValue);
-  updateOptions()
+  chartOptions.value.scales.x.stacked = newValue
+  chartOptions.value.scales.y.stacked = newValue
+  // stacked option is not dynamically changed. use nexttick and loaded flag
+  dataLoaded.value = false
+  await nextTick();
+  dataLoaded.value = true
 });
 
 
@@ -154,6 +167,8 @@ const parseData = (data) => {
 
 
 const updateOptions = async () => {
+  console.log("Updating options disabled")
+  return
   console.log("Updating from data:", data.value);
   // we have to know if we get 1 or 2 series from data.
   // assume we always have an array. 
@@ -184,7 +199,7 @@ const updateOptions = async () => {
     df = new dataForge.DataFrame(tabularData);
     // df = new dataForge.DataFrame(data.value[keys[0]])
     // console.log("Dataframe:", df.toString());
-}
+  }
 
   // input differs by identifiers for category (X-axis), value (Y-Axis), group
   // and selected group names
@@ -236,7 +251,7 @@ const updateOptions = async () => {
   const includedColumns = columns.filter(column => !(excludeCols.includes(column)))
   if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
     includedColumns.push(props.dataClasses[0])
-  }  
+  }
   // console.log("Included columns:", includedColumns)
 
   // series created from either classes or columns
@@ -261,7 +276,7 @@ const updateOptions = async () => {
           }
         }),
         type: props.type,
-        stack:props.stacked ? 'stack' : null,
+        stack: props.stacked ? 'stack' : null,
         symbol: getDataSymbol(index).symbol,
         color: getDataSymbol(index).color,
         symbolSize: 16,
@@ -272,15 +287,15 @@ const updateOptions = async () => {
           fontSize: 12,
         },
         itemStyle:
+        {
+          decal:
           {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: getDataSymbol(index).pattern,
-              color:"#000",
-            }
+            dashArrayX: 5,
+            dashArrayY: 1,
+            rotation: getDataSymbol(index).pattern,
+            color: "#000",
           }
+        }
       };
     });
   } else {
@@ -288,7 +303,7 @@ const updateOptions = async () => {
     console.log("Creating series from columns")
     // if we have classes, remove the corresponding column from included columns
     const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != props.dataClasses[0]) : includedColumns
-    seriesData = valueColumns.map((column,index) => {
+    seriesData = valueColumns.map((column, index) => {
       //console.log("Column:",column)
       return {
         name: column,
@@ -304,7 +319,7 @@ const updateOptions = async () => {
           }
         }),
         type: props.type,
-        stack:props.stacked ? 'stack' : null,
+        stack: props.stacked ? 'stack' : null,
         symbol: getDataSymbol(index).symbol,
         color: getDataSymbol(index).color,
         symbolSize: 16,
@@ -315,15 +330,15 @@ const updateOptions = async () => {
           fontSize: 12,
         },
         itemStyle:
+        {
+          decal:
           {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: getDataSymbol(index).pattern,
-              color:"#000",
-            }
+            dashArrayX: 5,
+            dashArrayY: 1,
+            rotation: getDataSymbol(index).pattern,
+            color: "#000",
           }
+        }
       };
     });
   }
@@ -368,149 +383,23 @@ const loadData = async () => {
   }
 }
 
-use([
-  CanvasRenderer,
-  LineChart,
-  BarChart,
-  TitleComponent,
-  TooltipComponent,
-  ToolboxComponent,
-  LegendComponent,
-  GridComponent
-]);
 
 const chartOptions = ref({
-  //darkMode: "auto",
-  tooltip: {
-    trigger: 'axis',
-    valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
-    /*
-    axisPointer: {
-      type: 'cross',
-      label:{
-        show: true,
-      }
+  // chartjs
+  type: 'line',
+  responsive: true, // requires parent div position relative
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      stacked: false
     },
-    */
-  },
-  toolbox: {
-    show: true,
-    feature: {
-      dataZoom: {
-        yAxisIndex: 'none'
-      },
-      //dataView: { readOnly: true },
-      //magicType: { type: ['line', 'bar', 'stack'] },
-      //restore: {},
+    y: {
+      stacked: false
     }
   },
-  title: {
-    "show": true,
-    "left": "center",
-    "text": props.dataName,
-    "textStyle": {
-      //"color": "#0f0",
-      "fontSize": 20
-    }
-  },
-  legend: {
-    right: 'auto',
-    top: 'bottom',
-    show: true,
-    type: 'scroll',
-  },
-  "aria": {
-    "enabled": true,
-    "description": props.dataName,
-    show: true,
-  },
-  // backgroundColor: "#333",
-  xAxis: {
-    name: "X-axis",
-    nameLocation: "center",
-    nameGap: 30,
-    boundaryGap: true,
-    axisLabel: {
-      "show": true
-      //formatter: '{value} [Unit-X]'
-    },
-    type: "category",
-    //data: dummyData.map((item) => item.date),
-  },
-  yAxis: {
-    name: "Y-axis",
-    type: "value",
-    nameLocation: "end",
-    nameGap:10,
-    top:"top",
-    //offset:-10,
-    axisLabel: {
-      margin:10, // smaller on mobile
-      show: true,
-      hideOverlap: true,
-      interval: 0,
-      //formatter: '{value} [Unit-Y]'
-    },
-    type: "value",
-  },
-  series: []
 }
 )
 
-/*
-        {
-          type: "line",
-          name: "Series 1",
-          data: dummyData.map((item) => item.value),
-          symbol: 'circle',
-          symbolSize: 20,
-          label: {
-            show: true,
-            position: 'top',
-            color: 'black',
-            fontSize: 12,
-          },
-          // itemstyle for bar chart
-          itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: -45,
-              color:"#000",
-            }
-          }
-        },
-        {
-          type: "line",
-          name: "Series 2",
-          data: dummyData2.map((item) => item.value),
-          symbol: 'diamond',
-          symbolSize: 20,
-          label: {
-            show: true,
-            position: 'top',
-            color: 'black',
-            fontSize: 12,
-          },
-          // itemstyle for bar chart
-          itemStyle:
-          {
-            decal:
-            {
-              dashArrayX:5,
-              dashArrayY:1,
-              rotation: 45,
-              //symbol: 'diamond',
-              //symbolSize:1,
-              color:"#000",
-            }
-          }
-        },
-      ],
-
-*/
 onMounted(async () => {
 
   if (configStore.getTheme == "dark") {
@@ -526,49 +415,6 @@ onMounted(async () => {
     const seriesCount = data.value.length
     console.log("Series count:", seriesCount)
 
-    /*
-    const lines = data.split("\n");
-    const xAxisData = [];
-    const seriesData = [];
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].split(",");
-      xAxisData.push(line[0]);
-      seriesData.push(parseFloat(line[1]));
-    }
-    chartOptions.value = {
-      xAxis: {
-        type: "category",
-        data: data.xAxisData,
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          type: "line",
-          data: data.seriesData,
-        },
-      ],
-    };
-    */
-    const dummyData = [
-      { date: "2022-01-01", value: 10 },
-      { date: "2022-01-02", value: 15 },
-      { date: "2022-01-03", value: 8 },
-      { date: "2022-01-04", value: 12 },
-      { date: "2022-01-05", value: 6 },
-    ];
-
-    const dummyData2 = [
-      { date: "2022-01-01", value: 20 },
-      { date: "2022-01-04", value: 25 },
-      { date: "2022-01-05", value: 18 },
-      { date: "2022-01-06", value: 22 },
-      { date: "2022-01-07", value: 9 },
-    ];
-
-
-
 
   } catch (error) {
     console.error("Failed to load chart data:", error);
@@ -577,8 +423,22 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-chart v-if="dataLoaded" ref="theChart" :option="chartOptions" :style="{ height: '100%' }" :theme="chartTheme"
-    autoresize></v-chart>
+  <!-- 
+    <Bar v-if="dataLoaded" ref="theChart" 
+    :style="chartStyle"
+    :data="chartData"
+    :options="chartOptions"
+    />
+
+  -->
+  <div style="position: relative; width: 100%; height: 100%;">
+    
+    <Line v-if="dataLoaded && (chartType == 'line')" ref="theChart" :style="chartStyle" :data="chartData"
+      :options="chartOptions" />
+    <Bar v-if="dataLoaded && (chartType == 'bar')" ref="theChart" :style="chartStyle" :data="chartData"
+      :options="chartOptions" />
+    </div>
+
 </template>
 
 <style scoped>

@@ -9,6 +9,7 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/tiles/dummyCustom'),
   path.resolve(__dirname, '../src/components/tiles/dummyGraphics'),
   path.resolve(__dirname, '../src/components/tiles/dummyLine'),
+  path.resolve(__dirname, '../src/components/tiles/dummyLineCjs'),
   path.resolve(__dirname, '../src/components/tiles/dummyMap'),
   path.resolve(__dirname, '../src/components/tiles/dummyTable'),
 ];

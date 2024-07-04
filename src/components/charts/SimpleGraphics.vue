@@ -166,7 +166,7 @@ onMounted(async () => {
         const data = await response.text();
         dataLoaded.value = true;
         await nextTick();
-        console.log("Data loaded:", data);
+        console.log("Data loaded");
         updateCategoryValues()
         console.log("config theme:", configStore.getTheme)
         if (configStore.getTheme == "dark") {
