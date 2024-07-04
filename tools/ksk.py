@@ -25,7 +25,7 @@ df.to_csv("ksk.csv")
 
 subset_columns = [str(x) for x in range(2010,2024)]
 df["na_count"] = df[subset_columns].isna().sum(axis=1)
-df["valid"] = (df["2023"].notna() | df["2022"].notna()) & (df["na_count"] < 10)
+df["valid"] = (df["2023"].notna() | df["2022"].notna()) & (df["na_count"] <= 10)
 
 df = df[df["valid"]==True]
 #df["Jahr"] = df["Jahr"] + "|" + df["Maßnahme"] +"|" + df["Einheit"]
