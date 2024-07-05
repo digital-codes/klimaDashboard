@@ -140,11 +140,8 @@ const chartOptions = ref({
               },
             },
   markers: {
-    /*
-    shape: ["circle","square"], // dataSymbol.value,
-    */
-    shape: "circle",
-    radius: dataSymbolSize.value,
+    shape: dataSymbol.value, //"circle", //"circle" or square,
+    radius: 0, // don't use on square ... rounded corner
     size: dataSymbolSize.value,
   },
   dataLabels: {
@@ -321,9 +318,9 @@ onMounted(async () => {
   for (let i = 0; i < 8; i++) {
     dataColor.value[i] = getDataSymbol(i%2).color;
     // dataSymbols.value[i] = getDataSymbol(i).symbol
-    dataSymbol.value[i] = (i >> 1 )% 2 ? "square" : "circle";
-    dataSymbolSize.value[i] = (i >> 1 ) % 2 ? 8 : 5;
-    dataDash.value[i] = (i >> 2 ) % 2 ? 0 : 5;
+    dataSymbol.value[i] = (i >> 1 ) % 2 ? "square" : "circle";
+    dataSymbolSize.value[i] = (i >> 2 ) % 2 ? 10 : 7;
+    dataDash.value[i] = 0 // (i >> 2 ) % 2 ? 0 : 5;
     switch (i) {
       case 0:
       case 1:
