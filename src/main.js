@@ -45,11 +45,16 @@ const i18n = createI18n({
 import { createPinia } from 'pinia'
 const pinia = createPinia()
 
+// apexcharts, if in use
+import VueApexCharts from "vue3-apexcharts";
+
+
 const app = createApp(App)
 app.use(pinia)
 app.use(i18n)
 app.use(router);
 app.use(createVuestic())
+app.use(VueApexCharts);
 app.mount('#app')
 
 import { useConfigStore } from '@/services/configStore'; // Replace 'configStore' with the name of your specific store
