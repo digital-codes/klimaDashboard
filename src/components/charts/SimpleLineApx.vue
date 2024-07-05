@@ -130,7 +130,7 @@ const chartOptions = ref({
   },
   title: {
     text: 'Average High & Low Temperature',
-    align: 'left'
+    align: 'center'
   },
   grid: {
     borderColor: '#e7e7e7',
@@ -150,17 +150,17 @@ const chartOptions = ref({
   },
   yaxis: {
     title: {
-      text: 'Temperature'
+      text: 'Temperature',
     },
     min: 5,
-    max: 40
+    //max: 40
   },
   legend: {
-    position: 'top',
-    horizontalAlign: 'right',
+    position: 'bottom',
+    horizontalAlign: 'left',
     floating: true,
-    offsetY: -25,
-    offsetX: -5
+    offsetY: 0, // -15,
+    offsetX: -0
   }
 }
 )
@@ -188,13 +188,13 @@ watch(currentPresetName, (newValue, oldValue) => {
 watch(() => props.type, (newValue, oldValue) => {
   console.log("Type changed:", newValue);
   chartType.value = newValue
+  chartOptions.value.chart.type = newValue
   updateOptions()
 });
 
 watch(() => props.stacked, async (newValue, oldValue) => {
   console.log("Stacked changed:", newValue);
-  chartOptions.value.scales.x.stacked = newValue
-  chartOptions.value.scales.y.stacked = newValue
+  chartOptions.value.chart.stacked = newValue
   // stacked option is not dynamically changed. use nexttick and loaded flag
   updateOptions()
 
@@ -220,7 +220,11 @@ watch(() => props.animate, (newValue, oldValue) => {
 
 
 const updateOptions = async () => {
-  console.log("Updating options disabled")
+  if (!theChart.value) return
+  theChart.value.updateOptions(chartOptions.value)
+  dataLoaded.value = false
+  await nextTick();
+  dataLoaded.value = true
   return
 }
 
@@ -280,11 +284,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <!-- 
-  <apexchart v-if="dataLoaded" width="500" type="line" :options="chartOptions" :series="chartData"></apexchart>
-
-  -->  
-  <apexchart v-if="dataLoaded" :options="chartOptions" :series="chartData" height="200"></apexchart>
+  <div style="position: relative; width: 100%; height: 100%;">
+  <apexchart v-if="dataLoaded" :options="chartOptions" :series="chartData" ref="theChart" height="100%"></apexchart>
+  </div>
 
 </template>
 
