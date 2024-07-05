@@ -1,23 +1,21 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { nextTick } from 'vue';
+import { nextTick } from "vue";
 
-import { useConfigStore } from '@/services/configStore';
+import { useConfigStore } from "@/services/configStore";
 const configStore = useConfigStore();
 
 // import composables
-import getDataSymbol from '@/composables/DataSymbol';
-
+import getDataSymbol from "@/composables/DataSymbol";
 
 // data parser
-import Papa from 'papaparse';
+import Papa from "papaparse";
 // https://www.data-forge-js.com/
 // https://github.com/data-forge/data-forge-ts/blob/master/docs/guide.md
-import * as dataForge from 'data-forge'
+import * as dataForge from "data-forge";
 
 import { useColors } from "vuestic-ui";
 const { currentPresetName } = useColors();
-
 
 const props = defineProps({
   /* Add your props here */
@@ -57,113 +55,154 @@ const props = defineProps({
   // optional index.
   dataIdx: {
     type: Number,
-    default: 0
+    default: 0,
   },
   type: {
     type: String,
-    default: "line"
+    default: "line",
   },
   stacked: {
     type: Boolean,
-    default: false
+    default: false,
   },
   range: {
     type: Number,
-    default: 50
+    default: 50,
   },
   animate: {
     type: Boolean,
-    default: false
+    default: false,
   },
 });
 
 const theChart = ref(null);
-const chartTheme = ref(currentPresetName) // already reactive. don't watch for theme
+const chartTheme = ref(currentPresetName); // already reactive. don't watch for theme
 const dataLoaded = ref(false);
 const data = ref(null);
 const datakeys = ref(null);
-const chartType = ref("line")
+const chartType = ref("line");
 
+const chartData = ref([
+{
+    name: "High - 2013",
+    data: [28, 29, 33, 36, 32, 32, 33],
+  },
+  {
+    name: "Low - 2013",
+    data: [12, 11, 14, 18, 17, 13, 13],
+  },
+  {
+    name: "High - 2013",
+    data: [28, 29, 33, 36, 32, 32, 33],
+  },
+  {
+    name: "Low - 2013",
+    data: [12, 11, 14, 18, 17, 13, 13],
+  },
+  {
+    name: "High - 2013",
+    data: [28, 29, 33, 36, 32, 32, 33],
+  },
+  {
+    name: "Low - 2013",
+    data: [12, 11, 14, 18, 17, 13, 13],
+  },
+  {
+    name: "High - 2013",
+    data: [28, 29, 33, 36, 32, 32, 33],
+  },
+  {
+    name: "Low - 2013",
+    data: [12, 11, 14, 18, 17, 13, 13],
+  },
+]);
 
-const chartData = ref(
-  [
-    {
-      name: "High - 2013",
-      data: [28, 29, 33, 36, 32, 32, 33]
-    },
-    {
-      name: "Low - 2013",
-      data: [12, 11, 14, 18, 17, 13, 13]
-    }
-  ]
-)
-
+const dataColor = ref([]);
+const dataSymbol = ref([]);
+const dataSymbolSize = ref([]);
+const dataDash = ref([]);
+const dataPattern = ref([])
 
 const chartOptions = ref({
   // apexcharts
   chart: {
     //height: 350,
-    height:100,
+    //height:"100%",
     //width:"100%",
-    type: 'line',
+    type: "line",
     dropShadow: {
       enabled: true,
-      color: '#000',
+      color: "#000",
       top: 18,
       left: 7,
       blur: 10,
-      opacity: 0.2
+      opacity: 0.2,
     },
     zoom: {
-      enabled: false
+      enabled: false,
     },
     toolbar: {
-      show: false
-    }
-  },
-  colors: ['#77B6EA', '#545454'],
-  dataLabels: {
-    enabled: true,
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  title: {
-    text: 'Average High & Low Temperature',
-    align: 'center'
-  },
-  grid: {
-    borderColor: '#e7e7e7',
-    row: {
-      colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-      opacity: 0.5
+      show: false,
     },
   },
+  colors: dataColor.value,
+  stroke: {
+    width: 2,
+    curve: "straight",
+    dashArray: dataDash.value,
+    //curve: "smooth",
+  },
+  fill: {
+              type: 'pattern',
+              opacity: 1,
+              pattern: {
+                style: dataPattern.value, // string or array of strings
+              },
+            },
   markers: {
-    size: 1
+    /*
+    shape: ["circle","square"], // dataSymbol.value,
+    */
+    shape: "circle",
+    radius: dataSymbolSize.value,
+    size: dataSymbolSize.value,
+  },
+  dataLabels: {
+    enabled: true,
+    offsetX: 10,
+  },
+  title: {
+    text: "Average High & Low Temperature",
+    align: "center",
+  },
+  grid: {
+    borderColor: "#e7e7e7",
+    row: {
+      colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+      opacity: 0.5,
+    },
   },
   xaxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
     title: {
-      text: 'Month'
-    }
+      text: "Month",
+    },
   },
   yaxis: {
     title: {
-      text: 'Temperature',
+      text: "Temperature",
     },
     min: 5,
     //max: 40
   },
   legend: {
-    position: 'bottom',
-    horizontalAlign: 'left',
+    position: "bottom",
+    horizontalAlign: "left",
     floating: true,
     offsetY: 0, // -15,
-    offsetX: -0
-  }
-}
-)
+    offsetX: -0,
+  },
+});
 
 /*
 watch(currentPresetName, (newValue, oldValue) => {
@@ -181,52 +220,83 @@ watch(currentPresetName, (newValue, oldValue) => {
 
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
-  chartOptions.value.plugins.title.color = newValue == "dark" ? "white" : "black"
-  updateOptions()
+  chartOptions.value.plugins.title.color =
+    newValue == "dark" ? "white" : "black";
+  updateOptions();
 });
 
-watch(() => props.type, (newValue, oldValue) => {
-  console.log("Type changed:", newValue);
-  chartType.value = newValue
-  chartOptions.value.chart.type = newValue
-  updateOptions()
-});
+watch(
+  () => props.type,
+  (newValue, oldValue) => {
+    console.log("Type changed:", newValue);
+    chartType.value = newValue;
+    chartOptions.value.chart.type = newValue;
 
-watch(() => props.stacked, async (newValue, oldValue) => {
-  console.log("Stacked changed:", newValue);
-  chartOptions.value.chart.stacked = newValue
-  // stacked option is not dynamically changed. use nexttick and loaded flag
-  updateOptions()
+    if (newValue == "line") {
+      console.log("Line")
+      chartOptions.value.stroke.dashArray = dataDash.value
+      chartOptions.value.fill = {}
+    } 
+    if (newValue == "bar") {
+      console.log("Bar")
+      chartOptions.value.stroke.dashArray = 0
+      chartOptions.value.fill = {
+              type: 'pattern',
+              opacity: 1,
+              pattern: {
+                style: dataPattern.value, // string or array of strings
+              },
+            }
+    }
+    updateOptions();
+  }
+);
 
-});
+watch(
+  () => props.stacked,
+  async (newValue, oldValue) => {
+    console.log("Stacked changed:", newValue);
+    chartOptions.value.chart.stacked = newValue;
+    // stacked option is not dynamically changed. use nexttick and loaded flag
+    updateOptions();
+  }
+);
 
+watch(
+  () => props.range,
+  (newValue, oldValue) => {
+    console.log("Range changed:", newValue);
+  }
+);
 
-watch(() => props.range, (newValue, oldValue) => {
-  console.log("Range changed:", newValue);
-});
+watch(
+  () => props.dataUrl,
+  async (newValue, oldValue) => {
+    console.log("Data URL changed:", newValue);
+    //if (theChart.value) await theChart.value.clear()
+    await loadData();
+    // update title as well
+    chartOptions.value.plugins.title.text = props.dataName;
+    updateOptions();
+  }
+);
 
-watch(() => props.dataUrl, async (newValue, oldValue) => {
-  console.log("Data URL changed:", newValue);
-  //if (theChart.value) await theChart.value.clear()
-  await loadData();
-  // update title as well
-  chartOptions.value.plugins.title.text = props.dataName
-  updateOptions()
-});
-
-watch(() => props.animate, (newValue, oldValue) => {
-  console.log("Animate changed:", newValue);
-});
-
+watch(
+  () => props.animate,
+  (newValue, oldValue) => {
+    console.log("Animate changed:", newValue);
+  }
+);
 
 const updateOptions = async () => {
-  if (!theChart.value) return
-  theChart.value.updateOptions(chartOptions.value)
+  if (!theChart.value) return;
+  theChart.value.updateOptions(chartOptions.value);
+  /*
   dataLoaded.value = false
   await nextTick();
   dataLoaded.value = true
-  return
-}
+  */
+};
 
 const loadData = async () => {
   try {
@@ -235,12 +305,13 @@ const loadData = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    datakeys.value = []
+    datakeys.value = [];
     if (props.dataFormat == "json") {
       data.value = await response.json();
       //console.log("JSON:", data.value);
-      await updateOptions()
-    } else { // assume csv
+      await updateOptions();
+    } else {
+      // assume csv
       const csvString = await response.text();
       //console.log("raw CSV:",csvString)
       Papa.parse(csvString, {
@@ -249,8 +320,8 @@ const loadData = async () => {
         complete: async function (results) {
           //console.log("CSV parsed:", results.data);
           data.value = results.data;
-          await updateOptions()
-        }
+          await updateOptions();
+        },
       });
     }
     await nextTick();
@@ -258,25 +329,46 @@ const loadData = async () => {
   } catch (error) {
     console.error("Failed to load chart data:", error);
   }
-}
-
+};
 
 onMounted(async () => {
-
+  //  initialize colors
+  for (let i = 0; i < 8; i++) {
+    dataColor.value[i] = getDataSymbol(i%2).color;
+    // dataSymbols.value[i] = getDataSymbol(i).symbol
+    dataSymbol.value[i] = (i >> 1 )% 2 ? "square" : "circle";
+    dataSymbolSize.value[i] = (i >> 1 ) % 2 ? 8 : 5;
+    dataDash.value[i] = (i >> 2 ) % 2 ? 0 : 5;
+    switch (i) {
+      case 0:
+      case 1:
+        dataPattern.value[i] = "circles"
+        break
+      case 2:
+      case 3:
+        dataPattern.value[i] = "slantedLines"
+        break
+      case 4:
+      case 5:
+        dataPattern.value[i] = "verticalLines"
+        break
+      default:
+        dataPattern.value[i] = "horizontalLines"
+        break
+    }
+  }
   if (configStore.getTheme == "dark") {
-    console.log("Dark theme detected")
+    console.log("Dark theme detected");
   } else {
-    console.log("Light theme detected")
+    console.log("Light theme detected");
   }
 
   await loadData();
 
   try {
     // data might have multiple series
-    const seriesCount = data.value.length
-    console.log("Series count:", seriesCount)
-
-
+    const seriesCount = data.value.length;
+    console.log("Series count:", seriesCount);
   } catch (error) {
     console.error("Failed to load chart data:", error);
   }
@@ -284,10 +376,15 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div style="position: relative; width: 100%; height: 100%;">
-  <apexchart v-if="dataLoaded" :options="chartOptions" :series="chartData" ref="theChart" height="100%"></apexchart>
+  <div style="position: relative; width: 100%; height: 100%">
+    <apexchart
+      v-if="dataLoaded"
+      :options="chartOptions"
+      :series="chartData"
+      ref="theChart"
+      height="100%"
+    ></apexchart>
   </div>
-
 </template>
 
 <style scoped>
