@@ -204,6 +204,27 @@ const chartOptions = ref({
   },
 });
 
+const setPlotOptions = (type = "line") => {
+  if (type == "line") {
+      console.log("Line")
+      chartOptions.value.stroke.dashArray = dataDash.value
+      chartOptions.value.stroke.width = 2
+      chartOptions.value.stroke.curve = "straight"
+      chartOptions.value.fill.type = "stroke" // "solid"
+    } 
+    if (type == "bar") {
+      console.log("Bar")
+      chartOptions.value.stroke.dashArray = 0
+      chartOptions.value.fill = {
+              type: 'pattern',
+              opacity: 1,
+              pattern: {
+                style: dataPattern.value, // string or array of strings
+              },
+            }
+    }
+}
+
 /*
 watch(currentPresetName, (newValue, oldValue) => {
   if (newValue == "dark") {
@@ -231,23 +252,7 @@ watch(
     console.log("Type changed:", newValue);
     chartType.value = newValue;
     chartOptions.value.chart.type = newValue;
-
-    if (newValue == "line") {
-      console.log("Line")
-      chartOptions.value.stroke.dashArray = dataDash.value
-      chartOptions.value.fill = {}
-    } 
-    if (newValue == "bar") {
-      console.log("Bar")
-      chartOptions.value.stroke.dashArray = 0
-      chartOptions.value.fill = {
-              type: 'pattern',
-              opacity: 1,
-              pattern: {
-                style: dataPattern.value, // string or array of strings
-              },
-            }
-    }
+    setPlotOptions(props.type)
     updateOptions();
   }
 );
@@ -357,6 +362,9 @@ onMounted(async () => {
         break
     }
   }
+
+  setPlotOptions(props.type)
+
   if (configStore.getTheme == "dark") {
     console.log("Dark theme detected");
   } else {
