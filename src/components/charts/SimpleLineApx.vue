@@ -319,8 +319,12 @@ onMounted(async () => {
     dataColor.value[i] = getDataSymbol(i%2).color;
     // dataSymbols.value[i] = getDataSymbol(i).symbol
     dataSymbol.value[i] = (i >> 1 ) % 2 ? "square" : "circle";
+    /*
     dataSymbolSize.value[i] = (i >> 2 ) % 2 ? 10 : 7;
     dataDash.value[i] = 0 // (i >> 2 ) % 2 ? 0 : 5;
+    */
+    dataSymbolSize.value[i] = 8 // (i >> 2 ) % 2 ? 10 : 7;
+    dataDash.value[i] = (i >> 2 ) % 2 ? 5 : 0;
     switch (i) {
       case 0:
       case 1:
