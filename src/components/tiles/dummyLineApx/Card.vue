@@ -105,7 +105,7 @@ import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
 
-import SimpleLine from "@/components/charts/SimpleLineCjs.vue"
+import SimpleLine from "@/components/charts/SimpleLineApx.vue"
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL

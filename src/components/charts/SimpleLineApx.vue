@@ -15,12 +15,6 @@ import Papa from 'papaparse';
 // https://github.com/data-forge/data-forge-ts/blob/master/docs/guide.md
 import * as dataForge from 'data-forge'
 
-import { Bar, Line } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, LineController, LineElement, PointElement, CategoryScale, LinearScale } from 'chart.js'
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, LineController, PointElement)
-
-
 import { useColors } from "vuestic-ui";
 const { currentPresetName } = useColors();
 
@@ -90,28 +84,84 @@ const data = ref(null);
 const datakeys = ref(null);
 const chartType = ref("line")
 
-const chartData = ref({
-  labels: ['January', 'February', 'March'],
-  datasets: [
+
+const chartData = ref(
+  [
     {
-      label: 'Data One',
-      backgroundColor: getDataSymbol(0).color,
-      borderWidth:3,
-      borderColor: getDataSymbol(0).color,
-      pointStyle: getDataSymbol(0,"chartjs").symbol,
-      radius: 6,
-      data: [40, 20, 12]
+      name: "High - 2013",
+      data: [28, 29, 33, 36, 32, 32, 33]
     },
     {
-      label: 'Data Two',
-      backgroundColor: getDataSymbol(1).color,
-      borderWidth:3,
-      borderColor: getDataSymbol(1).color,
-      pointStyle: getDataSymbol(1,"chartjs").symbol,
-      radius: 6,
-      data: [45, 10, 32]
+      name: "Low - 2013",
+      data: [12, 11, 14, 18, 17, 13, 13]
     }
   ]
+)
+
+
+const chartOptions = ref({
+  // apexcharts
+  chart: {
+    //height: 350,
+    height:100,
+    //width:"100%",
+    type: 'line',
+    dropShadow: {
+      enabled: true,
+      color: '#000',
+      top: 18,
+      left: 7,
+      blur: 10,
+      opacity: 0.2
+    },
+    zoom: {
+      enabled: false
+    },
+    toolbar: {
+      show: false
+    }
+  },
+  colors: ['#77B6EA', '#545454'],
+  dataLabels: {
+    enabled: true,
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  title: {
+    text: 'Average High & Low Temperature',
+    align: 'left'
+  },
+  grid: {
+    borderColor: '#e7e7e7',
+    row: {
+      colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+      opacity: 0.5
+    },
+  },
+  markers: {
+    size: 1
+  },
+  xaxis: {
+    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    title: {
+      text: 'Month'
+    }
+  },
+  yaxis: {
+    title: {
+      text: 'Temperature'
+    },
+    min: 5,
+    max: 40
+  },
+  legend: {
+    position: 'top',
+    horizontalAlign: 'right',
+    floating: true,
+    offsetY: -25,
+    offsetX: -5
+  }
 }
 )
 
@@ -168,201 +218,10 @@ watch(() => props.animate, (newValue, oldValue) => {
   console.log("Animate changed:", newValue);
 });
 
-const parseData = (data) => {
-  if (typeof data === 'number') {
-    return data;
-  } else {
-    return parseFloat(data.replace(",", "."));
-  }
-}
-
 
 const updateOptions = async () => {
-  dataLoaded.value = false
-  await nextTick();
-  dataLoaded.value = true
   console.log("Updating options disabled")
   return
-  console.log("Updating from data:", data.value);
-  // we have to know if we get 1 or 2 series from data.
-  // assume we always have an array. 
-  // in case the inner data is an array too, we have multiple series
-  let df = new dataForge.DataFrame(data.value)
-  //console.log(df.toString())
-  //console.log("Dataframe:", df.head(3).toString());
-  let cols = df.getColumnNames()
-  console.log("Cols:", cols)
-
-  if (cols.length == 0) {
-    console.log("No columns");
-    cols = Object.keys(data.value)
-    console.log("Keys:", cols);
-    if (cols.length == 0) {
-      console.log("Again no columns")
-      return
-    }
-    const tabularData = [];
-    for (const key of cols) {
-      const items = data.value[key];
-      for (const item of items) {
-        item.key = key;
-        tabularData.push(item);
-      }
-    }
-
-    df = new dataForge.DataFrame(tabularData);
-    // df = new dataForge.DataFrame(data.value[keys[0]])
-    // console.log("Dataframe:", df.toString());
-  }
-
-  // input differs by identifiers for category (X-axis), value (Y-Axis), group
-  // and selected group names
-  let seriesData
-
-  if (props.dataX == "") {  // no X-axis given 
-    console.log("No X-Axis")
-    return
-  }
-  console.log("X-Axis:", props.dataX)
-
-  const chartData = df.toArray();
-  let categories = chartData.map(item => item[props.dataX]).filter((value, index, self) => self.indexOf(value) === index);
-  categories = categories.filter(category => category !== null);
-  //console.log("Categories:", categories, categories.length)
-
-  let classes = []
-  // filter classes
-  if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
-    const classId = props.dataClasses[0]
-    //console.log("Filtering by classes on:", classId)
-    if (props.dataClasses.length > 1) {
-      classes = props.dataClasses.slice(1)
-    } else {
-      classes = df.getSeries(classId).distinct().toArray()
-    }
-    //console.log("Filtering classes:", classes)
-    seriesData = chartData.filter(item => classes.includes(item[classId]));
-
-  } else {
-    seriesData = chartData;
-  }
-
-  // console.log("Filtered classes:", seriesData)
-
-  let columns = []
-  if (props.dataColumns && Array.isArray(props.dataColumns) && props.dataColumns.length > 0) {
-    columns = props.dataColumns
-  } else {
-    //console.log("No columns given")
-    columns = df.getColumnNames()
-  }
-  //console.log("Initial  columns:", columns)
-
-  // don't exclude class name from columns here
-  const excludeCols = [props.dataX]
-  // console.log(" Excluding columns:", excludeCols)
-  // instead, include the class column here
-  const includedColumns = columns.filter(column => !(excludeCols.includes(column)))
-  if (props.dataClasses && Array.isArray(props.dataClasses) && props.dataClasses.length > 0) {
-    includedColumns.push(props.dataClasses[0])
-  }
-  // console.log("Included columns:", includedColumns)
-
-  // series created from either classes or columns
-  // if length of classes > 1 we have multiple series and length or columns must be 1
-  // if length of columns > 1 we have multiple series and length or classes must be 1
-  if (classes.length > 1) {
-    console.log("Creating series from classes")
-    // create names from classes
-    seriesData = classes.map((name, index) => {
-      //console.log("Name:",name,", Index:",index)
-      const filteredData = chartData.filter(item => item[props.dataClasses[0]] === name);
-      //console.log("Filtered Data:", filteredData)
-      return {
-        name: name,
-        //data: filteredData.map(item => parseData(item[props.dataColumns[0]])),
-        data: categories.map(position => {
-          //console.log("Position:",position)
-          if (filteredData.find(item => item[props.dataX] === position) == null) {
-            return null
-          } else {
-            return parseData(filteredData.find(item => item[props.dataX] === position)[props.dataColumns[0]])
-          }
-        }),
-        type: props.type,
-        stack: props.stacked ? 'stack' : null,
-        symbol: getDataSymbol(index).symbol,
-        color: getDataSymbol(index).color,
-        symbolSize: 16,
-        label: {
-          show: false,
-          position: 'top',
-          color: 'black',
-          fontSize: 12,
-        },
-        itemStyle:
-        {
-          decal:
-          {
-            dashArrayX: 5,
-            dashArrayY: 1,
-            rotation: getDataSymbol(index).pattern,
-            color: "#000",
-          }
-        }
-      };
-    });
-  } else {
-    // create names from columns
-    console.log("Creating series from columns")
-    // if we have classes, remove the corresponding column from included columns
-    const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != props.dataClasses[0]) : includedColumns
-    seriesData = valueColumns.map((column, index) => {
-      //console.log("Column:",column)
-      return {
-        name: column,
-        data: categories.map(position => {
-          //console.log("Position:",position)
-          const item = chartData.find(item => item[props.dataX] === position)
-          if (item == null) {
-            //console.log("No data for position:",position)
-            return null
-          } else {
-            //console.log("Data at position:",position,item)
-            return parseData(chartData.find(item => item[props.dataX] === position)[column])
-          }
-        }),
-        type: props.type,
-        stack: props.stacked ? 'stack' : null,
-        symbol: getDataSymbol(index).symbol,
-        color: getDataSymbol(index).color,
-        symbolSize: 16,
-        label: {
-          show: false,
-          position: 'top',
-          color: 'black',
-          fontSize: 12,
-        },
-        itemStyle:
-        {
-          decal:
-          {
-            dashArrayX: 5,
-            dashArrayY: 1,
-            rotation: getDataSymbol(index).pattern,
-            color: "#000",
-          }
-        }
-      };
-    });
-  }
-
-  // console.log("Final Series:", seriesData)
-
-  chartOptions.value.xAxis.type = "category"
-  chartOptions.value.xAxis.data = categories
-  chartOptions.value.series = seriesData
-  //console.log("Options updated:", chartOptions.value);
 }
 
 const loadData = async () => {
@@ -398,35 +257,6 @@ const loadData = async () => {
 }
 
 
-const chartOptions = ref({
-  // chartjs
-  responsive: true, // requires parent div position relative
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      stacked: false
-    },
-    y: {
-      stacked: false
-    }
-  },
-  plugins: {
-    title: {
-        display: true,
-        color: configStore.getTheme == "dark" ? "white" : "black",
-        font: {
-          size: 22,
-          weight: "bold",
-        },
-        text: props.dataName
-    },
-    legend: {
-      display: true,
-      position: 'bottom',
-    }
-  }
-})
-
 onMounted(async () => {
 
   if (configStore.getTheme == "dark") {
@@ -451,20 +281,10 @@ onMounted(async () => {
 
 <template>
   <!-- 
-    <Bar v-if="dataLoaded" ref="theChart" 
-    :style="chartStyle"
-    :data="chartData"
-    :options="chartOptions"
-    />
+  <apexchart v-if="dataLoaded" width="500" type="line" :options="chartOptions" :series="chartData"></apexchart>
 
-  -->
-  <div style="position: relative; width: 100%; height: 100%;">
-    
-    <Line v-if="dataLoaded && (chartType == 'line')" ref="theChart" :style="chartStyle" :data="chartData"
-      :options="chartOptions" />
-    <Bar v-if="dataLoaded && (chartType == 'bar')" ref="theChart" :style="chartStyle" :data="chartData"
-      :options="chartOptions" />
-    </div>
+  -->  
+  <apexchart v-if="dataLoaded" :options="chartOptions" :series="chartData" height="200"></apexchart>
 
 </template>
 
