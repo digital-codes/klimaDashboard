@@ -178,6 +178,19 @@ const chartOptions = ref({
     floating: true,
     offsetY: 0, // -15,
     offsetX: -0,
+    markers: {
+          width: [20,10,10],
+          height: [20,10,10],
+          strokeWidth: 0,
+          strokeColor: '#fff',
+          fillColors: undefined,
+          radius: [0,10,0],
+          size: 5,
+          customHTML: undefined,
+          onClick: undefined,
+          offsetX: 0,
+          offsetY: 0
+      },    
   },
 });
 

@@ -110,6 +110,42 @@ const chartData = ref({
       pointStyle: getDataSymbol(1,"chartjs").symbol,
       radius: 6,
       data: [45, 10, 32]
+    },
+    {
+      label: 'Data 3',
+      backgroundColor: getDataSymbol(2).color,
+      borderWidth:3,
+      borderColor: getDataSymbol(2).color,
+      pointStyle: getDataSymbol(2,"chartjs").symbol,
+      radius: 6,
+      data: [46, 26, 16]
+    },
+    {
+      label: 'Data 4',
+      backgroundColor: getDataSymbol(3).color,
+      borderWidth:3,
+      borderColor: getDataSymbol(3).color,
+      pointStyle: getDataSymbol(4,"chartjs").symbol,
+      radius: 6,
+      data: [40, 14, 34]
+    },
+    {
+      label: 'Data 5',
+      backgroundColor: getDataSymbol(4).color,
+      borderWidth:3,
+      borderColor: getDataSymbol(4).color,
+      pointStyle: getDataSymbol(4,"chartjs").symbol,
+      radius: 6,
+      data: [45, 25, 15]
+    },
+    {
+      label: 'Data 6',
+      backgroundColor: getDataSymbol(5).color,
+      borderWidth:3,
+      borderColor: getDataSymbol(5).color,
+      pointStyle: getDataSymbol(5,"chartjs").symbol,
+      radius: 6,
+      data: [15, 11, 42]
     }
   ]
 }
@@ -423,6 +459,9 @@ const chartOptions = ref({
     legend: {
       display: true,
       position: 'bottom',
+      labels: {
+          usePointStyle: true,
+        },
     }
   }
 })
