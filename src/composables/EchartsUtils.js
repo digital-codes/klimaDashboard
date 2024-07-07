@@ -73,10 +73,11 @@ const lineBarDefaults = (name = "Default Name") => {
       top: "top",
       //offset:-10,
       axisLabel: {
-        margin: 10, // smaller on mobile
+        margin: 1, // smaller on mobile
         show: true,
         hideOverlap: true,
         interval: 0,
+        // width: 190,
         //formatter: '{value} [Unit-Y]'
       },
       type: "value",
