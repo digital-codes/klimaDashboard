@@ -90,6 +90,9 @@ const lineBarDefaults = (name = "Default Name") => {
 // default data handling for line and bar charts
 // helper function
 const parseData = (data) => {
+  if (data == null) {
+    return null;
+  }
   if (typeof data === 'number') {
     return data;
   } else {
@@ -145,6 +148,11 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
   categories = categories.filter(category => category !== null);
   //console.log("Categories:", categories, categories.length)
 
+  if (typeof categories[0] === 'number') {
+    console.log("Sorting categories",categories)
+    categories.sort((a, b) => a - b)
+  }
+ 
   let classes = []
   // filter classes
   if (classList && Array.isArray(classList) && classList.length > 0) {
@@ -238,16 +246,17 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
             rotation: getDataSymbol(index).pattern,
             color: "#000",
           }
-        } : {} ,
+        } : {},
       };
     });
   } else {
     // create names from columns
-    console.log("Creating series from columns")
+    console.log("Creating series from columns:",includedColumns)
     // if we have classes, remove the corresponding column from included columns
     const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != classList[0]) : includedColumns
     seriesData = valueColumns.map((column, index) => {
       //console.log("Column:",column)
+      //console.log("Categories:",categories) 
       return {
         name: column,
         data: categories.map(position => {
@@ -280,7 +289,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
             rotation: getDataSymbol(index).pattern,
             color: "#000",
           }
-        } : {} ,
+        } : {},
       };
     });
   }
@@ -288,10 +297,10 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
   // update yaxis margin
   if (size == "large") {
     chartOptions.yAxis.axisLabel.margin = 10
-    } else {
+  } else {
     chartOptions.yAxis.axisLabel.margin = 10
-     }
-    
+  }
+
   // console.log("Final Series:", seriesData)
 
   chartOptions.xAxis.type = "category"

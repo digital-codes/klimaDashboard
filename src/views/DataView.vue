@@ -23,7 +23,8 @@ const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.v
 const tiles = [
 { "name": "DummyTable", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/dummyTable/Card.vue")) },
 { "name": "DummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
-{ "name": "DummyLine2", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
+{ "name": "KskKaEnergy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_energy/Card.vue")) },
+{ "name": "KskKaGhg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_ghg/Card.vue")) },
 //{ "name": "DummyLineCjs", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineCjs/Card.vue")) },
 //{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
   { "name": "DummyCustom", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue")) },

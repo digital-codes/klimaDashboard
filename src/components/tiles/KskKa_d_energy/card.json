@@ -2,7 +2,7 @@
   "specs": {
     "extra": [
       {
-        "url": "data/karlsruhe/ksk1Tverbrauch.csv",
+        "url": "data/karlsruhe/ksk1Tenergy.csv",
         "license": "CC BY 4.0",
         "name": "Sensoren Friedrichsplatz 10/23",
         "format": "csv",
@@ -21,33 +21,23 @@
       {
         "url": "data/karlsruhe/ksk1Tverbrauch.csv",
         "license": "CC-BY-4.0",
-        "name": "ENeTreibhausgasbilanz Karlsruhe",
+        "name": "Energieträger",
         "format": "csv",
-        "xaxis": "year",
+        "xaxis": "Jahr",
         "columns": [
-          "co2"
+          "Erdgas","Fernwärme","Heizöl","Kohle","Sonstige","Strom","Kraftstoffe"
         ],
-        "classes": [
-          "category",
-          "Private Haushalte",
-          "Stadt",
-          "Industrie",
-          "Verkehr",
-          "Gewerbe+Sonstiges"
-        ]
+        "classes": []
       },
       {
-        "url": "https://co2runter.karlsruhe.de/api/dashboard/footprints/",
+        "url": "data/karlsruhe/ksk1Tverbrauch.csv",
         "license": "CC BY 4.0",
-        "name": "CO2 Runter",
-        "format": "json",
-        "xaxis": "name",
-        "columns": [
-          "value"
+        "name": "Sektoren",
+        "format": "csv",
+        "xaxis": "Jahr",
+        "columns": ["Private Haushalte","Industrie","GHD","Städtische Stellen","Verkehr"
         ],
-        "classes": [
-          "key"
-        ]
+        "classes": []
       }
     ],
     "chart": {
