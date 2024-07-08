@@ -97,7 +97,7 @@ const parseData = (data) => {
   }
 }
 
-const updateEchartsOptions = async (chartOptions, data, dataX, classList, columnList, type, stacked) => {
+const updateEchartsOptions = async (chartOptions, data, dataX, classList, columnList, type, stacked, size = "large") => {
   console.log("Updating from data:", data);
   // we have to know if we get 1 or 2 series from data.
   // assume we always have an array. 
@@ -285,6 +285,13 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
     });
   }
 
+  // update yaxis margin
+  if (size == "large") {
+    chartOptions.yAxis.axisLabel.margin = 10
+    } else {
+    chartOptions.yAxis.axisLabel.margin = 10
+     }
+    
   // console.log("Final Series:", seriesData)
 
   chartOptions.xAxis.type = "category"

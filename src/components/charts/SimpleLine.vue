@@ -7,8 +7,13 @@ import VChart, { UPDATE_OPTIONS_KEY } from "vue-echarts";
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
+// breakpoint
+import { useBreakpoint } from "vuestic-ui";
+const breakpoint = useBreakpoint();
+
 // import composables
 import { lineBarDefaults, updateEchartsOptions } from '@/composables/EchartsUtils';
+
 
 
 // data parser
@@ -148,8 +153,10 @@ watch(() => props.animate, (newValue, oldValue) => {
 
 
 const updateOptions = async () => {
+  const size = breakpoint.smUp ? "large" : "small";
+  console.log("Size:", size)
   chartOptions.value = await updateEchartsOptions(chartOptions.value, 
-    data.value, props.dataX, props.dataClasses, props.dataColumns, props.type, props.stacked)
+    data.value, props.dataX, props.dataClasses, props.dataColumns, props.type, props.stacked, size)
 }
 
 const loadData = async () => {
