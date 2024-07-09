@@ -1,0 +1,155 @@
+{
+  "specs": {
+    "data": [
+      {
+        "url": "https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv",
+        "license": "CC-BY-4.0",
+        "name": "Greenhouse Gas",
+        "format": "csv",
+        "xaxis": "year",
+        "columns": [
+          "co2"
+        ],
+        "classes": [
+          "category",
+          "Private Haushalte",
+          "Stadt",
+          "Industrie",
+          "Verkehr",
+          "Gewerbe+Sonstiges"
+        ]
+      },
+      {
+        "url": "https://co2runter.karlsruhe.de/api/dashboard/footprints/",
+        "license": "CC BY 4.0",
+        "name": "CO2 Runter",
+        "format": "json",
+        "xaxis": "name",
+        "columns": [
+          "value"
+        ],
+        "classes": [
+          "key"
+        ]
+      }
+    ],
+    "chart": {
+      "updating": false
+    },
+    "controls": {
+      "range": {
+        "present": false,
+        "min": 1,
+        "max": 100
+      },
+      "type": {
+        "present": true,
+        "options": [
+          "line",
+          "bar"
+        ]
+      },
+      "stacked": {
+        "present": true
+      },
+      "dataswitch": {
+        "present": true
+      },
+      "animate": {
+        "present": false
+      }
+    }
+  },
+  "en": {
+    "yes": "Yes",
+    "no": "No",
+    "title": "Greenhouse Gas Emissions",
+    "header": "Header EN",
+    "text": "Text EN",
+    "source": "Source",
+    "license": "License",
+    "chart": "Chart EN",
+    "type": "Type",
+    "typeleft": "Line",
+    "typeright": "Bar",
+    "stacked": "Stacked",
+    "download": "Download Data",
+    "downimage": "Get Image",
+    "rangetitle": "Range Title",
+    "dstitle": "Dataset",
+    "dsleft": "First",
+    "dsright": "Second",
+    "animation": "Animation",
+    "anistart": "Start",
+    "anistop": "Stop"
+  },
+  "de": {
+    "yes": "Ja",
+    "no": "Nein",
+    "title": "Treibhausgas Emissonen",
+    "header": "Header DE",
+    "text": "Text DE",
+    "source": "Quelle",
+    "license": "Lizenz",
+    "chart": "Chart DE",
+    "type": "Typ",
+    "typeleft": "Linie",
+    "typeright": "Balken",
+    "stacked": "Gestapelt",
+    "download": "Daten herunterladen",
+    "downimage": "Als Bild laden",
+    "rangetitle": "Range Title",
+    "dstitle": "Datensatz",
+    "dsleft": "Eins",
+    "dsright": "Zwei",
+    "animation": "Animation DE",
+    "anistart": "Start",
+    "anistop": "Stop"
+  },
+  "fr": {
+    "yes": "Oui",
+    "no": "Non",
+    "title": "Title FR",
+    "header": "Header FR",
+    "text": "Text FR",
+    "source": "Source FR",
+    "license": "License FR",
+    "chart": "Chart FR",
+    "type": "Type FR",
+    "typeleft": "Line FR",
+    "typeright": "Bar FR",
+    "stacked": "Stacked FR",
+    "download": "Télécharger data",
+    "downimage": "Get Image FR",
+    "rangetitle": "Range Title FR",
+    "dstitle": "Dataset FR",
+    "dsleft": "First FR",
+    "dsright": "Second FR",
+    "animation": "Animation FR",
+    "anistart": "Start FR",
+    "anistop": "Stop FR"
+  },
+  "es": {
+    "yes": "Sí",
+    "no": "No",
+    "title": "Title ES",
+    "header": "Header ES",
+    "text": "Text ES",
+    "source": "Source ES",
+    "license": "License ES",
+    "chart": "Chart ES",
+    "type": "Type ES",
+    "typeleft": "Line ES",
+    "typeright": "Bar ES",
+    "stacked": "Stacked ES",
+    "download": "Descargar data",
+    "downimage": "Get Image ES",
+    "rangetitle": "Range Title ES",
+    "dstitle": "Dataset ES",
+    "dsleft": "First ES",
+    "dsright": "Second ES",
+    "animation": "Animation ES",
+    "anistart": "Start ES",
+    "anistop": "Stop ES"
+  }
+}
