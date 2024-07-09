@@ -15,13 +15,12 @@ const theContent = {}
 const compile = async () => {
 
     try {
-        const data = await fs.promises.readFile(cardFile, 'utf8');
+        let data = await fs.promises.readFile(cardFile, 'utf8');
         const specs = await JSON.parse(data);
 
-        const msgs = await fs.promises.readFile(langFile, 'utf8');
+        data = await fs.promises.readFile(langFile, 'utf8');
+        const msgs  = await JSON.parse(data);
         const languages = Object.keys(msgs)
-
-        console.log(languages)
 
         // to insert urls we need data from specs.data and specs.control
         const dataSpecs = specs.data || []
