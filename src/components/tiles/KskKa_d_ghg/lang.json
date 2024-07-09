@@ -1,82 +1,4 @@
 {
-  "specs": {
-    "extra": [
-      {
-        "url": "data/karlsruhe/ksk1Tverbrauch.csv",
-        "license": "CC BY 4.0",
-        "name": "Sensoren Friedrichsplatz 10/23",
-        "format": "csv",
-        "xaxis": "Datum",
-        "columns": [
-          "bodentemperatur"
-        ],
-        "classes": [
-          "name",
-          "SenseCap LBB (60) neu ✓",
-          "SenseCap ECE (90) neu ✓"
-        ]
-      }
-    ],
-    "data": [
-      {
-        "url": "data/karlsruhe/ksk1Tverbrauch.csv",
-        "license": "CC-BY-4.0",
-        "name": "ENeTreibhausgasbilanz Karlsruhe",
-        "format": "csv",
-        "xaxis": "year",
-        "columns": [
-          "co2"
-        ],
-        "classes": [
-          "category",
-          "Private Haushalte",
-          "Stadt",
-          "Industrie",
-          "Verkehr",
-          "Gewerbe+Sonstiges"
-        ]
-      },
-      {
-        "url": "https://co2runter.karlsruhe.de/api/dashboard/footprints/",
-        "license": "CC BY 4.0",
-        "name": "CO2 Runter",
-        "format": "json",
-        "xaxis": "name",
-        "columns": [
-          "value"
-        ],
-        "classes": [
-          "key"
-        ]
-      }
-    ],
-    "chart": {
-      "updating": false
-    },
-    "controls": {
-      "range": {
-        "present": false,
-        "min": 1,
-        "max": 100
-      },
-      "type": {
-        "present": true,
-        "options": [
-          "line",
-          "bar"
-        ]
-      },
-      "stacked": {
-        "present": true
-      },
-      "dataswitch": {
-        "present": true
-      },
-      "animate": {
-        "present": false
-      }
-    }
-  },
   "en": {
     "yes": "Yes",
     "no": "No",
@@ -93,7 +15,7 @@
     "download": "Download Data",
     "downimage": "Get Image",
     "rangetitle": "Range Title",
-    "dstitle": "Dataset",
+    "dsname": ["Carriers","Sectors"],
     "dsleft": "First",
     "dsright": "Second",
     "animation": "Animation",
@@ -116,7 +38,7 @@
     "download": "Daten herunterladen",
     "downimage": "Als Bild laden",
     "rangetitle": "Range Title",
-    "dstitle": "Datensatz",
+    "dsname": ["Energieträger","Sektoren"],
     "dsleft": "Eins",
     "dsright": "Zwei",
     "animation": "Animation DE",
@@ -139,7 +61,7 @@
     "download": "Télécharger data",
     "downimage": "Get Image FR",
     "rangetitle": "Range Title FR",
-    "dstitle": "Dataset FR",
+    "dsname": ["Carries FR","Sectors FR"],
     "dsleft": "First FR",
     "dsright": "Second FR",
     "animation": "Animation FR",
@@ -162,7 +84,7 @@
     "download": "Descargar data",
     "downimage": "Get Image ES",
     "rangetitle": "Range Title ES",
-    "dstitle": "Dataset ES",
+    "dsname": ["Carriers ES","Sectors ES"],
     "dsleft": "First ES",
     "dsright": "Second ES",
     "animation": "Animation ES",

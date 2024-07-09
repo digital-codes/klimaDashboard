@@ -1,29 +1,4 @@
 {
-  "specs": {
-    "data": [
-      {
-        "url": "data/karlsruhe/klima-tp.csv",
-        "license": "CC BY 4.0",
-        "name": "TP Karlsruhe"
-      }
-    ],
-    "chart": {
-      "updating": false
-    },
-    "controls": {
-      "range": {
-        "present": false,
-        "min": 1,
-        "max": 100
-      },
-      "dataswitch": {
-        "present": true
-      },
-      "animate": {
-        "present": false
-      }
-    }
-  },
   "en": {
     "yes": "Yes",
     "no": "No",
