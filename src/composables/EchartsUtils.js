@@ -6,7 +6,7 @@ import * as dataForge from 'data-forge'
 import getDataSymbol from '@/composables/DataSymbol';
 
 // default options for line and bar charts
-const lineBarDefaults = (name = "Default Name") => {
+const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "") => {
   const defaults = {
     //darkMode: "auto",
     tooltip: {
@@ -54,24 +54,24 @@ const lineBarDefaults = (name = "Default Name") => {
     },
     // backgroundColor: "#333",
     xAxis: {
-      name: "X-axis",
+      name: labelX, //"X-axis",
       nameLocation: "center",
       nameGap: 30,
       boundaryGap: true,
       axisLabel: {
-        "show": true
+        "show": true,
         //formatter: '{value} [Unit-X]'
       },
       type: "category",
       //data: dummyData.map((item) => item.date),
     },
     yAxis: {
-      name: "Y-axis",
+      name: labelY, //"Y-axis",
       type: "value",
       nameLocation: "end",
       nameGap: 10,
       top: "top",
-      //offset:-10,
+      //offset:-30,
       axisLabel: {
         margin: 1, // 1 on mobile, 10 else
         show: true,
@@ -149,10 +149,10 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
   //console.log("Categories:", categories, categories.length)
 
   if (typeof categories[0] === 'number') {
-    console.log("Sorting categories",categories)
+    console.log("Sorting categories", categories)
     categories.sort((a, b) => a - b)
   }
- 
+
   let classes = []
   // filter classes
   if (classList && Array.isArray(classList) && classList.length > 0) {
@@ -251,7 +251,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
     });
   } else {
     // create names from columns
-    console.log("Creating series from columns:",includedColumns)
+    console.log("Creating series from columns:", includedColumns)
     // if we have classes, remove the corresponding column from included columns
     const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != classList[0]) : includedColumns
     seriesData = valueColumns.map((column, index) => {

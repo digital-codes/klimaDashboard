@@ -71,6 +71,7 @@
       <SimpleLine v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
       :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY"
       :dataFormat="dataFormat" 
+      :labelX="labelX" :labelY="labelY"
       :type="chartType" :stacked="stackCtl" :animate="aniCtl" 
       ></SimpleLine>
     </div>
@@ -135,6 +136,8 @@ const dataName = ref(null)
 const dataLicense = ref(null)
 const dataX = ref(null)
 const dataY = ref(null)
+const labelX = ref(null)
+const labelY = ref(null)
 const dataFormat = ref("json") // json is default
 // we can create series from classes and columns
 // NB we cannot do both
@@ -197,6 +200,8 @@ const updateData = async (index) => {
   dataLicense.value = cardMessages.specs.data[index].license
   dataX.value = cardMessages.specs.data[index].xaxis || ""
   dataY.value = cardMessages.specs.data[index].yaxis || ""
+  labelX.value = cardMessages.specs.data[index].xlabel || ""
+  labelY.value = cardMessages.specs.data[index].ylabel || ""
   dataFormat.value = cardMessages.specs.data[index].format || "json"
   dataColumns.value = cardMessages.specs.data[index].columns || []
   dataClasses.value = cardMessages.specs.data[index].classes || []

@@ -24,6 +24,8 @@
         "name": "Energieträger",
         "format": "csv",
         "xaxis": "Jahr",
+        "xlabel": "Jahr",
+        "ylabel": "GWh",
         "columns": [
           "Erdgas","Fernwärme","Heizöl","Kohle","Sonstige","Strom","Kraftstoffe"
         ],
@@ -35,6 +37,8 @@
         "name": "Sektoren",
         "format": "csv",
         "xaxis": "Jahr",
+        "xlabel": "Jahr",
+        "ylabel": "GWh",
         "columns": ["Private Haushalte","Industrie","GHD","Städtische Stellen","Verkehr"
         ],
         "classes": []

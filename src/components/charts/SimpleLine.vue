@@ -60,6 +60,16 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  // optional X axis label
+  labelX: {
+    type: String,
+    default: "",
+  },
+  // optional Y axis label
+  labelY: {
+    type: String,
+    default: "",
+  },
   // optional format
   dataFormat: {
     type: String,
@@ -207,7 +217,7 @@ use([
   GridComponent
 ]);
 
-const chartOptions = ref(lineBarDefaults(props.dataName))
+const chartOptions = ref(lineBarDefaults(props.dataName, props.labelX, props.labelY))
 
 
 onMounted(async () => {
