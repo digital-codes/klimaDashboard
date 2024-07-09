@@ -49,11 +49,12 @@ const compile = async () => {
                 let content = await fs.promises.readFile(filePath, 'utf8');
                 // append dataLinks to the content
                 if (dataLinks.length > 0) {
-                    // localized spource tag
+                    // localized source tag
                     const tag = card[language]["source"] || "Source"
                     content += `\n\n## ${tag}\n\n`
-                    const dataLinksContent = dataLinks.map(link => {
-                        return `[${link.name}](${link.url})`
+                    const dsnames = card[language]["dsname"] || ["",""]
+                    const dataLinksContent = dataLinks.map((link,index) => {
+                        return `[${dsnames[index]}](${link.url})`
                     }).join("\n\n")
                     content += dataLinksContent
                 }

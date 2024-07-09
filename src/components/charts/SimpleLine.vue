@@ -124,12 +124,12 @@ watch(currentPresetName, (newValue, oldValue) => {
 
 
 watch(() => props.type, (newValue, oldValue) => {
-  console.log("Type changed:", newValue);
+  //console.log("Type changed:", newValue);
   updateOptions()
 });
 
 watch(() => props.stacked, (newValue, oldValue) => {
-  console.log("Stacked changed:", newValue);
+  //console.log("Stacked changed:", newValue);
   updateOptions()
 });
 
@@ -139,10 +139,16 @@ watch(() => props.range, (newValue, oldValue) => {
 });
 
 watch(() => props.dataUrl, async (newValue, oldValue) => {
-  console.log("Data URL changed:", newValue);
+  //console.log("Data URL changed:", newValue);
   if (theChart.value) await theChart.value.clear()
   await loadData();
   // also update title
+  chartOptions.value.title.text = props.dataName
+
+});
+
+watch(() => props.dataName, async (newValue, oldValue) => {
+  // update title
   chartOptions.value.title.text = props.dataName
 
 });

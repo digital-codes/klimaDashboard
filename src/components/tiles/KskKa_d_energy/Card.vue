@@ -178,21 +178,31 @@ const checkUrl = (url) => {
   }
 }
 
+
+const checkLang = watch(locale, (lang) => {
+  console.log("Locale:", lang,"index:",dataCtl.value?1:0)
+  dataName.value = cardMessages[locale.value].dsname[dataCtl.value?1:0] || "Data"
+  console.log("dsname:", dataName.value)
+  // updateData(0)
+})
+
 const updateData = async (index) => {
   const newUrl = checkUrl(cardMessages.specs.data[index].url)
-  console.log("UpdateData:", index, newUrl)
+  //console.log("UpdateData:", index, newUrl)
   if (newUrl === dataUrl.value) {
     chartValid.value = false
     await nextTick()
   }
   dataUrl.value = newUrl
   dataLicense.value = cardMessages.specs.data[index].license
-  dataName.value = cardMessages.specs.data[index].name || "Data"
   dataX.value = cardMessages.specs.data[index].xaxis || ""
   dataY.value = cardMessages.specs.data[index].yaxis || ""
   dataFormat.value = cardMessages.specs.data[index].format || "json"
   dataColumns.value = cardMessages.specs.data[index].columns || []
   dataClasses.value = cardMessages.specs.data[index].classes || []
+  // name is localized!
+  // dataName.value = cardMessages.specs.data[index].name || "Data"
+  dataName.value = cardMessages[locale.value].dsname[index] || "Data"
   chartValid.value = true
 }
 
