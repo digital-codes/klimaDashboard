@@ -188,7 +188,7 @@ const checkUrl = (url) => {
 
 const checkLang = watch(locale, (lang) => {
   console.log("Locale:", lang,"index:",dataCtl.value?1:0)
-  dataName.value = cardMessages[locale.value].dsname[dataCtl.value?1:0] || "Data"
+  dataName.value = cardMessages[lang].dsname[dataCtl.value?1:0] || "Data"
   console.log("dsname:", dataName.value)
   // updateData(0)
 })
