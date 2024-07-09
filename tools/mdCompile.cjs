@@ -52,9 +52,10 @@ const compile = async () => {
                     // localized source tag
                     const tag = card[language]["source"] || "Source"
                     content += `\n\n## ${tag}\n\n`
+                    const dsindex = dataLinks.length == 2 ? [card[language]["dsleft"] + ": ",card[language]["dsright"] + ": "] : ["",""]
                     const dsnames = card[language]["dsname"] || ["",""]
                     const dataLinksContent = dataLinks.map((link,index) => {
-                        return `[${dsnames[index]}](${link.url})`
+                        return `${dsindex[index]}[${dsnames[index]}](${link.url})`
                     }).join("\n\n")
                     content += dataLinksContent
                 }
