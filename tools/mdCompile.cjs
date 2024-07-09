@@ -7,6 +7,7 @@ const purify = require("isomorphic-dompurify")
 
 const directory = process.cwd();
 const cardFile = path.join(directory, 'card.json');
+const langFile = path.join(directory, 'lang.json');
 const contentFile = path.join(directory, 'text.json');
 const theContent = {} 
 
@@ -15,12 +16,13 @@ const compile = async () => {
 
     try {
         const data = await fs.promises.readFile(cardFile, 'utf8');
-        const card = await JSON.parse(data);
-        const keys = Object.keys(card);
-        const languages = keys.filter(key => key !== 'specs');
+        const specs = await JSON.parse(data);
+
+        const msgs = await fs.promises.readFile(langFile, 'utf8');
+        const languages = Object.keys(msgs)
+
         console.log(languages)
 
-        const specs = card.specs || {}
         // to insert urls we need data from specs.data and specs.control
         const dataSpecs = specs.data || []
         const controls = specs.controls || {}
@@ -50,10 +52,10 @@ const compile = async () => {
                 // append dataLinks to the content
                 if (dataLinks.length > 0) {
                     // localized source tag
-                    const tag = card[language]["source"] || "Source"
+                    const tag = msgs[language]["source"] || "Source"
                     content += `\n\n## ${tag}\n\n`
-                    const dsindex = dataLinks.length == 2 ? [card[language]["dsleft"] + ": ",card[language]["dsright"] + ": "] : ["",""]
-                    const dsnames = card[language]["dsname"] || ["",""]
+                    const dsindex = dataLinks.length == 2 ? [msgs[language]["dsleft"] + ": ",msgs[language]["dsright"] + ": "] : ["",""]
+                    const dsnames = msgs[language]["dsname"] || ["",""]
                     const dataLinksContent = dataLinks.map((link,index) => {
                         return `${dsindex[index]}[${dsnames[index]}](${link.url})`
                     }).join("\n\n")

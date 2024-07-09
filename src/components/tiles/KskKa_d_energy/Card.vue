@@ -129,8 +129,12 @@ console.log("Card name:", props.name);
 // read localized card content
 import cardContent from "./text.json";
 
-// read card specs and localization
-import cardMessages from "./card.json";
+// read localized card messages
+import cardMessages from "./lang.json";
+
+
+// read card specs
+import cardSpecs from "./card.json";
 const dataUrl = ref(null)
 const dataName = ref(null)
 const dataLicense = ref(null)
@@ -190,23 +194,23 @@ const checkLang = watch(locale, (lang) => {
 })
 
 const updateData = async (index) => {
-  const newUrl = checkUrl(cardMessages.specs.data[index].url)
+  const newUrl = checkUrl(cardSpecs.data[index].url)
   //console.log("UpdateData:", index, newUrl)
   if (newUrl === dataUrl.value) {
     chartValid.value = false
     await nextTick()
   }
   dataUrl.value = newUrl
-  dataLicense.value = cardMessages.specs.data[index].license
-  dataX.value = cardMessages.specs.data[index].xaxis || ""
-  dataY.value = cardMessages.specs.data[index].yaxis || ""
-  labelX.value = cardMessages.specs.data[index].xlabel || ""
-  labelY.value = cardMessages.specs.data[index].ylabel || ""
-  dataFormat.value = cardMessages.specs.data[index].format || "json"
-  dataColumns.value = cardMessages.specs.data[index].columns || []
-  dataClasses.value = cardMessages.specs.data[index].classes || []
+  dataLicense.value = cardSpecs.data[index].license
+  dataX.value = cardSpecs.data[index].xaxis || ""
+  dataY.value = cardSpecs.data[index].yaxis || ""
+  labelX.value = cardSpecs.data[index].xlabel || ""
+  labelY.value = cardSpecs.data[index].ylabel || ""
+  dataFormat.value = cardSpecs.data[index].format || "json"
+  dataColumns.value = cardSpecs.data[index].columns || []
+  dataClasses.value = cardSpecs.data[index].classes || []
   // name is localized!
-  // dataName.value = cardMessages.specs.data[index].name || "Data"
+  // dataName.value = cardSpecs.data[index].name || "Data"
   dataName.value = cardMessages[locale.value].dsname[index] || "Data"
   chartValid.value = true
 }
@@ -228,24 +232,24 @@ onBeforeMount(async () => {
   for (const key in cardContent) {
     content.value[key] = cardContent[key]
   }
+
   for (const key in cardMessages) {
     // console.log(`${key}:`, cardMessages[key]);
     // skip overspecs (not localized)
-    if (key === "specs") continue 
     // localization data
     messages.value[key][props.name] = cardMessages[key];
-    updateData(0)
   }
-  const specs = cardMessages.specs
+  const specs = cardSpecs
   if (specs.controls) {
     console.log("Specs:", specs)
     if (specs.controls.range.present) controls.value.range = specs.controls.range
-    if ((specs.controls.dataswitch.present) && (cardMessages.specs.data.length > 1))controls.value.dataswitch = specs.controls.dataswitch
+    if ((specs.controls.dataswitch.present) && (cardSpecs.data.length > 1)) controls.value.dataswitch = specs.controls.dataswitch
     if (specs.controls.type.present) controls.value.type = specs.controls.type
     if (specs.controls.stacked.present) controls.value.stacked = specs.controls.stacked
     if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
     console.log("Ctls:", controls.value)
   }
+  updateData(0)
 });
 
 </script>

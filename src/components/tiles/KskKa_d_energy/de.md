@@ -10,6 +10,5 @@ ddd   ddd qdwdw
 
 ![image](/images/testing.jpg)  
 
-
 bla bla bla
 
