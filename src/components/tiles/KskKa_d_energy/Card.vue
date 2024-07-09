@@ -68,7 +68,7 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleLine :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
+      <SimpleLine v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl?1:0"
       :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY"
       :dataFormat="dataFormat" 
       :type="chartType" :stacked="stackCtl" :animate="aniCtl" 
@@ -103,7 +103,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount, onMounted, watch } from "vue";
+import { ref, onBeforeMount, onMounted, watch, nextTick } from "vue";
 
 import SimpleLine from "@/components/charts/SimpleLine.vue"
 
@@ -147,6 +147,8 @@ const dataClasses = ref(null)
 const dataType = ref(null)
 const dataStacked = ref(false)
 
+// needed to force re-render when dataurl reused
+const chartValid = ref(true)
 
 // controls
 const controls = ref({
@@ -176,8 +178,14 @@ const checkUrl = (url) => {
   }
 }
 
-const updateData = (index) => {
-  dataUrl.value = checkUrl(cardMessages.specs.data[index].url)
+const updateData = async (index) => {
+  const newUrl = checkUrl(cardMessages.specs.data[index].url)
+  console.log("UpdateData:", index, newUrl)
+  if (newUrl === dataUrl.value) {
+    chartValid.value = false
+    await nextTick()
+  }
+  dataUrl.value = newUrl
   dataLicense.value = cardMessages.specs.data[index].license
   dataName.value = cardMessages.specs.data[index].name || "Data"
   dataX.value = cardMessages.specs.data[index].xaxis || ""
@@ -185,6 +193,7 @@ const updateData = (index) => {
   dataFormat.value = cardMessages.specs.data[index].format || "json"
   dataColumns.value = cardMessages.specs.data[index].columns || []
   dataClasses.value = cardMessages.specs.data[index].classes || []
+  chartValid.value = true
 }
 
 watch(dataCtl, (index) => {

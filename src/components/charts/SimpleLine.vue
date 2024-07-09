@@ -170,7 +170,6 @@ const loadData = async () => {
     if (props.dataFormat == "json") {
       data.value = await response.json();
       //console.log("JSON:", data.value);
-      await updateOptions()
     } else { // assume csv
       const csvString = await response.text();
       //console.log("raw CSV:",csvString)
@@ -180,10 +179,10 @@ const loadData = async () => {
         complete: async function (results) {
           //console.log("CSV parsed:", results.data);
           data.value = results.data;
-          await updateOptions()
         }
       });
     }
+    await updateOptions()
     await nextTick();
     dataLoaded.value = true;
   } catch (error) {
