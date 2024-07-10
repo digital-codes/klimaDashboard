@@ -146,6 +146,9 @@ button:focus-visible {
   }
   .card {
     padding: .5em;
+    h1 {
+      word-break:break-all;
+    }
   }
 }
 
@@ -341,9 +344,11 @@ button:focus-visible {
     margin-left: 0.5rem;
   }
   p {
-    text-align: left;
     margin-top:.8rem;
     margin-bottom:.3rem;
+    text-justify: inter-character;
+    word-wrap: break-word;
+    text-align: justify;    
   }
   a {
     text-align: left;
@@ -368,6 +373,8 @@ button:focus-visible {
     background-color: #ddd;
   }
 }
+
+
 
 // overwrite some vuestic stuff
 .va-sidebar {

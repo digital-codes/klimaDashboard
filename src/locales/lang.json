@@ -1,0 +1,21 @@
+{
+    "en": {
+        "greeting": "Hello!",
+        "farewell": "Goodbye!",
+        "langsel": "Select language",
+        "logo":"Dashboard Logo. Click for 'Home'",
+        "mode":"Toggle dark mode",
+        "totop":"Go to top",
+        "menu": "Toggle sidebar menu"
+   
+    },
+    "de": {
+        "greeting": "Hallo!",
+        "farewell": "Tschüß!",
+        "langsel": "Sprache wählen",
+        "logo": "Dashboard Logo. Klicken für 'Start'",
+        "mode":"Hell/Dunkel umschalten",
+        "totop":"Nach oben",
+        "menu": "Navigation umschalten"
+        }
+}

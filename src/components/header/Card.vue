@@ -1,9 +1,20 @@
 <template>
   <VaCard class="headerCard">
+    <!-- 
     <div>
       <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? climate_d : climate_l" :size="breakpoint.smUp ? 'medium' : 'small'" />
       <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : 'xy'">{{ $t($props.name + ".title") }}</h1>
     </div>
+
+    -->
+
+    <div class="dataheader">
+      <VaAvatar  title="Klima Dashboard" :src="modeSwitch == 'dark' ? climate_d : climate_l" size="3rem"/>
+      <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : 'xy'">{{ $t($props.name + ".title") }}</h1>
+    </div>
+
+
+    
     <!-- 
     <p class="headertext">{{ $t($props.name + ".text") }}</p>
     -->

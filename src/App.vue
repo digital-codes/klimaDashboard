@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 const { t, messages, locale, availableLocales } = useI18n();
 
 import { useConfigStore } from '@/services/configStore';
-const configStore = useConfigStore();
+const configStore = useConfigStore(); 
 
 import { ref, watch, onMounted, onUnmounted, computed, onBeforeMount } from 'vue';
 
@@ -20,8 +20,6 @@ import FooterCard from "@/components/footer/Card.vue"
 
 // read localized sidebar links
 import cardMessages from "@/components/sidebar/lang.json";
-
-
 
 // mode switch 
 const { applyPreset, currentPresetName } = useColors();
@@ -140,7 +138,7 @@ const scoll2top = () => {
       <VaNavbar color="primary" class="py-2" fixed>
         <template #left>
           <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()" size="large" 
-            :title="t('sidebar.menu')" 
+            :title="t('menu')" 
             role="switch"
             :aria-checked="showSidebar? 'true' : 'false'"
         />
@@ -148,7 +146,7 @@ const scoll2top = () => {
         <template #center>
           <VaNavbarItem role="link" aria-label="Click for Home">
             <VaImage :src="logo" 
-            :title='t("sidebar.logo")' 
+            :title='t("logo")' 
             fit="fit" class="logoimg" 
             @click="router.push({ name: 'Home' })"
             ></VaImage>
@@ -169,7 +167,7 @@ const scoll2top = () => {
           </div>
           <VaButton round :icon="modeSwitch == 'dark' ? 'dark_mode' : 'light_mode'"
             @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" 
-            :title='t("sidebar.mode")' 
+            :title='t("mode")' 
             role="switch"
             :aria-checked="modeSwitch == 'dark' ? 'true' : 'false'"
           />
@@ -226,7 +224,7 @@ const scoll2top = () => {
         <VaButton v-if="bttVisible" 
         class="btt-button" 
         @click="scoll2top" 
-        :aria-controls="$t('sidebar.totop')" :aria-label="$t('sidebar.totop')">
+        :aria-controls="$t('totop')" :aria-label="$t('totop')">
           <VaIcon name="keyboard_arrow_up" size="medium"/>
         </VaButton>
 

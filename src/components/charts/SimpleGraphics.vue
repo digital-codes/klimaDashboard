@@ -97,6 +97,7 @@ const chartOptions = ref({
                 return String(size);
             },
     },
+    animation: false,
     xAxis: {
         type: "category",
         data: ["Left", "Right"],
@@ -125,7 +126,7 @@ const chartOptions = ref({
                     return size;
                 },
                 offset: [0, -20],
-                fontSize: 18,
+                fontSize: 24,
             },
             // symbol: "image://" + pkw,  only needed for legend
             z: 10,

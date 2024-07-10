@@ -3,20 +3,12 @@
     "home": "Home",
     "dash": "Dashboard",
     "imprint": "Imprint",
-    "gdpr": "GDPR",
-    "logo":"Dashboard Logo. Click for 'Home'",
-    "mode":"Toggle dark mode",
-    "totop":"Go to top",
-    "menu": "Toggle sidebar menu"
+    "gdpr": "GDPR"
   },
   "de": {
     "home": "Start",
     "dash": "Dashboard",
     "imprint": "Impressum",
-    "gdpr": "Datenschutz",
-    "logo": "Dashboard Logo. Klicken für 'Start'",
-    "mode":"Hell/Dunkel umschalten",
-    "totop":"Nach oben",
-    "menu": "Navigation umschalten"
+    "gdpr": "Datenschutz"
   }
 }

@@ -9,6 +9,13 @@ import getDataSymbol from '@/composables/DataSymbol';
 const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "") => {
   const defaults = {
     //darkMode: "auto",
+    aria: {
+      enabled: true,
+      label: {
+        enabled: true,
+        // description: "123", // name,
+      }
+    },
     tooltip: {
       trigger: 'axis',
       valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
@@ -46,11 +53,6 @@ const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "") => {
       top: 'bottom',
       show: true,
       type: 'scroll',
-    },
-    "aria": {
-      "enabled": true,
-      "description": name,
-      show: true,
     },
     // backgroundColor: "#333",
     xAxis: {

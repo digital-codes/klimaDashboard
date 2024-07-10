@@ -25,7 +25,7 @@ import { use } from "echarts/core";
 import { SVGRenderer, CanvasRenderer } from "echarts/renderers";
 // normally, only a single chart type is needed
 // unless toolbox allows to switch types (like here ...)
-import { LineChart, BarChart } from "echarts/charts";
+import { GaugeChart } from "echarts/charts";
 import {
   TitleComponent,
   TooltipComponent,
@@ -211,8 +211,7 @@ const loadData = async () => {
 use([
   CanvasRenderer,
   SVGRenderer,
-  LineChart,
-  BarChart,
+  GaugeChart,
   TitleComponent,
   TooltipComponent,
   ToolboxComponent,
@@ -220,7 +219,98 @@ use([
   GridComponent
 ]);
 
-const chartOptions = ref(lineBarDefaults(props.dataName, props.labelX, props.labelY))
+const gaugeData = [
+  {
+    value: 20,
+    name: 'Perfect',
+    title: {
+      offsetCenter: ['150%', '-60%']
+    },
+    detail: {
+      valueAnimation: true,
+      offsetCenter: ['150%', '-35%']
+    }
+  },
+  {
+    value: 40,
+    name: 'Good',
+    title: {
+      offsetCenter: ['150%', '-10%']
+    },
+    detail: {
+      valueAnimation: true,
+      offsetCenter: ['150%', '15%']
+    }
+  },
+  {
+    value: 60,
+    name: 'Commonly',
+    title: {
+      offsetCenter: ['150%', '40%']
+    },
+    detail: {
+      valueAnimation: true,
+      offsetCenter: ['150%', '65%']
+    }
+  }
+];
+
+
+const chartOptions = ref(
+  {
+  series: [
+    {
+      type: 'gauge',
+      startAngle: 90,
+      endAngle: -270,
+      pointer: {
+        show: false
+      },
+      progress: {
+        show: true,
+        overlap: false,
+        roundCap: true,
+        clip: false,
+        itemStyle: {
+          borderWidth: 1,
+          borderColor: '#464646'
+        }
+      },
+      axisLine: {
+        lineStyle: {
+          width: 40
+        }
+      },
+      splitLine: {
+        show: false,
+        distance: 0,
+        length: 10
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
+        show: false,
+        distance: 50
+      },
+      data: gaugeData,
+      title: {
+        fontSize: 14
+      },
+      detail: {
+        width: 50,
+        height: 14,
+        fontSize: 14,
+        color: 'inherit',
+        borderColor: 'inherit',
+        borderRadius: 20,
+        borderWidth: 1,
+        formatter: '{value}%'
+      }
+    }
+  ]
+}
+)
 
 
 onMounted(async () => {
@@ -230,8 +320,10 @@ onMounted(async () => {
   } else {
     console.log("Light theme detected")
   }
+  await nextTick();
+  dataLoaded.value = true;
 
-  await loadData();
+  //await loadData();
 
 });
 </script>

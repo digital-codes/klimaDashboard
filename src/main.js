@@ -29,7 +29,8 @@ import './style/style.scss'
 
 // internationalization
 const defaultLocale = "de"
-import messages from '@/locales/messages.json';
+// globals messages and for App.vue, apart from sidebar
+import messages from '@/locales/lang.json';
 import { createI18n } from 'vue-i18n';
 const i18n = createI18n({
     legacy: false,
