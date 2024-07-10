@@ -1,23 +1,19 @@
 {
   "en": {
-    "title": "Dashboard EN",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  EN",
+    "title": "Karlsruhe Climate Dashboard",
     "climate": "Climate",
     "energy": "Energy",
     "mobility": "Mobility",
     "buildings": "Building",
-    "other": "Other",
-    "mdpane": "<h2>MD Text EN</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "other": "Other"
   },
   "de": {
-    "title": "Dashboard DE",
+    "title": "Klimae Dashboard Karlsruhe",
     "climate": "Klima",
     "energy": "Energie",
     "mobility": "Mobilität",
     "buildings": "Gebäude",
-    "other": "Sonstiges",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  DE",
-    "mdpane": "<h2>MD Text DE</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla  </p>\n"
+    "other": "Sonstiges"
   },
   "fr": {
     "title": "Dashboard FR",
@@ -25,9 +21,7 @@
     "energy": "Energy FR",
     "mobility": "Mobility FR",
     "buildings": "Building FR",
-    "other": "Other FR",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  FR",
-    "mdpane": "<h2>MD Text FR</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "other": "Other FR"
   },
   "es": {
     "title": "Dashboard ES",
@@ -35,8 +29,6 @@
     "energy": "Energy ES",
     "mobility": "Mobility ES",
     "buildings": "Building ES",
-    "other": "Other ES",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  ES",
-    "mdpane": "<h2>MD Text ES</h2>\n<p>bla bla bla</p>\n<p><a href=\"https://www.google.com\">link</a></p>\n<ul>\n<li>123</li>\n<li>456<ul>\n<li>789</li>\n</ul>\n</li>\n</ul>\n<p><img alt=\"image\" src=\"/images/testing.jpg\">  </p>\n<p>bla bla bla</p>\n"
+    "other": "Other ES"
   }
 }

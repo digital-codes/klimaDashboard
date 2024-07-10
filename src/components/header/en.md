@@ -1,15 +1,5 @@
-## MD Text EN
+Welcome to the Communal Climate Information Dashboard! 
 
-bla bla bla
+This platform offers comprehensive insights into local climate data and environmental statistics. Users can find up-to-date information on energy consumption, emissions, transportation patterns, and renewable energies. The dashboard serves as a valuable tool for residents, planners, and policymakers to understand and assess the impacts of climate protection measures. 
 
-[link](https://www.google.com)
-
-  * 123
-  * 456
-    * 789
-
-![image](/images/testing.jpg)  
-
-
-bla bla bla
-
+Our interactive maps and charts allow you to explore the data and make informed decisions to help make our community more sustainable.

@@ -1,17 +1,6 @@
-## MD Text DE
+Willkommen auf dem kommunalen Klima-Informationsdashboard! 
 
-bla bla bla
+Diese Plattform bietet umfassende Einblicke in lokale Klimadaten und Umweltstatistiken. Nutzer können hier aktuelle Informationen zu Energieverbrauch, Emissionen, Verkehrsmustern und erneuerbaren Energien finden. 
 
-[link](https://www.google.com)
-
-  * 123
-  * 456
-    * 789
-
-
-![image](/images/testing.jpg)  
-
-
-bla bla bla  
-
+Das Dashboard dient als wertvolles Werkzeug für Bewohner, Planer und Entscheidungsträger, um die Auswirkungen von Klimaschutzmaßnahmen zu verstehen und zu bewerten. Unsere interaktiven Karten und Diagramme ermöglichen es Ihnen, Daten zu explorieren und fundierte Entscheidungen zu treffen, um unsere Gemeinde nachhaltiger zu gestalten.
 
