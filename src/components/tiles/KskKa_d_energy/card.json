@@ -1,21 +1,4 @@
 {
-  "extra": [
-    {
-      "url": "data/karlsruhe/ksk1Tenergy.csv",
-      "license": "CC BY 4.0",
-      "name": "Sensoren Friedrichsplatz 10/23",
-      "format": "csv",
-      "xaxis": "Datum",
-      "columns": [
-        "bodentemperatur"
-      ],
-      "classes": [
-        "name",
-        "SenseCap LBB (60) neu ✓",
-        "SenseCap ECE (90) neu ✓"
-      ]
-    }
-  ],
   "data": [
     {
       "url": "data/karlsruhe/ksk1Tverbrauch.csv",
