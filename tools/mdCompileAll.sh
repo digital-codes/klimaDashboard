@@ -20,6 +20,18 @@ if [ $# -gt 0 ]; then
 else
 	echo "Compile all"
 
+	# sidebar. this is stuff to go into App.vue
+	# so far, there is no MD content yet, only
+	# localized messages
+	cd $P/src/components/sidebar/
+	if test -f card.json;
+		then node $P/tools/mdCompile.cjs
+	else
+		echo "`pwd`: No header"
+	fi
+
+
+
 	# header
 	cd $P/src/components/header/
 	if test -f card.json;
@@ -27,6 +39,7 @@ else
 	else
 		echo "No header"
 	fi
+
 	cd $P 
 	# footer
 	cd $P/src/components/footer/
