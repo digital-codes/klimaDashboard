@@ -2,9 +2,7 @@
   "en": {
     "yes": "Yes",
     "no": "No",
-    "title": "Title EN",
-    "header": "Header EN",
-    "text": "Text EN",
+    "title": "Energy Consumption",
     "source": "Source",
     "license": "License",
     "chart": "Chart EN",
@@ -25,9 +23,7 @@
   "de": {
     "yes": "Ja",
     "no": "Nein",
-    "title": "Titel DE",
-    "header": "Header DE",
-    "text": "Text DE",
+    "title": "Energieverbrauch",
     "source": "Quelle",
     "license": "Lizenz",
     "chart": "Chart DE",
