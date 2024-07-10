@@ -81,6 +81,9 @@ import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
 
+import { useConfigStore } from '@/services/configStore';
+const configStore = useConfigStore();
+
 import SimpleTable from "@/components/charts/SimpleTable.vue"
 
 // for relocated base we need to prepend the base path to dynamic imports
@@ -141,14 +144,19 @@ watch(dataCtl, (index) => {
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // localized content
+  const supportedLanguages = configStore.getLanguages;
+
   for (const key in cardContent) {
-    content.value[key] = cardContent[key]
+    if (!supportedLanguages.includes(key)) continue;
+    content.value[key] = cardContent[key];
   }
+
+  // localization data
   for (const key in cardMessages) {
-    // console.log(`${key}:`, cardMessages[key]);
-    if (key === "specs") continue
+    if (!supportedLanguages.includes(key)) continue;
     messages.value[key][props.name] = cardMessages[key];
   }
+
   const specs = cardMessages.specs
 // create default data uri here
 	dataUrl.value = checkUrl(specs.data[0].url)

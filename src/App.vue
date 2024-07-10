@@ -48,6 +48,7 @@ const langSel = ref("")
 //locale.value = langSel
 console.log(availableLocales)
 const languages = availableLocales
+configStore.setLanguages(languages)
 
 const appContainer = ref(null)
 

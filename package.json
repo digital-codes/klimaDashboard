@@ -12,9 +12,7 @@
   "dependencies": {
     "@fontsource/roboto": "^5.0.13",
     "@fontsource/source-sans-pro": "^5.0.8",
-    "apexcharts": "^3.49.2",
     "axios": "^1.7.2",
-    "chart.js": "^4.4.3",
     "data-forge": "^1.10.2",
     "leaflet": "^1.9.4",
     "material-icons": "^1.13.12",
@@ -26,7 +24,6 @@
     "vue-echarts": "^6.7.3",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.4.0",
-    "vue3-apexcharts": "^1.5.3",
     "vuestic-ui": "^1.9.12"
   },
   "devDependencies": {

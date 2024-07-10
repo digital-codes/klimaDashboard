@@ -21,6 +21,9 @@ import { useI18n } from "vue-i18n";
 const { messages, locale } = useI18n();
 import { onBeforeMount } from "vue";
 
+import { useConfigStore } from '@/services/configStore';
+const configStore = useConfigStore();
+
 import logo from "@/assets/logos/logo.png"
 
 
@@ -40,10 +43,15 @@ import cardMessages from "./card.json";
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
+  // localized content
+  const supportedLanguages = configStore.getLanguages;
+
+  // localization data
   for (const key in cardMessages) {
-    //console.log(`${key}:`, cardMessages[key]);
+    if (!supportedLanguages.includes(key)) continue;
     messages.value[key][props.name] = cardMessages[key];
   }
+
 });
 </script>
 
