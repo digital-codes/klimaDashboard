@@ -10,7 +10,7 @@
   <VaCard class="homeCard">
 
     <div class="flex xs12">
-      <div class="mdcontent fullheight" v-html="cardMessages[locale].mdpane"></div>
+      <div class="mdcontent fullheight" v-html="content[locale]"></div>
     </div>
 
   </VaCard>
@@ -19,7 +19,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { messages, locale } = useI18n();
-import { onBeforeMount } from "vue";
+import { ref, onBeforeMount } from "vue";
 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -36,13 +36,21 @@ const props = defineProps({
 });
 console.log("Card name:", props.name);
 
-// messages i18n
-import cardMessages from "./card.json";
+// read localized card content
+import cardContent from "./text.json";
+
+// read localized card messages
+import cardMessages from "./lang.json";
+
+// content pane
+const content = ref({});
+
 
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
+  // localized content
   // localized content
   const supportedLanguages = configStore.getLanguages;
 
@@ -51,6 +59,12 @@ onBeforeMount(() => {
     if (!supportedLanguages.includes(key)) continue;
     messages.value[key][props.name] = cardMessages[key];
   }
+
+  for (const key in cardContent) {
+    if (!supportedLanguages.includes(key)) continue;
+    content.value[key] = cardContent[key];
+  }
+
 
 });
 </script>

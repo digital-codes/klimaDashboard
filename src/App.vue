@@ -1,12 +1,12 @@
 <script setup>
 // 1i8n at top !
 import { useI18n } from 'vue-i18n';
-const { t, locale, availableLocales } = useI18n();
+const { t, messages, locale, availableLocales } = useI18n();
 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
-import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed, onBeforeMount } from 'vue';
 
 import { useBreakpoint } from 'vuestic-ui';
 
@@ -17,6 +17,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 import FooterCard from "@/components/footer/Card.vue"
+
+// read localized sidebar links
+import cardMessages from "@/components/sidebar/lang.json";
+
 
 
 // mode switch 
@@ -54,6 +58,8 @@ const appContainer = ref(null)
 
 // ----------------------------
 const showSidebar = ref(false)
+const msgsLoaded = ref(false)
+
 
 const menuToggle = () => {
   showSidebar.value = !showSidebar.value
@@ -71,6 +77,22 @@ watch(langSel, (newValue, oldValue) => {
   configStore.setCurrentLocale(newValue);
   locale.value = newValue
 });
+
+onBeforeMount(async () => {
+  // Code to execute when the component is mounted
+  // localized content
+  const supportedLanguages = availableLocales // use like so only in app.vue
+
+  console.log("cardmsgs:",cardMessages)
+  // localization data. save und "app" key
+  for (const key in cardMessages) {
+    if (!supportedLanguages.includes(key)) continue;
+    console.log("Lang Msg",key)
+    messages.value[key]["sidebar"] = cardMessages[key];
+  }
+  console.log("msgs",messages.value)
+  msgsLoaded.value = true
+})
 
 onMounted(() => {
   // Code to execute when the component is mounted
@@ -118,7 +140,7 @@ const scoll2top = () => {
       <VaNavbar color="primary" class="py-2" fixed>
         <template #left>
           <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()" size="large" 
-            title="Open sidebar menu" 
+            :title="t('sidebar.menu')" 
             role="switch"
             :aria-checked="showSidebar? 'true' : 'false'"
         />
@@ -126,7 +148,7 @@ const scoll2top = () => {
         <template #center>
           <VaNavbarItem role="link" aria-label="Click for Home">
             <VaImage :src="logo" 
-            title="Dashboard Logo. Click for 'Home'" 
+            :title='t("sidebar.logo")' 
             fit="fit" class="logoimg" 
             @click="router.push({ name: 'Home' })"
             ></VaImage>
@@ -147,7 +169,7 @@ const scoll2top = () => {
           </div>
           <VaButton round :icon="modeSwitch == 'dark' ? 'dark_mode' : 'light_mode'"
             @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" 
-            title="Switch to dark mode" 
+            :title='t("sidebar.mode")' 
             role="switch"
             :aria-checked="modeSwitch == 'dark' ? 'true' : 'false'"
           />
@@ -156,12 +178,12 @@ const scoll2top = () => {
     </template>
 
     <template #left>
-      <VaSidebar v-model="showSidebar">
+      <VaSidebar v-model="showSidebar" v-if="msgsLoaded">
         <VaSidebarItem @click="goto('/')" tabindex="0" role="link">
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="home" size="large" />
               <VaSidebarItemTitle>
-                Home
+                {{ $t("sidebar.home") }}
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
@@ -169,7 +191,7 @@ const scoll2top = () => {
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
               <VaSidebarItemTitle>
-                Dashboard
+                {{ $t("sidebar.dash") }}
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
@@ -177,7 +199,7 @@ const scoll2top = () => {
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="info" size="large" />
               <VaSidebarItemTitle>
-                Imprint
+                {{ $t("sidebar.imprint") }}
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
@@ -185,7 +207,7 @@ const scoll2top = () => {
             <VaSidebarItemContent>
               <VaIcon class="material-icons-outlined" name="privacy_tip" size="large" />
               <VaSidebarItemTitle>
-                Gdpr
+                {{ $t("sidebar.gdpr") }}
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
         </VaSidebarItem>
@@ -204,7 +226,7 @@ const scoll2top = () => {
         <VaButton v-if="bttVisible" 
         class="btt-button" 
         @click="scoll2top" 
-        aria-controls="back to top" aria-label="Go to top">
+        :aria-controls="$t('sidebar.totop')" :aria-label="$t('sidebar.totop')">
           <VaIcon name="keyboard_arrow_up" size="medium"/>
         </VaButton>
 

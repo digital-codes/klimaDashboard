@@ -6,6 +6,7 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/home'),
   path.resolve(__dirname, '../src/components/header'),
   path.resolve(__dirname, '../src/components/footer'),
+  path.resolve(__dirname, '../src/components/sidebar'),
   path.resolve(__dirname, '../src/components/tiles/dummyCustom'),
   path.resolve(__dirname, '../src/components/tiles/dummyGraphics'),
   path.resolve(__dirname, '../src/components/tiles/dummyLine'),
