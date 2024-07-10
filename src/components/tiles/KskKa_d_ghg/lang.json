@@ -2,7 +2,7 @@
   "en": {
     "yes": "Yes",
     "no": "No",
-    "title": "Title EN",
+    "title": "Greenhousegas Emissions",
     "header": "Header EN",
     "text": "Text EN",
     "source": "Source",
@@ -15,7 +15,7 @@
     "download": "Download Data",
     "downimage": "Get Image",
     "rangetitle": "Range Title",
-    "dsname": ["Carriers","Sectors"],
+    "dsname": ["Energy Sources","Sectors"],
     "dsleft": "First",
     "dsright": "Second",
     "animation": "Animation",
@@ -25,7 +25,7 @@
   "de": {
     "yes": "Ja",
     "no": "Nein",
-    "title": "Titel DE",
+    "title": "Treibhausgas Emissionen",
     "header": "Header DE",
     "text": "Text DE",
     "source": "Quelle",
