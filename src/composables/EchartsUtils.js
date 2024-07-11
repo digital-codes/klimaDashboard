@@ -16,6 +16,14 @@ const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "") => {
         // description: "123", // name,
       }
     },
+    // grid settings allow to control the position of the chart
+    // usefull to increase label space on mobile
+    // initialize to 10% here. use 20% on mobile
+    grid: [
+      {
+        left: "10%", 
+      }
+    ],
     tooltip: {
       trigger: 'axis',
       valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
@@ -308,6 +316,11 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
   chartOptions.xAxis.type = "category"
   chartOptions.xAxis.data = categories
   chartOptions.series = seriesData
+  // grid settings allow to control the position of the chart
+  // usefull to increase label space on mobile
+  // unset or 10% normally, 20% on mobile
+  chartOptions.grid[0].left = size == "small" ? "20%" : "10%"
+
   //console.log("Options updated:", chartOptions);
   return chartOptions
 }

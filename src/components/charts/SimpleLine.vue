@@ -220,7 +220,8 @@ use([
   GridComponent
 ]);
 
-const chartOptions = ref(lineBarDefaults(props.dataName, props.labelX, props.labelY))
+
+const chartOptions = ref(lineBarDefaults(props.dataName, props.labelX, props.labelY, breakpoint.smUp ? "large" : "small"))
 
 
 onMounted(async () => {
