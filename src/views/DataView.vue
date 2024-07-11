@@ -21,13 +21,14 @@ import { defineAsyncComponent } from 'vue'
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
 
 const tiles = [
-// using template for linebar
+// using template for linebar. maybe still loads component multiple times. 
 //{ "name": "KskKaEnergy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_energy/Card.vue")) },
 //{ "name": "KskKaGhg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_ghg/Card.vue")) },
 //{ "name": "DummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
 { "name": "KskKa_d_energy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
 { "name": "KskKa_d_ghg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "dummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+{ "name": "KskKa_d_stwkenergy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+//{ "name": "dummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
 //{ "name": "DummyLineCjs", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineCjs/Card.vue")) },
 //{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
 //  { "name": "DummyCustom", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue")) },
@@ -50,7 +51,7 @@ const removeTag = (tag) => {
   currentTags.value = currentTags.value.filter(item => item !== tag);
 }
 const insertTag = (tag) => {
-  // make sure we donÄt get duplicates
+  // make sure we don't get duplicates
   currentTags.value = currentTags.value.filter(item => item !== tag);
   currentTags.value.push(tag)
 }
