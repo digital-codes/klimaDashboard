@@ -114,20 +114,14 @@ const dataLoaded = ref(false);
 const data = ref(null);
 const datakeys = ref(null);
 
+
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
   chartTheme.value = newValue;
-});
-
-watch(currentPresetName, (newValue, oldValue) => {
   if (newValue == "dark") {
-    for (let i = 0; i < chartOptions.value.series.length; i++) {
-      chartOptions.value.series[i].label.color = "white"
-    }
+    chartOptions.value.series[0].color = ["white","orange","yellow"]
   } else {
-    for (let i = 0; i < chartOptions.value.series.length; i++) {
-      chartOptions.value.series[i].label.color = "black"
-    }
+    chartOptions.value.series[0].color = ["black","blue","red"]
   }
 });
 
@@ -258,6 +252,11 @@ const gaugeData = [
 
 const chartOptions = ref(
   {
+  title : {
+    text: props.dataName,
+    left: 'center',
+    top: 'top'
+  },
   series: [
     {
       type: 'gauge',
@@ -302,6 +301,7 @@ const chartOptions = ref(
       title: {
         fontSize: 14
       },
+      color:[ '#FF7777', '#77FF77', '#7777FF'],
       detail: {
         width: 50,
         height: 14,

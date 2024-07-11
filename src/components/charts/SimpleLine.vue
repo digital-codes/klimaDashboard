@@ -114,12 +114,10 @@ const dataLoaded = ref(false);
 const data = ref(null);
 const datakeys = ref(null);
 
+
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
   chartTheme.value = newValue;
-});
-
-watch(currentPresetName, (newValue, oldValue) => {
   if (newValue == "dark") {
     for (let i = 0; i < chartOptions.value.series.length; i++) {
       chartOptions.value.series[i].label.color = "white"
@@ -222,6 +220,7 @@ use([
 
 
 const chartOptions = ref(lineBarDefaults(props.dataName, props.labelX, props.labelY, breakpoint.smUp ? "large" : "small"))
+
 
 
 onMounted(async () => {

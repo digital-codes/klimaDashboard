@@ -1,12 +1,12 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="confgComplete">
     <div class="dataheader">
       <VaAvatar
         title="Klima Dashboard"
         :src="basePath + props.logo"
         size="3rem"
       />
-      <h1>{{ $t($props.name + ".title") }}</h1>
+      <h1>{{ cardMessages[locale].title }}</h1>
     </div>
 
     <div class="mdcontent" v-html="content[locale]"></div>
@@ -107,11 +107,11 @@
       -->
 
       <VaButton round @click="console.log('Click')" icon="download">
-        {{ $t($props.name + ".download") }}
+        {{ cardMessages[locale].download }}
       </VaButton>
 
       <VaButton round @click="console.log('Click')" icon="download">
-        {{ $t($props.name + ".downimage") }}
+        {{ cardMessages[locale].downimage }}
       </VaButton>
     </div>
   </div>
@@ -146,14 +146,19 @@ const props = defineProps({
 });
 console.log("Card name:", props.name);
 
+// config flaag
+const confgComplete = ref(false);
 // read localized card content
-import cardContent from "./text.json";
+//import cardContent from "./text.json";
 
 // read localized card messages
-import cardMessages from "./lang.json";
+// import cardMessages from "./lang.json";
+const cardMessages = ref({});
 
-// read card specs
-import cardSpecs from "./card.json";
+// read card cardSpecs.value
+//import cardSpecs from "./card.json";
+const cardSpecs = ref({});
+
 const dataUrl = ref(null);
 const dataName = ref(null);
 const dataLicense = ref(null);
@@ -205,31 +210,31 @@ const checkUrl = (url) => {
 };
 
 const checkLang = watch(locale, (lang) => {
-  console.log("Locale:", lang, "index:", dataCtl.value ? 1 : 0);
-  dataName.value = cardMessages[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
+  console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
+  dataName.value = cardMessages.value[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
   console.log("dsname:", dataName.value);
   // updateData(0)
 });
 
 const updateData = async (index) => {
-  const newUrl = checkUrl(cardSpecs.data[index].url);
+  const newUrl = checkUrl(cardSpecs.value.data[index].url);
   //console.log("UpdateData:", index, newUrl)
   if (newUrl === dataUrl.value) {
     chartValid.value = false;
     await nextTick();
   }
   dataUrl.value = newUrl;
-  dataLicense.value = cardSpecs.data[index].license;
-  dataX.value = cardSpecs.data[index].xaxis || "";
-  dataY.value = cardSpecs.data[index].yaxis || "";
-  labelX.value = cardSpecs.data[index].xlabel || "";
-  labelY.value = cardSpecs.data[index].ylabel || "";
-  dataFormat.value = cardSpecs.data[index].format || "json";
-  dataColumns.value = cardSpecs.data[index].columns || [];
-  dataClasses.value = cardSpecs.data[index].classes || [];
+  dataLicense.value = cardSpecs.value.data[index].license;
+  dataX.value = cardSpecs.value.data[index].xaxis || "";
+  dataY.value = cardSpecs.value.data[index].yaxis || "";
+  labelX.value = cardSpecs.value.data[index].xlabel || "";
+  labelY.value = cardSpecs.value.data[index].ylabel || "";
+  dataFormat.value = cardSpecs.value.data[index].format || "json";
+  dataColumns.value = cardSpecs.value.data[index].columns || [];
+  dataClasses.value = cardSpecs.value.data[index].classes || [];
   // name is localized!
-  // dataName.value = cardSpecs.data[index].name || "Data"
-  dataName.value = cardMessages[locale.value].dsname[index] || "Data";
+  // dataName.value = cardSpecs.value.data[index].name || "Data"
+  dataName.value = cardMessages.value[locale.value].dsname[index] || "Data";
   chartValid.value = true;
 };
 
@@ -248,33 +253,44 @@ watch(typeCtl, (index) => {
 onBeforeMount(async () => {
   // Code to execute when the component is mounted
   // localized content
+  //currentLocale.value = configStore.getCurrentLocale
+  console.log(props.name, " - Current locale:", locale.value);
   const supportedLanguages = configStore.getLanguages;
+
+  const cardContent = await import("./text.json")
+  console.log(props.name," - Card content loaded");
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
     content.value[key] = cardContent[key];
   }
 
+  cardMessages.value = await import("./lang.json")
+  console.log(props.name," - Card messages loaded");
   // localization data
+  /*
   for (const key in cardMessages) {
     if (!supportedLanguages.includes(key)) continue;
-    messages.value[key][props.name] = cardMessages[key];
+    messages.value[key][props.name] = cardMessages.value[key];
   }
+  */
 
-  const specs = cardSpecs;
-  if (specs.controls) {
-    console.log("Specs:", specs);
-    if (specs.controls.range.present)
-      controls.value.range = specs.controls.range;
-    if (specs.controls.dataswitch.present && cardSpecs.data.length > 1)
-      controls.value.dataswitch = specs.controls.dataswitch;
-    if (specs.controls.type.present) controls.value.type = specs.controls.type;
-    if (specs.controls.stacked.present)
-      controls.value.stacked = specs.controls.stacked;
-    if (specs.controls.animate.present)
-      controls.value.animate = specs.controls.animate;
+  cardSpecs.value = await import("./card.json")
+  console.log(props.name," - Card cardSpecs.value loaded");
+  if (cardSpecs.value.controls) {
+    console.log("Specs:", cardSpecs.value);
+    if (cardSpecs.value.controls.range.present)
+      controls.value.range = cardSpecs.value.controls.range;
+    if (cardSpecs.value.controls.dataswitch.present && cardSpecs.value.data.length > 1)
+      controls.value.dataswitch = cardSpecs.value.controls.dataswitch;
+    if (cardSpecs.value.controls.type.present) controls.value.type = cardSpecs.value.controls.type;
+    if (cardSpecs.value.controls.stacked.present)
+      controls.value.stacked = cardSpecs.value.controls.stacked;
+    if (cardSpecs.value.controls.animate.present)
+      controls.value.animate = cardSpecs.value.controls.animate;
     console.log("Ctls:", controls.value);
   }
+  confgComplete.value = true
   updateData(0);
 });
 </script>
