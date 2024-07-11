@@ -221,36 +221,36 @@ use([
 
 const gaugeData = [
   {
-    value: 20,
+    value: 60,
     name: 'Perfect',
     title: {
-      offsetCenter: ['150%', '-60%']
+      offsetCenter: ['180%', '-130%']
     },
     detail: {
       valueAnimation: true,
-      offsetCenter: ['150%', '-35%']
+      offsetCenter: ['180%', '-105%']
     }
   },
   {
     value: 40,
     name: 'Good',
     title: {
-      offsetCenter: ['150%', '-10%']
+      offsetCenter: ['180%', '-70%']
     },
     detail: {
       valueAnimation: true,
-      offsetCenter: ['150%', '15%']
+      offsetCenter: ['180%', '-45%']
     }
   },
   {
-    value: 60,
+    value: 20,
     name: 'Commonly',
     title: {
-      offsetCenter: ['150%', '40%']
+      offsetCenter: ['180%', '-10%']
     },
     detail: {
       valueAnimation: true,
-      offsetCenter: ['150%', '65%']
+      offsetCenter: ['180%', '15%']
     }
   }
 ];
@@ -261,8 +261,13 @@ const chartOptions = ref(
   series: [
     {
       type: 'gauge',
-      startAngle: 90,
-      endAngle: -270,
+      startAngle: -180,
+      endAngle: 0,
+      radius: "110%",
+      min: 0,
+      max: 100,
+      splitNumber: 10,
+      center: ['50%', '80%'],
       pointer: {
         show: false
       },
@@ -290,8 +295,8 @@ const chartOptions = ref(
         show: false
       },
       axisLabel: {
-        show: false,
-        distance: 50
+        show: true,
+        distance: -30
       },
       data: gaugeData,
       title: {
