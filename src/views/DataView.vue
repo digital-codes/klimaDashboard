@@ -21,9 +21,13 @@ import { defineAsyncComponent } from 'vue'
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
 
 const tiles = [
-{ "name": "KskKaEnergy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_energy/Card.vue")) },
-{ "name": "KskKaGhg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_ghg/Card.vue")) },
-{ "name": "DummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
+// using template for linebar
+//{ "name": "KskKaEnergy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_energy/Card.vue")) },
+//{ "name": "KskKaGhg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_ghg/Card.vue")) },
+//{ "name": "DummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
+{ "name": "KskKa_d_energy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+{ "name": "KskKa_d_ghg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+{ "name": "dummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
 //{ "name": "DummyLineCjs", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineCjs/Card.vue")) },
 //{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
 //  { "name": "DummyCustom", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue")) },
