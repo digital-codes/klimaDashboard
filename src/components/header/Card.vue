@@ -162,6 +162,7 @@ onBeforeMount(() => {
     content.value[key] = cardContent[key];
   }
 
+  modeSwitch.value = configStore.getTheme
 
 });
 </script>

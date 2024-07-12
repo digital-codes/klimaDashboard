@@ -50,6 +50,10 @@ const props = defineProps({
     type: String,
     default: "LineChart",
   },
+  ariaLabel: {
+    type: String,
+    default: "Aria LineChart",
+  },
   // optional X axis identifier
   dataX: {
     type: String,
@@ -94,6 +98,10 @@ const props = defineProps({
     type: String,
     default: "line"
   },
+  locale: {
+    type: String,
+    default: "de"
+  },
   stacked: {
     type: Boolean,
     default: false
@@ -113,7 +121,7 @@ const chartTheme = ref(currentPresetName) // already reactive. don't watch for t
 const dataLoaded = ref(false);
 const data = ref(null);
 const datakeys = ref(null);
-
+const ariaLabel = ref(props.ariaLabel)
 
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
@@ -130,10 +138,24 @@ watch(currentPresetName, (newValue, oldValue) => {
 });
 
 
+watch(() => props.locale, (newValue, oldValue) => {
+  //console.log("Type changed:", newValue);
+  updateOptions()
+});
 
 watch(() => props.type, (newValue, oldValue) => {
   //console.log("Type changed:", newValue);
   updateOptions()
+});
+
+watch(() => props.type, (newValue, oldValue) => {
+  //console.log("Type changed:", newValue);
+  updateOptions()
+});
+
+watch(() => props.ariaLabel, (newValue, oldValue) => {
+  //console.log("Type changed:", newValue);
+  ariaLabel.value = props.ariaLabel
 });
 
 watch(() => props.stacked, (newValue, oldValue) => {
@@ -152,7 +174,6 @@ watch(() => props.dataUrl, async (newValue, oldValue) => {
   await loadData();
   // also update title
   chartOptions.value.title.text = props.dataName
-
 });
 
 watch(() => props.dataName, async (newValue, oldValue) => {
@@ -170,7 +191,7 @@ const updateOptions = async () => {
   const size = breakpoint.smUp ? "large" : "small";
   console.log("Size:", size)
   chartOptions.value = await updateEchartsOptions(chartOptions.value, 
-    data.value, props.dataX, props.dataClasses, props.dataColumns, props.type, props.stacked, size)
+    data.value, props.dataX, props.dataClasses, props.dataColumns, props.type, props.stacked, size, props.locale);
 }
 
 const loadData = async () => {
@@ -219,7 +240,7 @@ use([
 ]);
 
 
-const chartOptions = ref(lineBarDefaults(props.dataName, props.labelX, props.labelY, breakpoint.smUp ? "large" : "small"))
+const chartOptions = ref(lineBarDefaults(props.dataName, props.labelX, props.labelY, breakpoint.smUp ? "large" : "small", props.locale))
 
 
 
@@ -244,6 +265,7 @@ onMounted(async () => {
   :theme="chartTheme"
   :init-options="{ renderer: 'canvas' }"
   autoresize
+  :aria-label="ariaLabel"
   >
   </v-chart>
 </template>

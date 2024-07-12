@@ -6,7 +6,7 @@ import * as dataForge from 'data-forge'
 import getDataSymbol from '@/composables/DataSymbol';
 
 // default options for line and bar charts
-const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "") => {
+const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "",locale = "de") => {
   const defaults = {
     //darkMode: "auto",
     aria: {
@@ -26,7 +26,8 @@ const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "") => {
     ],
     tooltip: {
       trigger: 'axis',
-      valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
+      valueFormatter: (value) => value != null ? Intl.NumberFormat(locale,{maximumFractionDigits:1}).format(value) : "N/A",
+      //valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
       /*
       axisPointer: {
         type: 'cross',
@@ -89,6 +90,7 @@ const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "") => {
         interval: 0,
         // width: 190,
         //formatter: '{value} [Unit-Y]'
+        formatter: v => Intl.NumberFormat(lang).format(v)
       },
       type: "value",
     },
@@ -110,7 +112,8 @@ const parseData = (data) => {
   }
 }
 
-const updateEchartsOptions = async (chartOptions, data, dataX, classList, columnList, type, stacked, size = "large") => {
+const updateEchartsOptions = async (chartOptions, data, dataX, classList, 
+  columnList, type, stacked, size = "large", locale = "de") => {
   console.log("Updating from data:", data);
   // we have to know if we get 1 or 2 series from data.
   // assume we always have an array. 
@@ -310,6 +313,10 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList, column
   } else {
     chartOptions.yAxis.axisLabel.margin = 10
   }
+  // update locale
+  chartOptions.yAxis.axisLabel.formatter = (v) => Intl.NumberFormat(locale).format(v)
+  chartOptions.tooltip.valueFormatter = (value) => value != null ? Intl.NumberFormat(locale,{maximumFractionDigits:1}).format(value) : "N/A"
+
 
   // console.log("Final Series:", seriesData)
 

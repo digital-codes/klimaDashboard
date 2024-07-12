@@ -91,6 +91,8 @@
         :type="chartType"
         :stacked="stackCtl"
         :animate="aniCtl"
+        :ariaLabel="ariaLabel"
+        :locale="chartLocale"
       ></SimpleLine>
     </div>
 
@@ -196,6 +198,8 @@ const aniCtl = ref(false);
 const typeCtl = ref(false);
 const stackCtl = ref(false);
 const chartType = ref("line");
+const chartLocale = ref(locale);
+const ariaLabel = ref("Aria LineChart");
 
 // content pane
 const content = ref({});
@@ -210,9 +214,11 @@ const checkUrl = (url) => {
 };
 
 const checkLang = watch(locale, (lang) => {
-  console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
+  // console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
   dataName.value = cardMessages.value[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
-  console.log("dsname:", dataName.value);
+  // console.log("dsname:", dataName.value);
+  ariaLabel.value = cardMessages.value[lang].aria + ": " + dataName.value
+  chartLocale.value = lang;
   // updateData(0)
 });
 
@@ -235,6 +241,7 @@ const updateData = async (index) => {
   // name is localized!
   // dataName.value = cardSpecs.value.data[index].name || "Data"
   dataName.value = cardMessages.value[locale.value].dsname[index] || "Data";
+  ariaLabel.value = cardMessages.value[locale.value].aria + ": " + dataName.value
   chartValid.value = true;
 };
 
@@ -267,6 +274,14 @@ onBeforeMount(async () => {
 
   cardMessages.value = await import(`../${props.name}/lang.json`)
   console.log(props.name," - Card messages loaded");
+
+  for (const key in supportedLanguages) {
+    const lang = supportedLanguages[key]
+    console.log(key, cardMessages.value[lang])
+    if (cardMessages.value[lang].aria === undefined)
+     cardMessages.value[lang].aria =  "Aria " + lang;
+  }
+
   // localization data
   /*
   for (const key in cardMessages) {
