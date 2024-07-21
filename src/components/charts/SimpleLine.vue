@@ -41,6 +41,8 @@ import {
 import { useColors } from "vuestic-ui";
 const { currentPresetName } = useColors();
 
+const emit = defineEmits(["xrange", "yrange"]);
+
 const props = defineProps({
   /* Add your props here */
   dataUrl: {
@@ -159,7 +161,7 @@ watch(
     if ("y" == props.rangeAxis && !props.stacked) {
       chartOptions.value.yAxis.max = newValue;
     } else {
-      delete chartOptions.value.xAxis.max;
+      chartOptions.value.yAxis.max = null
     }
     updateOptions();
   }
@@ -219,6 +221,7 @@ watch(
   }
 );
 
+/*
 watch(
   () => props.dataUrl,
   async (newValue, oldValue) => {
@@ -231,8 +234,11 @@ watch(
     await loadData();
     // also update title
     chartOptions.value.title.text = props.dataName;
+    console.log("Emitting x range");
+    emit("xrange",[0,123])
   }
 );
+*/
 
 watch(
   () => props.dataName,
@@ -261,19 +267,36 @@ watch(
   }
 );
 
-const setupDataRange = () => {
-  fullData.value = JSON.parse(JSON.stringify(chartOptions.value.series));
+const getDataRange = () => {
   // animation range
   const mxData = [];
+  const mnData = [];
   for (const series of chartOptions.value.series) {
-    console.log("Series:", series);
     const mx = Math.max(...series.data);
     mxData.push(mx);
+    const mn = Math.min(...series.data);
+    mnData.push(mn);
   }
+  /*
   let mx;
   mx = props.stacked
     ? mxData.reduce((acc, cur) => acc + cur, 0)
     : Math.max(...mxData);
+
+  if (mx > 100) mx = Math.ceil(1.05 * mx);
+  else mx += 2;
+  */
+  const range = { min: Math.min(...mnData), max: Math.max(...mxData), smax: mxData.reduce((acc, cur) => acc + cur, 0) }
+  console.log("Range:", range);
+  return range
+};
+
+
+const setupDataRange = () => {
+  fullData.value = JSON.parse(JSON.stringify(chartOptions.value.series));
+  const range = getDataRange();
+
+  let mx = props.stacked ? range.smax : range.max
 
   if (mx > 100) mx = Math.ceil(1.05 * mx);
   else mx += 2;
@@ -364,6 +387,14 @@ const loadData = async () => {
     if (theChart.value) await theChart.value.clear();
     await updateOptions();
     await nextTick();
+
+    const yrange = getDataRange();
+    console.log("Emitting y range",yrange);
+    emit("yrange", [yrange.min, yrange.max]);
+    const xrange = chartOptions.value.xAxis.data
+    console.log("Emitting x range",xrange);
+    emit("xrange", [xrange[0], xrange[xrange.length - 1]])
+
     dataLoaded.value = true;
   } catch (error) {
     console.error("Failed to load chart data:", error);
@@ -410,16 +441,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <v-chart
-    v-if="dataLoaded"
-    ref="theChart"
-    :option="chartOptions"
-    :style="{ height: '100%' }"
-    :theme="chartTheme"
-    :init-options="{ renderer: 'canvas' }"
-    autoresize
-    :aria-label="ariaLabel"
-  >
+  <v-chart v-if="dataLoaded" ref="theChart" :option="chartOptions" :style="{ height: '100%' }" :theme="chartTheme"
+    :init-options="{ renderer: 'canvas' }" autoresize :aria-label="ariaLabel">
   </v-chart>
 </template>
 

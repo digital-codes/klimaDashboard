@@ -98,6 +98,9 @@
         :animate="aniCtl"
         :ariaLabel="ariaLabel"
         :locale="chartLocale"
+        @xrange="setXrange"
+        @yrange="setYrange"
+         
       ></SimpleLine>
     </div>
 
@@ -274,6 +277,27 @@ watch(typeCtl, (index) => {
     ? controls.value.type.options[1]
     : controls.value.type.options[0];
 });
+
+
+const setXrange = (range) => {
+  if (rangeAxis.value === "x") {
+    controls.value.range.min = range[0]
+    controls.value.range.max = range[1]
+    rangeCtl.value = controls.value.range.max;
+    controls.value.range.step = Math.ceil(controls.value.range.max / 10)    
+  }
+};
+
+const setYrange = (range) => {
+  if (rangeAxis.value === "y") {
+    controls.value.range.min = range[0]
+    controls.value.range.max = range[1]
+    rangeCtl.value = controls.value.range.max;
+    controls.value.range.step = Math.ceil(controls.value.range.max / 10)    
+  }
+};
+
+
 
 onBeforeMount(async () => {
   // Code to execute when the component is mounted
