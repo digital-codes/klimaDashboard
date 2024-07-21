@@ -13,6 +13,7 @@
     "controls": {
       "range": {
         "present": true,
+        "axis":"y",
         "min": 1,
         "max": 100
       },

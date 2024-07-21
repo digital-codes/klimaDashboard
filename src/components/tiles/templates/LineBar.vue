@@ -16,14 +16,15 @@
         v-if="controls.range.present"
         v-model="rangeCtl"
         :label="cardMessages[locale].rangetitle"
+        :min="controls.range.min"
+        :max="controls.range.max"
+        :step="controls.range.step"
         class="flex lg6 sm12 xs12 control range"
         track-label-visible
       >
         <template #prepend>
           <VaCounter
             v-model="rangeCtl"
-            :min="controls.range.min"
-            :max="controls.range.max"
             class="w-[110px]"
           />
         </template>
@@ -85,6 +86,8 @@
         :dataClasses="dataClasses"
         :dataX="dataX"
         :dataY="dataY"
+        :rangeValue="rangeCtl"
+        :rangeAxis="rangeAxis"
         :dataFormat="dataFormat"
         :labelX="labelX"
         :labelY="labelY"
@@ -193,6 +196,7 @@ const controls = ref({
 });
 
 const rangeCtl = ref(0);
+const rangeAxis = ref("");
 const dataCtl = ref(false);
 const aniCtl = ref(false);
 const typeCtl = ref(false);
@@ -250,6 +254,10 @@ watch(dataCtl, (index) => {
   updateData(index ? 1 : 0);
 });
 
+watch(rangeCtl, (val) => {
+  console.log("RangeCtl:", val);
+});
+
 watch(typeCtl, (index) => {
   console.log("TypeCtl:", index);
   chartType.value = index
@@ -294,15 +302,28 @@ onBeforeMount(async () => {
   console.log(props.name," - Card cardSpecs.value loaded");
   if (cardSpecs.value.controls) {
     console.log("Specs:", cardSpecs.value);
-    if (cardSpecs.value.controls.range.present)
+    if (cardSpecs.value.controls.range.present) {
       controls.value.range = cardSpecs.value.controls.range;
+      console.log("Range:", controls.value.range);
+      if (controls.value.range.step === undefined) {
+        controls.value.range.step = Math.ceil(controls.value.range.max / 25)
+      }
+      rangeCtl.value = cardSpecs.value.controls.range.max;
+      rangeAxis.value = cardSpecs.value.controls.range.axis || "y";
+    }
+    else {
+      controls.value.range = false;
+    }
     if (cardSpecs.value.controls.dataswitch.present && cardSpecs.value.data.length > 1)
       controls.value.dataswitch = cardSpecs.value.controls.dataswitch;
+    else controls.value.dataswitch = false;
     if (cardSpecs.value.controls.type.present) controls.value.type = cardSpecs.value.controls.type;
     if (cardSpecs.value.controls.stacked.present)
       controls.value.stacked = cardSpecs.value.controls.stacked;
+    else controls.value.stacked = false;
     if (cardSpecs.value.controls.animate.present)
       controls.value.animate = cardSpecs.value.controls.animate;
+    else controls.value.animate = false;
     console.log("Ctls:", controls.value);
   }
   confgComplete.value = true

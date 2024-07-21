@@ -40,9 +40,10 @@
   },
   "controls": {
     "range": {
-      "present": false,
+      "axis":"y",
+      "present": true,
       "min": 1,
-      "max": 100
+      "max": 3000
     },
     "type": {
       "present": true,

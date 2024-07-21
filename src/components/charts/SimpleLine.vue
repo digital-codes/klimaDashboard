@@ -94,6 +94,16 @@ const props = defineProps({
     type: Number,
     default: 0
   },
+  // optional range.
+  rangeValue: {
+    type: Number,
+    default: 0
+  },
+  // optional range axis.
+  rangeAxis: {
+    type: String,
+    default: ""
+  },
   type: {
     type: String,
     default: "line"
@@ -137,6 +147,14 @@ watch(currentPresetName, (newValue, oldValue) => {
   }
 });
 
+
+watch(() => props.rangeValue, (newValue, oldValue) => {
+  console.log("Range changed:", newValue, props.rangeAxis);
+  if ("y" == props.rangeAxis) {
+    chartOptions.value.yAxis.max = newValue
+  }
+  updateOptions()
+});
 
 watch(() => props.locale, (newValue, oldValue) => {
   //console.log("Type changed:", newValue);
