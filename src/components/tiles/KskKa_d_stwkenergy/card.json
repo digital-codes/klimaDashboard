@@ -36,9 +36,9 @@
   },
   "controls": {
     "range": {
-      "present": false,
+      "present": true,
       "min": 1,
-      "max": 100
+      "max": 30000
     },
     "type": {
       "present": true,
@@ -54,7 +54,7 @@
       "present": true
     },
     "animate": {
-      "present": false
+      "present": true
     }
   }
 }

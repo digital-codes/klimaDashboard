@@ -19,6 +19,7 @@
         :min="controls.range.min"
         :max="controls.range.max"
         :step="controls.range.step"
+        :disabled="stackCtl"
         class="flex lg6 sm12 xs12 control range"
         track-label-visible
       >
@@ -65,6 +66,7 @@
 
       <VaSwitch
         v-if="controls.animate"
+        ref="animateSwitch"
         v-model="aniCtl"
         :label="cardMessages[locale].animation"
         :false-inner-label="cardMessages[locale].no"
@@ -205,6 +207,8 @@ const chartType = ref("line");
 const chartLocale = ref(locale);
 const ariaLabel = ref("Aria LineChart");
 
+const animateSwitch = ref(null);
+
 // content pane
 const content = ref({});
 
@@ -249,13 +253,19 @@ const updateData = async (index) => {
   chartValid.value = true;
 };
 
+
+watch(stackCtl, () => {
+  // also reset animation when stacking changed
+  aniCtl.value = false;
+});
+
+
+
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index);
   updateData(index ? 1 : 0);
-});
-
-watch(rangeCtl, (val) => {
-  console.log("RangeCtl:", val);
+  // also reset animation
+  aniCtl.value = false;
 });
 
 watch(typeCtl, (index) => {

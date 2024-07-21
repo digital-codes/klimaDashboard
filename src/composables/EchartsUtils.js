@@ -65,6 +65,7 @@ const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "",locale 
     },
     // backgroundColor: "#333",
     xAxis: {
+      animation: false,
       name: labelX, //"X-axis",
       nameLocation: "center",
       nameGap: 30,
@@ -77,6 +78,7 @@ const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "",locale 
       //data: dummyData.map((item) => item.date),
     },
     yAxis: {
+      animation: false,
       name: labelY, //"Y-axis",
       type: "value",
       nameLocation: "end",
@@ -114,7 +116,7 @@ const parseData = (data) => {
 
 const updateEchartsOptions = async (chartOptions, data, dataX, classList, 
   columnList, type, stacked, size = "large", locale = "de") => {
-  console.log("Updating from data:", data);
+  //console.log("Updating from data:", data);
   // we have to know if we get 1 or 2 series from data.
   // assume we always have an array. 
   // in case the inner data is an array too, we have multiple series
