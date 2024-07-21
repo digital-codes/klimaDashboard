@@ -135,9 +135,8 @@ const datakeys = ref(null);
 const ariaLabel = ref(props.ariaLabel);
 
 const animTimer = ref(null);
-const animRange = ref({});
-const animData = ref([]);
-
+const fullRange = ref({});
+const fullData = ref([]);
 
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
@@ -249,66 +248,77 @@ watch(
     console.log("Animate changed:", newValue);
     if (newValue) {
       //console.log("X", chartOptions.value.xAxis);
-      console.log("series", chartOptions.value.series);
-      animData.value = JSON.parse(JSON.stringify(chartOptions.value.series))
-      // animation range 
-      const mxData = []
-      for (const series of chartOptions.value.series) {
-        console.log("Series:", series);
-        const mx = Math.max(...series.data)
-        mxData.push(mx)
-      }
-      let mx
-      mx = props.stacked ? mxData.reduce((acc, cur) => acc + cur, 0) : Math.max(...mxData)
-
-      if (mx > 100) 
-        mx = Math.ceil(1.05*mx)
-      else
-        mx += 2
-
-      animRange.value = {"idx":0,
-      "len":chartOptions.value.xAxis.data.length,
-      "range":JSON.parse(JSON.stringify(chartOptions.value.xAxis.data)),
-      "max":mx}
-      console.log("Anim max:", animRange.value.max);
-      chartOptions.value.yAxis.max = animRange.value.max;
-      animationDataSlice();
-      animTimer.value = setInterval(() => doAnimation(), 1000);
+      //console.log("series", chartOptions.value.series);
+      setupDataRange();
     } else {
       console.log("Anim off");
       if (animTimer.value) {
         clearInterval(animTimer.value);
-        chartOptions.value.series = animData.value
-        chartOptions.value.yAxis.max = null;
+        restoreDataRange();
         updateOptions();
       }
     }
   }
 );
 
-const animationDataSlice = () => {
-  console.log("Slicing for:", animRange.value.idx);
-  for (let i = 0; i < animData.value.length; i++) {
-    //console.log("Animdata",i, animData.value[i]);
-    const dt = animData.value[i].data
-    //console.log("Series:", dt);
-    chartOptions.value.series[i].data = [dt[animRange.value.idx]]
+const setupDataRange = () => {
+  fullData.value = JSON.parse(JSON.stringify(chartOptions.value.series));
+  // animation range
+  const mxData = [];
+  for (const series of chartOptions.value.series) {
+    console.log("Series:", series);
+    const mx = Math.max(...series.data);
+    mxData.push(mx);
   }
-  chartOptions.value.xAxis.data = [animRange.value.range[animRange.value.idx]];
+  let mx;
+  mx = props.stacked
+    ? mxData.reduce((acc, cur) => acc + cur, 0)
+    : Math.max(...mxData);
+
+  if (mx > 100) mx = Math.ceil(1.05 * mx);
+  else mx += 2;
+
+  fullRange.value = {
+    idx: 0,
+    len: chartOptions.value.xAxis.data.length,
+    range: JSON.parse(JSON.stringify(chartOptions.value.xAxis.data)),
+    max: mx,
+  };
+  console.log("Anim max:", fullRange.value.max);
+  chartOptions.value.yAxis.max = fullRange.value.max;
+  animationDataSlice();
+  animTimer.value = setInterval(() => doAnimation(), 1000);
+};
+
+const restoreDataRange = () => {
+  chartOptions.value.series = fullData.value;
+  chartOptions.value.yAxis.max = null;
+  updateOptions();
+};
+
+const animationDataSlice = (idx) => {
+  console.log("Slicing for:", idx);
+  for (let i = 0; i < fullData.value.length; i++) {
+    //console.log("Animdata",i, fullData.value[i]);
+    const dt = fullData.value[i].data;
+    //console.log("Series:", dt);
+    chartOptions.value.series[i].data = [dt[idx]];
+  }
+  chartOptions.value.xAxis.data = [fullRange.value.range[idx]];
   //console.log("Slice:", chartOptions.value.xAxis.data, chartOptions.value.series);
-}
+};
 
 const doAnimation = () => {
-  if (animRange.value.idx < animRange.value.len - 1) {
-    //console.log("Animate:", animRange.value.idx);
-    //chartOptions.value.xAxis.data = [animRange.value.start, animRange.value.end];
-    animRange.value.idx += 1;
+  if (fullRange.value.idx < fullRange.value.len - 1) {
+    //console.log("Animate:", fullRange.value.idx);
+    //chartOptions.value.xAxis.data = [fullRange.value.start, fullRange.value.end];
+    fullRange.value.idx += 1;
   } else {
-    animRange.value.idx = 0;
+    fullRange.value.idx = 0;
   }
-  //console.log("Animate:", animRange.value.range[animRange.value.idx]);
-  animationDataSlice();
-}
+  //console.log("Animate:", fullRange.value.range[fullRange.value.idx]);
+  animationDataSlice(fullRange.value.idx);
+};
 
 const updateOptions = async () => {
   const size = breakpoint.smUp ? "large" : "small";
