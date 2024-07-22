@@ -26,6 +26,8 @@
         <template #prepend>
           <VaCounter
             v-model="rangeCtl"
+            :min="controls.range.min"
+            :max="controls.range.max"
             class="w-[110px]"
           />
         </template>
@@ -284,7 +286,7 @@ const setXrange = (range) => {
     controls.value.range.min = range[0]
     controls.value.range.max = range[1]
     rangeCtl.value = controls.value.range.max;
-    controls.value.range.step = Math.ceil(controls.value.range.max / 10)    
+    controls.value.range.step = 1 // use 1 for x axis steps
   }
 };
 
@@ -339,10 +341,12 @@ onBeforeMount(async () => {
     if (cardSpecs.value.controls.range.present) {
       controls.value.range = cardSpecs.value.controls.range;
       console.log("Range:", controls.value.range);
+      /*
       if (controls.value.range.step === undefined) {
-        controls.value.range.step = Math.ceil(controls.value.range.max / 25)
+        controls.value.range.step = Math.ceil(controls.value.range.max / 10)
       }
       rangeCtl.value = cardSpecs.value.controls.range.max;
+      */
       rangeAxis.value = cardSpecs.value.controls.range.axis || "y";
     }
     else {

@@ -5,6 +5,32 @@ import * as dataForge from 'data-forge'
 
 import getDataSymbol from '@/composables/DataSymbol';
 
+const setType = (type, options) => {
+  for (let idx = 0; idx < options.series.length; idx++) {
+    options.series[idx].type = type
+    if (type == "bar") {
+      options.series[idx].itemStyle = {
+        decal:
+        {
+          dashArrayX: 5,
+          dashArrayY: 1,
+          rotation: getDataSymbol(idx).pattern,
+          color: "#000",
+        }
+      }
+    } else {
+      options.series[idx].itemStyle = {}
+    }
+  }
+}
+
+const setStacked = (stacked, options) => {
+  for (let idx = 0; idx < options.series.length; idx++) {
+    options.series[idx].stack = stacked ? 'stack' : null
+  }
+}
+
+
 // default options for line and bar charts
 const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "",locale = "de") => {
   const defaults = {
@@ -336,5 +362,5 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
 
 
 
-export { lineBarDefaults, updateEchartsOptions }
+export { lineBarDefaults, updateEchartsOptions, setType, setStacked }
 

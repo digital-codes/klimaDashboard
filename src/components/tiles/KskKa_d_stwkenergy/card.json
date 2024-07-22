@@ -37,8 +37,7 @@
   "controls": {
     "range": {
       "present": true,
-      "min": 1,
-      "max": 30000
+      "axis": "y"
     },
     "type": {
       "present": true,

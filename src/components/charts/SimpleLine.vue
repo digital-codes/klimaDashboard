@@ -15,6 +15,7 @@ const breakpoint = useBreakpoint();
 import {
   lineBarDefaults,
   updateEchartsOptions,
+  setType, setStacked,
 } from "@/composables/EchartsUtils";
 
 // data parser
@@ -137,7 +138,7 @@ const datakeys = ref(null);
 const ariaLabel = ref(props.ariaLabel);
 
 const animTimer = ref(null);
-const fullRange = ref({});
+const fullXRange = ref({});
 const fullData = ref([]);
 
 watch(currentPresetName, (newValue, oldValue) => {
@@ -158,12 +159,22 @@ watch(
   () => props.rangeValue,
   (newValue, oldValue) => {
     console.log("Range changed:", newValue, props.rangeAxis);
-    if ("y" == props.rangeAxis && !props.stacked) {
-      chartOptions.value.yAxis.max = newValue;
-    } else {
-      chartOptions.value.yAxis.max = null
+    switch (props.rangeAxis) {
+      case "x":
+        console.log("Xrange:", newValue);
+        const idx = fullXRange.value.range.indexOf(newValue);
+        console.log("Index:", idx);
+        setupXRange()
+        animationDataSlice(idx);
+      break;
+      case "y":
+        chartOptions.value.yAxis.max = props.stacked ? null : newValue;
+        break;
+      default:
+        console.log("No range");
+        restoreDataRange()
     }
-    updateOptions();
+    // updateOptions();
   }
 );
 
@@ -179,15 +190,8 @@ watch(
   () => props.type,
   (newValue, oldValue) => {
     //console.log("Type changed:", newValue);
-    updateOptions();
-  }
-);
-
-watch(
-  () => props.type,
-  (newValue, oldValue) => {
-    //console.log("Type changed:", newValue);
-    updateOptions();
+    // chartOptions.value.type = newValue
+    setType(newValue,chartOptions.value)
   }
 );
 
@@ -210,35 +214,11 @@ watch(
         chartOptions.value.yAxis.max = props.rangeValue;
       }
     }
-    updateOptions();
+    setStacked(newValue, chartOptions.value);
+    // updateOptions();
   }
 );
 
-watch(
-  () => props.range,
-  (newValue, oldValue) => {
-    console.log("Range changed:", newValue);
-  }
-);
-
-/*
-watch(
-  () => props.dataUrl,
-  async (newValue, oldValue) => {
-    //console.log("Data URL changed:", newValue);
-    // clear animation
-    if (animTimer.value) {
-      clearInterval(animTimer.value);
-    }
-    if (theChart.value) await theChart.value.clear();
-    await loadData();
-    // also update title
-    chartOptions.value.title.text = props.dataName;
-    console.log("Emitting x range");
-    emit("xrange",[0,123])
-  }
-);
-*/
 
 watch(
   () => props.dataName,
@@ -255,7 +235,8 @@ watch(
     if (newValue) {
       //console.log("X", chartOptions.value.xAxis);
       //console.log("series", chartOptions.value.series);
-      setupDataRange();
+      // saveData() we save after loading
+      startAnimation();
     } else {
       console.log("Anim off");
       if (animTimer.value) {
@@ -291,26 +272,35 @@ const getDataRange = () => {
   return range
 };
 
-
-const setupDataRange = () => {
+const saveData = () => {
+  // save data 
   fullData.value = JSON.parse(JSON.stringify(chartOptions.value.series));
+  // max data values
   const range = getDataRange();
-
-  let mx = props.stacked ? range.smax : range.max
-
-  if (mx > 100) mx = Math.ceil(1.05 * mx);
-  else mx += 2;
-
-  fullRange.value = {
+  // and X range
+  fullXRange.value = {
     idx: 0,
     len: chartOptions.value.xAxis.data.length,
     range: JSON.parse(JSON.stringify(chartOptions.value.xAxis.data)),
-    max: mx,
+    max: range.max,
+    smax: range.smax
   };
-  console.log("Anim max:", fullRange.value.max);
-  chartOptions.value.yAxis.max = fullRange.value.max;
-  animationDataSlice();
-  animTimer.value = setInterval(() => doAnimation(), 1000);
+  console.log("Range value max:", fullXRange.value.max);
+}
+
+const setupXRange = () => {
+  let mx = props.stacked ? fullXRange.value.smax : fullXRange.value.max;
+  if (mx > 100) mx = Math.ceil(1.05 * mx);
+  else mx += 2;
+  chartOptions.value.yAxis.max = mx
+};
+
+
+const startAnimation = () => {
+  setupXRange()
+  fullXRange.value.idx = 0;
+  animationDataSlice(fullXRange.value.idx);
+  animTimer.value = setInterval(() => doAnimation(), 1500);
 };
 
 const restoreDataRange = () => {
@@ -327,20 +317,20 @@ const animationDataSlice = (idx) => {
     //console.log("Series:", dt);
     chartOptions.value.series[i].data = [dt[idx]];
   }
-  chartOptions.value.xAxis.data = [fullRange.value.range[idx]];
+  chartOptions.value.xAxis.data = [fullXRange.value.range[idx]];
   //console.log("Slice:", chartOptions.value.xAxis.data, chartOptions.value.series);
 };
 
 const doAnimation = () => {
-  if (fullRange.value.idx < fullRange.value.len - 1) {
-    //console.log("Animate:", fullRange.value.idx);
-    //chartOptions.value.xAxis.data = [fullRange.value.start, fullRange.value.end];
-    fullRange.value.idx += 1;
+  if (fullXRange.value.idx < fullXRange.value.len - 1) {
+    //console.log("Animate:", fullXRange.value.idx);
+    //chartOptions.value.xAxis.data = [fullXRange.value.start, fullXRange.value.end];
+    fullXRange.value.idx += 1;
   } else {
-    fullRange.value.idx = 0;
+    fullXRange.value.idx = 0;
   }
-  //console.log("Animate:", fullRange.value.range[fullRange.value.idx]);
-  animationDataSlice(fullRange.value.idx);
+  //console.log("Animate:", fullXRange.value.range[fullXRange.value.idx]);
+  animationDataSlice(fullXRange.value.idx);
 };
 
 const updateOptions = async () => {
@@ -394,6 +384,9 @@ const loadData = async () => {
     const xrange = chartOptions.value.xAxis.data
     console.log("Emitting x range",xrange);
     emit("xrange", [xrange[0], xrange[xrange.length - 1]])
+
+    // save data from xrange and animation
+    saveData()
 
     dataLoaded.value = true;
   } catch (error) {
