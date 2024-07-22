@@ -179,7 +179,7 @@ const loadData = async () => {
     datakeys.value = []
     if (props.dataFormat == "json") {
       data.value = await response.json();
-      //console.log("JSON:", data.value);
+      console.log("JSON:", data.value);
     } else { // assume csv
       const csvString = await response.text();
       //console.log("raw CSV:",csvString)
@@ -326,9 +326,9 @@ onMounted(async () => {
     console.log("Light theme detected")
   }
   await nextTick();
-  dataLoaded.value = true;
+  await loadData();
 
-  //await loadData();
+  dataLoaded.value = true;
 
 });
 </script>

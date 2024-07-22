@@ -1,21 +1,15 @@
 {
     "data": [
       {
-        "url": "https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv",
+        "url": "https://iot.stadtwerke-karlsruhe.de/api/v1/devices/7ceb0590-e2f0-4f9e-a3dc-5257a4729f57/readings?limit=10&sort=measured_at&sort_direction=desc&auth=F20B6E04DCB4C114543B9E1BBACE3C26",
         "license": "CC-BY-4.0",
-        "name": "Treibhausgasbilanz Karlsruhe",
-        "format": "csv",
-        "xaxis": "year",
+        "name": "Wetter ALbtalbahnhof",
+        "format": "json",
+        "xaxis": "measured_at",
         "columns": [
-          "co2"
+          "temperature","pressure","irradiation","rain"
         ],
         "classes": [
-          "category",
-          "Private Haushalte",
-          "Stadt",
-          "Industrie",
-          "Verkehr",
-          "Gewerbe+Sonstiges"
         ]
       }
     ],
