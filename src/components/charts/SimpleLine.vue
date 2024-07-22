@@ -378,15 +378,15 @@ const loadData = async () => {
     await updateOptions();
     await nextTick();
 
+    // save data from xrange and animation
+    saveData()
+    // emit limits
     const yrange = getDataRange();
     console.log("Emitting y range",yrange);
     emit("yrange", [yrange.min, yrange.max]);
     const xrange = chartOptions.value.xAxis.data
     console.log("Emitting x range",xrange);
     emit("xrange", [xrange[0], xrange[xrange.length - 1]])
-
-    // save data from xrange and animation
-    saveData()
 
     dataLoaded.value = true;
   } catch (error) {

@@ -44,9 +44,8 @@
       "present": true
     },
     "type": {
-      "present": true,
+      "present": false,
       "options": [
-        "line",
         "bar"
       ]
     },

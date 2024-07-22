@@ -1,109 +1,45 @@
 <template>
   <div class="card" v-if="confgComplete">
     <div class="dataheader">
-      <VaAvatar
-        title="Klima Dashboard"
-        :src="basePath + props.logo"
-        size="3rem"
-      />
+      <VaAvatar title="Klima Dashboard" :src="basePath + props.logo" size="3rem" />
       <h1>{{ cardMessages[locale].title }}</h1>
     </div>
 
     <div class="mdcontent" v-html="content[locale]"></div>
 
     <div class="row">
-      <VaSlider
-        v-if="controls.range.present"
-        v-model="rangeCtl"
-        :label="cardMessages[locale].rangetitle"
-        :min="controls.range.min"
-        :max="controls.range.max"
-        :step="controls.range.step"
-        :disabled="stackCtl"
-        class="flex lg6 sm12 xs12 control range"
-        track-label-visible
-      >
+      <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+        :min="controls.range.min" :max="controls.range.max" :step="controls.range.step" :disabled="stackCtl && (rangeAxis === 'y')"
+        class="flex lg6 sm12 xs12 control range" track-label-visible>
         <template #prepend>
-          <VaCounter
-            v-model="rangeCtl"
-            :min="controls.range.min"
-            :max="controls.range.max"
-            class="w-[110px]"
-          />
+          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="slcnt" />
         </template>
       </VaSlider>
 
-      <VaSwitch
-        v-if="controls.dataswitch"
-        v-model="dataCtl"
-        :label="cardMessages[locale].dstitle"
-        :false-inner-label="cardMessages[locale].dsleft"
-        :true-inner-label="cardMessages[locale].dsright"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
+        :false-inner-label="cardMessages[locale].dsleft" :true-inner-label="cardMessages[locale].dsright"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch
-        v-if="controls.type"
-        v-model="typeCtl"
-        :label="cardMessages[locale].type"
-        :false-inner-label="cardMessages[locale].typeleft"
-        :true-inner-label="cardMessages[locale].typeright"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.type" v-model="typeCtl" :label="cardMessages[locale].type"
+        :false-inner-label="cardMessages[locale].typeleft" :true-inner-label="cardMessages[locale].typeright"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch
-        v-if="controls.stacked"
-        v-model="stackCtl"
-        :label="cardMessages[locale].stacked"
-        :false-inner-label="cardMessages[locale].no"
-        :true-inner-label="cardMessages[locale].yes"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.stacked" v-model="stackCtl" :label="cardMessages[locale].stacked"
+        :false-inner-label="cardMessages[locale].no" :true-inner-label="cardMessages[locale].yes"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch
-        v-if="controls.animate"
-        ref="animateSwitch"
-        v-model="aniCtl"
-        :label="cardMessages[locale].animation"
-        :false-inner-label="cardMessages[locale].no"
-        :true-inner-label="cardMessages[locale].yes"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.animate" ref="animateSwitch" v-model="aniCtl" :label="cardMessages[locale].animation"
+        :false-inner-label="cardMessages[locale].no" :true-inner-label="cardMessages[locale].yes"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
     </div>
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleLine
-        v-if="chartValid"
-        :dataUrl="dataUrl"
-        :dataName="dataName"
-        :dataIdx="dataCtl ? 1 : 0"
-        :dataColumns="dataColumns"
-        :dataClasses="dataClasses"
-        :dataX="dataX"
-        :dataY="dataY"
-        :rangeValue="rangeCtl"
-        :rangeAxis="rangeAxis"
-        :dataFormat="dataFormat"
-        :labelX="labelX"
-        :labelY="labelY"
-        :type="chartType"
-        :stacked="stackCtl"
-        :animate="aniCtl"
-        :ariaLabel="ariaLabel"
-        :locale="chartLocale"
-        @xrange="setXrange"
-        @yrange="setYrange"
-         
-      ></SimpleLine>
+      <SimpleLine v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl ? 1 : 0"
+        :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY" :rangeValue="rangeCtl"
+        :rangeAxis="rangeAxis" :dataFormat="dataFormat" :labelX="labelX" :labelY="labelY" :type="chartType"
+        :stacked="stackCtl" :animate="aniCtl" :ariaLabel="ariaLabel" :locale="chartLocale" @xrange="setXrange"
+        @yrange="setYrange"></SimpleLine>
     </div>
 
     <div class="chartfooter">
@@ -281,21 +217,29 @@ watch(typeCtl, (index) => {
 });
 
 
-const setXrange = (range) => {
+const setXrange = async (range) => {
+  console.log("Xrange:", range);
   if (rangeAxis.value === "x") {
+    rangeCtl.value = 0 // force update 
+    await nextTick()
     controls.value.range.min = range[0]
     controls.value.range.max = range[1]
-    rangeCtl.value = controls.value.range.max;
+    rangeCtl.value = controls.value.range.min;
     controls.value.range.step = 1 // use 1 for x axis steps
   }
 };
 
-const setYrange = (range) => {
+const setYrange = async (range) => {
+  console.log("Yrange:", range);
   if (rangeAxis.value === "y") {
+    /*
+    rangeCtl.value = 0 // force update. probably not needed for y
+    await nextTick()
+    */
     controls.value.range.min = range[0]
     controls.value.range.max = range[1]
     rangeCtl.value = controls.value.range.max;
-    controls.value.range.step = Math.ceil(controls.value.range.max / 10)    
+    controls.value.range.step = Math.ceil(controls.value.range.max / 10)
   }
 };
 
@@ -309,7 +253,7 @@ onBeforeMount(async () => {
   const supportedLanguages = configStore.getLanguages;
 
   const cardContent = await import(`../${props.name}/text.json`);
-  console.log(props.name," - Card content loaded");
+  console.log(props.name, " - Card content loaded");
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
@@ -317,13 +261,13 @@ onBeforeMount(async () => {
   }
 
   cardMessages.value = await import(`../${props.name}/lang.json`)
-  console.log(props.name," - Card messages loaded");
+  console.log(props.name, " - Card messages loaded");
 
   for (const key in supportedLanguages) {
     const lang = supportedLanguages[key]
     console.log(key, cardMessages.value[lang])
     if (cardMessages.value[lang].aria === undefined)
-     cardMessages.value[lang].aria =  "Aria " + lang;
+      cardMessages.value[lang].aria = "Aria " + lang;
   }
 
   // localization data
@@ -335,7 +279,7 @@ onBeforeMount(async () => {
   */
 
   cardSpecs.value = await import(`../${props.name}/card.json`)
-  console.log(props.name," - Card cardSpecs.value loaded");
+  console.log(props.name, " - Card cardSpecs.value loaded");
   if (cardSpecs.value.controls) {
     console.log("Specs:", cardSpecs.value);
     if (cardSpecs.value.controls.range.present) {
@@ -355,7 +299,14 @@ onBeforeMount(async () => {
     if (cardSpecs.value.controls.dataswitch.present && cardSpecs.value.data.length > 1)
       controls.value.dataswitch = cardSpecs.value.controls.dataswitch;
     else controls.value.dataswitch = false;
-    if (cardSpecs.value.controls.type.present) controls.value.type = cardSpecs.value.controls.type;
+    if (cardSpecs.value.controls.type) {
+      chartType.value = cardSpecs.value.controls.type.options[0];
+      console.log("Type:", chartType.value);
+      if (cardSpecs.value.controls.type.present) controls.value.type = cardSpecs.value.controls.type;
+    } else {
+      controls.value.type = false;
+    }
+
     if (cardSpecs.value.controls.stacked.present)
       controls.value.stacked = cardSpecs.value.controls.stacked;
     else controls.value.stacked = false;
@@ -389,6 +340,12 @@ onBeforeMount(async () => {
   //border:1px solid;
   border-radius: 16px;
 }
+
+.slcnt {
+  width: 130px;
+  text-align: center;
+}
+
 </style>
 
 <style lang="scss" scoped>
