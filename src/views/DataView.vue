@@ -25,6 +25,7 @@ const tiles = [
 //{ "name": "KskKaEnergy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_energy/Card.vue")) },
 //{ "name": "KskKaGhg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/KskKa_d_ghg/Card.vue")) },
 //{ "name": "DummyLine", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLine/Card.vue")) },
+{ "name": "KaWeather", "tag": "E",  "component": defineAsyncComponent(() => import("@/components/tiles/weatherDisplay/Card.vue")) },
 { "name": "KskKa_d_energy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
 { "name": "KskKa_d_ghg", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
 { "name": "KskKa_d_stwkenergy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },

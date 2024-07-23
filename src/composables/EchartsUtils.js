@@ -211,7 +211,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     seriesData = chartData;
   }
 
-  // console.log("Filtered classes:", seriesData)
+  console.log("Filtered classes:", seriesData)
 
   let columns = []
   if (columnList && Array.isArray(columnList) && columnList.length > 0) {
@@ -301,13 +301,13 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
       return {
         name: column,
         data: categories.map(position => {
-          //console.log("Position:",position)
+          console.log("Position:",position)
           const item = chartData.find(item => item[dataX] === position)
           if (item == null) {
             //console.log("No data for position:",position)
             return null
           } else {
-            //console.log("Data at position:",position,item)
+            console.log("Data at position:",position,item)
             return parseData(chartData.find(item => item[dataX] === position)[column])
           }
         }),

@@ -8,7 +8,7 @@
         "format": "json",
         "xaxis": "measured_at",
         "columns": [
-          "temperature","pressure","irradiation","rain","humidity"
+          "temperature","humidity"
         ],
         "classes": [
         ]
