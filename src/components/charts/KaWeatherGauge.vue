@@ -108,12 +108,20 @@ const props = defineProps({
   },
 });
 
-const theChart = ref(null);
+const theChart1 = ref(null);
+const theChart2 = ref(null);
 const chartTheme = ref(currentPresetName) // already reactive. don't watch for theme
 const dataLoaded = ref(false);
 const data = ref(null);
 const datakeys = ref(null);
 
+const chartStyle = ref(
+  {
+    height: '100%',
+    width: '50%', 
+    display:'inline-flex'
+  }
+)
 
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
@@ -144,7 +152,8 @@ watch(() => props.range, (newValue, oldValue) => {
 
 watch(() => props.dataUrl, async (newValue, oldValue) => {
   //console.log("Data URL changed:", newValue);
-  if (theChart.value) await theChart.value.clear()
+  if (theChart1.value) await theChart1.value.clear()
+  if (theChart2.value) await theChart2.value.clear()
   await loadData();
   // also update title
   chartOptions.value.title.text = props.dataName
@@ -165,6 +174,10 @@ watch(() => props.animate, (newValue, oldValue) => {
 const updateOptions = async () => {
   const size = breakpoint.smUp ? "large" : "small";
   console.log("Size:", size)
+  chartOptions1.value.series[0].data[0].value = 20 //Math.floor(Math.random() * 50)
+  chartOptions1.value.series[0].data[1].value = -10 // Math.floor(Math.random() * 50)
+  chartOptions2.value.series[0].data[0].value = 27 // Math.floor(Math.random() * 50)
+  chartOptions2.value.series[0].data[1].value = 2 // Math.floor(Math.random() * 50)
   return
   chartOptions.value = await updateEchartsOptions(chartOptions.value, 
     data.value, props.dataX, props.dataClasses, props.dataColumns, props.type, props.stacked, size)
@@ -181,7 +194,7 @@ const loadData = async () => {
     if (props.dataFormat == "json") {
       const dt = await response.json();
       console.log("JSON:", dt);
-      const dataPoint = dt.body[0]  // need to get first element
+      const dataPoint = dt.albtal.body[0]  // need to get first element
       console.log("Cols:", props.dataColumns)
       let vals = {
         measured_at:[dataPoint.measured_at]
@@ -205,19 +218,11 @@ const loadData = async () => {
       console.log("JSON:", data.value);
 
     } else { // assume csv
-      const csvString = await response.text();
-      //console.log("raw CSV:",csvString)
-      Papa.parse(csvString, {
-        header: true,
-        dynamicTyping: true,
-        complete: async function (results) {
-          //console.log("CSV parsed:", results.data);
-          data.value = results.data;
-        }
-      });
+      throw new Error("CSV not supported yet")
     }
     //if (theChart.value) await theChart.value.setOption(chartOptions.value, true, true);
-    if (theChart.value) await theChart.value.clear()
+    if (theChart1.value) await theChart1.value.clear()
+    if (theChart2.value) await theChart2.value.clear()
     await updateOptions()
     await nextTick();
     dataLoaded.value = true;
@@ -237,215 +242,202 @@ use([
   GridComponent
 ]);
 
-const gaugeData = [
-  {
-    value: 60,
-    name: 'Perfect',
-    title: {
-      offsetCenter: ['180%', '-130%']
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ['180%', '-105%']
-    }
-  },
-  {
-    value: 40,
-    name: 'Good',
-    title: {
-      offsetCenter: ['180%', '-70%']
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ['180%', '-45%']
-    }
-  },
-  {
-    value: 20,
-    name: 'Commonly',
-    title: {
-      offsetCenter: ['180%', '-10%']
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ['180%', '15%']
-    }
-  }
-];
 
 
-const chartOptions = ref(
+const chartOptions1 = ref(
   {
   title : {
     text: props.dataName,
     left: 'center',
     top: 'top'
   },
-  series: [
-    {
+  series:[
+  {
       type: 'gauge',
-      startAngle: -180,
-      endAngle: 0,
-      radius: "40%",
-      min: 0,
-      max: 100,
-      splitNumber: 10,
-      center: ['20%', '80%'],
-      pointer: {
-        show: false
+      name:"sefwef",
+      legend: {
+        show:true,
+        itemGap:20,
       },
-      progress: {
-        show: true,
-        overlap: false,
-        roundCap: true,
-        clip: false,
-        itemStyle: {
-          borderWidth: 1,
-          borderColor: '#464646'
-        }
-      },
-      axisLine: {
-        lineStyle: {
-          width: 40
-        }
-      },
-      splitLine: {
-        show: false,
-        distance: 0,
-        length: 10
-      },
-      axisTick: {
-        show: false
-      },
-      axisLabel: {
-        show: true,
-        distance: -30
-      },
-      data: gaugeData,
-      title: {
-        fontSize: 14
-      },
-      color:[ '#FF7777', '#77FF77', '#7777FF'],
-      detail: {
-        width: 50,
-        height: 14,
-        fontSize: 14,
-        color: 'inherit',
-        borderColor: 'inherit',
-        borderRadius: 20,
-        borderWidth: 1,
-        formatter: '{value}%'
-      }
-    },
-    {
-      type: 'gauge',
-      startAngle: -180,
-      endAngle: 0,
-      radius: "40%",
-      min: 0,
-      max: 100,
-      splitNumber: 10,
       center: ['50%', '80%'],
-      pointer: {
-        show: false
-      },
-      progress: {
-        show: true,
-        overlap: false,
-        roundCap: true,
-        clip: false,
-        itemStyle: {
-          borderWidth: 1,
-          borderColor: '#464646'
-        }
-      },
-      axisLine: {
-        lineStyle: {
-          width: 40
-        }
-      },
-      splitLine: {
-        show: false,
-        distance: 0,
-        length: 10
-      },
-      axisTick: {
-        show: false
-      },
-      axisLabel: {
-        show: true,
-        distance: -30
-      },
-      data: gaugeData,
-      title: {
-        fontSize: 14
-      },
-      color:[ '#FF7777', '#77FF77', '#7777FF'],
-      detail: {
-        width: 50,
-        height: 14,
-        fontSize: 14,
-        color: 'inherit',
-        borderColor: 'inherit',
-        borderRadius: 20,
-        borderWidth: 1,
-        formatter: '{value}%'
-      }
-    },
-    {
-      type: 'gauge',
-      startAngle: -180,
+      radius: '80%',
+      startAngle: 180,
       endAngle: 0,
-      radius: "40%",
-      min: 0,
-      max: 100,
-      splitNumber: 10,
-      center: ['70%', '80%'],
-      pointer: {
-        show: false
-      },
+      min: -20,
+      max: 50,
+      splitNumber: 14,
+      color:["#ff0000","#00ff00","#0000ff"],      
       progress: {
         show: true,
         overlap: false,
-        roundCap: true,
-        clip: false,
+        roundCap: false,
+        width: 20,
         itemStyle: {
-          borderWidth: 1,
-          borderColor: '#464646'
+          borderWidth: 2,
+          borderColor: '#000000'
         }
+      },
+      pointer: {
+        show: false
       },
       axisLine: {
         lineStyle: {
-          width: 40
+          width: 60
+        }
+      },
+      axisTick: {
+        distance: -75,
+        splitNumber: 5,
+        lineStyle: {
+          width: 2,
+          color: '#999'
         }
       },
       splitLine: {
-        show: false,
-        distance: 0,
-        length: 10
-      },
-      axisTick: {
-        show: false
+        distance: -80,
+        length: 14,
+        lineStyle: {
+          width: 3,
+          color: '#999'
+        }
       },
       axisLabel: {
-        show: true,
-        distance: -30
+        distance: 10,
+        color: '#999',
+        fontSize: 16
       },
-      data: gaugeData,
-      title: {
-        fontSize: 14
+      anchor: {
+        show: false
       },
-      color:[ '#FF7777', '#77FF77', '#7777FF'],
       detail: {
-        width: 50,
-        height: 14,
-        fontSize: 14,
-        color: 'inherit',
-        borderColor: 'inherit',
-        borderRadius: 20,
-        borderWidth: 1,
-        formatter: '{value}%'
-      }
+        show: false,
+      },
+      data: [
+        {
+          name:"A",
+          title: {
+            show:true,
+            offsetCenter: ["-50%", 20]            
+          },
+          value: 20,
+        },
+        {
+          name:"B",
+          title: {
+            show:true,
+            offsetCenter: [0, 20]            
+          },
+          value: 50
+        },
+        {
+          name:"C",
+          title: {
+            show:true,
+            offsetCenter: ["50%", 20]            
+          },
+          value: 30
+        }
+      ]
+    }
+  ]
+}
+)
+
+const chartOptions2 = ref(
+  {
+  title : {
+    text: props.dataName + 2,
+    left: 'center',
+    top: 'top'
+  },
+  series:[
+  {
+      type: 'gauge',
+      name:"sefwef",
+      legend: {
+        show:true,
+        itemGap:20,
+      },
+      center: ['50%', '80%'],
+      radius: '80%',
+      startAngle: 180,
+      endAngle: 0,
+      min: -20,
+      max: 50,
+      splitNumber: 14,
+      color:["#ff0000","#00ff00","#0000ff"],      
+      progress: {
+        show: true,
+        overlap: false,
+        roundCap: false,
+        width: 20,
+        itemStyle: {
+          borderWidth: 2,
+          borderColor: '#000000'
+        }
+      },
+      pointer: {
+        show: false
+      },
+      axisLine: {
+        lineStyle: {
+          width: 60
+        }
+      },
+      axisTick: {
+        distance: -75,
+        splitNumber: 5,
+        lineStyle: {
+          width: 2,
+          color: '#999'
+        }
+      },
+      splitLine: {
+        distance: -80,
+        length: 14,
+        lineStyle: {
+          width: 3,
+          color: '#999'
+        }
+      },
+      axisLabel: {
+        distance: 10,
+        color: '#999',
+        fontSize: 16
+      },
+      anchor: {
+        show: false
+      },
+      detail: {
+        show: false,
+      },
+      data: [
+        {
+          name:"A",
+          title: {
+            show:true,
+            text:"ddd",
+            offsetCenter: ["-50%", 20]            
+          },
+          value: 20,
+        },
+        {
+          name:"B",
+          title: {
+            show:true,
+            offsetCenter: [0, 20]            
+          },
+          value: 50
+        },
+        {
+          name:"C",
+          title: {
+            show:true,
+            offsetCenter: ["50%", 20]            
+          },
+          value: 30
+        }
+      ]
     }
   ]
 }
@@ -464,14 +456,129 @@ onMounted(async () => {
 
   dataLoaded.value = true;
 
+/*
+option = {
+    title: {
+    show:true,
+    text:"Temperatur",
+    left:"center"
+  },
+  series: [
+    {
+      type: 'gauge',
+      name:"sefwef",
+      legend: {
+        show:true,
+        itemGap:20,
+      },
+      center: ['50%', '60%'],
+      startAngle: 180,
+      endAngle: 0,
+      min: -20,
+      max: 50,
+      splitNumber: 14,
+      color:["#ff0000","#00ff00","#0000ff"],      
+      progress: {
+        show: true,
+        overlap: false,
+        roundCap: false,
+        width: 20,
+        itemStyle: {
+          borderWidth: 2,
+          borderColor: '#000000'
+        }
+      },
+      pointer: {
+        show: false
+      },
+      axisLine: {
+        lineStyle: {
+          width: 60
+        }
+      },
+      axisTick: {
+        distance: -75,
+        splitNumber: 5,
+        lineStyle: {
+          width: 2,
+          color: '#999'
+        }
+      },
+      splitLine: {
+        distance: -80,
+        length: 14,
+        lineStyle: {
+          width: 3,
+          color: '#999'
+        }
+      },
+      axisLabel: {
+        distance: 0,
+        color: '#999',
+        fontSize: 30
+      },
+      anchor: {
+        show: false
+      },
+      title: {
+        show: true,
+        //offsetCenter : [100, '20%'],
+        text:"123"
+      },
+      detail: {
+        show: false,
+      },
+      data: [
+        {
+          name:"sdknfn",
+          title: {
+            show:true,
+            text:"ddd",
+            offsetCenter: ["-50%", 0]            
+          },
+          value: 20,
+        },
+        {
+          name:"yxxx",
+          title: {
+            show:true,
+            offsetCenter: [0, 0]            
+          },
+          value: 50
+        },
+        {
+          name:"1213",
+          title: {
+            show:true,
+            offsetCenter: ["50%", 0]            
+          },
+          value: 30
+        }
+      ]
+    }
+  ]
+};
+*/
+
+
+
 });
 </script>
 
 <template>
   <v-chart v-if="dataLoaded" 
-  ref="theChart" 
-  :option="chartOptions" 
-  :style="{ height: '100%' }" 
+  ref="theChart1" 
+  :option="chartOptions1" 
+  :style="chartStyle"
+  :theme="chartTheme"
+  :init-options="{ renderer: 'canvas' }"
+  autoresize
+  >
+  </v-chart>
+  <v-chart v-if="dataLoaded" 
+  ref="theChart2" 
+  :style="chartStyle"
+  :option="chartOptions2" 
   :theme="chartTheme"
   :init-options="{ renderer: 'canvas' }"
   autoresize
@@ -480,9 +587,5 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.chart-template {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 </style>
+
