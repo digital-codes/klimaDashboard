@@ -24,6 +24,7 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/tiles/KskKa_d_mobility'),
   path.resolve(__dirname, '../src/components/tiles/KskKa_d_pv'),
   path.resolve(__dirname, '../src/components/tiles/KskKa_d_stwkenergy'),
+  path.resolve(__dirname, '../src/components/tiles/weatherDisplay'),
 ];
 
 // Define the bash script to execute
