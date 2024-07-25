@@ -35,7 +35,7 @@ const tiles = [
 //  { "name": "DummyCustom", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue")) },
 { "name": "DummyTable", "tag": "D", "component": defineAsyncComponent(() => import("@/components/tiles/dummyTable/Card.vue")) },
 { "name": "DummyGraphics", "tag": "B",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGraphics/Card.vue")) },
-{ "name": "DummyGauge", "tag": "D",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGauge/Card.vue")) },
+// { "name": "DummyGauge", "tag": "D",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGauge/Card.vue")) },
 { "name": "DummyMap", "tag": "C",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue")) }
 ]
 

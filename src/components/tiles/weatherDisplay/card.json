@@ -5,11 +5,11 @@
         "url2": "data/karlsruhe/cityclim-example.json",
         "url": "https://dashboard.daten.city/php/corsProxy.php?topic=albtal,sonnenbad,kaiserplatz",
         "license": "CC-BY-4.0",
-        "name": "Wetter ALbtalbahnhof",
+        "name": "Wetter Karlsruhe",
         "format": "json",
         "xaxis": "measured_at",
         "columns": [
-          "temperature","humidity"
+          "temperature","humidity","irradiation"
         ],
         "classes": [
         ]

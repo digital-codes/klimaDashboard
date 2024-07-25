@@ -74,28 +74,21 @@
       />
     </div>
 
-    <div class="chartpane"
-      v-for="i in Object.keys(dataSet)"
+    <row class="row">
+    <div class="chartpane flex lg4 sm6 xs12"
+      v-for="i, idx in Object.keys(dataSet)"
     >
       <!-- Chart component goes here -->
       <WeatherGauge 
         v-if="chartValid"
         :data="dataSet[i]"
-        :dataName="dataName"
-        :dataIdx="dataCtl ? 1 : 0"
-        :dataColumns="dataColumns"
-        :dataClasses="dataClasses"
-        :dataX="dataX"
-        :dataY="dataY"
-        :dataFormat="dataFormat"
-        :labelX="labelX"
-        :labelY="labelY"
-        :type="chartType"
-        :stacked="stackCtl"
-        :animate="aniCtl"
+        :dataName="cardMessages[locale][dataColumns[idx]]"
+        :dataColumn="dataColumns[idx]"
+        :dataLabels = "dataTopics"
       ></WeatherGauge>
     </div>
-
+    </row>
+ 
     <div class="chartfooter">
       <!-- source, license, download button -->
 
@@ -162,10 +155,6 @@ import cardSpecs from "./card.json";
 const dataUrl = ref(null);
 const dataName = ref(null);
 const dataLicense = ref(null);
-const dataX = ref(null);
-const dataY = ref(null);
-const labelX = ref(null);
-const labelY = ref(null);
 const dataFormat = ref("json"); // json is default
 // we can create series from classes and columns
 // NB we cannot do both
@@ -175,8 +164,14 @@ const dataColumns = ref(null);
 // classes is an array starting with the class identifier followed by the class names
 const dataClasses = ref(null);
 // chart options
-const dataType = ref(null);
-const dataStacked = ref(false);
+
+
+const data = ref(null);
+const dataSet = ref({});
+const dataTopics = ref([]);
+
+const chartStyle = ref("");
+
 
 // needed to force re-render when dataurl reused
 const chartValid = ref(false);
@@ -216,35 +211,6 @@ const checkLang = watch(locale, (lang) => {
   // updateData(0)
 });
 
-
-const data = ref(null);
-const dataSet = ref({});
-
-const updateData = async (index) => {
-  const newUrl = checkUrl(cardSpecs.data[index].url);
-  //console.log("UpdateData:", index, newUrl)
-  if (newUrl === dataUrl.value) {
-    chartValid.value = false;
-    await nextTick();
-  }
-  await loadData(newUrl);
-  console.log("topics:", Object.keys(dataSet.value))
-
-  dataUrl.value = newUrl;
-  dataLicense.value = cardSpecs.data[index].license;
-  dataX.value = cardSpecs.data[index].xaxis || "";
-  dataY.value = cardSpecs.data[index].yaxis || "";
-  labelX.value = cardSpecs.data[index].xlabel || "";
-  labelY.value = cardSpecs.data[index].ylabel || "";
-  dataFormat.value = cardSpecs.data[index].format || "json";
-  dataColumns.value = cardSpecs.data[index].columns || [];
-  dataClasses.value = cardSpecs.data[index].classes || [];
-  // name is localized!
-  // dataName.value = cardSpecs.data[index].name || "Data"
-  dataName.value = cardMessages[locale.value].dsname[index] || "Data";
-  chartValid.value = true;
-};
-
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index);
   updateData(index ? 1 : 0);
@@ -257,8 +223,40 @@ watch(typeCtl, (index) => {
     : controls.value.type.options[0];
 });
 
-const loadData = async (url) => {
+
+
+const updateData = async (index) => {
+  const newUrl = checkUrl(cardSpecs.data[index].url);
+  //console.log("UpdateData:", index, newUrl)
+  if (newUrl === dataUrl.value) {
+    chartValid.value = false;
+    await nextTick();
+  }
+  // update refs first
+  dataUrl.value = newUrl;
+  dataLicense.value = cardSpecs.data[index].license;
+  dataFormat.value = cardSpecs.data[index].format || "json";
+  dataColumns.value = cardSpecs.data[index].columns || [];
+  dataClasses.value = cardSpecs.data[index].classes || [];
+  // name is localized!
+  // dataName.value = cardSpecs.data[index].name || "Data"
+  dataName.value = cardMessages[locale.value].dsname[index] || "Data";
+  // then load data
+  await loadData()
+
+  chartValid.value = true;
+};
+
+// max delay in minutes for data to be considered current
+const delayLimit = 100;
+
+// for this tile we use a custom loader. the charts don't load data themselves
+const loadData = async () => {
+  const url = dataUrl.value
+  const columns = dataColumns.value
+  const ds = {}
   // get topics from url
+  // we recevie data by topic and must rearrange it for the chart by columns
   const urlParms = url.split("?topic=");
   let topics = []
   if ((urlParms.length > 1) && (urlParms[1].length > 0)) {
@@ -271,6 +269,14 @@ const loadData = async (url) => {
     alert("No topics found in data url");
     return
   }
+  dataTopics.value = topics;
+
+  // current time
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+  //console.log("TZ:", tz)
+  const now = new Date()
+  //console.log("Now:", now)
+
   try {
     data.value = await loadKaWeatherData(url);
     for (const t of topics) {
@@ -278,13 +284,40 @@ const loadData = async (url) => {
       // get data values from data
       const dt = data.value[t].body[0].data
       for (const d in dt) {
-        dataPoints[d] = [dt[d]]
+        if (columns.includes(d))
+          dataPoints[d] = [dt[d]]
       }
       // get measuring time from measured_at
       dataPoints["measured_at"] = [data.value[t].body[0].measured_at]
-      dataSet.value[t] = dataPoints;
+      // create time delta from now
+      const mt = new Date(data.value[t].body[0].measured_at)
+      //console.log("MT:", mt)
+      const delta = Math.ceil((now.valueOf() - mt.valueOf()) / (1000 * 60))
+      //console.log("Delta (minutes):", delta)
+      dataPoints["delta"] = [delta]
+      ds[t] = dataPoints;
     }
-    //console.log("DataSets:", dataSet.value);
+    // console.log("DataSets1:", ds);
+
+    // second pass: rearrange
+    const ds2 = {}
+    for (const c of columns) {
+      // console.log("Column:", c)
+      const dataPoints = {
+        mt: [],
+        values: []
+      }
+      for (const t in topics) {
+        // console.log("Topic:", t, topics[t])
+        // console.log("Data:", ds[topics[t]])
+        dataPoints.mt.push(ds[topics[t]].measured_at[0])
+        // check delta and insert null if above limit
+        dataPoints.values.push(ds[topics[t]].delta[0] < delayLimit ? ds[topics[t]][c][0] : null)
+      }
+      dataSet.value[c] = dataPoints
+    }
+    // console.log("DataSets2:", dataSet.value);
+
 
   } catch (error) {
     console.error("Error:", error);

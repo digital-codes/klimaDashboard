@@ -7,7 +7,7 @@ const loadKaWeatherData = async (url) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data  = await response.json();
-    console.log("JSON data:", data);
+    //console.log("JSON data:", data);
     return data
 }
 

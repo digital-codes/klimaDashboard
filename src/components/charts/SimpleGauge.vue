@@ -115,14 +115,18 @@ const data = ref(null);
 const datakeys = ref(null);
 
 
-watch(currentPresetName, (newValue, oldValue) => {
-  console.log("Theme changed:", newValue);
-  chartTheme.value = newValue;
-  if (newValue == "dark") {
+const setTheme = (theme) => {
+  chartTheme.value = theme;
+  if (theme == "dark") {
     chartOptions.value.series[0].color = ["white","orange","yellow"]
   } else {
-    chartOptions.value.series[0].color = ["black","blue","red"]
+    chartOptions.value.series[0].color = ["green","blue","red"]
   }
+}
+
+watch(currentPresetName, (newValue, oldValue) => {
+  console.log("Theme changed:", newValue);
+  setTheme(newValue)
 });
 
 
