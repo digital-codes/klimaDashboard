@@ -2,7 +2,7 @@
   "en": {
     "yes": "Yes",
     "no": "No",
-    "title": "Title EN",
+    "title": "Current Weather Karlsruhe",
     "source": "Source",
     "aria" : "Aria Label", 
     "license": "License",
@@ -27,7 +27,7 @@
   "de": {
     "yes": "Ja",
     "no": "Nein",
-    "title": "Titel DE",
+    "title": "Aktuelle Wetterdaten Karlsruhe",
     "source": "Quelle",
     "aria" : "Aria Label",
     "license": "Lizenz",

@@ -150,12 +150,12 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   //console.log(df.toString())
   //console.log("Dataframe:", df.head(3).toString());
   let cols = df.getColumnNames()
-  console.log("Cols:", cols)
+  //console.log("Cols:", cols)
 
   if (cols.length == 0) {
     console.log("No columns");
     cols = Object.keys(data)
-    console.log("Keys:", cols);
+    // console.log("Keys:", cols);
     if (cols.length == 0) {
       console.log("Again no columns")
       return chartOptions
@@ -182,7 +182,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     console.log("No X-Axis")
     return chartOptions
   }
-  console.log("X-Axis:", dataX)
+  // console.log("X-Axis:", dataX)
 
   const chartData = df.toArray();
   let categories = chartData.map(item => item[dataX]).filter((value, index, self) => self.indexOf(value) === index);
@@ -190,7 +190,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   //console.log("Categories:", categories, categories.length)
 
   if (typeof categories[0] === 'number') {
-    console.log("Sorting categories", categories)
+    //console.log("Sorting categories", categories)
     categories.sort((a, b) => a - b)
   }
 
@@ -210,8 +210,6 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   } else {
     seriesData = chartData;
   }
-
-  console.log("Filtered classes:", seriesData)
 
   let columns = []
   if (columnList && Array.isArray(columnList) && columnList.length > 0) {
@@ -292,7 +290,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     });
   } else {
     // create names from columns
-    console.log("Creating series from columns:", includedColumns)
+    // console.log("Creating series from columns:", includedColumns)
     // if we have classes, remove the corresponding column from included columns
     const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != classList[0]) : includedColumns
     seriesData = valueColumns.map((column, index) => {
@@ -301,13 +299,13 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
       return {
         name: column,
         data: categories.map(position => {
-          console.log("Position:",position)
+          //console.log("Position:",position)
           const item = chartData.find(item => item[dataX] === position)
           if (item == null) {
             //console.log("No data for position:",position)
             return null
           } else {
-            console.log("Data at position:",position,item)
+            //console.log("Data at position:",position,item)
             return parseData(chartData.find(item => item[dataX] === position)[column])
           }
         }),

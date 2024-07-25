@@ -1,15 +1,11 @@
-## Klimabilanz Karlsruhe
+## Daten der CityClim Wetterstationen
 
-bla bla bla bla bla fmwölkwe
-ddd   ddd qdwdw  
-[link](https://www.google.com)
+Die ;essstationen befinden sich an:
 
-  * 123
-  * 456
-    * 789
+  * Albtalbahnhof 
+  * Kaiserplatz
+  * Sonnenbad
 
-![image](/images/testing.jpg)  
+Jeweils Temperatur, Luftfeuchtigkeit und Einstrahlung
 
-
-bla bla bla
 

@@ -74,7 +74,7 @@
       />
     </div>
 
-    <row class="row">
+    <div class="row">
     <div class="chartpane flex lg4 sm6 xs12"
       v-for="i, idx in Object.keys(dataSet)"
     >
@@ -87,7 +87,7 @@
         :dataLabels = "dataTopics"
       ></WeatherGauge>
     </div>
-    </row>
+    </div>
  
     <div class="chartfooter">
       <!-- source, license, download button -->

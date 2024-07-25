@@ -1,15 +1,10 @@
-## MD Text EN
+## Data from the CityClim weather stations
 
-bla bla bl frerdddd  dddd  a
- eeddeeeenknekfndd eedf 
-[link](https://www.google.com)
+Staions are located at:
 
-  * 123
-  * 456
-    * 789
+  * Albtalbahnhof 
+  * Kaiserplatz
+  * Sonnenbad
 
-![image](/images/testing.jpg)  
-
-
-bla bla bla
+Values show: temperature, humidity, and radiation
 

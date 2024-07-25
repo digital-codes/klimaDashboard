@@ -1,9 +1,7 @@
 {
     "data": [
       {
-        "url1": "php/corsProxy.php?topic=albtal",
-        "url2": "data/karlsruhe/cityclim-example.json",
-        "url": "https://dashboard.daten.city/php/corsProxy.php?topic=albtal,sonnenbad,kaiserplatz",
+        "url": "https://dashboard.daten.city/php/corsProxy.php?topic=albtal,kaiserplatz,sonnenbad",
         "license": "CC-BY-4.0",
         "name": "Wetter Karlsruhe",
         "format": "json",
