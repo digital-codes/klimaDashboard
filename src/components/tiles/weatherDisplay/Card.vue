@@ -74,11 +74,13 @@
       />
     </div>
 
-    <div class="chartpane">
+    <div class="chartpane"
+      v-for="i in Object.keys(dataSet)"
+    >
       <!-- Chart component goes here -->
-      <WeatherGauge
+      <WeatherGauge 
         v-if="chartValid"
-        :dataUrl="dataUrl"
+        :data="dataSet[i]"
         :dataName="dataName"
         :dataIdx="dataCtl ? 1 : 0"
         :dataColumns="dataColumns"
@@ -125,8 +127,11 @@ import { ref, onBeforeMount, onMounted, watch, nextTick } from "vue";
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
-
 import WeatherGauge from "@/components/charts/KaWeatherGauge.vue";
+
+// custom data loader
+import { loadKaWeatherData } from "./Loader.js"
+
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL;
@@ -174,7 +179,7 @@ const dataType = ref(null);
 const dataStacked = ref(false);
 
 // needed to force re-render when dataurl reused
-const chartValid = ref(true);
+const chartValid = ref(false);
 
 // controls
 const controls = ref({
@@ -211,6 +216,10 @@ const checkLang = watch(locale, (lang) => {
   // updateData(0)
 });
 
+
+const data = ref(null);
+const dataSet = ref({});
+
 const updateData = async (index) => {
   const newUrl = checkUrl(cardSpecs.data[index].url);
   //console.log("UpdateData:", index, newUrl)
@@ -218,6 +227,9 @@ const updateData = async (index) => {
     chartValid.value = false;
     await nextTick();
   }
+  await loadData(newUrl);
+  console.log("topics:", Object.keys(dataSet.value))
+
   dataUrl.value = newUrl;
   dataLicense.value = cardSpecs.data[index].license;
   dataX.value = cardSpecs.data[index].xaxis || "";
@@ -244,6 +256,41 @@ watch(typeCtl, (index) => {
     ? controls.value.type.options[1]
     : controls.value.type.options[0];
 });
+
+const loadData = async (url) => {
+  // get topics from url
+  const urlParms = url.split("?topic=");
+  let topics = []
+  if ((urlParms.length > 1) && (urlParms[1].length > 0)) {
+    for (const t of urlParms[1].split(",")) {
+      topics.push(t);
+    }
+  }
+  console.log("Topics:", topics);
+  if (topics.length == 0) {
+    alert("No topics found in data url");
+    return
+  }
+  try {
+    data.value = await loadKaWeatherData(url);
+    for (const t of topics) {
+      const dataPoints = {}
+      // get data values from data
+      const dt = data.value[t].body[0].data
+      for (const d in dt) {
+        dataPoints[d] = [dt[d]]
+      }
+      // get measuring time from measured_at
+      dataPoints["measured_at"] = [data.value[t].body[0].measured_at]
+      dataSet.value[t] = dataPoints;
+    }
+    //console.log("DataSets:", dataSet.value);
+
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 
 onBeforeMount(async () => {
   // Code to execute when the component is mounted

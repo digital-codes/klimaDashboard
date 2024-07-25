@@ -42,8 +42,8 @@ const { currentPresetName } = useColors();
 
 const props = defineProps({
   /* Add your props here */
-  dataUrl: {
-    type: String,
+  data: {
+    type: Array,
     required: true,
   },
   dataName: {
@@ -108,8 +108,7 @@ const props = defineProps({
   },
 });
 
-const theChart1 = ref(null);
-const theChart2 = ref(null);
+const theChart = ref(null);
 const chartTheme = ref(currentPresetName) // already reactive. don't watch for theme
 const dataLoaded = ref(false);
 const data = ref(null);
@@ -118,8 +117,8 @@ const datakeys = ref(null);
 const chartStyle = ref(
   {
     height: '100%',
-    width: '50%', 
-    display:'inline-flex'
+    width: '100%', 
+    //display:'inline-flex'
   }
 )
 
@@ -150,10 +149,9 @@ watch(() => props.range, (newValue, oldValue) => {
   console.log("Range changed:", newValue);
 });
 
-watch(() => props.dataUrl, async (newValue, oldValue) => {
-  //console.log("Data URL changed:", newValue);
-  if (theChart1.value) await theChart1.value.clear()
-  if (theChart2.value) await theChart2.value.clear()
+// monitor data changes
+watch(() => props.data, async (newValue, oldValue) => {
+  //console.log("Data changed:", newValue);
   await loadData();
   // also update title
   chartOptions.value.title.text = props.dataName
@@ -174,55 +172,45 @@ watch(() => props.animate, (newValue, oldValue) => {
 const updateOptions = async () => {
   const size = breakpoint.smUp ? "large" : "small";
   console.log("Size:", size)
-  chartOptions1.value.series[0].data[0].value = 20 //Math.floor(Math.random() * 50)
-  chartOptions1.value.series[0].data[1].value = -10 // Math.floor(Math.random() * 50)
-  chartOptions2.value.series[0].data[0].value = 27 // Math.floor(Math.random() * 50)
-  chartOptions2.value.series[0].data[1].value = 2 // Math.floor(Math.random() * 50)
-  return
-  chartOptions.value = await updateEchartsOptions(chartOptions.value, 
-    data.value, props.dataX, props.dataClasses, props.dataColumns, props.type, props.stacked, size)
+  /*  
+  chartOptions.value.series[0].data[0].value = 20 //Math.floor(Math.random() * 50)
+  chartOptions.value.series[0].data[1].value = -10 // Math.floor(Math.random() * 50)
+  */
+  chartOptions.value.series[0].data[0].value = data.value.temperature[0]
+  chartOptions.value.series[0].data[1].value = data.value.humidity[0]
 }
 
+// load data from props! do fetch used at upper level here
+// assume array format already
 const loadData = async () => {
+  const dataPoint = props.data
   try {
-    console.log("Fetching: ", props.dataUrl);
-    const response = await fetch(props.dataUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
     datakeys.value = []
-    if (props.dataFormat == "json") {
-      const dt = await response.json();
-      console.log("JSON:", dt);
-      const dataPoint = dt.albtal.body[0]  // need to get first element
-      console.log("Cols:", props.dataColumns)
-      let vals = {
-        measured_at:[dataPoint.measured_at]
-      }
-      for (const key in dataPoint.data) {
-        if (props.dataColumns.includes(key)) {
-          vals[key] = [dataPoint.data[key]]
-        }
-      }
-      data.value = vals
-      // current time
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
-      //console.log("TZ:", tz)
-      const now = new Date()
-      //console.log("Now:", now)
-      const mt = new Date(data.value.measured_at[0])
-      //console.log("MT:", mt)
-      const delta = Math.ceil((now.valueOf() - mt.valueOf()) / (1000 * 60))
-      //console.log("Delta (minutes):", delta)
-      data.value.delta = [delta]
-      console.log("JSON:", data.value);
-
-    } else { // assume csv
-      throw new Error("CSV not supported yet")
+    //console.log("Datapoint:", dataPoint)
+    //console.log("Cols:", props.dataColumns)
+    let vals = {
+      measured_at:dataPoint.measured_at
     }
+    for (const key in dataPoint) {
+      if (props.dataColumns.includes(key)) {
+        vals[key] = dataPoint[key]
+      }
+    }
+    data.value = vals
+    // current time
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+    //console.log("TZ:", tz)
+    const now = new Date()
+    //console.log("Now:", now)
+    const mt = new Date(data.value.measured_at[0])
+    //console.log("MT:", mt)
+    const delta = Math.ceil((now.valueOf() - mt.valueOf()) / (1000 * 60))
+    //console.log("Delta (minutes):", delta)
+    data.value.delta = [delta]
+    //console.log("Data:", data.value);
+
     //if (theChart.value) await theChart.value.setOption(chartOptions.value, true, true);
-    if (theChart1.value) await theChart1.value.clear()
-    if (theChart2.value) await theChart2.value.clear()
+    if (theChart.value) await theChart.value.clear()
     await updateOptions()
     await nextTick();
     dataLoaded.value = true;
@@ -244,12 +232,16 @@ use([
 
 
 
-const chartOptions1 = ref(
+const chartOptions = ref(
   {
   title : {
     text: props.dataName,
     left: 'center',
     top: 'top'
+  },
+  tooltip: {
+    // specific settings in series
+    trigger: "item"
   },
   series:[
   {
@@ -277,6 +269,14 @@ const chartOptions1 = ref(
           borderColor: '#000000'
         }
       },
+      tooltip: {
+        trigger:"item",
+        valueFormatter: (value) => String(value.toFixed(2)).replace('.', ','),
+        //formatter: '{b0}: {c0}',
+        position: ['50%', '50%'],
+        // backgroundColor: "#000000",
+      },
+
       pointer: {
         show: false
       },
@@ -567,23 +567,13 @@ option = {
 
 <template>
   <v-chart v-if="dataLoaded" 
-  ref="theChart1" 
-  :option="chartOptions1" 
+  ref="theChart" 
+  :option="chartOptions" 
   :style="chartStyle"
   :theme="chartTheme"
   :init-options="{ renderer: 'canvas' }"
   autoresize
-  >
-  </v-chart>
-  <v-chart v-if="dataLoaded" 
-  ref="theChart2" 
-  :style="chartStyle"
-  :option="chartOptions2" 
-  :theme="chartTheme"
-  :init-options="{ renderer: 'canvas' }"
-  autoresize
-  >
-  </v-chart>
+  />
 </template>
 
 <style scoped>
