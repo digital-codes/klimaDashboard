@@ -1,0 +1,20 @@
+https://www.baranidesign.com/meteorain-iot-compact
+
+
+Calibration Options
+
+Factory standard calibration of 0.2 mm (0.2 liters per square meter) per tip with +/- 2 % accuracy. 
+
+    0.10 mm/tip (0.004"/tip) Special order
+
+    0.20 mm/tip (0.008"/tip) Factory default (World standard)
+
+    0.25 mm/tip (0.01"/tip) Special order (USA standard)
+
+    0.50 mm/tip (0.02"/tip) Special order
+
+
+
+Assume .2mm/tip / 10min => max 300mm/h 
+
+

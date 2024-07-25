@@ -146,7 +146,7 @@ const updateOptions = async () => {
   //console.log("col:", props.dataColumn)
 
   for (const i in props.dataLabels) {
-    chartOptions.value.series[0].data[i].value = props.data.values[i]
+    chartOptions.value.series[0].data[i].value = props.data.values[i] * columnSpecs(props.dataColumn).scale
     chartOptions.value.series[0].data[i].name = props.dataLabels[i]
   }
 
@@ -163,7 +163,8 @@ const columnSpecs = (name) => {
         unit: "°C",
         min: -20,
         max: 50,
-        split: 14
+        split: 14,
+        scale: 1
       }
       break
     case "humidity":
@@ -171,17 +172,38 @@ const columnSpecs = (name) => {
         unit: "%",
         min: -0,
         max: 100,
-        split: 10
+        split: 10,
+        scale: 1
       }
       break
-    case "irradiation":
+      case "irradiation":
       specs = {
         unit: "W/m²",
         min: 0,
         max: 1000,
-        split: 10
+        split: 10,
+        scale: 1
       }
       break
+      case "rain":
+      specs = {
+        unit: "l/h",
+        min: 0,
+        max: 500,
+        split: 10,
+        scale: (.2*6)
+      }
+      break
+      case "pressure":
+      specs = {
+        unit: "mbar",
+        min: 900,
+        max: 1100,
+        split: 10,
+        scale: .01
+      }
+      break
+            
     default:
       alert("Unknown column name: " + name)
       break
@@ -192,7 +214,7 @@ const columnSpecs = (name) => {
 const chartOptions = ref(
   {
     title: {
-      text: props.dataName,
+      text: props.dataName + " [" + columnSpecs(props.dataColumn).unit + "]",
       left: 'center',
       top: 'top'
     },

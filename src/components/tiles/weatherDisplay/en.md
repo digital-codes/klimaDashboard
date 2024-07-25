@@ -2,9 +2,9 @@
 
 Staions are located at:
 
-  * Albtalbahnhof 
-  * Kaiserplatz
-  * Sonnenbad
+  * Albtalbahnhof (outmost line)
+  * Kaiserplatz (middle line)
+  * Sonnenbad (inner line)
 
 Values show: temperature, humidity, and radiation
 

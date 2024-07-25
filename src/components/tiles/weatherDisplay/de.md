@@ -1,10 +1,12 @@
 ## Daten der CityClim Wetterstationen
 
-Die ;essstationen befinden sich an:
+Die Messstationen befinden sich an:
 
-  * Albtalbahnhof 
-  * Kaiserplatz
-  * Sonnenbad
+  * Albtalbahnhof (äußere Linie)
+  * Kaiserplatz (mittlere Linie)
+  * Sonnenbad (innere Linie)
+
+
 
 Jeweils Temperatur, Luftfeuchtigkeit und Einstrahlung
 
