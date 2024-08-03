@@ -6,7 +6,9 @@
         "logo":"Dashboard Logo. Click for 'Home'",
         "mode":"Toggle dark mode",
         "totop":"Go to top",
-        "menu": "Toggle sidebar menu"
+        "menu": "Toggle sidebar menu",
+        "date": "Date",
+        "measured": "Measured at"
    
     },
     "de": {
@@ -16,6 +18,8 @@
         "logo": "Dashboard Logo. Klicken für 'Start'",
         "mode":"Hell/Dunkel umschalten",
         "totop":"Nach oben",
-        "menu": "Navigation umschalten"
+        "menu": "Navigation umschalten",
+        "date": "Datum",
+        "measured": "Gemessen am"
         }
 }

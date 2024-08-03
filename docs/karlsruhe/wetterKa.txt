@@ -19,3 +19,5 @@ https://iot.stadtwerke-karlsruhe.de/api/v1/devices/60e8e501-d0ec-44e8-9dbf-6983a
 
 # abruf:
 http -v get   https://iot.stadtwerke-karlsruhe.de/api/v1/devices/d0fa8ca0-6339-4e20-9d76-88e80c7af2c4/readings limit==10 sort==measured_at sort_direction==desc auth==F20B6E04DCB4C114543B9E1BBACE3C26
+oder
+http -v get   https://iot.stadtwerke-karlsruhe.de/api/v1/devices/60e8e501-d0ec-44e8-9dbf-6983a5f97935/readings limit==10 sort==measured_at sort_direction==desc auth==F20B6E04DCB4C114543B9E1BBACE3C26

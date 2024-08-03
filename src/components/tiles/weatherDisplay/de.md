@@ -8,6 +8,6 @@ Die Messstationen befinden sich an:
 
 
 
-Jeweils Temperatur, Luftfeuchtigkeit und Einstrahlung
+Jeweils Temperatur, Luftfeuchtigkeit, Luftdruck und Einstrahlung
 
 

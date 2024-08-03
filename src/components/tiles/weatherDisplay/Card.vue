@@ -11,6 +11,8 @@
 
     <div class="mdcontent" v-html="content[locale]"></div>
 
+    <p class="weatherdate">{{ $t("measured") }}: {{ weatherDate }}</p>
+
     <div class="row">
       <VaSlider
         v-if="controls.range.present"
@@ -115,7 +117,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount, onMounted, watch, nextTick } from "vue";
+import { ref, onBeforeMount, computed, watch, nextTick } from "vue";
 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -170,6 +172,9 @@ const data = ref(null);
 const dataSet = ref({});
 const dataTopics = ref([]);
 
+const meanDate = ref("")
+const weatherDate = ref("")
+
 const chartStyle = ref("");
 
 
@@ -204,10 +209,18 @@ const checkUrl = (url) => {
   }
 };
 
+const formatDate = (lang) => {
+  if (meanDate.value == "") return ""
+  const options = { timeZone: 'Europe/Berlin',  day: "numeric", month: "numeric", year: "numeric", hour: 'numeric', minute: 'numeric'  }; // Replace 'UTC' with the desired timezone
+  const dt = new Date(meanDate.value)
+  return dt.toLocaleString(lang, options);
+}
+
 const checkLang = watch(locale, (lang) => {
   console.log("Locale:", lang, "index:", dataCtl.value ? 1 : 0);
   dataName.value = cardMessages[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
   console.log("dsname:", dataName.value);
+  weatherDate.value = formatDate(lang)
   // updateData(0)
 });
 
@@ -278,7 +291,10 @@ const loadData = async () => {
   //console.log("Now:", now)
 
   try {
-    data.value = await loadKaWeatherData(url);
+    const dateAndData = await loadKaWeatherData(url);
+    data.value = dateAndData.data
+    meanDate.value = dateAndData.date
+    weatherDate.value = formatDate(locale.value)
     for (const t of topics) {
       const dataPoints = {}
       // get data values from data

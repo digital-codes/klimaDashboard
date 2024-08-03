@@ -6,5 +6,5 @@ Staions are located at:
   * Kaiserplatz (middle line)
   * Sonnenbad (inner line)
 
-Values show: temperature, humidity, and radiation
+Values show: temperature, humidity, pressure and irradiation
 
