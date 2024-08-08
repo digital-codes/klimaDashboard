@@ -12,25 +12,25 @@
   "dependencies": {
     "@fontsource/roboto": "^5.0.13",
     "@fontsource/source-sans-pro": "^5.0.8",
-    "axios": "^1.7.2",
+    "axios": "^1.7.3",
     "data-forge": "^1.10.2",
     "leaflet": "^1.9.4",
     "material-icons": "^1.13.12",
     "papaparse": "^5.4.1",
-    "pinia": "^2.1.7",
+    "pinia": "^2.2.1",
     "proj4": "^2.11.0",
-    "vue": "^3.4.30",
+    "vue": "^3.4.37",
     "vue-chartjs": "^5.3.1",
-    "vue-echarts": "^6.7.3",
+    "vue-echarts": "^7.0.1",
     "vue-i18n": "^9.13.1",
-    "vue-router": "^4.4.0",
+    "vue-router": "^4.4.3",
     "vuestic-ui": "^1.9.12"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue": "^5.1.2",
     "isomorphic-dompurify": "^2.12.0",
-    "marked": "^13.0.0",
-    "sass": "^1.77.4",
-    "vite": "^5.3.1"
+    "marked": "^14.0.0",
+    "sass": "^1.77.8",
+    "vite": "^5.4.0"
   }
 }
