@@ -14,9 +14,24 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/dash',
-    name: 'Dash',
+    path: '/dash1',
+    name: 'Dash1',
     component: () => import('@/views/DataView.vue'),
+  },
+  {
+    path: '/dash2',
+    name: 'Dash2',
+    component: () => import('@/views/DataView.vue'),
+  },
+  {
+    path: '/dash2_1',
+    name: 'Dash2_1',
+    component: () => import('@/views/ImprintView.vue'),
+  },
+  {
+    path: '/dash2_2',
+    name: 'Dash2_2',
+    component: () => import('@/views/GdprView.vue'),
   },
   {
     path: '/imprint',

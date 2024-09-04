@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 const { t, messages, locale, availableLocales } = useI18n();
 
 import { useConfigStore } from '@/services/configStore';
-const configStore = useConfigStore(); 
+const configStore = useConfigStore();
 
 import { ref, watch, onMounted, onUnmounted, computed, onBeforeMount } from 'vue';
 
@@ -81,14 +81,14 @@ onBeforeMount(async () => {
   // localized content
   const supportedLanguages = availableLocales // use like so only in app.vue
 
-  console.log("cardmsgs:",cardMessages)
+  console.log("cardmsgs:", cardMessages)
   // localization data. save und "app" key
   for (const key in cardMessages) {
     if (!supportedLanguages.includes(key)) continue;
-    console.log("Lang Msg",key)
+    console.log("Lang Msg", key)
     messages.value[key]["sidebar"] = cardMessages[key];
   }
-  console.log("msgs",messages.value)
+  console.log("msgs", messages.value)
   msgsLoaded.value = true
 })
 
@@ -117,7 +117,7 @@ onMounted(() => {
 // custom scroll stuff due to VaBacktoTop not working
 const bttVisible = ref(true)
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll, {passive: true});
+  window.addEventListener('scroll', handleScroll, { passive: true });
 });
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
@@ -129,6 +129,9 @@ const scoll2top = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+
+const mlist1 = ref([true]) // accordion open state
+
 </script>
 
 
@@ -137,40 +140,27 @@ const scoll2top = () => {
     <template #top>
       <VaNavbar color="primary" class="py-2" fixed>
         <template #left>
-          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()" size="large" 
-            :title="t('menu')" 
-            role="switch"
-            :aria-checked="showSidebar? 'true' : 'false'"
-        />
+          <VaButton :icon="showSidebar ? 'menu_open' : 'menu'" @click="menuToggle()" size="large" :title="t('menu')"
+            role="switch" :aria-checked="showSidebar ? 'true' : 'false'" />
         </template>
         <template #center>
           <VaNavbarItem role="link" aria-label="Click for Home">
-            <VaImage :src="logo" 
-            :title='t("logo")' 
-            fit="fit" class="logoimg" 
-            @click="router.push({ name: 'Home' })"
-            ></VaImage>
+            <VaImage :src="logo" :title='t("logo")' fit="fit" class="logoimg" @click="router.push({ name: 'Home' })">
+            </VaImage>
           </VaNavbarItem>
         </template>
         <template #right>
           <div class="langselect">
-            <VaSelect 
-              contentClass="selection" 
-              v-model="langSel" 
-              :options="languages" 
-              :placeholder="configStore.getCurrentLocale"
-            >
+            <VaSelect contentClass="selection" v-model="langSel" :options="languages"
+              :placeholder="configStore.getCurrentLocale">
               <template #prepend>
                 <VaIcon name="translate" class="xlate" />
               </template>
             </VaSelect>
           </div>
           <VaButton round :icon="modeSwitch == 'dark' ? 'dark_mode' : 'light_mode'"
-            @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" 
-            :title='t("mode")' 
-            role="switch"
-            :aria-checked="modeSwitch == 'dark' ? 'true' : 'false'"
-          />
+            @click="modeSwitch = modeSwitch == 'dark' ? 'light' : 'dark'" :title='t("mode")' role="switch"
+            :aria-checked="modeSwitch == 'dark' ? 'true' : 'false'" />
         </template>
       </VaNavbar>
     </template>
@@ -178,36 +168,102 @@ const scoll2top = () => {
     <template #left>
       <VaSidebar v-model="showSidebar" v-if="msgsLoaded">
         <VaSidebarItem @click="goto('/')" tabindex="0" role="link">
-            <VaSidebarItemContent>
-              <VaIcon class="material-icons-outlined" name="home" size="large" />
-              <VaSidebarItemTitle>
-                {{ $t("sidebar.home") }}
-              </VaSidebarItemTitle>
-            </VaSidebarItemContent>
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="home" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.home") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
         </VaSidebarItem>
-        <VaSidebarItem @click="goto('/dash')" tabindex="0" role="link">
-            <VaSidebarItemContent>
-              <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
-              <VaSidebarItemTitle>
-                {{ $t("sidebar.dash") }}
-              </VaSidebarItemTitle>
-            </VaSidebarItemContent>
+
+        <VaSidebarItem @click="goto('/dash1')" tabindex="0" role="link">
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.dash1") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
         </VaSidebarItem>
+
+        <!-- 
+        <VaSidebarItem>
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.dash2") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+
+        <VaSidebarItem @click="goto('/dash2_1')" tabindex="0" role="link" style="margin-left:1rem;">
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.dash2_1") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+        <VaSidebarItem @click="goto('/dash2_2')" tabindex="0" role="link" style="margin-left:1rem;">
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.dash2_2") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+        -->
+
+
+        <VaSidebarItem>
+          <VaSidebarItemContent style="display:flex; flex-direction: column;align-items:baseline;" @click="mlist1[0] = !mlist1[0]">
+            <div style="display:flex;align-items:center;">
+              <VaIcon class="material-icons-outlined" name="insert_chart" size="large"/>
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.dash2") }}
+            </VaSidebarItemTitle>
+            <VaIcon class="material-icons-outlined" :name="mlist1[0]?'keyboard_arrow_up':'keyboard_arrow_down'" size="large"/>
+          </div>
+            <VaAccordion v-model="mlist1" style="flex-direction: column;align-items:baseline;">
+              <VaCollapse>
+                <template #body >
+                  <VaSidebarItem @click="goto('/dash2_1')" tabindex="0" role="link" style="padding: 0;margin-left:1rem;">
+                    <VaSidebarItemContent>
+                      <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+                      <VaSidebarItemTitle>
+                        {{ $t("sidebar.dash2_1") }}
+                      </VaSidebarItemTitle>
+                    </VaSidebarItemContent>
+                  </VaSidebarItem>
+                  <VaSidebarItem @click="goto('/dash2_2')" tabindex="1" role="link" style="padding: 0;margin-left:1rem;">
+                    <VaSidebarItemContent>
+                      <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+                      <VaSidebarItemTitle>
+                        {{ $t("sidebar.dash2_2") }}
+                      </VaSidebarItemTitle>
+                    </VaSidebarItemContent>
+                  </VaSidebarItem>
+                </template>
+              </VaCollapse>
+            </VaAccordion>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+
+
         <VaSidebarItem @click="goto('/imprint')" tabindex="0" role="link">
-            <VaSidebarItemContent>
-              <VaIcon class="material-icons-outlined" name="info" size="large" />
-              <VaSidebarItemTitle>
-                {{ $t("sidebar.imprint") }}
-              </VaSidebarItemTitle>
-            </VaSidebarItemContent>
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="info" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.imprint") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
         </VaSidebarItem>
         <VaSidebarItem @click="goto('/gdpr')" tabindex="0" role="link">
-            <VaSidebarItemContent>
-              <VaIcon class="material-icons-outlined" name="privacy_tip" size="large" />
-              <VaSidebarItemTitle>
-                {{ $t("sidebar.gdpr") }}
-              </VaSidebarItemTitle>
-            </VaSidebarItemContent>
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="privacy_tip" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.gdpr") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
         </VaSidebarItem>
       </VaSidebar>
     </template>
@@ -221,11 +277,9 @@ const scoll2top = () => {
         <FooterCard name="footer" id="df" />
 
         <!-- custom scroll to top -->
-        <VaButton v-if="bttVisible" 
-        class="btt-button" 
-        @click="scoll2top" 
-        :aria-controls="$t('totop')" :aria-label="$t('totop')">
-          <VaIcon name="keyboard_arrow_up" size="medium"/>
+        <VaButton v-if="bttVisible" class="btt-button" @click="scoll2top" :aria-controls="$t('totop')"
+          :aria-label="$t('totop')">
+          <VaIcon name="keyboard_arrow_up" size="medium" />
         </VaButton>
 
       </main>
@@ -240,8 +294,6 @@ const scoll2top = () => {
 .va-layout__area--top {
   margin-bottom: 3rem;
 }
-
-
 </style>
 
 <style scoped>
@@ -272,7 +324,7 @@ main {
 
 .logoimg:hover {
   width: 5rem;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .va-sidebar__title {
@@ -284,5 +336,9 @@ main {
 </style>
 
 <style>
+.va-collapse__header {
+  display:none;
+}
+
 
 </style>

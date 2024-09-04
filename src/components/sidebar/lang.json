@@ -2,12 +2,20 @@
   "en": {
     "home": "Home",
     "dash": "Dashboard",
+    "dash1": "Weather and Climate",
+    "dash2": "Climate Protection",
+    "dash2_1": "Communal Actions",
+    "dash2_2": "Private Actions",
     "imprint": "Imprint",
     "gdpr": "GDPR"
   },
   "de": {
     "home": "Start",
     "dash": "Dashboard",
+    "dash1": "Wetter und Klima",
+    "dash2": "Klimaschutz",
+    "dash2_1": "Städt. Maßnahmen",
+    "dash2_2": "Private Maßnahmen",
     "imprint": "Impressum",
     "gdpr": "Datenschutz"
   }
