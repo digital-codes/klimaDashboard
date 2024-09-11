@@ -21,6 +21,30 @@ import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
 
 
+/* noto font and icons **
+https://www.npmjs.com/package/@fontsource/noto-sans
+https://www.npmjs.com/package/@fontsource/noto-color-emoji
+*/
+/*
+import "@fontsource/noto-sans"; // Defaults to weight 400
+import "@fontsource/noto-sans/400.css"; // Specify weight
+import "@fontsource/noto-sans/400-italic.css"; // Specify weight and st
+
+import "@fontsource/noto-color-emoji"; // Defaults to weight 400
+import "@fontsource/noto-color-emoji/400.css"; // Specify weight
+import "@fontsource/noto-color-emoji/400-italic.css"; // Specify weight and style
+*/
+import "@fontsource/noto-sans/latin.css"; // Defaults to weight 400
+import "@fontsource/noto-color-emoji/400.css";
+/* use noto emojis like so:
+<va-icon class="emoji"> &#x1F600; Click me! &#x1F389;</va-icon>
+.emoji {
+  font-family: 'Noto Color Emoji';
+  font-size: 1.5rem!important;
+  font-weight:400;
+}
+*/
+
 import { createVuestic } from "vuestic-ui";
 import "vuestic-ui/css";
 
@@ -51,7 +75,24 @@ const app = createApp(App)
 app.use(pinia)
 app.use(i18n)
 app.use(router);
-app.use(createVuestic())
+app.use(
+    createVuestic(
+        {
+            config: {
+                colors: {
+                    presets: {
+                        light: {
+                            primary: "#048500",
+                        },
+                        dark: {
+                            primary: "#048500",
+                        },
+                    },
+                },
+            },
+        }
+    )
+)
 app.mount('#app')
 
 import { useConfigStore } from '@/services/configStore'; // Replace 'configStore' with the name of your specific store

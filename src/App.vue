@@ -272,6 +272,11 @@ const mlist1 = ref([true]) // accordion open state
     <template #content>
       <main class="p-4" id="main">
 
+        <!-- use noto color emoji like so -->
+         <!--
+        <va-icon class="emoji"> &#x1F600; Click me! &#x1F389;</va-icon>
+        -->
+
         <router-view />
 
         <FooterCard name="footer" id="df" />
@@ -299,6 +304,12 @@ const mlist1 = ref([true]) // accordion open state
 <style scoped>
 main {
   padding: 20px;
+}
+
+.emoji {
+  font-family: 'Noto Color Emoji';
+  font-size: 1.5rem!important;
+  font-weight:400;
 }
 
 .btt-button {

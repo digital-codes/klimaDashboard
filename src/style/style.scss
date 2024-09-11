@@ -24,6 +24,7 @@
   --md-light-bg: $base-orange; // #ddd;
   --md-light-color: $dark-gray; //#333;
 
+  /*
   --md-dark-bg: #333;
   --md-dark-color: #ddd;
 
@@ -51,7 +52,34 @@
   --tile-light-color: #033;
   --tile-dark-bg: #033;
   --tile-dark-color: #ccc;
+  */
+  --md-dark-bg: light-dark(var($ka-bg-light), var($ka-bg-dark));
+  --md-dark-color: light-dark(var($ka-normal-text-light), var($ka-normal-text-dark));
 
+  --card-light-bg: #ddf;
+  --card-light-color: #330;
+
+  --card-dark-bg: #330;
+  --card-dark-color: #ddf;
+
+  --card-dark-border: #dd4;
+  --card-light-border: #22c;
+
+  --chart-light-bg: #dfd;
+  --chart-light-color: #303;
+
+  --chart-dark-bg: #303;
+  --chart-dark-color: #dfd;
+
+  --link-light-color: #646cff;
+  --link-dark-color: #74fc7f;
+  --linkhover-light-color: #535bf2;
+  --linkhover-dark-color: #63fb62;
+
+  --tile-light-bg: #ccc;
+  --tile-light-color: #033;
+  --tile-dark-bg: #033;
+  --tile-dark-color: #ccc;
 
 
   /*
@@ -90,6 +118,10 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h2 {
+  font-family: "Noto Sans";
 }
 
 button {

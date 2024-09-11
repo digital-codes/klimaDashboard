@@ -31,6 +31,15 @@ $base-gray: rgb(128,128,128);
 $black: rgb(0,0,0);
 $white: rgb(255,255,255);
 
+$ka-green: #048500;
+$ka-h-text-light: #000;
+$ka-normal-text-light: #404040;
+$ka-bg-light: #ffffff;
+$ka-h-text-dark: #fff;
+$ka-normal-text-dark: #c0c0c0;
+$ka-bg-dark: #000;
+
+ 
 
 $dark-blue: color.adjust($base-blue,$lightness:-10%);
 $light-blue: color.adjust($base-blue,$lightness:+10%);

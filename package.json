@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/noto-color-emoji": "^5.0.28",
+    "@fontsource/noto-sans": "^5.0.22",
     "@fontsource/roboto": "^5.0.13",
     "@fontsource/source-sans-pro": "^5.0.8",
     "axios": "^1.7.7",
