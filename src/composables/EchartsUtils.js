@@ -186,8 +186,8 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
 
   const chartData = df.toArray();
   let categories = chartData.map(item => item[dataX]).filter((value, index, self) => self.indexOf(value) === index);
-  categories = categories.filter(category => category !== null);
-  //console.log("Categories:", categories, categories.length)
+  categories = categories.filter(category => ((category !== null) && (category !== undefined)));
+  // console.log("Categories:", categories, categories.length) 
 
   if (typeof categories[0] === 'number') {
     //console.log("Sorting categories", categories)
@@ -243,18 +243,18 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   if (classList && Array.isArray(classList) && classList.length > 0) {
     includedColumns.push(classList[0])
   }
-  // console.log("Included columns:", includedColumns)
+  // console.log("Included columns:", includedColumns) // DROP
 
   // series created from either classes or columns
-  // if length of classes > 1 we have multiple series and length or columns must be 1
-  // if length of columns > 1 we have multiple series and length or classes must be 1
+  // if length of classes > 1 we have multiple series and length of columns must be 1
+  // if length of columns > 1 we have multiple series and length of classes must be 1
   if (classes.length > 1) {
     console.log("Creating series from classes")
     // create names from classes
     seriesData = classes.map((name, index) => {
-      //console.log("Name:",name,", Index:",index)
+      // console.log("Name:",name,", Index:",index) // DROP
       const filteredData = chartData.filter(item => item[classList[0]] === name);
-      //console.log("Filtered Data:", filteredData)
+      // console.log("Filtered Data:", filteredData) // DROP
       return {
         name: name,
         //data: filteredData.map(item => parseData(item[columnList[0]])),

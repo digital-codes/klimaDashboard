@@ -3,32 +3,32 @@
 
   "data": [
     {
-      "url": "data/karlsruhe/ksk1TstwkEnergie.csv",
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
       "license": "CC-BY-4.0",
       "format": "csv",
       "xaxis": "Jahr",
       "xlabel": "Jahr",
       "ylabel": "MHh",
-      "columns": [
-        "MengeÖkostrom",
-        "MengeNeutralgas",
-        "MengeBiogas10"
-      ],
-      "classes": []
+      "columns": ["Wert"],
+      "classes": ["Kennzahl",
+        "Absatz Ökostrom (OK power) an Tarifkunden*",
+        "Absatz Tarifkunden klimaneutrales Gas",
+        "Absatz Tarifkunden mit 10 % Bioerdgas-Beimischung"
+      ]
     },
     {
-      "url": "data/karlsruhe/ksk1TstwkEnergie.csv",
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
       "license": "CC BY 4.0",
       "format": "csv",
       "xaxis": "Jahr",
       "xlabel": "Jahr",
       "ylabel": "Anzahl",
-      "columns": [
-        "AnzahlÖkostrom",
-        "AnzahlNeutralgas",
-        "AnzahlBiogas10"
-      ],
-      "classes": []
+      "columns": ["Wert"],
+      "classes": ["Kennzahl",
+        "Tarifkunden Ökostrom (OK power)*",
+        "Anzahl Tarifkunden klimaneutrales Gas",
+        "Anzahl Tarifkunden mit 10 % Bioerdgas-Beimischung"
+      ]
     }
   ],
   "chart": {
