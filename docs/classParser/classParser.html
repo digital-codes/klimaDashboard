@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV Parser with PapaParse</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> <!-- Include PapaParse -->
+</head>
+<body>
+  <input type="file" id="csvFileInput" accept=".csv" />
+  <button id="reloadButton">Reload File</button>
+  <button id="downloadCSV">Download CSV</button>
+  <button id="downloadJSON">Download JSON</button>
+  <pre id="output"></pre>
+
+  <script>
+    let currentFile = null; // Store the current file
+    let eChartsData = []; // Store processed data for download
+    let columnNames = {}; // Store column names for CSV/JSON headers
+    let dateFormat = "yyyy"; // Store the date format to be used in conversion
+
+    document.getElementById('csvFileInput').addEventListener('change', function(e) {
+      currentFile = e.target.files[0];
+      processCSV(currentFile);
+      
+      // Reset file input to allow reloading the same file
+      e.target.value = null;
+    });
+
+    // Reload button event to re-process the current file
+    document.getElementById('reloadButton').addEventListener('click', function() {
+      if (currentFile) {
+        processCSV(currentFile);
+      } else {
+        document.getElementById('output').textContent = 'No file loaded.';
+      }
+    });
+
+    // Download CSV button event
+    document.getElementById('downloadCSV').addEventListener('click', function() {
+      if (eChartsData.length === 0) {
+        alert('No data available to download.');
+        return;
+      }
+      downloadDataAsCSV(eChartsData, columnNames);
+    });
+
+    // Download JSON button event
+    document.getElementById('downloadJSON').addEventListener('click', function() {
+      if (eChartsData.length === 0) {
+        alert('No data available to download.');
+        return;
+      }
+      downloadDataAsJSON(eChartsData, columnNames);
+    });
+
+    // Function to process the CSV file
+    function processCSV(file) {
+      Papa.parse(file, {
+        complete: function(results) {
+          const parsedData = results.data;
+
+          // Configuration JSON
+          const config = {
+            class_column: "ident",
+            category_column: "yr",
+            value_column: "val",
+            classes: ["n1", "n3"],
+            date_format: "yyyy" // Change this to "mm-yyyy" for different date formats
+          };
+
+          dateFormat = config.date_format; // Store the date format
+
+          // Capture column names for downloads
+          columnNames = {
+            class_column: config.class_column,
+            category_column: config.category_column,
+            value_column: config.value_column
+          };
+
+          // Perform validation and process the table
+          try {
+            eChartsData = processTable(parsedData, config); // Store processed data
+            document.getElementById('output').textContent = JSON.stringify(eChartsData, null, 2);
+          } catch (error) {
+            // Display the error message in the output
+            document.getElementById('output').textContent = `Error: ${error.message}`;
+          }
+        },
+        header: true,  // Set this to true to treat the first row as the header
+        skipEmptyLines: true  // Skip empty lines in the CSV
+      });
+    }
+
+    // Function to process the table based on JSON configuration
+    function processTable(data, config) {
+      const headers = Object.keys(data[0]); // Get the headers from the first row of the CSV
+      const classColumn = config.class_column;
+      const categoryColumn = config.category_column;
+      const valueColumn = config.value_column;
+
+      // Step 1: Check if the columns exist in the CSV
+      if (!headers.includes(classColumn)) {
+        throw new Error(`Class column '${classColumn}' not found in the CSV headers.`);
+      }
+      if (!headers.includes(categoryColumn)) {
+        throw new Error(`Category column '${categoryColumn}' not found in the CSV headers.`);
+      }
+      if (!headers.includes(valueColumn)) {
+        throw new Error(`Value column '${valueColumn}' not found in the CSV headers.`);
+      }
+
+      // Step 2: Check if the specified classes exist in the CSV data
+      const csvClasses = new Set(data.map(row => row[classColumn])); // Unique classes from CSV data
+      const invalidClasses = config.classes.filter(cls => !csvClasses.has(cls));
+      if (invalidClasses.length > 0) {
+        throw new Error(`Classes ${invalidClasses.join(', ')} not found in the CSV data.`);
+      }
+
+      // Function to parse date based on the format string
+      function parseDate(dateStr, format) {
+        if (!dateStr) return null;
+
+        let parsedDate;
+        if (format === "yyyy") {
+          // Expecting only year
+          const year = parseInt(dateStr, 10);
+          parsedDate = new Date(`${year}-01-01`); // Parse as year
+        } else if (format === "mm-yyyy") {
+          // Expecting month-year
+          const [month, year] = dateStr.split("-");
+          parsedDate = new Date(`${year}-${month}-01`); // Parse as month-year
+        } else {
+          throw new Error(`Unsupported date format '${format}'.`);
+        }
+
+        if (parsedDate.toString() === "Invalid Date") {
+          throw new Error(`Failed to parse date '${dateStr}' with format '${format}'.`);
+        }
+
+        return parsedDate;
+      }
+
+      // Step 3: Process and filter rows
+      const filteredRows = data
+        .filter(row => {
+          const classValue = row[classColumn];
+          const categoryValue = row[categoryColumn];
+          
+          // Skip rows with null category entries
+          if (!categoryValue) return false;
+
+          try {
+            const categoryDate = parseDate(categoryValue, dateFormat);
+            return config.classes.includes(classValue) && categoryDate;
+          } catch (error) {
+            console.error(`Skipping row due to error: ${error.message}`, row);
+            return false;
+          }
+        })
+        .map(row => {
+          const categoryDate = parseDate(row[categoryColumn], dateFormat); // Parse date based on format
+          return {
+            class: row[classColumn],
+            category: categoryDate, // Parsed date object
+            value: row[valueColumn] ? parseFloat(row[valueColumn]) : null // Set missing values to null
+          };
+        })
+        .filter(row => row && row.category); // Filter out any rows where date parsing failed
+
+      // Group by class and sort each group by date (category)
+      const groupedByClass = {};
+      config.classes.forEach(cls => {
+        groupedByClass[cls] = filteredRows
+          .filter(row => row.class === cls)
+          .sort((a, b) => a.category - b.category); // Sort by date (ascending)
+      });
+
+      return convertToEChartsFormat(groupedByClass, dateFormat, config); // Pass dateFormat and config to conversion
+    }
+
+    // Function to convert the grouped data into an ECharts-friendly format
+    function convertToEChartsFormat(groupedData, dateFormat, config) {
+      const eChartsData = [];
+
+      // Iterate over each class in the groupedData
+      for (const className in groupedData) {
+        const classData = groupedData[className];
+
+        // Prepare x and y arrays for ECharts
+        const x = classData.map(item => {
+          const categoryDate = item.category;
+          return dateFormat === "yyyy" 
+            ? categoryDate.getFullYear() 
+            : `${categoryDate.getMonth() + 1}-${categoryDate.getFullYear()}`; // Format for "mm-yyyy"
+        });
+
+        const y = classData.map(item => item.value); // Array of data values
+
+        // Push the formatted data for each class
+        eChartsData.push({
+          name: className, // Class name for the series
+          x: x,
+          y: y
+        });
+      }
+
+      return eChartsData;
+    }
+
+    // Function to download data as CSV
+    function downloadDataAsCSV(data, columnNames) {
+      const csvRows = [];
+      
+      // Add header
+      csvRows.push(`${columnNames.class_column},${columnNames.category_column},${columnNames.value_column}`);
+      
+      // Flatten data for CSV
+      data.forEach(series => {
+        series.x.forEach((category, index) => {
+          const value = series.y[index];
+          csvRows.push(`${series.name},${category},${value}`);
+        });
+      });
+
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'data.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+ // Function to download data as JSON
+ function downloadDataAsJSON(data, columnNames) {
+      const jsonData = data.map(series => {
+        return series.x.map((category, index) => ({
+          [columnNames.class_column]: series.name,
+          [columnNames.category_column]: category,
+          [columnNames.value_column]: series.y[index]
+        }));
+      }).flat(); // Flatten array of arrays into a single array
+
+      const jsonContent = JSON.stringify(jsonData, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'data.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>

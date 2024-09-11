@@ -1,6 +1,9 @@
 # Specs in card.json
 
 ## data
+
+when using classes, first class entry indicates class column
+
 ```
     "data": [
       {
