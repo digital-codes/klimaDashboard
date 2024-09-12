@@ -31,15 +31,41 @@ $base-gray: rgb(128,128,128);
 $black: rgb(0,0,0);
 $white: rgb(255,255,255);
 
-$ka-green: #048500;
-$ka-h-text-light: #000;
-$ka-normal-text-light: #404040;
-$ka-bg-light: #ffffff;
-$ka-h-text-dark: #fff;
-$ka-normal-text-dark: #c0c0c0;
-$ka-bg-dark: #000;
+$dash-green: #048500;
+/*
+$dash-bg-green-light: #f7f9f5;
+$dash-bg-green-dark: #171915;
+$dash-h-text-light: #000;
+$dash-normal-text-light: #404040;
+$dash-bg-light: #ffffff;
+$dash-h-text-dark: #fff;
+$dash-normal-text-dark: #c0c0c0;
+$dash-bg-dark: #000;
+*/
 
- 
+$dash-bg1-light:#ffffff;
+$dash-bg2-light:#f7f9f5;
+$dash-bg1-dark:#000000;
+$dash-bg2-dark:darken($dash-bg2-light,90);
+
+$dash-shadow-light: darken($dash-bg1-light,10);
+$dash-shadow-dark: lighten($dash-bg1-dark,10);
+
+$dash-border-light: lighten($dash-bg1-dark,20);
+$dash-border-dark: darken($dash-bg1-light,20);
+
+$dash-accent-light: lighten($base-orange,10);
+$dash-accent-dark: darken($base-orange,10);
+
+$dash-link-light:$dash-green;
+$dash-link-dark: $dash-green;
+
+$dash-h-text-light: #000;
+$dash-text-light: #404040;
+$dash-h-text-dark: #fff;
+$dash-text-dark:lighten($dash-text-light,90);
+
+/* 
 
 $dark-blue: color.adjust($base-blue,$lightness:-10%);
 $light-blue: color.adjust($base-blue,$lightness:+10%);
@@ -60,3 +86,4 @@ $light-gray: color.adjust($white,$lightness:-15%);
 $light-black: color.adjust($black,$lightness:+5%);
 $dark-dark-gray: color.adjust($black,$lightness:+10%);
 $dark-gray: color.adjust($black,$lightness:+15%);
+*/

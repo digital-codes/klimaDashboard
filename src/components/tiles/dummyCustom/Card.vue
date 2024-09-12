@@ -187,7 +187,7 @@ onBeforeMount(() => {
 
 .switch {
   min-width: 10%;
-  border-color: light-dark($light-blue, $dark-orange) !important;
+  border-color: light-dark($dash-border-light, $dash-border-dark) !important;
   border:1px solid;
   border-radius: 16px;
 }
