@@ -1,11 +1,7 @@
 <template>
   <div class="card">
     <div class="dataheader">
-      <VaAvatar
-        title="Klima Dashboard"
-        :src="basePath + props.logo"
-        size="3rem"
-      />
+      <VaAvatar title="Klima Dashboard" :src="basePath + props.logo" size="3rem" />
       <h1>{{ $t($props.name + ".title") }}</h1>
     </div>
 
@@ -14,83 +10,38 @@
     <p class="weatherdate">{{ $t("measured") }}: {{ weatherDate }}</p>
 
     <div class="row">
-      <VaSlider
-        v-if="controls.range.present"
-        v-model="rangeCtl"
-        :label="cardMessages[locale].rangetitle"
-        class="flex lg6 sm12 xs12 control range"
-        track-label-visible
-      >
+      <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+        class="flex lg6 sm12 xs12 control range" track-label-visible>
         <template #prepend>
-          <VaCounter
-            v-model="rangeCtl"
-            :min="controls.range.min"
-            :max="controls.range.max"
-            class="w-[110px]"
-          />
+          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="w-[110px]" />
         </template>
       </VaSlider>
 
-      <VaSwitch
-        v-if="controls.dataswitch"
-        v-model="dataCtl"
-        :label="cardMessages[locale].dstitle"
-        :false-inner-label="cardMessages[locale].dsleft"
-        :true-inner-label="cardMessages[locale].dsright"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
+        :false-inner-label="cardMessages[locale].dsleft" :true-inner-label="cardMessages[locale].dsright"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch
-        v-if="controls.type"
-        v-model="typeCtl"
-        :label="cardMessages[locale].type"
-        :false-inner-label="cardMessages[locale].typeleft"
-        :true-inner-label="cardMessages[locale].typeright"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.type" v-model="typeCtl" :label="cardMessages[locale].type"
+        :false-inner-label="cardMessages[locale].typeleft" :true-inner-label="cardMessages[locale].typeright"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch
-        v-if="controls.stacked"
-        v-model="stackCtl"
-        :label="cardMessages[locale].stacked"
-        :false-inner-label="cardMessages[locale].no"
-        :true-inner-label="cardMessages[locale].yes"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.stacked" v-model="stackCtl" :label="cardMessages[locale].stacked"
+        :false-inner-label="cardMessages[locale].no" :true-inner-label="cardMessages[locale].yes"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch
-        v-if="controls.animate"
-        v-model="aniCtl"
-        :label="cardMessages[locale].animation"
-        :false-inner-label="cardMessages[locale].no"
-        :true-inner-label="cardMessages[locale].yes"
-        class="flex lg2 control switch"
-        offColor="rgba(100,100,100,.4)"
-        leftLabel
-      />
+      <VaSwitch v-if="controls.animate" v-model="aniCtl" :label="cardMessages[locale].animation"
+        :false-inner-label="cardMessages[locale].no" :true-inner-label="cardMessages[locale].yes"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
     </div>
 
     <div class="row">
-    <div class="chartpane flex lg4 sm6 xs12"
-      v-for="i, idx in Object.keys(dataSet)"
-    >
-      <!-- Chart component goes here -->
-      <WeatherGauge 
-        v-if="chartValid"
-        :data="dataSet[i]"
-        :dataName="cardMessages[locale][dataColumns[idx]]"
-        :dataColumn="dataColumns[idx]"
-        :dataLabels = "dataTopics"
-      ></WeatherGauge>
+      <div class="chartpane flex lg4 sm6 xs12" v-for="i, idx in Object.keys(dataSet)">
+        <!-- Chart component goes here -->
+        <WeatherGauge v-if="chartValid" :data="dataSet[i]" :dataName="cardMessages[locale][dataColumns[idx]]"
+          :dataColumn="dataColumns[idx]" :dataLabels="dataTopics"></WeatherGauge>
+      </div>
     </div>
-    </div>
- 
+
     <div class="chartfooter">
       <!-- source, license, download button -->
 
@@ -126,6 +77,9 @@ import WeatherGauge from "@/components/charts/KaWeatherGauge.vue";
 
 // custom data loader
 import { loadKaWeatherData } from "./Loader.js"
+// data parser for aux data
+import Papa from 'papaparse';
+
 
 
 // for relocated base we need to prepend the base path to dynamic imports
@@ -156,6 +110,7 @@ import cardMessages from "./lang.json";
 import cardSpecs from "./card.json";
 const dataUrl = ref(null);
 const dataName = ref(null);
+
 const dataLicense = ref(null);
 const dataFormat = ref("json"); // json is default
 // we can create series from classes and columns
@@ -171,6 +126,14 @@ const dataClasses = ref(null);
 const data = ref(null);
 const dataSet = ref({});
 const dataTopics = ref([]);
+
+// aux data (optional) must be an object with the same structure as the main data
+const auxUrl = ref(null);
+const auxName = ref(null);
+const auxFormat = ref("csv"); // json is default
+// result will be merged with data
+
+
 
 const meanDate = ref("")
 const weatherDate = ref("")
@@ -211,7 +174,7 @@ const checkUrl = (url) => {
 
 const formatDate = (lang) => {
   if (meanDate.value == "") return ""
-  const options = { timeZone: 'Europe/Berlin',  day: "numeric", month: "numeric", year: "numeric", hour: 'numeric', minute: 'numeric'  }; // Replace 'UTC' with the desired timezone
+  const options = { timeZone: 'Europe/Berlin', day: "numeric", month: "numeric", year: "numeric", hour: 'numeric', minute: 'numeric' }; // Replace 'UTC' with the desired timezone
   const dt = new Date(meanDate.value)
   return dt.toLocaleString(lang, options);
 }
@@ -256,6 +219,7 @@ const updateData = async (index) => {
   dataName.value = cardMessages[locale.value].dsname[index] || "Data";
   // then load data
   await loadData()
+  await loadAux(cardSpecs)
 
   chartValid.value = true;
 };
@@ -338,6 +302,59 @@ const loadData = async () => {
   } catch (error) {
     console.error("Error:", error);
   }
+}
+
+// for this tile we use a custom loader. the charts don't load data themselves
+const loadAux = async (cardSpecs) => {
+  if (cardSpecs.data.length < 2) return
+  const url = checkUrl(cardSpecs.data[1].url)
+  const format = cardSpecs.data[1].format || "csv"
+  if (format != "csv") {
+    alert("Unsupported format for aux data")
+    return
+  }
+
+  console.log("Fetching: ", url);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const auxKeys = [];
+  // assume csv
+  const csvString = await response.text();
+  //console.log("raw CSV:",csvString)
+  Papa.parse(csvString, {
+    header: true,
+    dynamicTyping: true,
+    complete: async function (results) {
+      //console.log("CSV parsed:", results.data);
+      const auxData = results.data.filter((d) => d.measured_at != null);
+      // field names must be same as main data!
+      //console.log("AuxData:", auxData);
+      const auxRow = {
+        body: [{
+          measured_at: auxData[auxData.length - 1].measured_at,
+          data: {
+            temperature: auxData[auxData.length - 1].temperature,
+            humidity: auxData[auxData.length - 1].humidity,
+            pressure: Math.ceil(auxData[auxData.length - 1].pressure * 100),
+            irradiation: auxData[auxData.length - 1].irradiation,
+          }
+        }
+        ]
+      }
+      data.value["lubw"] = auxRow
+      dataTopics.value.push("lubw")
+      dataSet.value["temperature"].values.push(auxRow.body[0].data.temperature)
+      dataSet.value["temperature"].mt.push(auxRow.body[0].measured_at)
+      dataSet.value["humidity"].values.push(auxRow.body[0].data.humidity)
+      dataSet.value["humidity"].mt.push(auxRow.body[0].measured_at)
+      dataSet.value["irradiation"].values.push(auxRow.body[0].data.irradiation)
+      dataSet.value["irradiation"].mt.push(auxRow.body[0].measured_at)
+      dataSet.value["pressure"].values.push(auxRow.body[0].data.pressure)
+      dataSet.value["pressure"].mt.push(auxRow.body[0].measured_at)
+    },
+  });
 }
 
 

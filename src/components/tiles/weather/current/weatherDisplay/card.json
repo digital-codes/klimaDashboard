@@ -1,43 +1,58 @@
 {
-    "data": [
-      {
-        "url": "https://dashboard.daten.city/php/corsProxy.php?topic=albtal,kaiserplatz,sonnenbad",
-        "license": "CC-BY-4.0",
-        "name": "Wetter Karlsruhe",
-        "format": "json",
-        "xaxis": "measured_at",
-        "columns": [
-          "temperature","humidity","pressure","irradiation"
-        ],
-        "classes": [
-        ]
-      }
-    ],
-    "chart": {
-      "updating": false
+  "data": [
+    {
+      "url": "https://dashboard.daten.city/php/corsProxy.php?topic=albtal,kaiserplatz,sonnenbad",
+      "license": "CC-BY-4.0",
+      "name": "Wetter Karlsruhe",
+      "format": "json",
+      "xaxis": "measured_at",
+      "columns": [
+        "temperature",
+        "humidity",
+        "pressure",
+        "irradiation"
+      ],
+      "classes": []
     },
-    "controls": {
-      "range": {
-        "present": false,
-        "min": 1,
-        "max": 100
-      },
-      "type": {
-        "present": false,
-        "options": [
-          "line",
-          "bar"
-        ]
-      },
-      "stacked": {
-        "present": false
-      },
-      "dataswitch": {
-        "present": false
-      },
-      "animate": {
-        "present": false
-      }
+    {
+      "url": "https://transparenz.karlsruhe.de/dataset/21a50a64-fbdc-4ba5-94fb-0b1f27fb81b6/resource/78e9816b-0f18-47b8-845b-905f50d9513d/download/lubw.csv",
+      "license": "CC-ND-4.0",
+      "name": "LUBW Wetter Karlsruhe",
+      "format": "csv",
+      "xaxis": "measured_at",
+      "columns": [
+        "temperature",
+        "humidity",
+        "pressure",
+        "irradiation"
+      ],
+      "classes": []
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "controls": {
+    "range": {
+      "present": false,
+      "min": 1,
+      "max": 100
+    },
+    "type": {
+      "present": false,
+      "options": [
+        "line",
+        "bar"
+      ]
+    },
+    "stacked": {
+      "present": false
+    },
+    "dataswitch": {
+      "present": false
+    },
+    "animate": {
+      "present": false
     }
   }
-
+}

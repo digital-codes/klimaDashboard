@@ -85,6 +85,10 @@ const props = defineProps({
     type: String,
     default: "card",
   },
+  prefix: {
+    type: String,
+    default: "../",
+  },
   logo: {
     type: String,
     // no leading / here
@@ -252,7 +256,7 @@ onBeforeMount(async () => {
   console.log(props.name, " - Current locale:", locale.value);
   const supportedLanguages = configStore.getLanguages;
 
-  const cardContent = await import(`../${props.name}/text.json`);
+  const cardContent = await import(`${props.prefix}/${props.name}/text.json`);
   console.log(props.name, " - Card content loaded");
 
   for (const key in cardContent) {
@@ -260,7 +264,7 @@ onBeforeMount(async () => {
     content.value[key] = cardContent[key];
   }
 
-  cardMessages.value = await import(`../${props.name}/lang.json`)
+  cardMessages.value = await import(`${props.prefix}/${props.name}/lang.json`)
   console.log(props.name, " - Card messages loaded");
 
   for (const key in supportedLanguages) {
@@ -278,7 +282,7 @@ onBeforeMount(async () => {
   }
   */
 
-  cardSpecs.value = await import(`../${props.name}/card.json`)
+  cardSpecs.value = await import(`${props.prefix}/${props.name}/card.json`)
   console.log(props.name, " - Card cardSpecs.value loaded");
   if (cardSpecs.value.controls) {
     console.log("Specs:", cardSpecs.value);

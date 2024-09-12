@@ -15,9 +15,6 @@ const breakpoint = useBreakpoint();
 import { lineBarDefaults, updateEchartsOptions } from '@/composables/EchartsUtils';
 
 
-
-// data parser
-import Papa from 'papaparse';
 // https://www.data-forge-js.com/
 // https://github.com/data-forge/data-forge-ts/blob/master/docs/guide.md
 
@@ -140,8 +137,6 @@ watch(() => props.dataName, async (newValue, oldValue) => {
 
 const updateOptions = async () => {
   const size = breakpoint.smUp ? "large" : "small";
-  console.log("Size:", size)
-  //console.log("Data:", props.data)
   //console.log("name:", props.dataName)
   //console.log("col:", props.dataColumn)
 
@@ -237,7 +232,7 @@ const chartOptions = ref(
         min: columnSpecs(props.dataColumn).min,
         max: columnSpecs(props.dataColumn).max,
         splitNumber: columnSpecs(props.dataColumn).split,
-        color: ["#ff0000", "#00ff00", "#0000ff"],
+        color: ["#ff0000", "#00ff00", "#0000ff", "#ffff00"],
         progress: {
           show: true,
           overlap: false,
@@ -299,7 +294,7 @@ const chartOptions = ref(
             name: "A",
             title: {
               show: true,
-              offsetCenter: ["-120%", 20]
+              offsetCenter: ["-100%", 20]
             },
             value: 20,
           },
@@ -307,7 +302,8 @@ const chartOptions = ref(
             name: "B",
             title: {
               show: true,
-              offsetCenter: [0, 20]
+              offsetCenter: ["-100%", 40]
+              //offsetCenter: [0, 20]
             },
             value: 50.123
           },
@@ -315,7 +311,15 @@ const chartOptions = ref(
             name: "C",
             title: {
               show: true,
-              offsetCenter: ["120%", 20]
+              offsetCenter: ["100%", 20]
+            },
+            value: 30
+          },
+          {
+            name: "D",
+            title: {
+              show: true,
+              offsetCenter: ["100%", 40]
             },
             value: 30
           }
