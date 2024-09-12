@@ -169,7 +169,7 @@ const mlist1 = ref([true]) // accordion open state
       <VaSidebar v-model="showSidebar" v-if="msgsLoaded" width="20rem">
         <VaSidebarItem @click="goto('/')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaIcon class="material-icons-outlined" name="home" size="large" />
+            <VaIcon class="material-icons-outlined" name="home" size="2rem" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.home") }}
             </VaSidebarItemTitle>
@@ -178,7 +178,7 @@ const mlist1 = ref([true]) // accordion open state
 
         <VaSidebarItem @click="goto('/dash1')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+            <VaImage src="/icons/wheather.svg" alt="Icon Wheater and Climate" style="width:2rem;" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.dash1") }}
             </VaSidebarItemTitle>
@@ -218,7 +218,7 @@ const mlist1 = ref([true]) // accordion open state
           <VaSidebarItemContent style="display:flex; flex-direction: column;align-items:baseline;"
             @click="mlist1[0] = !mlist1[0]">
             <div style="display:flex;align-items:center;">
-              <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+              <VaImage src="/icons/protection.svg" alt="Icon Climate Protection" style="width:2rem;" />
               <VaSidebarItemTitle>
                 {{ $t("sidebar.dash2") }}
               </VaSidebarItemTitle>
@@ -231,7 +231,7 @@ const mlist1 = ref([true]) // accordion open state
                   <VaSidebarItem @click="goto('/dash2_1')" tabindex="0" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+                      <VaIcon class="material-icons-outlined" name="insert_chart" size="2rem" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_1") }}
                       </VaSidebarItemTitle>
@@ -240,7 +240,7 @@ const mlist1 = ref([true]) // accordion open state
                   <VaSidebarItem @click="goto('/dash2_2')" tabindex="1" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+                      <VaIcon class="material-icons-outlined" name="insert_chart" size="2rem" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_2") }}
                       </VaSidebarItemTitle>
@@ -249,7 +249,7 @@ const mlist1 = ref([true]) // accordion open state
                   <VaSidebarItem @click="goto('/dash2_3')" tabindex="2" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+                      <VaImage src="/icons/emissions.svg" alt="Icon CO2 Emissions" style="width:2rem;" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_3") }}
                       </VaSidebarItemTitle>
@@ -263,7 +263,7 @@ const mlist1 = ref([true]) // accordion open state
 
         <VaSidebarItem @click="goto('/dash3')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+            <VaIcon class="material-icons-outlined" name="insert_chart" size="2rem" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.dash3") }}
             </VaSidebarItemTitle>
@@ -273,7 +273,7 @@ const mlist1 = ref([true]) // accordion open state
 
         <VaSidebarItem @click="goto('/imprint')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaIcon class="material-icons-outlined" name="info" size="large" />
+            <VaIcon class="material-icons-outlined" name="info" size="2rem" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.imprint") }}
             </VaSidebarItemTitle>
@@ -281,7 +281,7 @@ const mlist1 = ref([true]) // accordion open state
         </VaSidebarItem>
         <VaSidebarItem @click="goto('/gdpr')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaIcon class="material-icons-outlined" name="privacy_tip" size="large" />
+            <VaIcon class="material-icons-outlined" name="privacy_tip" size="2rem" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.gdpr") }}
             </VaSidebarItemTitle>

@@ -9,7 +9,7 @@
     -->
 
     <div class="dataheader">
-      <VaAvatar  title="Klima Dashboard" :src="modeSwitch == 'dark' ? climate_d : climate_l" size="3rem"/>
+      <VaAvatar  title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem"/>
       <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : 'xy'">{{ $t($props.name + ".title") }}</h1>
     </div>
 
@@ -120,6 +120,10 @@ const props = defineProps({
   name: {
     type: String,
     default: "card",
+  },
+  icons: {
+    type: Array,
+    default: [climate_l,climate_d]
   },
   logo: {
     type: String,

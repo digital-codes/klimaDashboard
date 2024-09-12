@@ -1,0 +1,59 @@
+{
+  					
+
+  "data": [
+    {
+      "url": "data/karlsruhe/ksk1TstwkEnergie.csv",
+      "license": "CC-BY-4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "MHh",
+      "columns": [
+        "MengeÖkostrom",
+        "MengeNeutralgas",
+        "MengeBiogas10"
+      ],
+      "classes": []
+    },
+    {
+      "url": "data/karlsruhe/ksk1TstwkEnergie.csv",
+      "license": "CC BY 4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "Anzahl",
+      "columns": [
+        "AnzahlÖkostrom",
+        "AnzahlNeutralgas",
+        "AnzahlBiogas10"
+      ],
+      "classes": []
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "controls": {
+    "range": {
+      "present": true,
+      "axis": "y"
+    },
+    "type": {
+      "present": true,
+      "options": [
+        "line",
+        "bar"
+      ]
+    },
+    "stacked": {
+      "present": true
+    },
+    "dataswitch": {
+      "present": true
+    },
+    "animate": {
+      "present": true
+    }
+  }
+}
