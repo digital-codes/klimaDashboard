@@ -166,7 +166,7 @@ const mlist1 = ref([true]) // accordion open state
     </template>
 
     <template #left>
-      <VaSidebar v-model="showSidebar" v-if="msgsLoaded">
+      <VaSidebar v-model="showSidebar" v-if="msgsLoaded" width="20rem">
         <VaSidebarItem @click="goto('/')" tabindex="0" role="link">
           <VaSidebarItemContent>
             <VaIcon class="material-icons-outlined" name="home" size="large" />
@@ -215,18 +215,21 @@ const mlist1 = ref([true]) // accordion open state
 
 
         <VaSidebarItem>
-          <VaSidebarItemContent style="display:flex; flex-direction: column;align-items:baseline;" @click="mlist1[0] = !mlist1[0]">
+          <VaSidebarItemContent style="display:flex; flex-direction: column;align-items:baseline;"
+            @click="mlist1[0] = !mlist1[0]">
             <div style="display:flex;align-items:center;">
-              <VaIcon class="material-icons-outlined" name="insert_chart" size="large"/>
-            <VaSidebarItemTitle>
-              {{ $t("sidebar.dash2") }}
-            </VaSidebarItemTitle>
-            <VaIcon class="material-icons-outlined" :name="mlist1[0]?'keyboard_arrow_up':'keyboard_arrow_down'" size="large"/>
-          </div>
-            <VaAccordion v-model="mlist1" style="flex-direction: column;align-items:baseline;">
+              <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+              <VaSidebarItemTitle>
+                {{ $t("sidebar.dash2") }}
+              </VaSidebarItemTitle>
+              <VaIcon class="material-icons-outlined" :name="mlist1[0] ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+                size="large" />
+            </div>
+            <VaAccordion v-model="mlist1" style="flex-direction: column;align-items:baseline;margin-left:0;">
               <VaCollapse>
                 <template #body >
-                  <VaSidebarItem @click="goto('/dash2_1')" tabindex="0" role="link" style="padding: 0;margin-left:1rem;">
+                  <VaSidebarItem @click="goto('/dash2_1')" tabindex="0" role="link"
+                    style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
                       <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
                       <VaSidebarItemTitle>
@@ -234,7 +237,8 @@ const mlist1 = ref([true]) // accordion open state
                       </VaSidebarItemTitle>
                     </VaSidebarItemContent>
                   </VaSidebarItem>
-                  <VaSidebarItem @click="goto('/dash2_2')" tabindex="1" role="link" style="padding: 0;margin-left:1rem;">
+                  <VaSidebarItem @click="goto('/dash2_2')" tabindex="1" role="link"
+                    style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
                       <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
                       <VaSidebarItemTitle>
@@ -242,9 +246,27 @@ const mlist1 = ref([true]) // accordion open state
                       </VaSidebarItemTitle>
                     </VaSidebarItemContent>
                   </VaSidebarItem>
+                  <VaSidebarItem @click="goto('/dash2_3')" tabindex="2" role="link"
+                    style="padding: 0;margin-left:1rem;">
+                    <VaSidebarItemContent>
+                      <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+                      <VaSidebarItemTitle>
+                        {{ $t("sidebar.dash2_3") }}
+                      </VaSidebarItemTitle>
+                    </VaSidebarItemContent>
+                  </VaSidebarItem>
                 </template>
               </VaCollapse>
             </VaAccordion>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+
+        <VaSidebarItem @click="goto('/dash3')" tabindex="0" role="link">
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="insert_chart" size="large" />
+            <VaSidebarItemTitle>
+              {{ $t("sidebar.dash3") }}
+            </VaSidebarItemTitle>
           </VaSidebarItemContent>
         </VaSidebarItem>
 
@@ -273,7 +295,7 @@ const mlist1 = ref([true]) // accordion open state
       <main class="p-4" id="main">
 
         <!-- use noto color emoji like so -->
-         <!--
+        <!--
         <va-icon class="emoji"> &#x1F600; Click me! &#x1F389;</va-icon>
         -->
 
@@ -308,8 +330,8 @@ main {
 
 .emoji {
   font-family: 'Noto Color Emoji';
-  font-size: 1.5rem!important;
-  font-weight:400;
+  font-size: 1.5rem !important;
+  font-weight: 400;
 }
 
 .btt-button {
@@ -342,14 +364,14 @@ main {
   text-align: left;
   margin-left: 1rem;
 }
-
-
 </style>
 
 <style>
 .va-collapse__header {
-  display:none;
+  display: none;
 }
-
+.va-collapse__body-wrapper {
+  overflow-x: hidden;
+}
 
 </style>

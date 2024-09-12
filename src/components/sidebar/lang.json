@@ -6,6 +6,8 @@
     "dash2": "Climate Protection",
     "dash2_1": "Communal Actions",
     "dash2_2": "Private Actions",
+    "dash2_3": "Greenhouse Gas Accounting",
+    "dash3": "Climate Adaptation",
     "imprint": "Imprint",
     "gdpr": "GDPR"
   },
@@ -16,6 +18,8 @@
     "dash2": "Klimaschutz",
     "dash2_1": "Städt. Maßnahmen",
     "dash2_2": "Private Maßnahmen",
+    "dash2_3": "THG Bilanzierung",
+    "dash3": "Klimaanpassung",
     "imprint": "Impressum",
     "gdpr": "Datenschutz"
   }

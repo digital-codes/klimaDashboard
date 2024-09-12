@@ -16,22 +16,34 @@ const routes = [
   {
     path: '/dash1',
     name: 'Dash1',
-    component: () => import('@/views/DataView.vue'),
+    component: () => import('@/views/WeatherView.vue'),
   },
+  /*
   {
     path: '/dash2',
     name: 'Dash2',
     component: () => import('@/views/DataView.vue'),
   },
+  */
   {
     path: '/dash2_1',
     name: 'Dash2_1',
-    component: () => import('@/views/ImprintView.vue'),
+    component: () => import('@/views/ProtectPublicView.vue'),
   },
   {
     path: '/dash2_2',
     name: 'Dash2_2',
-    component: () => import('@/views/GdprView.vue'),
+    component: () => import('@/views/ProtectPrivateView.vue'),
+  },
+  {
+    path: '/dash2_3',
+    name: 'Dash2_3',
+    component: () => import('@/views/GhgView.vue'),
+  },
+  {
+    path: '/dash3',
+    name: 'Dash3',
+    component: () => import('@/views/AdaptView.vue'),
   },
   {
     path: '/imprint',
