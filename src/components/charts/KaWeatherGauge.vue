@@ -92,9 +92,9 @@ const chartStyle = ref(
 const setTheme = (theme) => {
   chartTheme.value = theme;
   if (theme == "dark") {
-    chartOptions.value.series[0].color = ["white","orange","yellow"]
+    chartOptions.value.series[0].color = ["white","orange","yellow","cyan"]
   } else {
-    chartOptions.value.series[0].color = ["green","blue","red"]
+    chartOptions.value.series[0].color = ["green","blue","red","orange"]
   }
 }
 
@@ -232,7 +232,7 @@ const chartOptions = ref(
         min: columnSpecs(props.dataColumn).min,
         max: columnSpecs(props.dataColumn).max,
         splitNumber: columnSpecs(props.dataColumn).split,
-        color: ["#ff0000", "#00ff00", "#0000ff", "#ffff00"],
+        colorBy: "data",
         progress: {
           show: true,
           overlap: false,
@@ -240,7 +240,7 @@ const chartOptions = ref(
           width: 20,
           itemStyle: {
             borderWidth: 2,
-            borderColor: '#000000'
+            borderColor: '#000000',
           }
         },
         tooltip: {
