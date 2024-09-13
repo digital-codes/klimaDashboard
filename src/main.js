@@ -11,8 +11,16 @@ import "@fontsource/source-sans-pro/400-italic.css"; // Specify weight and style
 
 // include only latin ...
 //import "@fontsource/roboto"; // Defaults to weight 400
-import "@fontsource/roboto/latin.css"; // Defaults to weight 400
-import "@fontsource/roboto-condensed/latin.css"; // Defaults to weight 400
+//import "@fontsource/roboto/latin.css"; // Defaults to weight 400
+//import "@fontsource/roboto-condensed/latin.css"; // Defaults to weight 400
+// normally, we use only 400,500 and 700 weights
+import "@fontsource/roboto/latin-400.css"; // Defaults to weight 400
+import "@fontsource/roboto-condensed/latin-400.css"; // Defaults to weight 400
+import "@fontsource/roboto/latin-500.css"; // Defaults to weight 400
+import "@fontsource/roboto-condensed/latin-500.css"; // Defaults to weight 400
+import "@fontsource/roboto/latin-700.css"; // Defaults to weight 400
+import "@fontsource/roboto-condensed/latin-700.css"; // Defaults to weight 400
+
 
 // https://www.npmjs.com/package/material-icons
 // https://marella.me/material-icons/demo/
@@ -35,8 +43,11 @@ import "@fontsource/noto-color-emoji"; // Defaults to weight 400
 import "@fontsource/noto-color-emoji/400.css"; // Specify weight
 import "@fontsource/noto-color-emoji/400-italic.css"; // Specify weight and style
 */
-import "@fontsource/noto-sans/latin.css"; // Defaults to weight 400
-import "@fontsource/noto-color-emoji/400.css";
+// import "@fontsource/noto-sans/latin.css"; // Defaults to weight 400
+import "@fontsource/noto-sans/latin-700.css"; // Used only in h2 with weigh 700
+// noto emojis are very large, so use them only when needed
+//import "@fontsource/noto-color-emoji/400.css";
+
 /* use noto emojis like so:
 <va-icon class="emoji"> &#x1F600; Click me! &#x1F389;</va-icon>
 .emoji {

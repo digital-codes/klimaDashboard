@@ -60,13 +60,13 @@ import icon1_l from "@/assets/icons/dashboard/wheather.svg?url"
 import icon2_l from "@/assets/icons/dashboard/house.svg?url"
 import icon3_l from "@/assets/icons/dashboard/protection.svg?url"
 import icon4_l from "@/assets/icons/dashboard/emissions.svg?url"
-import icon5_l from "@/assets/icons/dashboard/emissions.svg?url"
+import icon5_l from "@/assets/icons/dashboard/adaptation.svg?url"
 
 import icon1_d from "@/assets/icons/dashboard/wheather_d.svg?url"
 import icon2_d from "@/assets/icons/dashboard/house_d.svg?url"
 import icon3_d from "@/assets/icons/dashboard/protection_d.svg?url"
 import icon4_d from "@/assets/icons/dashboard/emissions_d.svg?url"
-import icon5_d from "@/assets/icons/dashboard/emissions_d.svg?url"
+import icon5_d from "@/assets/icons/dashboard/adaptation_d.svg?url"
 
 const icons = ref({
   "icon1": icon1_l,
@@ -290,7 +290,7 @@ const mlist1 = ref([true]) // accordion open state
                   <VaSidebarItem @click="goto('/dash2_3')" tabindex="2" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaImage :src="modeSwitch == 'light' ? '/icons/emissions.svg' : '/icons/emissions_d.svg'"
+                      <VaImage :src="icons.icon4"
                         alt="Icon CO2 Emissions" style="width:2rem;" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_3") }}
@@ -305,7 +305,8 @@ const mlist1 = ref([true]) // accordion open state
 
         <VaSidebarItem @click="goto('/dash3')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaIcon class="material-icons-outlined" name="insert_chart" size="2rem" />
+            <VaImage :src="icons.icon5"
+              alt="Icon Climate Adaptation" style="width:2rem;" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.dash3") }}
             </VaSidebarItemTitle>

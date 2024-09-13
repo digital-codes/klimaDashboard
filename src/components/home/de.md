@@ -10,5 +10,4 @@ Das Klimadashboard zeigt den aktuellen Datenstand zu verschiedenen Indikatoren v
 
 Entwickelt wurde das Klimadashboard von der Stabsstelle Smart City und der Stabsstelle Klima der Stadt Karlsruhe mit Unterstützung von den Stadtwerken Karlsruhe und der Wirtschaftsförderung Karlsruhe. Wir arbeiten stetig daran, die Verfügbarkeit der Daten zu verbessern. 
 
-Das Klimadashboard wird im Rahmen des Förderprogramms „Modellprojekte Smart Cities“ aus Mitteln des Bundesministeriums für Wohnen, Stadtentwicklung und Bauwesen (BMWSB) gefördert.
 

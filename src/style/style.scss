@@ -418,7 +418,10 @@ button:focus-visible {
   p {
     margin-top:.8rem;
     margin-bottom:.3rem;
+    /* inter character doesn't look good
     text-justify: inter-character;
+    */
+    text-justify: auto;
     word-wrap: break-word;
     text-align: justify;    
   }
@@ -433,7 +436,7 @@ button:focus-visible {
   }
 
   strong {
-    font-weight: bolder;
+    font-weight: 700;
   }
 
   .footerimg {
