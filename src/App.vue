@@ -144,10 +144,12 @@ const mlist1 = ref([true]) // accordion open state
             role="switch" :aria-checked="showSidebar ? 'true' : 'false'" />
         </template>
         <template #center>
-          <VaNavbarItem role="link" aria-label="Click for Home">
+          <VaNavbarItem v-if="breakpoints.mdUp"><span class="headline left">{{ $t("climate") }}</span></VaNavbarItem>  
+            <VaNavbarItem role="link" aria-label="Click for Home">
             <VaImage :src="logo" :title='t("logo")' fit="fit" class="logoimg" @click="router.push({ name: 'Home' })">
             </VaImage>
           </VaNavbarItem>
+          <VaNavbarItem v-if="breakpoints.mdUp"><span class="headline right">Karlsruhe</span></VaNavbarItem>  
         </template>
         <template #right>
           <div class="langselect">
@@ -178,7 +180,7 @@ const mlist1 = ref([true]) // accordion open state
 
         <VaSidebarItem @click="goto('/dash1')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaImage src="/icons/wheather.svg" alt="Icon Wheater and Climate" style="width:2rem;" />
+            <VaImage :src="modeSwitch=='light'?'/icons/wheather.svg':'/icons/wheather_d.svg'" alt="Icon Wheater and Climate" style="width:2rem;" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.dash1") }}
             </VaSidebarItemTitle>
@@ -218,7 +220,7 @@ const mlist1 = ref([true]) // accordion open state
           <VaSidebarItemContent style="display:flex; flex-direction: column;align-items:baseline;"
             @click="mlist1[0] = !mlist1[0]">
             <div style="display:flex;align-items:center;">
-              <VaImage src="/icons/protection.svg" alt="Icon Climate Protection" style="width:2rem;" />
+              <VaImage :src="modeSwitch=='light'?'/icons/protection.svg':'/icons/protection_d.svg'" alt="Icon Climate Protection" style="width:2rem;" />
               <VaSidebarItemTitle>
                 {{ $t("sidebar.dash2") }}
               </VaSidebarItemTitle>
@@ -249,7 +251,7 @@ const mlist1 = ref([true]) // accordion open state
                   <VaSidebarItem @click="goto('/dash2_3')" tabindex="2" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaImage src="/icons/emissions.svg" alt="Icon CO2 Emissions" style="width:2rem;" />
+                      <VaImage :src="modeSwitch=='light'?'/icons/emissions.svg':'/icons/emissions_d.svg'" alt="Icon CO2 Emissions" style="width:2rem;" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_3") }}
                       </VaSidebarItemTitle>
@@ -372,6 +374,24 @@ main {
 }
 .va-collapse__body-wrapper {
   overflow-x: hidden;
+}
+
+.headline {
+  font-size: 2rem;
+  font-weight: 500;
+}
+.headline.left {
+  margin:0;
+  padding:0;
+  width: 10rem;
+  text-align:left
+}
+
+.headline.right {
+  margin:0;
+  padding:0;
+  width: 10rem;
+  text-align: right;
 }
 
 </style>

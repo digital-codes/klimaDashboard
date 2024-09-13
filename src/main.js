@@ -12,6 +12,7 @@ import "@fontsource/source-sans-pro/400-italic.css"; // Specify weight and style
 // include only latin ...
 //import "@fontsource/roboto"; // Defaults to weight 400
 import "@fontsource/roboto/latin.css"; // Defaults to weight 400
+import "@fontsource/roboto-condensed/latin.css"; // Defaults to weight 400
 
 // https://www.npmjs.com/package/material-icons
 // https://marella.me/material-icons/demo/

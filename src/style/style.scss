@@ -101,7 +101,13 @@
   --va-background-primary: light-dark($dash-bg1-light,$dash-bg1-dark);
 
 }
-
+// use condensed font for small screens
+@media screen and (max-width: 500px) {
+  :root {
+    font-family: "Roboto Condensed";
+    --va-font-family: "Roboto Condensed";
+  }
+}
 
 a {
   font-weight: 500;

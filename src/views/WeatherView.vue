@@ -1,9 +1,10 @@
 <template>
 
-  <HeaderCard name="header" @filter="filterTag" id="dh" :icons="[wheater_l,wheater_d]"/>
+  <HeaderCard name="header" @filter="filterTag" id="dh" :icons="[wheater_l, wheater_d]" />
 
   <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
-    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :prefix="tile.prefix" class="tile">
+    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
+      :part="tile.part" class="tile">
     </component>
   </div>
 
@@ -20,20 +21,15 @@ import { defineAsyncComponent } from 'vue'
 // special header for the datavies
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
 
-import wheater_l from "@/assets/icons/generated/wheather2_black_on_transparent.svg"
-import wheater_d from "@/assets/icons/generated/wheather2_white_on_transparent.svg"
+import wheater_l from "@/assets/icons/generated/wheather.svg"
+import wheater_d from "@/assets/icons/generated/wheather_d.svg"
 
 
 const tiles = [
-// using template for linebar. maybe still loads component multiple times. ptah prefix needed for dynamic import with template
-{ "name": "KaWeather", "prefix":"../","tag": "E",  "component": defineAsyncComponent(() => import("@/components/tiles/weather/current/weatherDisplay/Card.vue")) },
-//{ "name": "KskKa_d_energy", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "KskKa_d_energy", "prefix":"../protect/actions","tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "KskKa_d_ghg", "prefix":"../protect/thg","tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "KskKa_d_stwkenergy", "prefix":"../protect/actions","tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "DummyTable", "prefix":"../","tag": "D", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyTable/Card.vue")) },
-{ "name": "DummyGraphics", "prefix":"../","tag": "B",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyGraphics/Card.vue")) },
-{ "name": "DummyMap", "prefix":"../","tag": "C",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyMap/Card.vue")) }
+  // using template for linebar. maybe still loads component multiple times. need section and part for dynamic import with template
+  // final import from ../<section>/<part>/<name>/
+    { "name": "KaWeather", "section": "", "part": "", "tag": "E", "component": defineAsyncComponent(() => import("@/components/tiles/weather/current/weatherDisplay/Card.vue")) },
+  { "name": "DummyMap", "section": "", "part": "", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyMap/Card.vue")) }
 ]
 
 // use anchor to give a unique reference to each tile

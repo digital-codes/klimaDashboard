@@ -85,9 +85,13 @@ const props = defineProps({
     type: String,
     default: "card",
   },
-  prefix: {
+  section: {
     type: String,
-    default: "../",
+    default: "",
+  },
+  part: {
+    type: String,
+    default: "",
   },
   logo: {
     type: String,
@@ -255,17 +259,17 @@ onBeforeMount(async () => {
   //currentLocale.value = configStore.getCurrentLocale
   console.log(props.name, " - Current locale:", locale.value);
   const supportedLanguages = configStore.getLanguages;
-
-  const cardContent = await import(`${props.prefix}/${props.name}/text.json`);
-  console.log(props.name, " - Card content loaded");
+  const cardContent = await import(`../${props.section}/${props.part}/${props.name}/text.json`); 
+  //const cardContent = await import(`../tileSpecs/${props.name}/text.json`); 
+  console.log(`../${props.section}/${props.part}/${props.name}/text.json`, " - Card content loaded");
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
     content.value[key] = cardContent[key];
   }
 
-  cardMessages.value = await import(`${props.prefix}/${props.name}/lang.json`)
-  console.log(props.name, " - Card messages loaded");
+  cardMessages.value = await import(`../${props.section}/${props.part}/${props.name}/lang.json`) 
+  console.log(`../${props.section}/${props.part}/${props.name}/lang.json`, " - Card messages loaded");
 
   for (const key in supportedLanguages) {
     const lang = supportedLanguages[key]
@@ -282,8 +286,8 @@ onBeforeMount(async () => {
   }
   */
 
-  cardSpecs.value = await import(`${props.prefix}/${props.name}/card.json`)
-  console.log(props.name, " - Card cardSpecs.value loaded");
+  cardSpecs.value = await import(`../${props.section}/${props.part}/${props.name}/card.json`) 
+  console.log(`../${props.section}/${props.part}/${props.name}/card.json`, " - Card cardSpecs.value loaded");
   if (cardSpecs.value.controls) {
     console.log("Specs:", cardSpecs.value);
     if (cardSpecs.value.controls.range.present) {

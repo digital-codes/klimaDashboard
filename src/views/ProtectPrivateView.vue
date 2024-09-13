@@ -3,7 +3,8 @@
   <HeaderCard name="header" @filter="filterTag" id="dh" />
 
   <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
-    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :prefix="tile.prefix" class="tile">
+    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
+      :part="tile.part" class="tile">
     </component>
   </div>
 
@@ -21,12 +22,13 @@ import { defineAsyncComponent } from 'vue'
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
 
 const tiles = [
-// using template for linebar. maybe still loads component multiple times. ptah prefix needed for dynamic import with template
-{ "name": "KskKa_d_energy", "prefix":"../protect/actions","tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "KskKa_d_ghg", "prefix":"../protect/thg","tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "KskKa_d_stwkenergy", "prefix":"../protect/actions","tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-{ "name": "DummyTable", "prefix":"../", "tag": "D", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyTable/Card.vue")) },
-{ "name": "DummyGraphics", "prefix":"../", "tag": "B",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyGraphics/Card.vue")) },
+  // using template for linebar. maybe still loads component multiple times. need section and part for dynamic import with template
+  // final import from ../<section>/<part>/<name>/
+  { "name": "KskKa_d_energy", "section": "protect", "part": "actions", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+  { "name": "KskKa_d_ghg", "section": "protect", "part": "thg", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+  { "name": "KskKa_d_stwkenergy", "section": "protect", "part": "actions", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+  { "name": "DummyTable", "prefix": "../", "tag": "D", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyTable/Card.vue")) },
+  { "name": "DummyGraphics", "prefix": "../", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyGraphics/Card.vue")) },
 ]
 
 // use anchor to give a unique reference to each tile

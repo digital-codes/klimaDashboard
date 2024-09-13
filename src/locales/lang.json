@@ -8,7 +8,8 @@
         "totop":"Go to top",
         "menu": "Toggle sidebar menu",
         "date": "Date",
-        "measured": "Measured at"
+        "measured": "Measured at",
+        "climate": "Climate"
    
     },
     "de": {
@@ -20,6 +21,7 @@
         "totop":"Nach oben",
         "menu": "Navigation umschalten",
         "date": "Datum",
-        "measured": "Gemessen am"
+        "measured": "Gemessen am",
+        "climate": "Klima"
         }
 }
