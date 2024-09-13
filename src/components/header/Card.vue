@@ -46,8 +46,8 @@ import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, computed, watch } from "vue";
 
-import climate_l from "@/assets/icons/generated/climate_black_on_transparent.svg"
-import climate_d from "@/assets/icons/generated/climate_white_on_transparent.svg"
+import climate_l from "@/assets/icons/dashboard/climate.svg?url"
+import climate_d from "@/assets/icons/dashboard/climate_d.svg?url"
 
 import { useBreakpoint } from "vuestic-ui";
 
@@ -73,36 +73,6 @@ const modeSwitch = computed({
 */
 
 const filters = ref([
-  {
-    "label": "climate",
-    "value": true,
-    "icon": "co2",
-    "name": "A"
-  },
-  {
-    "label": "energy",
-    "value": true,
-    "icon": "power",
-    "name": "B"
-  },
-  {
-    "label": "mobility",
-    "value": true,
-    "icon": "directions_bus",
-    "name": "C"
-  },
-  {
-    "label": "buildings",
-    "value": true,
-    "icon": "other_houses",
-    "name": "D"
-  },
-  {
-    "label": "other",
-    "value": true,
-    "icon": "settings",
-    "name": "E"
-  }
 ]);
 
 /*
@@ -123,6 +93,7 @@ const props = defineProps({
   },
   icons: {
     type: Array,
+    required: true,
     default: [climate_l,climate_d]
   },
   logo: {
@@ -148,7 +119,7 @@ const action = (tag) => {
 const content = ref({});
 
 
-import { loadHdrMsgs, loadHdrText, loadHdrSpecs } from "@/composables/LoadSpecs"
+import { loadMsgs, loadText, loadSpecs } from "@/composables/LoadSpecs"
 
 onBeforeMount(async () => {
   // Code to execute when the component is mounted
@@ -156,15 +127,10 @@ onBeforeMount(async () => {
   // localized content
   const supportedLanguages = configStore.getLanguages;
 
-  const tstProps = {
-    name: "wheather",
-    section: "header",
-    part:"configs"
-  }
-  console.log("Test Props:", tstProps)
-  const cardContent = await loadHdrText(tstProps,supportedLanguages)
-  const cardMessages = await loadHdrMsgs(tstProps,supportedLanguages)
-  const cardSpecs = await loadHdrSpecs(tstProps)
+  const cardContent = await loadText(props,supportedLanguages,"hdr")
+  const cardMessages = await loadMsgs(props,supportedLanguages,"hdr")
+  const cardSpecs = await loadSpecs(props,"hdr")
+  console.log("Hdr Specs:", cardSpecs)
 
   // localization data
   for (const key in cardMessages) {
@@ -178,6 +144,12 @@ onBeforeMount(async () => {
   }
 
   modeSwitch.value = configStore.getTheme
+
+  // filters, optional
+  if (cardSpecs.filters) {
+    console.log("Filters:", cardSpecs.filters)
+    filters.value = cardSpecs.filters
+  }
 
 });
 </script>

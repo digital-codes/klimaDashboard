@@ -1,4 +1,4 @@
-Privater Klimaschutz! 
+Klimaanpassung! 
 
 Diese Plattform bietet umfassende Einblicke in lokale Klimadaten und Umweltstatistiken. Nutzer können hier aktuelle Informationen zu Energieverbrauch, Emissionen, Verkehrsmustern und erneuerbaren Energien finden. 
 

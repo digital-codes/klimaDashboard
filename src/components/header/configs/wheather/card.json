@@ -1,18 +1,5 @@
 {
-  "en": {
-    "title": "Karlsruhe Current Wheater",
-    "climate": "Climate",
-    "energy": "Energy",
-    "mobility": "Mobility",
-    "buildings": "Building",
-    "other": "Other"
-  },
-  "de": {
-    "title": "Wetter in Karlsruhe",
-    "climate": "Klima",
-    "energy": "Energie",
-    "mobility": "Mobilität",
-    "buildings": "Gebäude",
-    "other": "Sonstiges"
-  }
+  "filters":
+  [
+  ]
 }

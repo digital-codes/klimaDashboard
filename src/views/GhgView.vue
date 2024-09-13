@@ -1,6 +1,6 @@
 <template>
 
-  <HeaderCard name="header" @filter="filterTag" id="dh" />
+  <HeaderCard name="ghg" @filter="filterTag" id="dh"  :icons="[icon_l, icon_d]"/>
 
   <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
     <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
@@ -20,6 +20,8 @@ import { defineAsyncComponent } from 'vue'
 
 // special header for the datavies
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
+import icon_l from "@/assets/icons/dashboard/emissions.svg?url"
+import icon_d from "@/assets/icons/dashboard/emissions_d.svg?url"
 
 const tiles = [
   // using template for linebar. maybe still loads component multiple times. need section and part for dynamic import with template

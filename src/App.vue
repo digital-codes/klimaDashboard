@@ -33,11 +33,47 @@ const modeSwitch = computed({
     // set color-scheme for non-vuestic components
     if (value === "dark") {
       document.body.style["color-scheme"] = "dark"
+      icons.value = {
+        "icon1": icon1_d,
+        "icon2": icon2_d,
+        "icon3": icon3_d,
+        "icon4": icon4_d,
+        "icon5": icon5_d,
+      }
     } else {
       document.body.style["color-scheme"] = "light"
+      icons.value = {
+        "icon1": icon1_l,
+        "icon2": icon2_l,
+        "icon3": icon3_l,
+        "icon4": icon4_l,
+        "icon5": icon5_l,
+      }
     }
     configStore.setTheme(value);
   }
+})
+
+// ----------------------------
+// load sidebar icons
+import icon1_l from "@/assets/icons/dashboard/wheather.svg?url"
+import icon2_l from "@/assets/icons/dashboard/house.svg?url"
+import icon3_l from "@/assets/icons/dashboard/protection.svg?url"
+import icon4_l from "@/assets/icons/dashboard/emissions.svg?url"
+import icon5_l from "@/assets/icons/dashboard/emissions.svg?url"
+
+import icon1_d from "@/assets/icons/dashboard/wheather_d.svg?url"
+import icon2_d from "@/assets/icons/dashboard/house_d.svg?url"
+import icon3_d from "@/assets/icons/dashboard/protection_d.svg?url"
+import icon4_d from "@/assets/icons/dashboard/emissions_d.svg?url"
+import icon5_d from "@/assets/icons/dashboard/emissions_d.svg?url"
+
+const icons = ref({
+  "icon1": icon1_l,
+  "icon2": icon2_l,
+  "icon3": icon3_l,
+  "icon4": icon4_l,
+  "icon5": icon5_l
 })
 
 // ----------------------------
@@ -144,12 +180,12 @@ const mlist1 = ref([true]) // accordion open state
             role="switch" :aria-checked="showSidebar ? 'true' : 'false'" />
         </template>
         <template #center>
-          <VaNavbarItem v-if="breakpoints.mdUp"><span class="headline left">{{ $t("climate") }}</span></VaNavbarItem>  
-            <VaNavbarItem role="link" aria-label="Click for Home">
+          <VaNavbarItem v-if="breakpoints.mdUp"><span class="headline left">{{ $t("climate") }}</span></VaNavbarItem>
+          <VaNavbarItem role="link" aria-label="Click for Home">
             <VaImage :src="logo" :title='t("logo")' fit="fit" class="logoimg" @click="router.push({ name: 'Home' })">
             </VaImage>
           </VaNavbarItem>
-          <VaNavbarItem v-if="breakpoints.mdUp"><span class="headline right">Karlsruhe</span></VaNavbarItem>  
+          <VaNavbarItem v-if="breakpoints.mdUp"><span class="headline right">Karlsruhe</span></VaNavbarItem>
         </template>
         <template #right>
           <div class="langselect">
@@ -180,7 +216,7 @@ const mlist1 = ref([true]) // accordion open state
 
         <VaSidebarItem @click="goto('/dash1')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaImage :src="modeSwitch=='light'?'/icons/wheather.svg':'/icons/wheather_d.svg'" alt="Icon Wheater and Climate" style="width:2rem;" />
+            <VaImage :src="icons.icon1" alt="Icon Wheater and Climate" style="width:2rem;" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.dash1") }}
             </VaSidebarItemTitle>
@@ -220,7 +256,8 @@ const mlist1 = ref([true]) // accordion open state
           <VaSidebarItemContent style="display:flex; flex-direction: column;align-items:baseline;"
             @click="mlist1[0] = !mlist1[0]">
             <div style="display:flex;align-items:center;">
-              <VaImage :src="modeSwitch=='light'?'/icons/protection.svg':'/icons/protection_d.svg'" alt="Icon Climate Protection" style="width:2rem;" />
+              <VaImage :src="icons.icon3" 
+                alt="Icon Climate Protection" style="width:2rem;" />
               <VaSidebarItemTitle>
                 {{ $t("sidebar.dash2") }}
               </VaSidebarItemTitle>
@@ -229,11 +266,12 @@ const mlist1 = ref([true]) // accordion open state
             </div>
             <VaAccordion v-model="mlist1" style="flex-direction: column;align-items:baseline;margin-left:0;">
               <VaCollapse>
-                <template #body >
+                <template #body>
                   <VaSidebarItem @click="goto('/dash2_1')" tabindex="0" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaIcon class="material-icons-outlined" name="insert_chart" size="2rem" />
+                      <VaImage :src="icons.icon3" 
+                        alt="Icon Climate Protection Communal" style="width:2rem;" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_1") }}
                       </VaSidebarItemTitle>
@@ -242,7 +280,8 @@ const mlist1 = ref([true]) // accordion open state
                   <VaSidebarItem @click="goto('/dash2_2')" tabindex="1" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaIcon class="material-icons-outlined" name="insert_chart" size="2rem" />
+                      <VaImage :src="icons.icon2" 
+                        alt="Icon Climate Protection Private" style="width:2rem;" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_2") }}
                       </VaSidebarItemTitle>
@@ -251,7 +290,8 @@ const mlist1 = ref([true]) // accordion open state
                   <VaSidebarItem @click="goto('/dash2_3')" tabindex="2" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
-                      <VaImage :src="modeSwitch=='light'?'/icons/emissions.svg':'/icons/emissions_d.svg'" alt="Icon CO2 Emissions" style="width:2rem;" />
+                      <VaImage :src="modeSwitch == 'light' ? '/icons/emissions.svg' : '/icons/emissions_d.svg'"
+                        alt="Icon CO2 Emissions" style="width:2rem;" />
                       <VaSidebarItemTitle>
                         {{ $t("sidebar.dash2_3") }}
                       </VaSidebarItemTitle>
@@ -372,6 +412,7 @@ main {
 .va-collapse__header {
   display: none;
 }
+
 .va-collapse__body-wrapper {
   overflow-x: hidden;
 }
@@ -380,18 +421,18 @@ main {
   font-size: 2rem;
   font-weight: 500;
 }
+
 .headline.left {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   width: 10rem;
-  text-align:left
+  text-align: left
 }
 
 .headline.right {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   width: 10rem;
   text-align: right;
 }
-
 </style>

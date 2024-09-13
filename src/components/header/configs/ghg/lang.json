@@ -1,6 +1,6 @@
 {
   "en": {
-    "title": "Private Climate Protection",
+    "title": "Greenhouse Gas Emissions",
     "climate": "Climate",
     "energy": "Energy",
     "mobility": "Mobility",
@@ -8,7 +8,7 @@
     "other": "Other"
   },
   "de": {
-    "title": "Privater Klimaschutz",
+    "title": "Treibhausgasemissionen",
     "climate": "Klima",
     "energy": "Energie",
     "mobility": "Mobilität",

@@ -1,6 +1,6 @@
 {
   "en": {
-    "title": "Karlsruhe Climate Dashboard",
+    "title": "Climate Adaptations",
     "climate": "Climate",
     "energy": "Energy",
     "mobility": "Mobility",
@@ -8,7 +8,7 @@
     "other": "Other"
   },
   "de": {
-    "title": "Klima Dashboard Karlsruhe",
+    "title": "Klimaanpassung",
     "climate": "Klima",
     "energy": "Energie",
     "mobility": "Mobilität",

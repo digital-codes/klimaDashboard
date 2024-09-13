@@ -8,11 +8,11 @@ import { ref, watch, onMounted } from 'vue';
 import { nextTick } from 'vue';
 
 //import pkw from "@/assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_pkw.svg?url";
-import pkw from "@/assets/icons/generated/car.svg?url";
-import pkw2 from "@/assets/logos/generated/bikes_white_on_transparent.svg?url"
+import pkw from "@/assets/icons/dashboard/car.svg?url";
+import pkw2 from "@/assets/icons/dashboard/bikes.svg?url"
 // import bus from "@/assets/icons/ModalSplit/MS_Klimadashboard_Icons_m_modalsplit_bus.svg?url";
-import bus from "@/assets/icons/generated/house.svg?url";
-import bus2 from "@/assets/logos/generated/fossils_white_on_transparent.svg?url";
+import bus from "@/assets/icons/dashboard/house.svg?url";
+import bus2 from "@/assets/icons/dashboard/fossils.svg?url";
 
 
 const updateCategoryValues = (val) => {

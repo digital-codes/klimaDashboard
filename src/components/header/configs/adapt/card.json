@@ -2,6 +2,12 @@
   "filters":
   [
   {
+    "label": "climate",
+    "value": true,
+    "icon": "co2",
+    "name": "A"
+  },
+  {
     "label": "energy",
     "value": true,
     "icon": "power",
