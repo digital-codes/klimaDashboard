@@ -4,10 +4,17 @@ import path from 'path';
 // monitor markdown for dev mode. not needed in webbuild
 import mdMonitorPlugin from './tools/mdMonitorPlugin';
 
+import Sitemap from 'vite-plugin-sitemap'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    Sitemap({
+      hostname: 'https://dashboard.daten.city',
+      readable: true,
+      //dynamicRoutes,
+    }),
     mdMonitorPlugin(), // Register the custom plugin
     ],
   resolve: {
