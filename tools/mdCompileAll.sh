@@ -74,6 +74,17 @@ else
 	fi
 	cd $P 
 
+	for i in `find $P/src/components/header/configs -type d`; do
+		echo $i;
+		cd $i
+		if test -f card.json;
+			then node $P/tools/mdCompile.cjs
+		else
+			echo "Skipping `pwd`"
+		fi
+		cd $P 
+	done
+
 
 	#for i in `ls -R -1 $P/src/components/tiles/`; do
 	for i in `find $P/src/components/tiles -type d`; do

@@ -10,7 +10,7 @@
 
     <div class="dataheader">
       <VaAvatar  title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem"/>
-      <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : 'xy'">{{ $t($props.name + ".title") }}</h1>
+      <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : ''">{{ $t($props.name + ".title") }}</h1>
     </div>
 
 
@@ -139,21 +139,32 @@ const action = (tag) => {
 };
 
 // read localized card content
-import cardContent from "./text.json";
+//import cardContent from "./text.json";
 
 // read localized card messages
-import cardMessages from "./lang.json";
+//import cardMessages from "./lang.json";
 
 // content pane
 const content = ref({});
 
 
+import { loadHdrMsgs, loadHdrText, loadHdrSpecs } from "@/composables/LoadSpecs"
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
   // localized content
   const supportedLanguages = configStore.getLanguages;
+
+  const tstProps = {
+    name: "wheather",
+    section: "header",
+    part:"configs"
+  }
+  console.log("Test Props:", tstProps)
+  const cardContent = await loadHdrText(tstProps,supportedLanguages)
+  const cardMessages = await loadHdrMsgs(tstProps,supportedLanguages)
+  const cardSpecs = await loadHdrSpecs(tstProps)
 
   // localization data
   for (const key in cardMessages) {
