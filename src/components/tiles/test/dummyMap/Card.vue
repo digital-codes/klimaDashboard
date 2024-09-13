@@ -42,7 +42,7 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleMap :dataUrl="dataUrl"></SimpleMap>
+      <SimpleMap :dataUrl="dataUrl" @data="capture"></SimpleMap>
     </div>
 
     <div class="chartfooter">
@@ -57,11 +57,11 @@
       </VaChip>
       -->
 
-      <VaButton round @click="console.log('Click')" icon="download">
+      <VaButton round @click="downJson" icon="download">
         {{ $t($props.name + ".download") }}
       </VaButton>
 
-      <VaButton round @click="console.log('Click')" icon="download">
+      <VaButton round @click="exportMap" icon="download">
         {{ $t($props.name + ".downimage") }}
       </VaButton>
 
@@ -79,6 +79,7 @@ import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
 import SimpleMap from "@/components/charts/SimpleMap.vue"
+import html2canvas from 'html2canvas';
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL
@@ -128,6 +129,61 @@ const checkUrl = (url) => {
     return basePath + url
   }
 }
+
+const mapData = ref(null)
+const mapInstance = ref(null)
+
+const capture = (data) => {
+  mapData.value = data.content
+  mapInstance.value = data.map
+} 
+
+const exportMap = async () => {
+      if (mapInstance.value) {
+        try {
+          /*
+          const panes = mapInstance.value.getPanes();
+          panes.tilePane.style.zIndex = '1';    // Tiles should be at the bottom
+          panes.overlayPane.style.zIndex = '2'; // Overlays (markers, etc.)
+          panes.markerPane.style.zIndex = '3';  // Markers should be higher
+          panes.popupPane.style.zIndex = '4';   // Popups and tooltips on top
+          */
+          const canvas = await html2canvas(mapInstance.value._container, {
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: null,
+            logging: false,
+            scrollX: 0,
+            scrollY: 0,
+            width: mapInstance.value.offsetWidth,
+            height: mapInstance.value.offsetHeight,
+          });
+          const imageUrl = await canvas.toDataURL('image/png');
+          const filename = dataName.value + ".png";
+          const link = document.createElement("a");
+          link.href = imageUrl;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } catch (error) {
+          console.error('Error exporting map:', error);
+        }
+      }
+    };
+
+const downJson = async () => {
+  const data = JSON.stringify(mapData.value);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${dataName.value}.json`
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
 
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index)

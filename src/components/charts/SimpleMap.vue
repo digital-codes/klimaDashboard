@@ -9,6 +9,8 @@ import { ref, onMounted, onUnmounted } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+const emit = defineEmits(["data"]);
+
 //const Lref = ref(L);
 const mapInstance = ref(null);
 const theMap = ref(null);
@@ -27,6 +29,7 @@ const EPSG4326 = "+proj=longlat +datum=WGS84 +no_defs";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
 
 const geojsonData1 = {
   type: "FeatureCollection",
@@ -168,6 +171,7 @@ onMounted(() => {
     },
   })
   geoLayer.value.addTo(mapInstance.value);
+  emit("data", { content: geojsonData.value, id: theMap.value, L: Lref.value, map: mapInstance.value });
 });
 
 onUnmounted(async () => {

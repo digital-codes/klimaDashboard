@@ -17,6 +17,7 @@
     "@fontsource/source-sans-pro": "^5.0.8",
     "axios": "^1.7.7",
     "data-forge": "^1.10.2",
+    "html2canvas": "^1.4.1",
     "leaflet": "^1.9.4",
     "material-icons": "^1.13.12",
     "papaparse": "^5.4.1",

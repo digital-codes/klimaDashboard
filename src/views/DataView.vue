@@ -33,10 +33,10 @@ const tiles = [
 //{ "name": "DummyLineCjs", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineCjs/Card.vue")) },
 //{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
 //  { "name": "DummyCustom", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/dummyCustom/Card.vue")) },
-{ "name": "DummyTable", "tag": "D", "component": defineAsyncComponent(() => import("@/components/tiles/dummyTable/Card.vue")) },
+{ "name": "DummyTable", "tag": "D", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyTable/Card.vue")) },
 { "name": "DummyGraphics", "tag": "B",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGraphics/Card.vue")) },
 // { "name": "DummyGauge", "tag": "D",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGauge/Card.vue")) },
-{ "name": "DummyMap", "tag": "C",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyMap/Card.vue")) }
+{ "name": "DummyMap", "tag": "C",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyMap/Card.vue")) }
 ]
 
 // use anchor to give a unique reference to each tile
