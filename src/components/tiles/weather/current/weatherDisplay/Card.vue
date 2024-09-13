@@ -376,7 +376,6 @@ onBeforeMount(async () => {
 
   const specs = cardSpecs;
   if (specs.controls) {
-    console.log("Specs:", specs);
     if (specs.controls.range.present)
       controls.value.range = specs.controls.range;
     if (specs.controls.dataswitch.present && cardSpecs.data.length > 1)
@@ -386,7 +385,6 @@ onBeforeMount(async () => {
       controls.value.stacked = specs.controls.stacked;
     if (specs.controls.animate.present)
       controls.value.animate = specs.controls.animate;
-    console.log("Ctls:", controls.value);
   }
   updateData(0);
 });

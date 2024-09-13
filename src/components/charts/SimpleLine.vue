@@ -42,7 +42,7 @@ import {
 import { useColors } from "vuestic-ui";
 const { currentPresetName } = useColors();
 
-const emit = defineEmits(["xrange", "yrange"]);
+const emit = defineEmits(["xrange", "yrange","series"]);
 
 const props = defineProps({
   /* Add your props here */
@@ -387,8 +387,10 @@ const loadData = async () => {
     const xrange = chartOptions.value.xAxis.data
     console.log("Emitting x range",xrange);
     emit("xrange", [xrange[0], xrange[xrange.length - 1]])
-
     dataLoaded.value = true;
+    await nextTick();
+    // emit data after data loaded, else chart intance is not ready
+    emit("series", {"x":chartOptions.value.xAxis.data,"cols":fullData.value, "chart":theChart.value},theChart.value);
   } catch (error) {
     console.error("Failed to load chart data:", error);
   }
@@ -435,7 +437,7 @@ onUnmounted(() => {
 
 <template>
   <v-chart v-if="dataLoaded" ref="theChart" :option="chartOptions" :style="{ height: '100%' }" :theme="chartTheme"
-    :init-options="{ renderer: 'canvas' }" autoresize :aria-label="ariaLabel">
+    :init-options="{ renderer: 'canvas' }" autoresize :aria-label="ariaLabel" @ready="onChartReady">
   </v-chart>
 </template>
 

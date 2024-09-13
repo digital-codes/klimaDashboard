@@ -39,7 +39,9 @@
         :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY" :rangeValue="rangeCtl"
         :rangeAxis="rangeAxis" :dataFormat="dataFormat" :labelX="labelX" :labelY="labelY" :type="chartType"
         :stacked="stackCtl" :animate="aniCtl" :ariaLabel="ariaLabel" :locale="chartLocale" @xrange="setXrange"
-        @yrange="setYrange"></SimpleLine>
+        @yrange="setYrange"
+        @series="capture"
+        ></SimpleLine>
     </div>
 
     <div class="chartfooter">
@@ -54,11 +56,11 @@
       </VaChip>
       -->
 
-      <VaButton round @click="console.log('Click')" icon="download">
+      <VaButton round @click="csvDown" icon="download">
         {{ cardMessages[locale].download }}
       </VaButton>
 
-      <VaButton round @click="console.log('Click')" icon="download">
+      <VaButton round @click="imgDown" icon="download">
         {{ cardMessages[locale].downimage }}
       </VaButton>
     </div>
@@ -75,6 +77,8 @@ const configStore = useConfigStore();
 
 
 import SimpleLine from "@/components/charts/SimpleLine.vue";
+
+import { downloadDataAsCSV, downloadDataAsJSON } from "@/composables/DataDown";
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL;
@@ -158,6 +162,11 @@ const ariaLabel = ref("Aria LineChart");
 
 const animateSwitch = ref(null);
 
+// data from chart => download
+const seriesData = ref(null);
+const chartInstance = ref(null);
+
+
 // content pane
 const content = ref({});
 
@@ -200,6 +209,35 @@ const updateData = async (index) => {
   dataName.value = cardMessages.value[locale.value].dsname[index] || "Data";
   ariaLabel.value = cardMessages.value[locale.value].aria + ": " + dataName.value
   chartValid.value = true;
+};
+
+
+const csvDown = () => {
+  if (!seriesData.value) return;
+  const url = downloadDataAsCSV(seriesData.value)
+  if (!url) return;
+  const filename = dataName.value + ".csv";
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+const imgDown = () => {
+  if (!chartInstance.value) return;
+  const imgUrl = chartInstance.value.getDataURL({
+    pixelRatio: 2,
+    backgroundColor: '#fff'
+  });
+  const filename = dataName.value + ".png";
+  const link = document.createElement("a");
+  link.href = imgUrl;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };
 
 
@@ -251,17 +289,22 @@ const setYrange = async (range) => {
   }
 };
 
+const capture = async (data,instance) => {
+  chartInstance.value = instance;
+  // capture data from chart after update
+  data.xLabel = labelX.value;
+  seriesData.value = data;
+};
+
 
 
 onBeforeMount(async () => {
   // Code to execute when the component is mounted
   // localized content
   //currentLocale.value = configStore.getCurrentLocale
-  console.log(props.name, " - Current locale:", locale.value);
   const supportedLanguages = configStore.getLanguages;
   const cardContent = await import(`../${props.section}/${props.part}/${props.name}/text.json`); 
   //const cardContent = await import(`../tileSpecs/${props.name}/text.json`); 
-  console.log(`../${props.section}/${props.part}/${props.name}/text.json`, " - Card content loaded");
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
@@ -269,11 +312,9 @@ onBeforeMount(async () => {
   }
 
   cardMessages.value = await import(`../${props.section}/${props.part}/${props.name}/lang.json`) 
-  console.log(`../${props.section}/${props.part}/${props.name}/lang.json`, " - Card messages loaded");
 
   for (const key in supportedLanguages) {
     const lang = supportedLanguages[key]
-    console.log(key, cardMessages.value[lang])
     if (cardMessages.value[lang].aria === undefined)
       cardMessages.value[lang].aria = "Aria " + lang;
   }
@@ -287,9 +328,7 @@ onBeforeMount(async () => {
   */
 
   cardSpecs.value = await import(`../${props.section}/${props.part}/${props.name}/card.json`) 
-  console.log(`../${props.section}/${props.part}/${props.name}/card.json`, " - Card cardSpecs.value loaded");
   if (cardSpecs.value.controls) {
-    console.log("Specs:", cardSpecs.value);
     if (cardSpecs.value.controls.range.present) {
       controls.value.range = cardSpecs.value.controls.range;
       console.log("Range:", controls.value.range);

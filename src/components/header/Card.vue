@@ -130,7 +130,6 @@ onBeforeMount(async () => {
   const cardContent = await loadText(props,supportedLanguages,"hdr")
   const cardMessages = await loadMsgs(props,supportedLanguages,"hdr")
   const cardSpecs = await loadSpecs(props,"hdr")
-  console.log("Hdr Specs:", cardSpecs)
 
   // localization data
   for (const key in cardMessages) {
@@ -147,7 +146,6 @@ onBeforeMount(async () => {
 
   // filters, optional
   if (cardSpecs.filters) {
-    console.log("Filters:", cardSpecs.filters)
     filters.value = cardSpecs.filters
   }
 
