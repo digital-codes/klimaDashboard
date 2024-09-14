@@ -9,12 +9,12 @@
     -->
 
     <div class="dataheader">
-      <VaAvatar  title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem"/>
+      <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem" />
       <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : ''">{{ $t($props.name + ".title") }}</h1>
     </div>
 
 
-    
+
     <!-- 
     <p class="headertext">{{ $t($props.name + ".text") }}</p>
     -->
@@ -24,12 +24,8 @@
     </div>
 
     <div class="flex flex-wrap">
-      <VaSwitch v-for="(filter, index) in filters" class="filter"
-      :key="index" 
-      v-model="filter.value" 
-      :label="t(props.name + '.' + filter.label)" 
-      right-label
-      @input="action(filter.name)">
+      <VaSwitch v-for="(filter, index) in filters" class="filter" :key="index" v-model="filter.value"
+        :label="t(props.name + '.' + filter.label)" right-label @input="action(filter.name)">
         <template #innerLabel>
           <div class="va-text-center">
             <VaIcon :name="filter.icon" />
@@ -58,7 +54,7 @@ import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 const modeSwitch = ref("light")
 
-watch (() => configStore.getTheme, (newVal, oldVal) => {
+watch(() => configStore.getTheme, (newVal, oldVal) => {
   console.log("Mode switch1:", newVal)
   modeSwitch.value = configStore.getTheme
 })
@@ -94,7 +90,7 @@ const props = defineProps({
   icons: {
     type: Array,
     required: true,
-    default: [climate_l,climate_d]
+    default: [climate_l, climate_d]
   },
   logo: {
     type: String,
@@ -121,15 +117,19 @@ const content = ref({});
 
 import { loadMsgs, loadText, loadSpecs } from "@/composables/LoadSpecs"
 
+const mdAction = (tag) => {
+  console.log("Action:", tag)
+}
+
 onBeforeMount(async () => {
   // Code to execute when the component is mounted
   // Merge card specific messages with global
   // localized content
   const supportedLanguages = configStore.getLanguages;
 
-  const cardContent = await loadText(props,supportedLanguages,"hdr")
-  const cardMessages = await loadMsgs(props,supportedLanguages,"hdr")
-  const cardSpecs = await loadSpecs(props,"hdr")
+  const cardContent = await loadText(props, supportedLanguages, "hdr")
+  const cardMessages = await loadMsgs(props, supportedLanguages, "hdr")
+  const cardSpecs = await loadSpecs(props, "hdr")
 
   // localization data
   for (const key in cardMessages) {
@@ -139,7 +139,26 @@ onBeforeMount(async () => {
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
-    content.value[key] = cardContent[key];
+
+    let updatedContent = cardContent[key];
+    /*
+    const buttonNames = cardContent[key].match(/<button name="([^"]+)"/g);
+    if (buttonNames && buttonNames.length > 0) {
+      console.log("Button names:", buttonNames);
+      const buttons = buttonNames.map((button) => button.match(/<button name="([^"]+)"/)[1]);
+      console.log("Buttons:", buttons);
+      updatedContent = cardContent[key];
+      console.log("Updated content:", updatedContent);
+      buttons.forEach((button, index) => {
+        console.log("Funtion:",mdAction)
+        const btn = `<button onclick='mdAction(${button})' `
+        console.log("Button:", btn);
+        updatedContent = updatedContent.replace(buttonNames[index], btn);
+      });
+      console.log("Updated content2:", updatedContent);
+    }
+    */
+    content.value[key] = updatedContent;
   }
 
   modeSwitch.value = configStore.getTheme
@@ -204,7 +223,4 @@ onBeforeMount(async () => {
   margin-right: 1rem;
   margin-bottom: .3rem;
 }
-
-
-
 </style>

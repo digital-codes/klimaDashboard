@@ -1,7 +1,7 @@
 {
   "en": {
     "title": "Communal Climate Protection",
-    "climate": "Climate",
+    "economy": "Economy",
     "energy": "Energy",
     "mobility": "Mobility",
     "buildings": "Building",
@@ -9,10 +9,10 @@
   },
   "de": {
     "title": "Städtischer Klimaschutz",
-    "climate": "Klima",
-    "energy": "Energie",
+    "economy": "Wirtschaft",
+    "energy": "Wärme und Strom",
     "mobility": "Mobilität",
-    "buildings": "Gebäude",
-    "other": "Sonstiges"
+    "buildings": "Bauen und Sanieren",
+    "other": "Übergreifendes"
   }
 }

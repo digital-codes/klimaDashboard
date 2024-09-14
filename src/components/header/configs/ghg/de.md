@@ -1,7 +1,8 @@
-Treibhausgase
+## Treibhausgasbilanzierung als Basis für kommunales Klimaschutz-Monitoring
 
+Mit einer jährlichen Energie- und Treibhausgasbilanz kann eine Kommune kontrollieren, ob die angestrebten Klimaziele auch eingehalten werden. Inzwischen hat sich das Klimaziel „Klimaneutralität“ bis zu einem bestimmten Zieljahr durchgesetzt. Oft gibt es auch Zwischenziele.
 
-Diese Plattform bietet umfassende Einblicke in lokale Klimadaten und Umweltstatistiken. Nutzer können hier aktuelle Informationen zu Energieverbrauch, Emissionen, Verkehrsmustern und erneuerbaren Energien finden. 
+Die Stadt Karlsruhe strebt bis 2040 die Klimaneutralität an. Es besteht weiterhin für 2030 ein Zwischenziel, zu dem 58% der Treibhausgase reduziert werden sollen. Das Vergleichsjahr ist hier 2010, d.h. die Stadt Karlsruhe will in 20 Jahren ihre Treibhausgasemission um 58% verringern. Die Treibhausgasbilanz wird aus dem Energieverbrauch der einzelnen Energieträger pro Jahr berechnet. Der Energieverbrauch wird dann je nach Energieträger mit einem spezifischen Emissionsfaktor umgerechnet.
 
-Das Dashboard dient als wertvolles Werkzeug für Bewohner, Planer und Entscheidungsträger, um die Auswirkungen von Klimaschutzmaßnahmen zu verstehen und zu bewerten. Unsere interaktiven Karten und Diagramme ermöglichen es Ihnen, Daten zu explorieren und fundierte Entscheidungen zu treffen, um unsere Gemeinde nachhaltiger zu gestalten.
-
+### Monitoring
+Kernstück des kommunalen Klimaschutz-Monitorings ist die kommunale Energie- und Treibhausgasbilanzierung (THG-Bilanzierung). Eine THG-Bilanz dient Kommunen als Basis für ihre Klimaschutzarbeit. Sie gibt einen Überblick über die Verteilung der Energieverbräuche und daraus resultierenden THG-Emissionen, aufgeteilt nach Sektoren und Energieträgern einer Kommune. In der THG-Bilanz lässt sich beispielsweise erkennen, welche Sektoren die größten Verbräuche vor Ort haben und welche Energieträger in der Kommune eingesetzt werden. Darauf aufbauend können Schwerpunkte bei der Maßnahmenplanung gesetzt und Klimaschutzstrategien abgeleitet werden. Anhand der Bilanz lassen sich außerdem verschiedene Unterziele festlegen und der Grad der Zielerreichung kontrollieren. THG-Bilanzen sind deshalb ein wichtiger Baustein des kommunalen Klimaschutz-Monitorings.  

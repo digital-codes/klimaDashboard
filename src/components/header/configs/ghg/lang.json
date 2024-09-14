@@ -1,6 +1,6 @@
 {
   "en": {
-    "title": "Greenhouse Gas Emissions",
+    "title": "Greenhousegas Emissions",
     "climate": "Climate",
     "energy": "Energy",
     "mobility": "Mobility",
@@ -8,7 +8,7 @@
     "other": "Other"
   },
   "de": {
-    "title": "Treibhausgasemissionen",
+    "title": "Treibhausgas Bilanzierung",
     "climate": "Klima",
     "energy": "Energie",
     "mobility": "Mobilität",
