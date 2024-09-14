@@ -1,6 +1,6 @@
 <template>
 
-  <HeaderCard name="wheather" @filter="filterTag" id="dh" :icons="[icon_l, icon_d]" />
+  <HeaderCard name="weather" @filter="filterTag" id="dh" :icons="[icon_l, icon_d]" />
 
   <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
     <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
@@ -21,8 +21,8 @@ import { defineAsyncComponent } from 'vue'
 // special header for the datavies
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
 
-import icon_l from "@/assets/icons/dashboard/wheather.svg?url"
-import icon_d from "@/assets/icons/dashboard/wheather_d.svg?url"
+import icon_l from "@/assets/icons/dashboard/weather.svg?url"
+import icon_d from "@/assets/icons/dashboard/weather_d.svg?url"
 
 
 const tiles = [

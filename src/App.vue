@@ -56,13 +56,13 @@ const modeSwitch = computed({
 
 // ----------------------------
 // load sidebar icons
-import icon1_l from "@/assets/icons/dashboard/wheather.svg?url"
+import icon1_l from "@/assets/icons/dashboard/weather.svg?url"
 import icon2_l from "@/assets/icons/dashboard/house.svg?url"
 import icon3_l from "@/assets/icons/dashboard/protection.svg?url"
 import icon4_l from "@/assets/icons/dashboard/emissions.svg?url"
 import icon5_l from "@/assets/icons/dashboard/adaptation.svg?url"
 
-import icon1_d from "@/assets/icons/dashboard/wheather_d.svg?url"
+import icon1_d from "@/assets/icons/dashboard/weather_d.svg?url"
 import icon2_d from "@/assets/icons/dashboard/house_d.svg?url"
 import icon3_d from "@/assets/icons/dashboard/protection_d.svg?url"
 import icon4_d from "@/assets/icons/dashboard/emissions_d.svg?url"
@@ -216,7 +216,7 @@ const mlist1 = ref([true]) // accordion open state
 
         <VaSidebarItem @click="goto('/dash1')" tabindex="0" role="link">
           <VaSidebarItemContent>
-            <VaImage :src="icons.icon1" alt="Icon Wheater and Climate" style="width:2rem;" />
+            <VaImage :src="icons.icon1" alt="Icon Weather and Climate" style="width:2rem;" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.dash1") }}
             </VaSidebarItemTitle>
