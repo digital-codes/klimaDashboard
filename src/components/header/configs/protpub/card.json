@@ -30,6 +30,7 @@
     "value": true,
     "icon": "directions_bus",
     "link": "https://www.cern.ch",
+    "img": "/images/testing.jpg",
     "content": "444444444444444444444\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n",
     "name": "D"
   },

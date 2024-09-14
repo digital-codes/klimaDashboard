@@ -9,6 +9,12 @@
     </h3>
     <p class="item" v-for="(item,index) in props.content.split('\n')" :key="index">{{ item }}</p>
     <a v-if="props.link > ''" :href="props.link" target="_blank" class="va-link">Learn more</a>
+    <VaImage v-if="props.img != null"
+      :src="props.img"
+      alt="Image"
+      class="va-image"
+      >
+    </VaImage>
   </VaModal>
 </template>
 
@@ -20,6 +26,10 @@ const props = defineProps({
   link: {
     String,
     default: 'https://www.cern.ch'
+  },
+  img: {
+    String,
+    default: null
   },
   open: {
     type: Boolean,

@@ -1,1 +1,74 @@
-<svg color="currentColor" data-name="Ebene 1" id="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Ebene_1" viewBox="0 0 196.86 122.31" xmlns="http://www.w3.org/2000/svg" class="h-20 fill-primary md:h-32"><path d="M156.4 118.6c-9.15 0-16.6-7.45-16.6-16.6s7.45-16.6 16.6-16.6S173 92.85 173 102s-7.45 16.6-16.6 16.6Zm0-30.7c-7.77 0-14.1 6.32-14.1 14.1s6.33 14.1 14.1 14.1 14.1-6.32 14.1-14.1-6.32-14.1-14.1-14.1ZM40.84 118.6c-9.15 0-16.6-7.45-16.6-16.6s7.45-16.6 16.6-16.6 16.6 7.45 16.6 16.6-7.45 16.6-16.6 16.6Zm0-30.7c-7.77 0-14.1 6.32-14.1 14.1s6.32 14.1 14.1 14.1 14.1-6.32 14.1-14.1-6.32-14.1-14.1-14.1Z"></path><path d="m125.73 102.3-62.5-.27.06-.25c0-12.26-9.94-22.2-22.2-22.2s-22.2 9.94-22.2 22.2-10.96 0-10.96 0c-3.7-.01-6.69-3.01-6.7-6.71V7.95a6.726 6.726 0 0 1 6.7-6.7h180.96a6.72 6.72 0 0 1 6.7 6.7v87.13a6.72 6.72 0 0 1-6.7 6.7h-10.31c0-12.26-9.94-22.2-22.2-22.2s-22.2 9.94-22.2 22.2" data-name="Linie 14" id="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Linie_14" style="fill: rgb(245, 252, 248);"></path><path class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1" d="m125.73 103.55-62.5-.27c-.38 0-.75-.18-.98-.49-.24-.3-.32-.7-.22-1.07l.02-.09c-.08-11.48-9.45-20.79-20.95-20.79s-20.92 9.37-20.95 20.89c0 .09 0 .17-.01.26-.1.6-.62 1.05-1.23 1.05H7.95C3.58 103.02.01 99.45 0 95.08V7.95C.01 3.58 3.58.01 7.95 0h180.96c4.37.01 7.94 3.58 7.95 7.95v87.14c-.01 4.37-3.58 7.94-7.95 7.95h-10.25c-.69 0-1.32-.56-1.32-1.25 0-11.55-9.4-20.95-20.95-20.95s-20.95 9.4-20.95 20.95a1.25 1.25 0 0 1-2.5 0c0-12.93 10.52-23.45 23.45-23.45s22.76 9.85 23.42 22.2h9.09c2.99 0 5.44-2.46 5.45-5.45V7.95c0-2.99-2.46-5.44-5.46-5.45H7.95c-2.99 0-5.44 2.46-5.45 5.45v87.12c0 3 2.46 5.45 5.45 5.46h9.73c.65-12.35 10.9-22.2 23.42-22.2s22.9 9.98 23.43 22.45l61.21.27c.69 0 1.25.57 1.24 1.26 0 .69-.56 1.24-1.25 1.24Z"></path><path class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1" d="M58.56 39.03c-.69 0-1.25-.56-1.25-1.25V22.3a1.25 1.25 0 0 1 2.5 0v15.48c0 .69-.56 1.25-1.25 1.25ZM27.25 75.11c-.69 0-1.25-.56-1.25-1.25V22.3a1.25 1.25 0 0 1 2.5 0v51.55c0 .69-.56 1.25-1.25 1.25Z"></path><path class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1" d="M90.98 48.38H36.95a1.25 1.25 0 0 1 0-2.5h52.78V22.21H2.58a1.25 1.25 0 0 1 0-2.5h88.4c.69 0 1.25.56 1.25 1.25v26.17c0 .69-.56 1.25-1.25 1.25Z"></path><g data-name="Gruppe 503" id="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Gruppe_503"><g data-name="Gruppe 65" id="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Gruppe_65"><path class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1" d="M116.11 33.29c-.69 0-1.25-.56-1.25-1.25V20.97a1.25 1.25 0 0 1 2.5 0v11.07c0 .69-.56 1.25-1.25 1.25ZM149.45 39.6c-.69 0-1.25-.56-1.25-1.25v-17a1.25 1.25 0 0 1 2.5 0v17c0 .69-.56 1.25-1.25 1.25Z"></path><path class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1" d="M181.87 48.77h-58.23a1.25 1.25 0 0 1 0-2.5h56.98V22.22h-64.51a1.25 1.25 0 0 1 0-2.5h65.76c.69 0 1.25.56 1.25 1.25v26.55c0 .69-.56 1.25-1.25 1.25Z"></path></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   color="currentColor"
+   data-name="Ebene 1"
+   id="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Ebene_1"
+   viewBox="0 0 196.86 122.31"
+   class="h-20 fill-primary md:h-32"
+   version="1.1"
+   sodipodi:docname="bus.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="5.2321447"
+     inkscape:cx="98.43"
+     inkscape:cy="61.064825"
+     inkscape:window-width="1920"
+     inkscape:window-height="1141"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Ebene_1" />
+  <path
+     d="M156.4 118.6c-9.15 0-16.6-7.45-16.6-16.6s7.45-16.6 16.6-16.6S173 92.85 173 102s-7.45 16.6-16.6 16.6Zm0-30.7c-7.77 0-14.1 6.32-14.1 14.1s6.33 14.1 14.1 14.1 14.1-6.32 14.1-14.1-6.32-14.1-14.1-14.1ZM40.84 118.6c-9.15 0-16.6-7.45-16.6-16.6s7.45-16.6 16.6-16.6 16.6 7.45 16.6 16.6-7.45 16.6-16.6 16.6Zm0-30.7c-7.77 0-14.1 6.32-14.1 14.1s6.32 14.1 14.1 14.1 14.1-6.32 14.1-14.1-6.32-14.1-14.1-14.1Z"
+     id="path1"
+     style="stroke:none" />
+  <path
+     class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1"
+     d="m125.73 103.55-62.5-.27c-.38 0-.75-.18-.98-.49-.24-.3-.32-.7-.22-1.07l.02-.09c-.08-11.48-9.45-20.79-20.95-20.79s-20.92 9.37-20.95 20.89c0 .09 0 .17-.01.26-.1.6-.62 1.05-1.23 1.05H7.95C3.58 103.02.01 99.45 0 95.08V7.95C.01 3.58 3.58.01 7.95 0h180.96c4.37.01 7.94 3.58 7.95 7.95v87.14c-.01 4.37-3.58 7.94-7.95 7.95h-10.25c-.69 0-1.32-.56-1.32-1.25 0-11.55-9.4-20.95-20.95-20.95s-20.95 9.4-20.95 20.95a1.25 1.25 0 0 1-2.5 0c0-12.93 10.52-23.45 23.45-23.45s22.76 9.85 23.42 22.2h9.09c2.99 0 5.44-2.46 5.45-5.45V7.95c0-2.99-2.46-5.44-5.46-5.45H7.95c-2.99 0-5.44 2.46-5.45 5.45v87.12c0 3 2.46 5.45 5.45 5.46h9.73c.65-12.35 10.9-22.2 23.42-22.2s22.9 9.98 23.43 22.45l61.21.27c.69 0 1.25.57 1.24 1.26 0 .69-.56 1.24-1.25 1.24Z"
+     id="path2"
+     style="stroke:#000000;stroke-opacity:1" />
+  <path
+     class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1"
+     d="M58.56 39.03c-.69 0-1.25-.56-1.25-1.25V22.3a1.25 1.25 0 0 1 2.5 0v15.48c0 .69-.56 1.25-1.25 1.25ZM27.25 75.11c-.69 0-1.25-.56-1.25-1.25V22.3a1.25 1.25 0 0 1 2.5 0v51.55c0 .69-.56 1.25-1.25 1.25Z"
+     id="path3"
+     style="stroke:none" />
+  <path
+     class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1"
+     d="M90.98 48.38H36.95a1.25 1.25 0 0 1 0-2.5h52.78V22.21H2.58a1.25 1.25 0 0 1 0-2.5h88.4c.69 0 1.25.56 1.25 1.25v26.17c0 .69-.56 1.25-1.25 1.25Z"
+     id="path4"
+     style="stroke:none" />
+  <g
+     data-name="Gruppe 503"
+     id="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Gruppe_503"
+     style="stroke:none">
+    <g
+       data-name="Gruppe 65"
+       id="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__Gruppe_65"
+       style="stroke:none">
+      <path
+         class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1"
+         d="M116.11 33.29c-.69 0-1.25-.56-1.25-1.25V20.97a1.25 1.25 0 0 1 2.5 0v11.07c0 .69-.56 1.25-1.25 1.25ZM149.45 39.6c-.69 0-1.25-.56-1.25-1.25v-17a1.25 1.25 0 0 1 2.5 0v17c0 .69-.56 1.25-1.25 1.25Z"
+         id="path5"
+         style="stroke:none" />
+      <path
+         class="MS_Klimadashboard_Icons_m_o\u0308pnv_svg__cls-1"
+         d="M181.87 48.77h-58.23a1.25 1.25 0 0 1 0-2.5h56.98V22.22h-64.51a1.25 1.25 0 0 1 0-2.5h65.76c.69 0 1.25.56 1.25 1.25v26.55c0 .69-.56 1.25-1.25 1.25Z"
+         id="path6"
+         style="stroke:none" />
+    </g>
+  </g>
+</svg>

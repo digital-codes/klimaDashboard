@@ -12,7 +12,7 @@
       <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem" />
       <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : ''">{{ $t($props.name + ".title") }}</h1>
     </div>
-    <FilterInfo :name="infoName" :content="infoContent" :link="infoLink" :open="infoOpen" @close="infoOpen=false"/>
+    <FilterInfo :name="infoName" :content="infoContent" :link="infoLink" :img="infoImg" :open="infoOpen" @close="infoOpen=false"/>
 
 
     <!-- 
@@ -67,6 +67,7 @@ const infoName = ref("Infoname")
 const infoContent = ref("")
 const infoOpen = ref(false)
 const infoLink = ref("")
+const infoImg = ref(null)
 
 const breakpoint = useBreakpoint();
 
@@ -143,6 +144,7 @@ const infoAction = (tag) => {
   infoName.value = t(props.name + "." + filters.value[tag].label)
   infoContent.value = filters.value[tag].content || "No content defined"
   infoLink.value = filters.value[tag].link
+  infoImg.value = filters.value[tag].img || null
   infoOpen.value = true
 }
 
