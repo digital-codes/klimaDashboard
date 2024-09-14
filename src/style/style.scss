@@ -214,6 +214,12 @@ button:focus-visible {
   color: light-dark(blue, yellow) !important;
 }
 
+.va-modal__close {
+  margin-right: 1.5rem;
+  margin-top: 1.5rem;
+  font-size: 2rem!important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: $dash-text-light;
