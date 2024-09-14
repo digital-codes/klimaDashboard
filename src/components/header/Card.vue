@@ -12,7 +12,7 @@
       <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem" />
       <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : ''">{{ $t($props.name + ".title") }}</h1>
     </div>
-    <FilterInfo :name="infoName" :content="infoContent" :open="infoOpen" @close="infoOpen=false"/>
+    <FilterInfo :name="infoName" :content="infoContent" :link="infoLink" :open="infoOpen" @close="infoOpen=false"/>
 
 
     <!-- 
@@ -37,7 +37,7 @@
   -->
     <div class="flex flex-wrap" style="display:inline-flex;">
       <div v-for="(filter, index) in filters" class="flex flex-wrap">
-        <VaIcon name="info" @click="infoAction(index)"/>
+        <VaIcon name="help" @click="infoAction(index)" class="infoicon" aria-label="Popup Help for this Filter" />
         <VaSwitch class="filter" :key="index" v-model="filter.value"
         :label="t(props.name + '.' + filter.label)" right-label @input="action(filter.name)" >
         <template #innerLabel>
@@ -64,8 +64,9 @@ import { useBreakpoint } from "vuestic-ui";
 
 import FilterInfo from "@/components/pops/FilterInfo.vue";
 const infoName = ref("Infoname")
-const infoContent = ref("ölasdfmkefmwe m,lw e")
+const infoContent = ref("")
 const infoOpen = ref(false)
+const infoLink = ref("")
 
 const breakpoint = useBreakpoint();
 
@@ -138,9 +139,10 @@ const content = ref({});
 import { loadMsgs, loadText, loadSpecs } from "@/composables/LoadSpecs"
 
 const infoAction = (tag) => {
-  console.log("Action:", tag)
-  infoName.value = "Info zu: " + tag
-  infoContent.value = "bla bla bla"
+  console.log("Info action:", tag)
+  infoName.value = t(props.name + "." + filters.value[tag].label)
+  infoContent.value = filters.value[tag].content || "No content defined"
+  infoLink.value = filters.value[tag].link
   infoOpen.value = true
 }
 
@@ -229,4 +231,17 @@ onBeforeMount(async () => {
   margin-right: 1rem;
   margin-bottom: .3rem;
 }
+
+</style>
+
+<style scoped lang="scss">
+
+@import '@/style/style.scss';
+
+.infoicon {
+  margin-left: 0;
+  margin-right: .5rem;
+  color: light-dark($dash-accent-light, $dash-accent-dark);
+}
+
 </style>

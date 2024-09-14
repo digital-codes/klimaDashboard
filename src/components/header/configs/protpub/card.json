@@ -5,30 +5,40 @@
     "label": "energy",
     "value": true,
     "icon": "power",
-    "name": "A"
+    "name": "A",
+    "link": "https://www.cern.ch",
+    "content": "111111111111111\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n"
   },
   {
     "label": "buildings",
     "value": true,
     "icon": "other_houses",
+    "link": "https://www.cern.ch",
+    "content": "222222222222222\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n",
     "name": "B"
   },
   {
     "label": "economy",
     "value": true,
     "icon": "business_center",
+    "link": "https://www.cern.ch",
+    "content": "3333333333333333\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n",
     "name": "C"
   },
   {
     "label": "mobility",
     "value": true,
     "icon": "directions_bus",
+    "link": "https://www.cern.ch",
+    "content": "444444444444444444444\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n",
     "name": "D"
   },
   {
     "label": "other",
     "value": true,
     "icon": "settings",
+    "link": "https://www.cern.ch",
+    "content": "555555555555555\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n",
     "name": "E"
   }
 ]
