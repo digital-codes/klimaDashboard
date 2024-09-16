@@ -359,7 +359,7 @@ const loadData = async () => {
     datakeys.value = [];
     if (props.dataFormat == "json") {
       data.value = await response.json();
-      //console.log("JSON:", data.value);
+      console.log("JSON:", data.value);
     } else {
       // assume csv
       const csvString = await response.text();

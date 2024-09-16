@@ -28,7 +28,7 @@ import icon_d from "@/assets/icons/dashboard/weather_d.svg?url"
 const tiles = [
   // using template for linebar. maybe still loads component multiple times. need section and part for dynamic import with template
   // final import from ../<section>/<part>/<name>/
-    { "name": "KaWeather", "section": "", "part": "", "tag": "E", "component": defineAsyncComponent(() => import("@/components/tiles/weather/current/weatherDisplay/Card.vue")) },
+    { "name": "KaWeather", "section": "", "part": "", "tag": "E", "component": defineAsyncComponent(() => import("@/components/tiles/conditions/weather/current/Card.vue")) },
   { "name": "DummyMap", "section": "", "part": "", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyMap/Card.vue")) }
 ]
 

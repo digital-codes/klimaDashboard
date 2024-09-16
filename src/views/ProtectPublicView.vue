@@ -29,8 +29,8 @@ const tiles = [
   { "name": "KskKa_d_energy", "section": "protect", "part": "actions", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
   { "name": "KskKa_d_ghg", "section": "protect", "part": "thg", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
   { "name": "KskKa_d_stwkenergy", "section": "protect", "part": "actions", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+  { "name": "renewableShare", "section": "conditions", "part": "energyCharts", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
   // { "name": "DummyGauge", "tag": "D",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGauge/Card.vue")) },
-  { "name": "DummyMap", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyMap/Card.vue")) }
 ]
 
 // use anchor to give a unique reference to each tile

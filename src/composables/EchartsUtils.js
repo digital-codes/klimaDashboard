@@ -32,7 +32,7 @@ const setStacked = (stacked, options) => {
 
 
 // default options for line and bar charts
-const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "",locale = "de") => {
+const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "", locale = "de") => {
   const defaults = {
     //darkMode: "auto",
     aria: {
@@ -47,12 +47,12 @@ const lineBarDefaults = (name = "Default Name", labelX = "", labelY = "",locale 
     // initialize to 10% here. use 20% on mobile
     grid: [
       {
-        left: "10%", 
+        left: "10%",
       }
     ],
     tooltip: {
       trigger: 'axis',
-      valueFormatter: (value) => value != null ? Intl.NumberFormat(locale,{maximumFractionDigits:1}).format(value) : "N/A",
+      valueFormatter: (value) => value != null ? Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value) : "N/A",
       //valueFormatter: (value) => value != null ? value.toFixed(1) : "N/A",
       /*
       axisPointer: {
@@ -140,7 +140,7 @@ const parseData = (data) => {
   }
 }
 
-const updateEchartsOptions = async (chartOptions, data, dataX, classList, 
+const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   columnList, type, stacked, size = "large", locale = "de") => {
   //console.log("Updating from data:", data);
   // we have to know if we get 1 or 2 series from data.
@@ -148,9 +148,9 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   // in case the inner data is an array too, we have multiple series
   let df = new dataForge.DataFrame(data)
   //console.log(df.toString())
-  //console.log("Dataframe:", df.head(3).toString());
+  console.log("Dataframe:", df.head(3).toString());
   let cols = df.getColumnNames()
-  //console.log("Cols:", cols)
+  console.log("Cols:", cols)
 
   if (cols.length == 0) {
     console.log("No columns");
@@ -171,7 +171,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
 
     df = new dataForge.DataFrame(tabularData);
     // df = new dataForge.DataFrame(data[keys[0]])
-    // console.log("Dataframe:", df.toString());
+    console.log("Dataframe:", df.toString());
   }
 
   // input differs by identifiers for category (X-axis), value (Y-Axis), group
@@ -182,12 +182,13 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     console.log("No X-Axis")
     return chartOptions
   }
-  // console.log("X-Axis:", dataX)
+  //console.log("X-Axis:", dataX)
 
   const chartData = df.toArray();
+  //console.log("Chart Data:", chartData)
   let categories = chartData.map(item => item[dataX]).filter((value, index, self) => self.indexOf(value) === index);
   categories = categories.filter(category => ((category !== null) && (category !== undefined)));
-  // console.log("Categories:", categories, categories.length) 
+  //console.log("Categories:", categories, categories.length) 
 
   if (typeof categories[0] === 'number') {
     //console.log("Sorting categories", categories)
@@ -341,7 +342,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   }
   // update locale
   chartOptions.yAxis.axisLabel.formatter = (v) => Intl.NumberFormat(locale).format(v)
-  chartOptions.tooltip.valueFormatter = (value) => value != null ? Intl.NumberFormat(locale,{maximumFractionDigits:1}).format(value) : "N/A"
+  chartOptions.tooltip.valueFormatter = (value) => value != null ? Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value) : "N/A"
 
 
   // console.log("Final Series:", seriesData)

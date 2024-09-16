@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "url": "https://dashboard.daten.city/php/corsProxy.php?topic=renewableShares&mode=single",
+      "license": "CC-BY-4.0",
+      "format": "json",
+      "xaxis": "unix_seconds",
+      "xlabel": "Timestamp",
+      "ylabel": "%",
+      "columns": [
+        "share"
+      ],
+      "classes": []
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "controls": {
+    "range": {
+      "axis":"x",
+      "present": false
+    },
+    "type": {
+      "present": true,
+      "options": [
+        "line","bar"
+      ]
+    },
+    "stacked": {
+      "present": true
+    },
+    "dataswitch": {
+      "present": false
+    },
+    "animate": {
+      "present": false
+    }
+  }
+}
