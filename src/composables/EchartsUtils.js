@@ -182,7 +182,24 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     console.log("No X-Axis")
     return chartOptions
   }
-  //console.log("X-Axis:", dataX)
+  // console.log("X-Axis:", dataX)
+
+  // convert timestamp for energy-charts timeseries data
+  if (dataX == "unix_seconds") {
+    // Unix timestamp in seconds
+    // Convert to milliseconds (JavaScript timestamps are in milliseconds)
+    /*
+    const date = new Date(unixTimestamp * 1000);
+    // Convert to ISO format
+    const isoString = date.toISOString();
+    */
+    // Create a new column 'iso_datetime' based on the 'unix_timestamp' column
+    df = df.withSeries('iso_datetime', df.getSeries('unix_seconds').select(unix_seconds => 
+      new Date(unix_seconds * 1000).toISOString()
+    )); 
+    dataX = 'iso_datetime'
+    // console.log("Converted timestamp:", df.head(3).toString());
+  }
 
   const chartData = df.toArray();
   //console.log("Chart Data:", chartData)

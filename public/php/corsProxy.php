@@ -94,15 +94,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Get the URL to proxy from the query string
 $parms = $_GET['topic'];
 
+if (isset($_GET['mode'])) {
+    $mode = $_GET['mode'];
+} else {
+    $mode = "";
+}
+
 $tl = explode(",",$parms);
 $topic = $tl[0];
 
+
+function convertArray($inputArray) {
+    // Get all keys from the input array
+    $keys = ["unix_seconds","share"]; //array_keys($inputArray);
+
+    // Get the length of the first array (assuming all arrays are the same length)
+    $length = count($inputArray[$keys[0]]);
+
+    $result = [];
+    
+    // Loop through each index of the arrays
+    for ($i = 0; $i < $length; $i++) {
+        $item = [];
+        
+        // For each key, assign the corresponding value from the array
+        foreach ($keys as $key) {
+            $item[$key] = $inputArray[$key][$i];
+        }
+        
+        // Add the constructed item to the result array
+        $result[] = $item;
+    }
+    
+    return $result;
+}
+
+
 $results = array();
 
-foreach($tl as $t) {
-    $content = requestFile($t);
-    $results[$t] = json_decode($content);
-};
+if ($mode == "single") {
+    $content = requestFile($topic);
+    // important to convert to array
+    /*
+    If you're working with JSON or an API response, you may have decoded the JSON object 
+    using json_decode() without passing the second parameter (true), which would return 
+    the data as an associative array. By default, json_decode() returns an object of type stdClass.
+    */
+    $results = convertArray(json_decode($content,true));
+    
+} else {
+    foreach($tl as $t) {
+        $content = requestFile($t);
+        $results[$t] = json_decode($content);
+    };
+}
 
 
 // save

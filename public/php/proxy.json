@@ -3,5 +3,6 @@
     "kaiserplatz":{"url":"https://iot.skd-ka.de/api/v1/devices/c055eef5-b6dc-406e-ad5a-65dec60db90e/readings?limit=1&sort=measured_at&sort_direction=desc","format":"json","key":0},
     "citypark":{"url":"https://iot.skd-ka.de/api/v1/devices/d0fa8ca0-6339-4e20-9d76-88e80c7af2c4/readings?limit=1&sort=measured_at&sort_direction=desc","format":"json","key":0},
     "sonnenbad":{"url":"https://iot.skd-ka.de/api/v1/devices/a5264163-f9df-4995-9b35-0649e4119c85/readings?limit=1&sort=measured_at&sort_direction=desc","format":"json","key":0},
-    "umweltamt":{"url":"https://iot.skd-ka.de/api/v1/devices/60e8e501-d0ec-44e8-9dbf-6983a5f97935/readings?limit=1","format":"json","key":0}
+    "umweltamt":{"url":"https://iot.skd-ka.de/api/v1/devices/60e8e501-d0ec-44e8-9dbf-6983a5f97935/readings?limit=1","format":"json","key":0},
+    "renewableShares":{"url":"https://api.energy-charts.info/signal?country=de&postal_code=76135","format":"json","key":-1}
 }
