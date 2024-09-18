@@ -5,12 +5,11 @@
       <h1>{{ cardMessages[locale].title }}</h1>
     </div>
 
-
-  <div class="mdcontent" >
+    <div class="mdcontent" >
       <div v-html="content[locale]"></div>
       <VaCollapse v-if="contentMore[locale] > ''"
       v-model="showMore"
-        header="More"
+        :header="cardMessages[locale].more"
         icon="more_horiz"
         class="morehdr"
       >

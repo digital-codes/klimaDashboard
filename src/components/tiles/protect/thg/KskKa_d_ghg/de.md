@@ -8,8 +8,8 @@ ddd   ddd qdwdw  wdwd
   * 456
     * 789
 
-<hr>
 <!-- snip -->
+<hr>
 
 123
 

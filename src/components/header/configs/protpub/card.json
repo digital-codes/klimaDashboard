@@ -7,7 +7,7 @@
     "icon": "power",
     "name": "A",
     "link": "https://www.cern.ch",
-    "content": "111111111111111\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n"
+    "content": "111111111111111\nölasd\nfmkefmwe m,lw e\ndfifwieof\n12344656\n"
   },
   {
     "label": "buildings",
@@ -22,7 +22,7 @@
     "value": true,
     "icon": "business_center",
     "link": "https://www.cern.ch",
-    "content": "3333333333333333\nölasdfmkefmwe m,lw e\ndfifwieof\n12344656\n",
+    "content": "3333333333333333\nölas\ndf\nmkefmwe m,lw e\ndfifwieof\n12344656\n",
     "name": "C"
   },
   {

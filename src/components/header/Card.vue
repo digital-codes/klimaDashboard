@@ -12,7 +12,9 @@
       <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem" />
       <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : ''">{{ $t($props.name + ".title") }}</h1>
     </div>
+    <!--
     <FilterInfo :name="infoName" :content="infoContent" :link="infoLink" :img="infoImg" :open="infoOpen" @close="infoOpen=false"/>
+    -->
 
 
     <!-- 
@@ -48,6 +50,32 @@
         </VaSwitch>
       </div>
     </div>
+
+    <div class="filterInfo">
+      <hr v-if="infoOpen">
+        <VaCollapse v-model="infoOpen"
+          stateful="true"
+          :header="x"
+          class="filterHdr"
+        >
+          <template #content>
+            <h3>{{ infoName }}</h3>
+            <img v-if="infoImg" :src="infoImg" alt="infoImg" class="filterImg"/>
+            <p v-for="(item,idx) in infoContent.split('\n')" :key="idx">
+              {{ infoContent.split('\n')[idx] }}
+            </p>
+            <a :href="infoLink" target="_blank">{{ infoLink }}</a>
+          </template>
+        </VaCollapse> 
+      </div>
+  <!-- 
+    infoName.value = t(props.name + "." + filters.value[tag].label)
+  infoContent.value = filters.value[tag].content || "No content defined"
+  infoLink.value = filters.value[tag].link
+  infoImg.value = filters.value[tag].img || null
+  infoOpen.value = true
+    -->
+
 
   </VaCard>
 </template>
@@ -141,6 +169,10 @@ import { loadMsgs, loadText, loadSpecs } from "@/composables/LoadSpecs"
 
 const infoAction = (tag) => {
   console.log("Info action:", tag)
+  if (infoOpen.value) {
+    infoOpen.value = false
+    return
+  }
   infoName.value = t(props.name + "." + filters.value[tag].label)
   infoContent.value = filters.value[tag].content || "No content defined"
   infoLink.value = filters.value[tag].link
@@ -245,5 +277,28 @@ onBeforeMount(async () => {
   margin-right: .5rem;
   color: light-dark($dash-accent-light, $dash-accent-dark);
 }
+
+.filterInfo {
+  margin-top: 1rem;
+  width:100;
+}
+
+.filterInfo :deep(.va-collapse__header) {
+  display: none;
+}
+
+.filterInfo :deep(.va-collapse__header-wrapper) {
+  display: none;
+}
+
+.filterInfo :deep(.va-collapse__body-wrapper) {
+  overflow-x: hidden;
+}
+
+.filterImg {
+  width: 30%;
+  margin: 1rem 0;
+}
+
 
 </style>

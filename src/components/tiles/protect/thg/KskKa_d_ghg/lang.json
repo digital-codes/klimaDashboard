@@ -19,7 +19,9 @@
     "dsright": "Second",
     "animation": "Animation",
     "anistart": "Start",
-    "anistop": "Stop"
+    "anistop": "Stop",
+    "more": "More"
+
   },
   "de": {
     "yes": "Ja",
@@ -41,6 +43,8 @@
     "dsright": "Zwei",
     "animation": "Animation DE",
     "anistart": "Start",
-    "anistop": "Stop"
+    "anistop": "Stop",
+    "more": "Mehr"
+
   }
 }

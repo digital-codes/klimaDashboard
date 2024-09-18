@@ -8,6 +8,9 @@ bla bla bla
   * 456
     * 789
 
+<!-- snip -->
+<hr>
+
 ![image](/images/testing.jpg)  
 
 
