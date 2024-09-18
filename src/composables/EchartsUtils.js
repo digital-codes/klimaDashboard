@@ -148,9 +148,9 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   // in case the inner data is an array too, we have multiple series
   let df = new dataForge.DataFrame(data)
   //console.log(df.toString())
-  console.log("Dataframe:", df.head(3).toString());
+  //console.log("Dataframe:", df.head(3).toString());
   let cols = df.getColumnNames()
-  console.log("Cols:", cols)
+  //console.log("Cols:", cols)
 
   if (cols.length == 0) {
     console.log("No columns");
@@ -171,7 +171,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
 
     df = new dataForge.DataFrame(tabularData);
     // df = new dataForge.DataFrame(data[keys[0]])
-    console.log("Dataframe:", df.toString());
+    //console.log("Dataframe:", df.toString());
   }
 
   // input differs by identifiers for category (X-axis), value (Y-Axis), group

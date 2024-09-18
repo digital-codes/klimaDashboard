@@ -106,6 +106,8 @@ const { t, messages, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch } from "vue";
 
 import SimpleLine from "@/components/charts/SimpleLineCjs.vue"
+import { useConfigStore } from '@/services/configStore';
+const configStore = useConfigStore();
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL
@@ -201,11 +203,14 @@ watch(typeCtl, (index) => {
 onBeforeMount(async () => {
   // Code to execute when the component is mounted
   // localized content
+  const supportedLanguages = configStore.getLanguages;
   for (const key in cardContent) {
+    if (!supportedLanguages.includes(key)) continue;
     content.value[key] = cardContent[key]
   }
   for (const key in cardMessages) {
-    // console.log(`${key}:`, cardMessages[key]);
+    if (!supportedLanguages.includes(key)) continue;
+    console.log(`${key}:`, cardMessages[key]);
     // skip overspecs (not localized)
     if (key === "specs") continue 
     // localization data

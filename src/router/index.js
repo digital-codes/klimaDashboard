@@ -18,13 +18,11 @@ const routes = [
     name: 'Dash1',
     component: () => import('@/views/WeatherView.vue'),
   },
-  /*
   {
-    path: '/dash2',
-    name: 'Dash2',
+    path: '/test',
+    name: 'Test',
     component: () => import('@/views/DataView.vue'),
   },
-  */
   {
     path: '/dash2_1',
     name: 'Dash2_1',

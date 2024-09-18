@@ -48,6 +48,9 @@ const compile = async () => {
             const filePath = path.join(directory, `${language}.md`);
             try {
                 let content = await fs.promises.readFile(filePath, 'utf8');
+                content = content.split("<hr>") // split content by <hr> tag
+                more = content[1] || ""
+                content = content[0]
                 // append dataLinks to the content
                 if (dataLinks.length > 0) {
                     // localized source tag
@@ -60,6 +63,8 @@ const compile = async () => {
                     }).join("\n\n")
                     content += dataLinksContent
                 }
+                if (more != "") 
+                content += "<hr>" + more
                 const markedContent = await marked.parse(content);
                 const purifiedContent = await purify.sanitize(markedContent)
                 // set language content into content file

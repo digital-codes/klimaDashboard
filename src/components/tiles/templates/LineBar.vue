@@ -5,7 +5,22 @@
       <h1>{{ cardMessages[locale].title }}</h1>
     </div>
 
-    <div class="mdcontent" v-html="content[locale]"></div>
+
+  <div class="mdcontent" >
+      <div v-html="content[locale]"></div>
+      <VaCollapse v-if="contentMore[locale] > ''"
+      v-model="showMore"
+        header="More"
+        icon="more_horiz"
+        class="morehdr"
+      >
+        <template #content>
+          <div v-html="contentMore[locale]"></div>
+        </template>
+      </VaCollapse>
+
+    </div>
+
 
     <div class="row">
       <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
@@ -169,6 +184,8 @@ const chartInstance = ref(null);
 
 // content pane
 const content = ref({});
+const contentMore = ref({});
+const showMore = ref(false);
 
 const checkUrl = (url) => {
   // create new data uris here: use as is if starting with http else prepend base path
@@ -302,13 +319,16 @@ onBeforeMount(async () => {
   // Code to execute when the component is mounted
   // localized content
   //currentLocale.value = configStore.getCurrentLocale
+  // a <hr> in the text splits the content into two parts: main content and more content
   const supportedLanguages = configStore.getLanguages;
   const cardContent = await import(`../${props.section}/${props.part}/${props.name}/text.json`); 
   //const cardContent = await import(`../tileSpecs/${props.name}/text.json`); 
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
-    content.value[key] = cardContent[key];
+    const txt = cardContent[key].split("<hr>");
+    content.value[key] = txt[0] || "";
+    contentMore.value[key] = txt[1] || "";
   }
 
   cardMessages.value = await import(`../${props.section}/${props.part}/${props.name}/lang.json`) 
@@ -393,6 +413,9 @@ onBeforeMount(async () => {
   text-align: center;
 }
 
+.morehdr {
+  text-align: left;
+}
 </style>
 
 <style lang="scss" scoped>

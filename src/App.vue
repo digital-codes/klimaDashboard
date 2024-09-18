@@ -265,7 +265,7 @@ const mlist1 = ref([true]) // accordion open state
                 size="large" />
             </div>
             <VaAccordion v-model="mlist1" style="flex-direction: column;align-items:baseline;margin-left:0;">
-              <VaCollapse>
+              <VaCollapse class="sidebar">
                 <template #body>
                   <VaSidebarItem @click="goto('/dash2_1')" tabindex="0" role="link"
                     style="padding: 0;margin-left:1rem;">
@@ -277,7 +277,7 @@ const mlist1 = ref([true]) // accordion open state
                       </VaSidebarItemTitle>
                     </VaSidebarItemContent>
                   </VaSidebarItem>
-                  <VaSidebarItem @click="goto('/dash2_2')" tabindex="1" role="link"
+                  <VaSidebarItem @click="goto('/dash2_2')" tabindex="0" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
                       <VaImage :src="icons.icon2" 
@@ -287,7 +287,7 @@ const mlist1 = ref([true]) // accordion open state
                       </VaSidebarItemTitle>
                     </VaSidebarItemContent>
                   </VaSidebarItem>
-                  <VaSidebarItem @click="goto('/dash2_3')" tabindex="2" role="link"
+                  <VaSidebarItem @click="goto('/dash2_3')" tabindex="0" role="link"
                     style="padding: 0;margin-left:1rem;">
                     <VaSidebarItemContent>
                       <VaImage :src="icons.icon4"
@@ -309,6 +309,15 @@ const mlist1 = ref([true]) // accordion open state
               alt="Icon Climate Adaptation" style="width:2rem;" />
             <VaSidebarItemTitle>
               {{ $t("sidebar.dash3") }}
+            </VaSidebarItemTitle>
+          </VaSidebarItemContent>
+        </VaSidebarItem>
+
+        <VaSidebarItem @click="goto('/test')" tabindex="0" role="link">
+          <VaSidebarItemContent>
+            <VaIcon class="material-icons-outlined" name="info" size="2rem" />
+            <VaSidebarItemTitle>
+              Testseite
             </VaSidebarItemTitle>
           </VaSidebarItemContent>
         </VaSidebarItem>
@@ -407,16 +416,24 @@ main {
   text-align: left;
   margin-left: 1rem;
 }
-</style>
 
-<style>
-.va-collapse__header {
+/* need vdeep to override vuestic styles */
+.sidebar :deep(.va-collapse__header) {
   display: none;
 }
 
-.va-collapse__body-wrapper {
+.sidebar :deep(.va-collapse__header-wrapper) {
+  display: none;
+}
+
+.sidebar :deep(.va-collapse__body-wrapper) {
   overflow-x: hidden;
 }
+
+
+</style>
+
+<style>
 
 .headline {
   font-size: 2rem;
