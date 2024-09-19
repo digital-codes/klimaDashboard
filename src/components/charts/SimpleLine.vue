@@ -368,7 +368,7 @@ const loadData = async () => {
         header: true,
         dynamicTyping: true,
         complete: async function (results) {
-          //console.log("CSV parsed:", results.data);
+          // console.log("CSV parsed:", results.data);
           data.value = results.data;
         },
       });

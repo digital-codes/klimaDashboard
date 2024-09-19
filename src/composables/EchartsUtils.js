@@ -185,6 +185,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   // console.log("X-Axis:", dataX)
 
   // convert timestamp for energy-charts timeseries data
+  // SPECIAL - ENERGYCHARTS
   if (dataX == "unix_seconds") {
     // Unix timestamp in seconds
     // Convert to milliseconds (JavaScript timestamps are in milliseconds)
@@ -202,10 +203,10 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   }
 
   const chartData = df.toArray();
-  //console.log("Chart Data:", chartData)
+  // console.log("Chart Data:", chartData)
   let categories = chartData.map(item => item[dataX]).filter((value, index, self) => self.indexOf(value) === index);
   categories = categories.filter(category => ((category !== null) && (category !== undefined)));
-  //console.log("Categories:", categories, categories.length) 
+  // console.log("Categories:", categories, categories.length) 
 
   if (typeof categories[0] === 'number') {
     //console.log("Sorting categories", categories)
@@ -222,9 +223,9 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     } else {
       classes = df.getSeries(classId).distinct().toArray()
     }
-    //console.log("Filtering classes:", classes)
+    // console.log("Filtering classes:", classes)
     seriesData = chartData.filter(item => classes.includes(item[classId]));
-
+    // console.log("Filtered Data:", seriesData)
   } else {
     seriesData = chartData;
   }
@@ -266,8 +267,11 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   // series created from either classes or columns
   // if length of classes > 1 we have multiple series and length of columns must be 1
   // if length of columns > 1 we have multiple series and length of classes must be 1
-  if (classes.length > 1) {
-    console.log("Creating series from classes")
+
+  // console.log("Classes:", classes, "Columns:", includedColumns)
+
+  if (classes.length >= 1) {
+    // console.log("Creating series from classes")
     // create names from classes
     seriesData = classes.map((name, index) => {
       // console.log("Name:",name,", Index:",index) // DROP
