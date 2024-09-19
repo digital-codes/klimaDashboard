@@ -39,7 +39,13 @@
   -->
     <div class="flex flex-wrap" style="display:inline-flex;">
       <div v-for="(filter, index) in filters" class="flex flex-wrap">
-        <VaIcon name="help" @click="infoAction(index)" class="infoicon" aria-label="Popup Help for this Filter" />
+        <VaButton 
+        @click="infoAction(index)" 
+        size="small" 
+        class="infoicon" 
+        aria-label="Help for this Filter" 
+        round icon="help" 
+        />
         <VaSwitch class="filter" :key="index" v-model="filter.value"
         :label="t(props.name + '.' + filter.label)" right-label @input="action(filter.name)" >
         <template #innerLabel>
@@ -52,13 +58,12 @@
     </div>
 
     <div class="filterInfo">
-      <hr v-if="infoOpen">
         <VaCollapse v-model="infoOpen"
-          stateful="true"
           :header="x"
           class="filterHdr"
         >
           <template #content>
+            <hr>
             <h3>{{ infoName }}</h3>
             <img v-if="infoImg" :src="infoImg" alt="infoImg" class="filterImg"/>
             <p v-for="(item,idx) in infoContent.split('\n')" :key="idx">
@@ -83,7 +88,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount, computed, watch } from "vue";
+import { ref, onBeforeMount, computed, watch, nextTick } from "vue";
 
 import climate_l from "@/assets/icons/dashboard/climate.svg?url"
 import climate_d from "@/assets/icons/dashboard/climate_d.svg?url"
@@ -167,17 +172,23 @@ const content = ref({});
 
 import { loadMsgs, loadText, loadSpecs } from "@/composables/LoadSpecs"
 
-const infoAction = (tag) => {
+const infoTag = ref(-1)
+
+const infoAction = async (tag) => {
   console.log("Info action:", tag)
-  if (infoOpen.value) {
-    infoOpen.value = false
-    return
+  if (infoOpen.value && (infoTag.value == tag)) {
+  //if (infoOpen.value) {
+      infoOpen.value = false
+    console.log("Close info")
+  } else {
+    infoTag.value = tag
+    infoName.value = t(props.name + "." + filters.value[tag].label)
+    infoContent.value = filters.value[tag].content || "No content defined"
+    infoLink.value = filters.value[tag].link
+    infoImg.value = filters.value[tag].img || null
+    infoOpen.value = true
+    console.log("Open info")
   }
-  infoName.value = t(props.name + "." + filters.value[tag].label)
-  infoContent.value = filters.value[tag].content || "No content defined"
-  infoLink.value = filters.value[tag].link
-  infoImg.value = filters.value[tag].img || null
-  infoOpen.value = true
 }
 
 onBeforeMount(async () => {
@@ -272,15 +283,19 @@ onBeforeMount(async () => {
 
 @import '@/style/style.scss';
 
-.infoicon {
+.infoicon  {
   margin-left: 0;
   margin-right: .5rem;
-  color: light-dark($dash-accent-light, $dash-accent-dark);
+  --va-background-color: unset  !important;
+}
+
+.infoicon :deep(i) {
+  color: light-dark($dash-accent-light, $dash-accent-dark)!important;
 }
 
 .filterInfo {
   margin-top: 1rem;
-  width:100;
+  width:100%;
 }
 
 .filterInfo :deep(.va-collapse__header) {

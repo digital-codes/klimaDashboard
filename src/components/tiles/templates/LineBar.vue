@@ -3,16 +3,17 @@
     <div class="dataheader">
       <VaAvatar title="Klima Dashboard" :src="basePath + props.logo" size="3rem" />
       <h1>{{ cardMessages[locale].title }}</h1>
+      <div style="display:flex;margin-left: 1rem;" v-if="rating > 0">
+        <span style="font-size:1.5rem;line-height:3rem;margin-right:.5rem;">Bearbeitung:</span>
+        <VaIcon class="material-icons-outlined" :name="rateIcon" :color="rateColor" style="line-height:3rem;" size="1.5rem" />
+      </div>
+
     </div>
 
-    <div class="mdcontent" >
+    <div class="mdcontent">
       <div v-html="content[locale]"></div>
-      <VaCollapse v-if="contentMore[locale] > ''"
-      v-model="showMore"
-        :header="cardMessages[locale].more"
-        icon="more_horiz"
-        class="morehdr"
-      >
+      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="cardMessages[locale].more"
+        icon="more_horiz" class="morehdr">
         <template #content>
           <div v-html="contentMore[locale]"></div>
         </template>
@@ -23,8 +24,8 @@
 
     <div class="row">
       <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
-        :min="controls.range.min" :max="controls.range.max" :step="controls.range.step" :disabled="stackCtl && (rangeAxis === 'y')"
-        class="flex lg6 sm12 xs12 control range" track-label-visible>
+        :min="controls.range.min" :max="controls.range.max" :step="controls.range.step"
+        :disabled="stackCtl && (rangeAxis === 'y')" class="flex lg6 sm12 xs12 control range" track-label-visible>
         <template #prepend>
           <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="slcnt" />
         </template>
@@ -53,9 +54,7 @@
         :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY" :rangeValue="rangeCtl"
         :rangeAxis="rangeAxis" :dataFormat="dataFormat" :labelX="labelX" :labelY="labelY" :type="chartType"
         :stacked="stackCtl" :animate="aniCtl" :ariaLabel="ariaLabel" :locale="chartLocale" @xrange="setXrange"
-        @yrange="setYrange"
-        @series="capture"
-        ></SimpleLine>
+        @yrange="setYrange" @series="capture"></SimpleLine>
     </div>
 
     <div class="chartfooter">
@@ -84,7 +83,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount, onMounted, watch, nextTick } from "vue";
+import { ref, onBeforeMount, onMounted, watch, nextTick, computed } from "vue";
 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -132,6 +131,35 @@ const cardMessages = ref({});
 // read card cardSpecs.value
 //import cardSpecs from "./card.json";
 const cardSpecs = ref({});
+
+const rating = ref(0);
+const rateIcon = computed(() => {
+  switch (rating.value) {
+    case 1:
+      return "help_outline";
+      case 2:
+      return "alarm_on"
+      case 3:
+      case 4:
+      return "schedule";
+    default:
+      return "check_circle_outline";
+  }
+});
+
+const rateColor = computed(() => {
+  switch (rating.value) {
+    case 1:
+      return "#808080";
+      case 2:
+      return "#ff0000"
+      case 3:
+      case 4:
+      return "#0000ff";
+    default:
+      return "#00ff00";
+  }
+});
 
 const dataUrl = ref(null);
 const dataName = ref(null);
@@ -305,7 +333,7 @@ const setYrange = async (range) => {
   }
 };
 
-const capture = async (data,instance) => {
+const capture = async (data, instance) => {
   chartInstance.value = instance;
   // capture data from chart after update
   data.xLabel = labelX.value;
@@ -320,7 +348,7 @@ onBeforeMount(async () => {
   //currentLocale.value = configStore.getCurrentLocale
   // a <hr> in the text splits the content into two parts: main content and more content
   const supportedLanguages = configStore.getLanguages;
-  const cardContent = await import(`../${props.section}/${props.part}/${props.name}/text.json`); 
+  const cardContent = await import(`../${props.section}/${props.part}/${props.name}/text.json`);
   //const cardContent = await import(`../tileSpecs/${props.name}/text.json`); 
 
   for (const key in cardContent) {
@@ -330,7 +358,7 @@ onBeforeMount(async () => {
     contentMore.value[key] = txt[1] || "";
   }
 
-  cardMessages.value = await import(`../${props.section}/${props.part}/${props.name}/lang.json`) 
+  cardMessages.value = await import(`../${props.section}/${props.part}/${props.name}/lang.json`)
 
   for (const key in supportedLanguages) {
     const lang = supportedLanguages[key]
@@ -346,7 +374,7 @@ onBeforeMount(async () => {
   }
   */
 
-  cardSpecs.value = await import(`../${props.section}/${props.part}/${props.name}/card.json`) 
+  cardSpecs.value = await import(`../${props.section}/${props.part}/${props.name}/card.json`)
   if (cardSpecs.value.controls) {
     if (cardSpecs.value.controls.range.present) {
       controls.value.range = cardSpecs.value.controls.range;
@@ -380,6 +408,12 @@ onBeforeMount(async () => {
       controls.value.animate = cardSpecs.value.controls.animate;
     else controls.value.animate = false;
     console.log("Ctls:", controls.value);
+  }
+  if (cardSpecs.value.rating) {
+    rating.value = cardSpecs.value.rating;
+    console.log("Rating:", rating.value);
+  } else {
+    rating.value = 0;
   }
   confgComplete.value = true
   updateData(0);
