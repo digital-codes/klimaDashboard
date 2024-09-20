@@ -3,10 +3,31 @@
     <div class="dataheader">
       <VaAvatar title="Klima Dashboard" :src="basePath + props.logo" size="3rem" />
       <h1>{{ cardMessages[locale].title }}</h1>
-      <div style="display:flex;margin-left: 1rem;" v-if="rating > 0">
-        <span style="font-size:1.5rem;line-height:3rem;margin-right:.5rem;">Bearbeitung:</span>
-        <VaIcon class="material-icons-outlined" :name="rateIcon" :color="rateColor" style="line-height:3rem;" size="1.5rem" />
+
+      <div v-if="breakpoint.xs">
+
+        <div style="display:flex;margin-left: 1rem;" v-if="progress > 0">
+          <VaIcon class="material-icons-outlined" :name="progressIcon" :color="progressColor" style="line-height:3rem;"
+            size="1.5rem" />
+        </div>
       </div>
+      <div v-else>
+        <div style="display:flex;margin-left: 1rem;" v-if="progress > 0">
+          <span style="font-size:1.5rem;line-height:3rem;margin-right:.5rem;">{{ $t("progress") }}:</span>
+          <VaIcon class="material-icons-outlined" :name="progressIcon" :color="progressColor" style="line-height:3rem;"
+            size="1.5rem" />
+          <span style="font-size:1rem;line-height:3rem;margin-left:.2rem;">{{ progressText }}</span>
+        </div>
+      </div>
+
+      <!-- 
+      <div style="display:flex;margin-left: 1rem;" v-if="progress > 0">
+        <span style="font-size:1.5rem;line-height:3rem;margin-right:.5rem;">{{ $t("progress") }}:</span>
+        <VaIcon class="material-icons-outlined" :name="progressIcon" :color="progressColor" style="line-height:3rem;"
+          size="1.5rem" />
+        <span style="font-size:1rem;line-height:3rem;margin-left:.2rem;">{{ progressText }}</span>
+      </div>
+      -->
 
     </div>
 
@@ -89,6 +110,9 @@ import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
 
+import { useBreakpoint } from "vuestic-ui";
+const breakpoint = useBreakpoint();
+
 import SimpleLine from "@/components/charts/SimpleLine.vue";
 
 import { downloadDataAsCSV, downloadDataAsJSON } from "@/composables/DataDown";
@@ -131,30 +155,44 @@ const cardMessages = ref({});
 // read card cardSpecs.value
 //import cardSpecs from "./card.json";
 const cardSpecs = ref({});
+const progress = ref(0);
 
-const rating = ref(0);
-const rateIcon = computed(() => {
-  switch (rating.value) {
+const progressText = computed(() => {
+  switch (progress.value) {
+    case 1:
+      return t("unknown")
+    case 2:
+      return t("delayed")
+    case 3:
+    case 4:
+      return t("inprogress")
+    default:
+      return t("completed")
+  }
+});
+
+const progressIcon = computed(() => {
+  switch (progress.value) {
     case 1:
       return "help_outline";
-      case 2:
+    case 2:
       return "alarm_on"
-      case 3:
-      case 4:
+    case 3:
+    case 4:
       return "schedule";
     default:
       return "check_circle_outline";
   }
 });
 
-const rateColor = computed(() => {
-  switch (rating.value) {
+const progressColor = computed(() => {
+  switch (progress.value) {
     case 1:
       return "#808080";
-      case 2:
+    case 2:
       return "#ff0000"
-      case 3:
-      case 4:
+    case 3:
+    case 4:
       return "#0000ff";
     default:
       return "#00ff00";
@@ -409,11 +447,11 @@ onBeforeMount(async () => {
     else controls.value.animate = false;
     console.log("Ctls:", controls.value);
   }
-  if (cardSpecs.value.rating) {
-    rating.value = cardSpecs.value.rating;
-    console.log("Rating:", rating.value);
+  if (cardSpecs.value.progress) {
+    progress.value = cardSpecs.value.progress;
+    console.log("progress:", progress.value);
   } else {
-    rating.value = 0;
+    progress.value = 0;
   }
   confgComplete.value = true
   updateData(0);
@@ -448,6 +486,11 @@ onBeforeMount(async () => {
 
 .morehdr {
   text-align: left;
+}
+
+.smallhdr {
+  font-size: 1.5rem;
+  line-height: 3rem;
 }
 </style>
 

@@ -9,7 +9,21 @@
         "menu": "Toggle sidebar menu",
         "date": "Date",
         "measured": "Measured at",
-        "climate": "Climate"
+        "climate": "Climate",
+        "rating": "Rating",
+        "progress": "Progress",
+        "unclear": "Unclear",
+        "started": "Started",
+        "delayed": "Delayed",
+        "inprogress": "In Progress",
+        "completed": "Completed",
+        "failed": "Failed",
+        "unknown": "Unknown",
+        "good": "Good",
+        "intermediate": "Intermediate",
+        "cancelled": "Cancelled",
+        "undefined": "Undefined",
+        "replaced": "Replaced"
    
     },
     "de": {
@@ -22,6 +36,20 @@
         "menu": "Navigation umschalten",
         "date": "Datum",
         "measured": "Gemessen am",
-        "climate": "Klima"
+        "climate": "Klima",
+        "rating": "Bewertung",
+        "progress": "Fortschritt",
+        "unclear": "Unklar",
+        "started": "Gestartet",
+        "delayed": "Verspätet",
+        "inprogress": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "failed": "Fehlgeschlagen",
+        "unknown": "Unbekannt",
+        "good": "Gut",
+        "intermediate": "Mittel",
+        "cancelled": "Abgebrochen",
+        "undefined": "Undefiniert",
+        "replaced": "Ersetzt"
         }
 }

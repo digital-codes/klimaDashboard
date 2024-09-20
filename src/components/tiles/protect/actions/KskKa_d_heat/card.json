@@ -55,7 +55,7 @@
   "chart": {
     "updating": false
   },
-  "rating": 5,
+  "progress": 5,
   "controls": {
     "range": {
       "present": false,

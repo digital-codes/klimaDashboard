@@ -1,5 +1,5 @@
 <template>
-  <VaCard class="headerCard">
+  <VaCard class="headerCard" ref="theCard">
     <!-- 
     <div>
       <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? climate_d : climate_l" :size="breakpoint.smUp ? 'medium' : 'small'" />
@@ -104,6 +104,8 @@ const infoImg = ref(null)
 
 const breakpoint = useBreakpoint();
 
+const theCard = ref(null);
+
 // mode switch 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -179,7 +181,6 @@ const infoAction = async (tag) => {
   if (infoOpen.value && (infoTag.value == tag)) {
   //if (infoOpen.value) {
       infoOpen.value = false
-    console.log("Close info")
   } else {
     infoTag.value = tag
     infoName.value = t(props.name + "." + filters.value[tag].label)
@@ -187,7 +188,11 @@ const infoAction = async (tag) => {
     infoLink.value = filters.value[tag].link
     infoImg.value = filters.value[tag].img || null
     infoOpen.value = true
-    console.log("Open info")
+    if (breakpoint.smDown) {
+      nextTick(() => {
+        theCard.value.$el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
   }
 }
 
@@ -288,6 +293,12 @@ onBeforeMount(async () => {
   margin-right: .5rem;
   --va-background-color: unset  !important;
 }
+
+button.infoicon {
+  padding:0;
+  vertical-align: middle;
+}
+
 
 .infoicon :deep(i) {
   color: light-dark($dash-accent-light, $dash-accent-dark)!important;
