@@ -59,6 +59,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
+    // console.log("Scrolling", to, from, savedPosition)
     /*
     if (savedPosition) {
       return savedPosition;
@@ -73,12 +74,23 @@ const router = createRouter({
     }
   */
     if (to.hash) {
+      console.log("Scrolling to hash", to.hash)
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ 
+            el: to.hash,
+            behavior: 'smooth',
+          })
+        }, 300)
+      })
+      /*
       return {
         el: to.hash,
         behavior: 'smooth',
         // above the element
         // top: 30, //150,
       };
+      */
     } else {
       if (savedPosition) {
         return savedPosition;
@@ -98,7 +110,7 @@ router.beforeEach((to, from, next) => {
     alert("404: Redirecting to Home")
     next({ name: 'Home' });
   }
-  next();
+  next()
 });
 
 
