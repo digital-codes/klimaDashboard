@@ -1,0 +1,47 @@
+[
+    {
+        "name": "a2_1_fernwaerme",
+        "section": "protect",
+        "part": "actions",
+        "tag": "A",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
+        "name": "KskKa_d_energy",
+        "section": "protect",
+        "part": "actions",
+        "tag": "B",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
+        "name": "KskKa_d_ghg",
+        "section": "protect",
+        "part": "thg",
+        "tag": "C",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
+        "name": "KskKa_d_stwkenergy",
+        "section": "protect",
+        "part": "actions",
+        "tag": "D",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
+        "name": "renewableShare",
+        "section": "conditions",
+        "part": "energyCharts",
+        "tag": "E",
+        "specs": {
+            "template": "LineBar"
+        }
+    }
+]

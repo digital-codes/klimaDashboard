@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <div class="filterInfo">
+    <div class="filterInfo" ref="filterPane" style="scroll-margin-top: 8rem;">
         <VaCollapse v-model="infoOpen"
           :header="x"
           class="filterHdr"
@@ -105,6 +105,7 @@ const infoImg = ref(null)
 const breakpoint = useBreakpoint();
 
 const theCard = ref(null);
+const filterPane = ref(null);
 
 // mode switch 
 import { useConfigStore } from '@/services/configStore';
@@ -190,7 +191,8 @@ const infoAction = async (tag) => {
     infoOpen.value = true
     if (breakpoint.smDown) {
       nextTick(() => {
-        theCard.value.$el.scrollIntoView({ behavior: "smooth", block: "start" });
+        // make sureto have scroll-margin set in style
+        filterPane.value.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
   }

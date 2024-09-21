@@ -386,6 +386,7 @@ onBeforeMount(async () => {
   //currentLocale.value = configStore.getCurrentLocale
   // a <hr> in the text splits the content into two parts: main content and more content
   const supportedLanguages = configStore.getLanguages;
+  console.log("Props:", props);
   const cardContent = await import(`../${props.section}/${props.part}/${props.name}/text.json`);
   //const cardContent = await import(`../tileSpecs/${props.name}/text.json`); 
 

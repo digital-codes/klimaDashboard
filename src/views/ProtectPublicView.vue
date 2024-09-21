@@ -1,12 +1,24 @@
 <template>
 
-  <HeaderCard name="protpub" @filter="filterTag" id="dh"  :icons="[icon_l, icon_d]"/>
-
-  <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
+  <HeaderCard name="protpub" @filter="filterTag" id="dh" :icons="[icon_l, icon_d]" />
+<!-- -->
+  <div v-if="tilesCompleted" v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
     <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
       :part="tile.part" class="tile">
     </component>
   </div>
+  <!-- -->
+  <!-- 
+  <div v-if="tilesCompleted" v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
+    <div v-if="currentTags.includes(tile.tag)" >
+      <component v-if="tile.type == 'template'" :is="tile.component" :name="tile.name" :section="tile.section"
+      :part="tile.part" class="tile">
+    </component>
+    <component v-else :is="tile.component" :name="tile.name" class="tile">
+    </component>
+    </div>
+  </div>
+  -->
 
 </template>
 
@@ -15,7 +27,7 @@
 import { useI18n } from 'vue-i18n';
 const { t, locale, availableLocales } = useI18n();
 
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, shallowRef, watch, onMounted, computed, onBeforeMount } from 'vue';
 import { defineAsyncComponent } from 'vue'
 
 // special header for the datavies
@@ -23,6 +35,17 @@ const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.v
 import icon_l from "@/assets/icons/dashboard/protection.svg?url"
 import icon_d from "@/assets/icons/dashboard/protection_d.svg?url"
 
+import LineBar from "@/components/tiles/templates/LineBar.vue"
+import DummyGauge from "@/components/tiles/test/dummyGauge/Card.vue"
+const comps = { "LineBar": LineBar, "DummyGauge": DummyGauge }
+
+
+const tilesCompleted = ref(false)
+// import tiles from "./configs/PublicProtectTiles.json"
+import tileConfig from "@/views/configs/ProtectPrivateView.json"
+
+const tiles = shallowRef([])
+/*
 const tiles = [
   // using template for linebar. maybe still loads component multiple times. need section and part for dynamic import with template
   // final import from ../<section>/<part>/<name>/
@@ -33,15 +56,19 @@ const tiles = [
   { "name": "renewableShare", "section": "conditions", "part": "energyCharts", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
   // { "name": "DummyGauge", "tag": "D",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGauge/Card.vue")) },
 ]
+*/
+
+// const currentTags = ref(["A", "B", "C", "D", "E"])
+const currentTags = ref([])
 
 // use anchor to give a unique reference to each tile
-tiles.map(tile => {
+tileConfig.map(tile => {
   tile.anchor = tile.name
   console.log("Tile:", tile.name, tile.tag, tile.anchor)
+  if (!currentTags.value.includes(tile.tag)) {
+    currentTags.value.push(tile.tag)
+  }
 })
-
-const currentTags = ref(["A", "B", "C", "D", "E"])
-
 
 const removeTag = (tag) => {
   currentTags.value = currentTags.value.filter(item => item !== tag);
@@ -59,6 +86,40 @@ const filterTag = (tag) => {
     insertTag(tag)
   }
 }
+
+onBeforeMount(async () => {
+  for (const tile of tileConfig) {
+    tile.anchor = tile.name
+    // specs can indicate template or custom component with name
+    // custom could go without props but semm to work with template props as well ...
+    // alternative is to not use dynamic imports but have all components in the bundle
+    const useDynamic = false
+    if (tile.specs.hasOwnProperty("template")) {
+      console.log("Template:", tile.specs.template)
+      if (useDynamic) {
+        // we need literal strings for dynamic imports. use switch statement
+        switch (tile.specs.template) {
+          case "LineBar":
+            tile.component = defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue"))
+            break
+            default:
+              alert("Unknown template:" + tile.specs.template)
+        }
+      } else {
+        tile.component = comps[tile.specs.template]
+      }
+      tile.component = comps[tile.specs.template]
+      tile.type = "template"
+    } else {
+      console.log("Plain Comp:", tile.specs)
+      tile.component = comps[tile.specs.name]
+      tile.type = "custom"
+    }
+    tiles.value.push(tile)
+  }
+  console.log("Tiles:", tiles.value)
+  tilesCompleted.value = true
+})
 
 
 </script>

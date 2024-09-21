@@ -69,14 +69,14 @@ def is_contextually_similar(kennzahl_1, kennzahl_2, maßnahmen_id_1, maßnahmen_
 grouped_data = data_clean.groupby(['Maßnahmen_ID', 'Kennzahl', 'Maßeinheit']).size().reset_index()
 
 # Threshold for similarity, set high to catch similar but not identical Kennzahlen
-similarity_threshold = .7 #0.8
+similarity_threshold = .8 #0.8
 
 
 # Identifying related datasets based on both title similarity and context (same Maßnahmen_ID)
 related_datasets = {}
 for i, row_i in grouped_data.iterrows():
     for j, row_j in grouped_data.iterrows():
-        if i != j and is_contextually_similar(row_i['Kennzahl'], row_j['Kennzahl'], row_i['Maßnahmen_ID'], row_j['Maßnahmen_ID']):
+        if i != j and ((similar(row_i['Maßnahmen_ID'],row_j['Maßnahmen_ID']) >= similarity_threshold) or is_contextually_similar(row_i['Kennzahl'], row_j['Kennzahl'], row_i['Maßnahmen_ID'], row_j['Maßnahmen_ID'])):
             key = f"{row_i['Maßnahmen_ID']}_{row_i['Kennzahl']}"
             if key not in related_datasets:
                 related_datasets[key] = {
