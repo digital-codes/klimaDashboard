@@ -1,9 +1,45 @@
 [
     {
+        "name": "A1.3_MWh",
+        "section": "protect",
+        "part": "actions",
+        "tag": "A",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
         "name": "a2_1_fernwaerme",
         "section": "protect",
         "part": "actions",
         "tag": "A",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
+        "name": "B2.1_EuroEW",
+        "section": "protect",
+        "part": "actions",
+        "tag": "B",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
+        "name": "D3.1_Anzahl",
+        "section": "protect",
+        "part": "actions",
+        "tag": "D",
+        "specs": {
+            "template": "LineBar"
+        }
+    },
+    {
+        "name": "E1.3_kWpproJahr",
+        "section": "protect",
+        "part": "actions",
+        "tag": "E",
         "specs": {
             "template": "LineBar"
         }
