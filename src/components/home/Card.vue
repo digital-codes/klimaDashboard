@@ -24,7 +24,8 @@ import { ref, onBeforeMount } from "vue";
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
-import logo from "@/assets/logos/logo.png"
+//import logo from "@/assets/logos/logo.png"
+import logo from "@/assets/icons/dashboard/climate_color_transparent.svg?url"
 
 
 // name für i18n key

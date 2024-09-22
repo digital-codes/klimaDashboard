@@ -78,7 +78,8 @@ const icons = ref({
 
 // ----------------------------
 
-import logo from "@/assets/logos/logo.png"
+//import logo from "@/assets/logos/logo.png"
+import logo from "@/assets/icons/dashboard/climate_color_transparent_b.svg?url"
 
 const breakpoints = useBreakpoint()
 
