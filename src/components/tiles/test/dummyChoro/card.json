@@ -5,9 +5,9 @@
     ],
     "data": [
       {
-        "url": "data/karlsruhe/chorotest.json",
+        "url": "data/karlsruhe/energieQuartiere.json",
         "license": "CC-BY-4.0",
-        "name": "Test Choropleth karlsruhe",
+        "name": "Energiequartiere",
         "format": "json",
         "polyurl": "https://transparenz.karlsruhe.de/dataset/8474ba52-f851-4f4b-b05a-1cba9bbd1f4d/resource/2a7fd644-bc67-477a-bb9e-cf88f076b7af/download/stadtteile.json",
         "polyid": "NAME",

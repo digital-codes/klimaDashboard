@@ -12,47 +12,12 @@ const configStore = useConfigStore();
 import { useBreakpoint } from "vuestic-ui";
 const breakpoint = useBreakpoint();
 
-// geojson
-// geoUrl = "/data/karlsruhe/ka.geojson"
-const geoUrl = "https://transparenz.karlsruhe.de/dataset/8474ba52-f851-4f4b-b05a-1cba9bbd1f4d/resource/2a7fd644-bc67-477a-bb9e-cf88f076b7af/download/stadtteile.json"
-
-const kaData = [
-    {"name": "Innenstadt-Ost", "value": 7},
-    {"name": "Innenstadt-West", "value": 71},
-    {"name": "Suedstadt", "value": 19}, 
-    {"name": "Suedweststadt", "value": 23},
-    {"name": "Weststadt", "value": 47},
-    {"name": "Nordweststadt", "value": 40},
-    {"name": "Oststadt", "value": 1},
-    {"name": "Muehlburg", "value": 5},
-    {"name": "Daxlanden", "value": 9},
-    {"name": "Knielingen", "value": 9},
-    {"name": "Gruenwinkel", "value": 52},
-    {"name": "Oberreut", "value": 52},
-    {"name": "Beiertheim-Bulach", "value": 63},
-    {"name": "Weiherfeld-Dammerstock", "value": 75},
-    {"name": "Rueppurr", "value": 90},
-    {"name": "Waldstadt", "value": 88},
-    {"name": "Rintheim", "value": 25},
-    {"name": "Hagsfeld", "value": 11}, 
-    {"name": "Durlach", "value": 66}, 
-    {"name": "Groetzingen", "value": 76}, 
-    {"name": "Stupferich", "value": 56},
-    {"name": "Hohenwettersbach", "value": 71},
-    {"name": "Wolfartsweier", "value": 14}, 
-    {"name": "Gruenwettersbach", "value": 78}, 
-    {"name": "Palmbach", "value": 33},
-    {"name": "Neureut", "value": 77},
-    {"name": "Nordstadt", "value": 96}
-]
 
 const chartOptions = ref(
   {
     title: {
       text: 'Karslruhe Klimadash',
-      subtext: 'SUbtext',
-      sublink: 'SubLink',
-      left: 'right'
+      left: 'center'
     },
     tooltip: {
       trigger: 'item',
@@ -61,8 +26,8 @@ const chartOptions = ref(
     },
     visualMap: {
       left: 'right',
-      min: 20,
-      max: 50,
+      min: 2020,
+      max: 2025,
       inRange: {
         color: [
           '#313695',
@@ -78,7 +43,7 @@ const chartOptions = ref(
           '#a50026'
         ]
       },
-      text: ['High', 'Low'],
+      text: ['2025', '2000'],
       calculable: true
     },
     toolbox: {
@@ -103,10 +68,7 @@ const chartOptions = ref(
             show: true
           }
         },
-        // data: kaData // []
-        data: [
-        {"name": "Weststadt", "value": 47}
-        ]
+        data: []
       }
     ]
   })
@@ -301,7 +263,7 @@ const loadData = async () => {
     const features = geoData.features;
     // ka geojson has property NAME. We need name
     for (const item of features) {
-      item.properties.name = item.properties.NAME.replace("ü","ue").replace("ö","oe").replace("ä","ae")
+      item.properties.name = item.properties[props.polyId].replace("ü","ue").replace("ö","oe").replace("ä","ae")
     }
     theMap.value = registerMap('KA', {geoJSON: geoData})
     dataLoaded.value = true;
@@ -320,10 +282,16 @@ const loadData = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const chartValues = await response.json();
+    for (const item of chartValues) {
+      item.name = item.name.replace("ü","ue").replace("ö","oe").replace("ä","ae")
+      if (props.featureName != "value")
+        item.value = item[props.featureName]
+    }
     chartOptions.value.series[0].data = chartValues
   } catch (error) {
     console.error("Failed to load chart data:", error);
   }
+  chartOptions.value.title.text = props.dataName
   return
   try {
     console.log("Fetching: ", props.dataUrl);
