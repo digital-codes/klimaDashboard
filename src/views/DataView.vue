@@ -24,6 +24,7 @@ const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.v
 const tiles = [
 // using template for linebar. maybe still loads component multiple times. 
 { "name": "DummyLineCjs", "section": "dummyLineCjs", "part": ".", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyLineCjs/Card.vue")) },
+{ "name": "ChoroMap", "section": "", "part": ".", "tag": "B",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyChoro/Card.vue")) },
 //{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
 ]
 

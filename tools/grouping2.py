@@ -4,7 +4,7 @@ from difflib import SequenceMatcher
 
 
 file_path = '/home/kugel/temp/js/klimaDashboard/public/data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv'
-data = pd.read_csv(file_path, delimiter=';', error_bad_lines=False)
+data = pd.read_csv(file_path, delimiter=';', on_bad_lines="warn")
 
 # Selecting relevant columns and cleaning the data
 data_clean = data[['Maßnahmen_ID', 'Kennzahl', 'Maßeinheit', 'Jahr', 'Wert']].copy()
@@ -23,7 +23,7 @@ data_clean.dropna(subset=['Jahr', 'Wert'], inplace=True)
 grouped = data_clean.groupby(['Maßnahmen_ID', 'Kennzahl', 'Maßeinheit'])
 
 # Filter for groups that have at least 5 valid year-value pairs
-valid_groups = grouped.filter(lambda x: len(x) >= 4)
+valid_groups = grouped.filter(lambda x: len(x) >= 5)
 
 # Create a JSON-like structure for grouping information
 grouping_info = {

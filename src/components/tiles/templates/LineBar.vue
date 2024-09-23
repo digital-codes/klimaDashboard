@@ -90,13 +90,14 @@
       </VaChip>
       -->
 
-      <VaButton round @click="csvDown" icon="download">
+      <VaButton round @click="csvDown" icon="download" v-if="controls.downloads.data">
         {{ cardMessages[locale].download }}
       </VaButton>
 
-      <VaButton round @click="imgDown" icon="download">
+      <VaButton round @click="imgDown" icon="download" v-if="controls.downloads.img">
         {{ cardMessages[locale].downimage }}
       </VaButton>
+
     </div>
   </div>
 </template>
@@ -228,6 +229,7 @@ const controls = ref({
   animate: false,
   type: false,
   stacked: false,
+  downloads: { "data": true, "img": true },
 });
 
 const rangeCtl = ref(0);
@@ -239,6 +241,8 @@ const stackCtl = ref(false);
 const chartType = ref("line");
 const chartLocale = ref(locale);
 const ariaLabel = ref("Aria LineChart");
+
+const downCtl = ref({"data":true,"img":true})
 
 const animateSwitch = ref(null);
 
@@ -454,6 +458,11 @@ onBeforeMount(async () => {
   } else {
     progress.value = 0;
   }
+  if (cardSpecs.value.controls.downloads !== undefined) {
+    controls.value.downloads.img = cardSpecs.value.controls.downloads.image;
+    controls.value.downloads.data = cardSpecs.value.controls.downloads.data;
+  }
+
   confgComplete.value = true
   updateData(0);
 });
