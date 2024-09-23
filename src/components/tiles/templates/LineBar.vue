@@ -73,7 +73,7 @@
       <!-- Chart component goes here -->
       <SimpleLine v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl ? 1 : 0"
         :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY" :rangeValue="rangeCtl"
-        :rangeAxis="rangeAxis" :dataFormat="dataFormat" :labelX="labelX" :labelY="labelY" :type="chartType"
+        :rangeAxis="rangeAxis" :dataFormat="dataFormat" :dataDelimiter="dataDelimiter" :labelX="labelX" :labelY="labelY" :type="chartType"
         :stacked="stackCtl" :animate="aniCtl" :ariaLabel="ariaLabel" :locale="chartLocale" @xrange="setXrange"
         @yrange="setYrange" @series="capture"></SimpleLine>
     </div>
@@ -208,6 +208,7 @@ const dataY = ref(null);
 const labelX = ref(null);
 const labelY = ref(null);
 const dataFormat = ref("json"); // json is default
+const dataDelimiter = ref(";"); // csv default ; and US numbers
 // we can create series from classes and columns
 // NB we cannot do both
 // make sure either of the two has to be length 1 (or be empty)
@@ -288,6 +289,7 @@ const updateData = async (index) => {
   labelX.value = cardSpecs.value.data[index].xlabel || "";
   labelY.value = cardSpecs.value.data[index].ylabel || "";
   dataFormat.value = cardSpecs.value.data[index].format || "json";
+  dataDelimiter.value = cardSpecs.value.data[index].delimiter || ";";
   dataColumns.value = cardSpecs.value.data[index].columns || [];
   dataClasses.value = cardSpecs.value.data[index].classes || [];
   // name is localized!

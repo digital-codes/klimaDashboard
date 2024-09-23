@@ -83,6 +83,11 @@ const props = defineProps({
     type: String,
     default: "json",
   },
+  // optional format
+  dataDelimiter: {
+    type: String,
+    default: ";",
+  },
   // optional columns to be selected
   dataColumns: {
     type: Array,
@@ -367,6 +372,7 @@ const loadData = async () => {
       Papa.parse(csvString, {
         header: true,
         dynamicTyping: true,
+        delimiter: props.dataDelimiter,
         complete: async function (results) {
           // console.log("CSV parsed:", results.data);
           data.value = results.data;

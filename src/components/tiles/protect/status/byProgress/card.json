@@ -1,0 +1,45 @@
+{
+    "chart": {
+        "updating": false
+    },
+    "progress": 0,
+    "controls": {
+        "range": {
+            "axis": "x",
+            "present": false
+        },
+        "type": {
+            "present": false,
+            "options": [
+                "bar"
+            ]
+        },
+        "stacked": {
+            "present": true,
+            "force": true
+        },
+        "dataswitch": {
+            "present": false
+        },
+        "animate": {
+            "present": false
+        }
+    },
+    "data": [
+        {
+            "url": "data/karlsruhe/kaActionState.csv",
+            "license": "CC-BY-4.0",
+            "format": "csv",
+            "delimiter": ",",
+            "xaxis": "state",
+            "xlabel": "state",
+            "ylabel": "%",
+            "columns": [
+                "costFraction","savingsFraction"
+            ],
+            "classes": [
+                "section"
+            ]
+        }
+    ]
+}

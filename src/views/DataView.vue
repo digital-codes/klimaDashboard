@@ -3,7 +3,8 @@
   <HeaderCard name="test" @filter="filterTag" id="dh" />
 
   <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
-    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" class="tile">
+    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
+      :part="tile.part" class="tile">
     </component>
   </div>
 
@@ -23,6 +24,8 @@ const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.v
 
 const tiles = [
 // using template for linebar. maybe still loads component multiple times. 
+{ "name": "byProgress", "section": "protect", "part": "status", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+{ "name": "KskKa_d_energy", "section": "protect", "part": "actions", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
 { "name": "DummyLineCjs", "section": "dummyLineCjs", "part": ".", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyLineCjs/Card.vue")) },
 { "name": "ChoroMap", "section": "", "part": ".", "tag": "B",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyChoro/Card.vue")) },
 //{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
