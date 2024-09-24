@@ -252,6 +252,10 @@ const updateOptions = async () => {
 };
 
 const theMap = ref(null);
+const restoreChart =  () => {
+  console.log("Chart restore")
+}
+
 const loadData = async () => {
   console.log("Loading polygons from : ", props.polyUrl);
   try {
@@ -269,7 +273,9 @@ const loadData = async () => {
     dataLoaded.value = true;
     await nextTick();
     // emit data after data loaded, else chart intance is not ready
-    emit("series", {},theChart.value);
+    if (!theChart.value) { 
+      throw("No chart")
+    }
   } catch (error) {
     console.error("Failed to load polygon data:", error);
     return
@@ -288,6 +294,9 @@ const loadData = async () => {
         item.value = item[props.featureName]
     }
     chartOptions.value.series[0].data = chartValues
+    // inform tile 
+    console.log("Emitting series",theChart.value);
+    emit("series", {},theChart.value);
   } catch (error) {
     console.error("Failed to load chart data:", error);
   }
@@ -317,7 +326,11 @@ const loadData = async () => {
       });
     }
     //if (theChart.value) await theChart.value.setOption(chartOptions.value, true, true);
-    if (theChart.value) await theChart.value.clear();
+    if (theChart.value) { 
+      await theChart.value.clear();
+    } else {
+      console.log("No chart instance");
+    }
     await updateOptions();
     await nextTick();
 
@@ -381,7 +394,7 @@ onUnmounted(() => {
 
 <template>
   <v-chart v-if="dataLoaded" ref="theChart" :option="chartOptions" :style="{ height: '100%' }" :theme="chartTheme"
-    :init-options="{ renderer: 'canvas' }" autoresize :aria-label="ariaLabel" @ready="onChartReady">
+    :init-options="{ renderer: 'canvas' }" autoresize :aria-label="ariaLabel" @ready="onChartReady" v-on:restore="restoreChart">
   </v-chart>
 </template>
 

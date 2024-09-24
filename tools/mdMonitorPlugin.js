@@ -35,6 +35,7 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/tiles/protect/actions/a2_1_fernwaerme'),
   path.resolve(__dirname, '../src/components/tiles/conditions/weather/current'),
   path.resolve(__dirname, '../src/components/tiles/conditions/energyCharts/renewableShare'),
+  path.resolve(__dirname, '../src/components/tiles/conditions/statistics/energyQuarters'),
 
 ];
 

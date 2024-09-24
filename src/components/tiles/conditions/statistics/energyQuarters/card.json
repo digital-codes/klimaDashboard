@@ -1,0 +1,42 @@
+{
+    "extra": [
+      {
+      }
+    ],
+    "data": [
+      {
+        "url": "data/karlsruhe/energieQuartiere.json",
+        "license": "CC-BY-4.0",
+        "name": "Energiequartiere",
+        "format": "json",
+        "polyurl": "https://transparenz.karlsruhe.de/dataset/8474ba52-f851-4f4b-b05a-1cba9bbd1f4d/resource/2a7fd644-bc67-477a-bb9e-cf88f076b7af/download/stadtteile.json",
+        "polyid": "NAME",
+        "feature": "value"
+      }
+    ],
+    "chart": {
+      "updating": false
+    },
+    "controls": {
+      "downloads": {
+        "image": true,
+        "data": false
+      },
+      "range": {
+        "present": false
+      },
+      "type": {
+        "present": false
+      },
+      "stacked": {
+        "present": false
+      },
+      "dataswitch": {
+        "present": false
+      },
+      "animate": {
+        "present": false
+      }
+    }
+  }
+
