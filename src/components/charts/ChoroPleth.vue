@@ -52,9 +52,7 @@ const chartOptions = ref(
       left: 'left',
       top: 'top',
       feature: {
-        dataView: { readOnly: false },
-        restore: {},
-        saveAsImage: {}
+        restore: {}
       }
     },
     series: [
@@ -139,9 +137,7 @@ const data = ref(null);
 const datakeys = ref(null);
 const ariaLabel = ref(props.ariaLabel);
 
-const animTimer = ref(null);
-const fullXRange = ref({});
-const fullData = ref([]);
+const chartValues = ref([]);
 
 watch(currentPresetName, (newValue, oldValue) => {
   console.log("Theme changed:", newValue);
@@ -209,34 +205,12 @@ const getDataRange = () => {
   return range
 };
 
-const saveData = () => {
-  // save data 
-  fullData.value = JSON.parse(JSON.stringify(chartOptions.value.series));
-  // max data values
-  const range = getDataRange();
-  // and X range
-  fullXRange.value = {
-    idx: 0,
-    len: chartOptions.value.xAxis.data.length,
-    range: JSON.parse(JSON.stringify(chartOptions.value.xAxis.data)),
-    max: range.max,
-    smax: range.smax
-  };
-  console.log("Range value max:", fullXRange.value.max);
-}
-
-const setupXRange = () => {
-  let mx = props.stacked ? fullXRange.value.smax : fullXRange.value.max;
-  if (mx > 100) mx = Math.ceil(1.05 * mx);
-  else mx += 2;
-  chartOptions.value.yAxis.max = mx
-};
-
-
 
 const updateOptions = async () => {
   const size = breakpoint.smUp ? "large" : "small";
   console.log("Size:", size);
+
+
   return
   chartOptions.value = await updateEchartsOptions(
     chartOptions.value,
@@ -254,6 +228,9 @@ const updateOptions = async () => {
 const theMap = ref(null);
 const restoreChart =  () => {
   console.log("Chart restore")
+  // reload
+  chartOptions.value.series[0].data = chartValues.value
+  theChart.value.setOption(chartOptions.value, true, true);
 }
 
 const loadData = async () => {
@@ -287,19 +264,20 @@ const loadData = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const chartValues = await response.json();
-    for (const item of chartValues) {
+    chartValues.value = await response.json();
+    for (const item of chartValues.value) {
       item.name = item.name.replace("ü","ue").replace("ö","oe").replace("ä","ae")
       if (props.featureName != "value")
         item.value = item[props.featureName]
     }
-    chartOptions.value.series[0].data = chartValues
     // inform tile 
     console.log("Emitting series",theChart.value);
     emit("series", {},theChart.value);
   } catch (error) {
     console.error("Failed to load chart data:", error);
+    chartValues.value = []
   }
+  chartOptions.value.series[0].data = JSON.parse(JSON.stringify(chartValues.value))
   chartOptions.value.title.text = props.dataName
   return
   try {
