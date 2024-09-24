@@ -1,0 +1,35 @@
+{
+  "filters":
+  [
+  {
+    "label": "climate",
+    "value": true,
+    "icon": "co2",
+    "name": "A"
+  },
+  {
+    "label": "energy",
+    "value": true,
+    "icon": "power",
+    "name": "B"
+  },
+  {
+    "label": "mobility",
+    "value": true,
+    "icon": "directions_bus",
+    "name": "C"
+  },
+  {
+    "label": "buildings",
+    "value": true,
+    "icon": "other_houses",
+    "name": "D"
+  },
+  {
+    "label": "other",
+    "value": true,
+    "icon": "settings",
+    "name": "E"
+  }
+]
+}
