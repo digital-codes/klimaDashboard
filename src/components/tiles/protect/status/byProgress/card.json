@@ -19,7 +19,7 @@
             "force": true
         },
         "dataswitch": {
-            "present": false
+            "present": true
         },
         "animate": {
             "present": false
@@ -31,14 +31,29 @@
             "license": "CC-BY-4.0",
             "format": "csv",
             "delimiter": ",",
-            "xaxis": "state",
-            "xlabel": "state",
+            "xaxis": "section",
+            "xlabel": "section",
             "ylabel": "%",
             "columns": [
-                "costFraction","savingsFraction"
+                "costFraction"
             ],
             "classes": [
-                "section"
+                "state"
+            ]
+        },
+        {
+            "url": "data/karlsruhe/kaActionState.csv",
+            "license": "CC-BY-4.0",
+            "format": "csv",
+            "delimiter": ",",
+            "xaxis": "section",
+            "xlabel": "section",
+            "ylabel": "%",
+            "columns": [
+                "savingsFraction"
+            ],
+            "classes": [
+                "state"
             ]
         }
     ]

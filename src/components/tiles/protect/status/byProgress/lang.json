@@ -1,1 +1,54 @@
-{"en": {"yes": "Yes", "no": "No", "title": "A1.3", "source": "Source", "aria": "Chart", "license": "License", "chart": "Chart EN", "type": "Type", "typeleft": "Line", "typeright": "Bar", "stacked": "Stacked", "download": "Download Data", "downimage": "Get Image", "rangetitle": "X Range", "dsname": ["Anzahl", "MWh"], "dsleft": "First", "dsright": "Second", "animation": "Animation", "anistart": "Start", "anistop": "Stop", "more": "More"}, "de": {"yes": "Ja", "no": "Nein", "title": "A1.3", "source": "Quelle", "aria": "Diagramm", "license": "Lizenz", "chart": "Chart DE", "type": "Typ", "typeleft": "Linie", "typeright": "Balken", "stacked": "Gestapelt", "download": "Daten herunterladen", "downimage": "Als Bild laden", "rangetitle": "X Bereich", "dsname": ["Anzahl", "MWh"], "dsleft": "Eins", "dsright": "Zwei", "animation": "Animation DE", "anistart": "Start", "anistop": "Stop", "more": "Mehr"}}
+{
+    "en": {
+        "yes": "Yes",
+        "no": "No",
+        "title": "Status of Actions",
+        "source": "Source",
+        "aria": "Chart",
+        "license": "License",
+        "chart": "Chart EN",
+        "type": "Type",
+        "typeleft": "Line",
+        "typeright": "Bar",
+        "stacked": "Stacked",
+        "download": "Download Data",
+        "downimage": "Get Image",
+        "rangetitle": "X Range",
+        "dsname": [
+            "Cost Fraction",
+            "Savings Fraction"
+        ],
+        "dsleft": "First",
+        "dsright": "Second",
+        "animation": "Animation",
+        "anistart": "Start",
+        "anistop": "Stop",
+        "more": "More"
+    },
+    "de": {
+        "yes": "Ja",
+        "no": "Nein",
+        "title": "Stand der Maßnahmen",
+        "source": "Quelle",
+        "aria": "Diagramm",
+        "license": "Lizenz",
+        "chart": "Chart DE",
+        "type": "Typ",
+        "typeleft": "Linie",
+        "typeright": "Balken",
+        "stacked": "Gestapelt",
+        "download": "Daten herunterladen",
+        "downimage": "Als Bild laden",
+        "rangetitle": "X Bereich",
+        "dsname": [
+            "Anteil Kosten",
+            "Anteil Einsparung"
+        ],
+        "dsleft": "Eins",
+        "dsright": "Zwei",
+        "animation": "Animation DE",
+        "anistart": "Start",
+        "anistop": "Stop",
+        "more": "Mehr"
+    }
+}
