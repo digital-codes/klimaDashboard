@@ -64,11 +64,13 @@ const geojsonData1 = {
   ],
 };
 
-import geojsonData2 from "@/assets/data/ka_geschwindigkeiten.json";
-import geojsonData3 from "@/assets/data/ka_escooter.json";
-import geojsonData4 from "@/assets/data/ka_stadtteile.json";
+//import geojsonData2 from "@/assets/data/ka_geschwindigkeiten.json";
+//import geojsonData3 from "@/assets/data/ka_escooter.json";
+//import geojsonData4 from "@/assets/data/ka_stadtteile.json";
+import geojsonData_ from "@/assets/data/weatherPois.json";
 
-const geojsonData = ref(geojsonData3);
+
+const geojsonData = ref(geojsonData_);
 
 
 const tileSource = [
@@ -166,7 +168,12 @@ onMounted(() => {
   geoLayer.value = Lref.value.geoJSON(geojsonData.value, {
     onEachFeature: (feature, layer) => {
       if (feature.properties && feature.properties.name) {
-        layer.bindPopup(feature.properties.name);
+        // layer.bindPopup(feature.properties.name);
+        var popupContent = "<b>" + feature.properties.name + "</b><br>" +
+                    "<img src='" + feature.properties.url + "' width='200'><br>" +
+                    "<em>" + feature.properties.attribution + "</em><br>"
+                
+                layer.bindPopup(popupContent);        
       }
     },
   })

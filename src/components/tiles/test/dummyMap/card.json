@@ -2,7 +2,8 @@
   "specs": {
     "data": [
       {
-        "url": "data/karlsruhe/klima-tp.csv",
+        "url": "data/karlsruhe/weatherPois.json",
+        "format":"json",
         "license": "CC BY 4.0",
         "name": "TP Karlsruhe"
       }
