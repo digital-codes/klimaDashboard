@@ -46,7 +46,7 @@
     <div class="row">
       <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
         :min="controls.range.min" :max="controls.range.max" :step="controls.range.step"
-        :disabled="stackCtl && (rangeAxis === 'y')" class="flex lg6 sm12 xs12 control range" track-label-visible>
+        :disabled="stackCtl && (rangeAxis === 'y')" class="flex lg6 sm12 xs12 control " :class="noslider?'rangeCnt':'range'" track-label-visible>
         <template #prepend>
           <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="slcnt" />
         </template>
@@ -234,6 +234,7 @@ const controls = ref({
 });
 
 const rangeCtl = ref(0);
+const noslider = ref(false) // slider or only counter with slider
 const rangeAxis = ref("");
 const dataCtl = ref(false);
 const aniCtl = ref(false);
@@ -431,6 +432,7 @@ onBeforeMount(async () => {
       rangeCtl.value = cardSpecs.value.controls.range.max;
       */
       rangeAxis.value = cardSpecs.value.controls.range.axis || "y";
+      noslider.value = cardSpecs.value.controls.range.noslider || false;
     }
     else {
       controls.value.range = false;
@@ -482,6 +484,18 @@ onBeforeMount(async () => {
 
 .range {
   min-width: 50%;
+}
+
+.rangeCnt {
+  text-align: left;
+}
+.rangeCnt :deep(.va-slider__input-wrapper) {
+  //display:none;
+  flex: unset;
+}
+
+.rangeCnt :deep(.va-slider__container) { 
+  display: none;
 }
 
 .switch {

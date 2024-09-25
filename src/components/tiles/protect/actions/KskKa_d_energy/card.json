@@ -43,7 +43,8 @@
   "controls": {
     "range": {
       "axis":"x",
-      "present": true
+      "present": true,
+      "noslider":true
     },
     "type": {
       "present": false,
