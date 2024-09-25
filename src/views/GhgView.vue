@@ -1,6 +1,6 @@
 <template>
 
-  <HeaderCard name="ghg" @filter="filterTag" id="dh"  :icons="[icon_l, icon_d]"/>
+  <HeaderCard name="ghg" @filter="filterTag"  :icons="[icon_l, icon_d]"/>
 
   <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
     <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
@@ -27,13 +27,9 @@ const tiles = [
   // using template for linebar. maybe still loads component multiple times. need section and part for dynamic import with template
   // final import from ../<section>/<part>/<name>/
   { "name": "KskKa_d_energy", "section": "protect", "part": "actions", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-  { "name": "KskKa_d_ghg", "section": "protect", "part": "thg", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-  { "name": "KskKa_d_stwkenergy", "section": "protect", "part": "actions", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-
+  { "name": "KskKa_d_ghg", "section": "protect", "part": "thg", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+  { "name": "KskKa_d_stwkenergy", "section": "protect", "part": "actions", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
   { "name": "DummyTable", "tag": "D", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyTable/Card.vue")) },
-  { "name": "DummyGraphics", "tag": "B", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyGraphics/Card.vue")) },
-  // { "name": "DummyGauge", "tag": "D",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyGauge/Card.vue")) },
-  { "name": "DummyMap", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyMap/Card.vue")) }
 ]
 
 // use anchor to give a unique reference to each tile
@@ -55,6 +51,7 @@ const insertTag = (tag) => {
 }
 
 const filterTag = (tag) => {
+  console.log("Filtering tag:", tag)
   if (currentTags.value.includes(tag)) {
     removeTag(tag)
   } else {

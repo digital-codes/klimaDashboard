@@ -5,25 +5,25 @@
     "label": "energy",
     "value": true,
     "icon": "power",
-    "name": "B"
+    "name": "A"
   },
   {
     "label": "mobility",
     "value": true,
     "icon": "directions_bus",
-    "name": "C"
+    "name": "B"
   },
   {
     "label": "buildings",
     "value": true,
     "icon": "other_houses",
-    "name": "D"
+    "name": "C"
   },
   {
     "label": "other",
     "value": true,
     "icon": "settings",
-    "name": "E"
+    "name": "D"
   }
 ]
 }
