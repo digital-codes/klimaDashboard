@@ -11,7 +11,7 @@
  
 ## Credits
 
-[https://vuejs.org/](https://vuejs.org/), [https://vitejs.dev/](https://vitejs.dev/), [https://ui.vuestic.dev/](https://ui.vuestic.dev/), [https://www.data-forge-js.com/](https://www.data-forge-js.com/), [https://echarts.apache.org](https://echarts.apache.org)
+[https://vuejs.org/](https://vuejs.org/), [https://vitejs.dev/](https://vitejs.dev/), [https://ui.vuestic.dev/](https://ui.vuestic.dev/), [https://www.data-forge-js.com/](https://www.data-forge-js.com/), [https://echarts.apache.org](https://echarts.apache.org), [https://www.papaparse.com/](https://www.papaparse.com/), [https://leafletjs.com/](https://leafletjs.com/)
 
 
 

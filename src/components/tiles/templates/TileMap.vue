@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="confgComplete">
     <div class="dataheader">
       <VaAvatar  title="Klima Dashboard" :src="basePath + props.logo" size="3rem"/>
       <h1>{{ cardMessages[locale].title }}</h1>
@@ -18,6 +18,19 @@
     </div>
    
     <div class="row">
+
+      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
+        :false-inner-label="cardMessages[locale].dsleft" :true-inner-label="cardMessages[locale].dsright"
+        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
+
+        <VaSwitch v-if="controls.animate" 
+           v-model="aniCtl" 
+          :label="cardMessages[locale].animation" 
+          :false-inner-label='cardMessages[locale].no'
+          :true-inner-label='cardMessages[locale].yes'
+          class="flex lg2 control switch"/>
+
+
           <VaSlider v-if="controls.range.present" 
           v-model="rangeCtl" 
           :label="cardMessages[locale].rangetitle"
@@ -34,24 +47,12 @@
             </template>
          </VaSlider>
 
-         <VaSwitch v-if="controls.dataswitch" 
-          v-model="dataCtl" 
-          :label="cardMessages[locale].dstitle"  
-          :false-inner-label='cardMessages[locale].dsleft'
-          :true-inner-label='cardMessages[locale].dsright'
-          class="flex lg2 control switch"/>
 
-          <VaSwitch v-if="controls.animate" 
-           v-model="aniCtl" 
-          :label="cardMessages[locale].animation" 
-          :false-inner-label='cardMessages[locale].no'
-          :true-inner-label='cardMessages[locale].yes'
-          class="flex lg2 control switch"/>
     </div>
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleMap :dataUrl="dataUrl" :dataName="dataName" 
+      <SimpleMap  v-if="chartValid"  :dataUrl="dataUrl" :dataName="dataName" 
       :ariaLabel="ariaLabel" :locale="chartLocale" 
       :dataProps="dataProps" @data="capture"></SimpleMap>
     </div>
@@ -61,7 +62,7 @@
       <!-- source, license, download button -->
 
       <VaChip disabled outline>
-        {{ $t($props.name + ".license") }}: {{ dataLicense }}
+        {{ cardMessages[locale].license }}: {{ dataLicense }}
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >
@@ -69,13 +70,15 @@
       </VaChip>
       -->
 
-      <VaButton round @click="csvDown" icon="download" v-if="controls.downloads.data">
+      <VaButton round @click="downJson" icon="download" v-if="controls.downloads.data">
         {{ cardMessages[locale].download }}
       </VaButton>
 
-      <VaButton round @click="imgDown" icon="download" v-if="controls.downloads.img">
+      <VaButton round @click="exportMap" icon="download" v-if="controls.downloads.img">
         {{ cardMessages[locale].downimage }}
       </VaButton>
+
+
 
     </div>
 
@@ -85,7 +88,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, messages, locale } = useI18n();
-import { ref, onBeforeMount, onMounted, watch } from "vue";
+import { ref, onBeforeMount, nextTick, watch } from "vue";
 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -132,6 +135,9 @@ const cardMessages = ref({});
 //import cardSpecs from "./card.json";
 const cardSpecs = ref({});
 
+// needed to force re-render when dataurl reused
+const chartValid = ref(true);
+
 // content pane
 const content = ref({});
 const contentMore = ref({});
@@ -144,6 +150,7 @@ const dataCtl = ref(false);
 const dataUrl = ref(null)
 const dataName = ref(null)
 const dataLicense = ref(null)
+const dataProps = ref(null)
 
 // controls
 const controls = ref({
@@ -164,12 +171,14 @@ const checkUrl = (url) => {
 }
 
 watch(locale, (lang) => {
-  // console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
+  /*
+  // console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);  
   dataName.value = cardMessages.value[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
   // console.log("dsname:", dataName.value);
   ariaLabel.value = cardMessages.value[lang].aria + ": " + dataName.value
+  */
   chartLocale.value = lang;
-  // updateData(0)
+  updateData(0)
 });
 
 
@@ -230,9 +239,33 @@ const downJson = async () => {
 
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index)
-  dataUrl.value = cardMessages.specs.data[dataCtl.value?1:0].url
-  dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
+  updateData(index ? 1 : 0);
+  /*
+  dataUrl.value = cardSpecs.value.data[dataCtl.value?1:0].url
+  dataLicense.value = cardSpecs.value.data[dataCtl.value?1:0].license
+  dataProps.value = cardSpecs.value.data[dataCtl.value?1:0].properties
+  dataName.value = cardMessages.value[locale].dsname[dataCtl.value ? 1 : 0] || "Data";
+  ariaLabel.value = cardMessages.value[locale].aria + ": " + dataName.value
+  */
 })
+
+const updateData = async (index) => {
+  const newUrl = checkUrl(cardSpecs.value.data[index].url);
+  //console.log("UpdateData:", index, newUrl)
+  if (newUrl === dataUrl.value) {
+    chartValid.value = false;
+    await nextTick();
+  }
+  dataUrl.value = newUrl;
+  dataLicense.value = cardSpecs.value.data[index].license;
+  dataProps.value = cardSpecs.value.data[index].properties;
+  // name is localized!
+  // dataName.value = cardSpecs.value.data[index].name || "Data"
+  dataName.value = cardMessages.value[locale.value].dsname[index] || "Data";
+  ariaLabel.value = cardMessages.value[locale.value].aria + ": " + dataName.value
+  chartValid.value = true;
+};
+
 
 
 onBeforeMount(async () => {
@@ -293,9 +326,8 @@ onBeforeMount(async () => {
     controls.value.downloads.img = cardSpecs.value.controls.downloads.image;
     controls.value.downloads.data = cardSpecs.value.controls.downloads.data;
   }
-
+  await updateData(0);
   confgComplete.value = true
-  // updateData(0);
 });
 
 </script>
@@ -308,19 +340,37 @@ onBeforeMount(async () => {
 
 .control {
   margin-right: 1rem;
-  margin-bottom: .3rem;
+  margin-bottom: 0.3rem;
 }
 
 .range {
   min-width: 50%;
 }
 
+.rangeCnt {
+  text-align: left;
+}
+.rangeCnt :deep(.va-slider__input-wrapper) {
+  //display:none;
+  flex: unset;
+}
+
+.rangeCnt :deep(.va-slider__container) { 
+  display: none;
+}
+
 .switch {
   min-width: 10%;
   border-color: light-dark($dash-border-light, $dash-border-dark) !important;
-  border:1px solid;
+  //border:1px solid;
   border-radius: 16px;
 }
+
+.slcnt {
+  width: 130px;
+  text-align: center;
+}
+
 .morehdr {
   text-align: left;
 }

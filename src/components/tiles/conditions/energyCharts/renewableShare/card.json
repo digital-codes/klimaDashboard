@@ -28,7 +28,7 @@
       ]
     },
     "stacked": {
-      "present": true
+      "present": false
     },
     "dataswitch": {
       "present": false

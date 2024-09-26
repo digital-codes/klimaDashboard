@@ -3,11 +3,27 @@
     {
       "url": "data/karlsruhe/weatherPois.json",
       "license": "CC-BY-4.0",
-      "name": "Wetterstationen Karlsruhe",
+      "name": "Cityclim Stationen",
+      "format": "json",
+      "properties": {
+        "name": "name",
+        "img": "img",
+        "url": "url",
+        "attribution": "attribution",
+        "description": "description"
+      },
+      "columns":[],
+      "classes": []
+    },
+    {
+      "url": "data/karlsruhe/weatherPois2.json",
+      "license": "CC-BY-4.0",
+      "name": "LUBW Stationen",
       "format": "json",
       "properties": {
         "name": "name",
         "url": "url",
+        "img": "img",
         "attribution": "attribution",
         "description": "description"
       },
@@ -35,7 +51,7 @@
       "present": false
     },
     "dataswitch": {
-      "present": false
+      "present": true
     },
     "animate": {
       "present": false

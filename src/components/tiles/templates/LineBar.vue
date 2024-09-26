@@ -44,19 +44,12 @@
 
 
     <div class="row">
-      <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
-        :min="controls.range.min" :max="controls.range.max" :step="controls.range.step"
-        :disabled="stackCtl && (rangeAxis === 'y')" class="flex lg6 sm12 xs12 control " :class="noslider?'rangeCnt':'range'" track-label-visible>
-        <template #prepend>
-          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="slcnt" />
-        </template>
-      </VaSlider>
 
       <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
         :false-inner-label="cardMessages[locale].dsleft" :true-inner-label="cardMessages[locale].dsright"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch v-if="controls.type" v-model="typeCtl" :label="cardMessages[locale].type"
+        <VaSwitch v-if="controls.type" v-model="typeCtl" :label="cardMessages[locale].type"
         :false-inner-label="cardMessages[locale].typeleft" :true-inner-label="cardMessages[locale].typeright"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
@@ -67,6 +60,15 @@
       <VaSwitch v-if="controls.animate" ref="animateSwitch" v-model="aniCtl" :label="cardMessages[locale].animation"
         :false-inner-label="cardMessages[locale].no" :true-inner-label="cardMessages[locale].yes"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
+
+        <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+        :min="controls.range.min" :max="controls.range.max" :step="controls.range.step"
+        :disabled="stackCtl && (rangeAxis === 'y')" class="flex lg6 sm12 xs12 control " :class="noslider?'rangeCnt':'range'" track-label-visible>
+        <template #prepend>
+          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="slcnt" />
+        </template>
+      </VaSlider>
+
     </div>
 
     <div class="chartpane">
@@ -82,7 +84,7 @@
       <!-- source, license, download button -->
 
       <VaChip disabled outline>
-        {{ $t($props.name + ".license") }}: {{ dataLicense }}
+        {{ cardMessages[locale].license }}: {{ dataLicense }}
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >

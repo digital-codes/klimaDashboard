@@ -5,11 +5,66 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const emit = defineEmits(["data"]);
+
+const props = defineProps({
+  /* Add your props here */
+  dataUrl: {
+    type: String,
+    required: true,
+  },
+  dataName: {
+    type: String,
+    default: "LineChart",
+  },
+  ariaLabel: {
+    type: String,
+    default: "Aria LineChart",
+  },
+  // optional X axis identifier
+  dataX: {
+    type: String,
+    default: "",
+  },
+  // optional Y axis identifier
+  dataY: {
+    type: String,
+    default: "",
+  },
+  // optional X axis label
+  labelX: {
+    type: String,
+    default: "",
+  },
+  // optional Y axis label
+  labelY: {
+    type: String,
+    default: "",
+  },
+  // optional format
+  dataFormat: {
+    type: String,
+    default: "json",
+  },
+  // optional format
+  dataDelimiter: {
+    type: String,
+    default: ";",
+  },
+  // optional columns to be selected
+  dataProps: {
+    type: Object,
+    default: {"name": "name", "url": "url", "attribution": "attribution","description": "description"},
+  },
+  locale: {
+    type: String,
+    default: "de",
+  },
+});
 
 //const Lref = ref(L);
 const mapInstance = ref(null);
@@ -31,7 +86,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 
-const geojsonData1 = {
+const geojsonDataExample = {
   type: "FeatureCollection",
   name: "Testing WGS84",
   crs: {
@@ -64,11 +119,6 @@ const geojsonData1 = {
   ],
 };
 
-//import geojsonData2 from "@/assets/data/ka_geschwindigkeiten.json";
-//import geojsonData3 from "@/assets/data/ka_escooter.json";
-//import geojsonData4 from "@/assets/data/ka_stadtteile.json";
-//import geojsonData_ from "@/assets/data/weatherPois.json";
-
 
 const geojsonData = ref(null);
 
@@ -88,42 +138,19 @@ const tileSource = [
 
 const tileIdx = 1 // which tiles to use
 
-onMounted(async () => {
-  console.log("Map mounted")
-  // get geojson data
-  try {
-    const response = await fetch("/data/karlsruhe/weatherPois.json");
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    geojsonData.value = await response.json();
-  } catch (error) {
-    console.error("Failed to fetch geojson data:", error);
-    return
+
+watch(() => props.dataUrl, async (newVal, oldVal) => {
+  console.log("Data URL changed", newVal, oldVal);
+  await loadData();
+});
+
+const loadData = async () => {
+  console.log("Fetching data from", props.dataUrl);
+  const response = await fetch(props.dataUrl);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
   }
-  if (!mapInstance.value) {
-    Lref.value = L;
-    // Fix Leaflet's default icon paths
-    delete Lref.value.Icon.Default.prototype._getIconUrl;
-
-    Lref.value.Icon.Default.mergeOptions({
-      iconRetinaUrl: markerIcon2x,
-      iconUrl: markerIcon,
-      shadowUrl: markerShadow,
-    });
-
-    mapInstance.value = Lref.value.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
-  }
-
-  tileLayer.value = Lref.value.tileLayer(
-    tileSource[tileIdx].url,
-    {
-      maxZoom: 19,
-      attribution: tileSource[tileIdx].attr,
-    }
-  )
-  tileLayer.value.addTo(mapInstance.value);
-
+  geojsonData.value = await response.json();
   // limit number of features
   const features = geojsonData.value.features;
   const maxFeatures = 100;
@@ -176,27 +203,64 @@ onMounted(async () => {
     }
   }
 
+  if (geoLayer.value)
+    await geoLayer.value.removeFrom(mapInstance.value)
+
   geoLayer.value = Lref.value.geoJSON(geojsonData.value, {
     onEachFeature: (feature, layer) => {
       if (feature.properties && feature.properties.name) {
         // layer.bindPopup(feature.properties.name);
-        var popupContent = "<b>" + feature.properties.name + "</b><br>" +
-                    "<img src='" + feature.properties.url + "' width='200'><br>" +
-                    "<em>" + feature.properties.attribution + "</em><br>"
-                
-                layer.bindPopup(popupContent);        
+        let popupContent = "<b>" + feature.properties.name + "</b><br>"
+        if (feature.properties.description)
+          popupContent += feature.properties.description + "<br>"
+        if (feature.properties.img)
+          popupContent +=
+            "<img src='" + feature.properties.img + "' width='160'><br>" +
+            "<em>" + feature.properties.attribution + "</em><br>"
+        if (feature.properties.url)
+          popupContent += "<a href='" + feature.properties.url + "' target=_blank>More</a><br>"
+        layer.bindPopup(popupContent);        
       }
     },
   })
   geoLayer.value.addTo(mapInstance.value);
   emit("data", { content: geojsonData.value, id: theMap.value, L: Lref.value, map: mapInstance.value });
+};
+
+
+onMounted(async () => {
+  console.log("Map mounted")
+  if (!mapInstance.value) {
+    Lref.value = L;
+    // Fix Leaflet's default icon paths
+    delete Lref.value.Icon.Default.prototype._getIconUrl;
+
+    Lref.value.Icon.Default.mergeOptions({
+      iconRetinaUrl: markerIcon2x,
+      iconUrl: markerIcon,
+      shadowUrl: markerShadow,
+    });
+
+    mapInstance.value = Lref.value.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
+  }
+
+  tileLayer.value = Lref.value.tileLayer(
+    tileSource[tileIdx].url,
+    {
+      maxZoom: 19,
+      attribution: tileSource[tileIdx].attr,
+    }
+  )
+  tileLayer.value.addTo(mapInstance.value);
+    // load geojson ...
+  await loadData()
 });
 
 onUnmounted(async () => {
   console.log("Map unmounted");
   await geoLayer.value.clearLayers();
-  await geoLayer.value.removeFrom(mapInstance.value)
   await tileLayer.value.removeFrom(mapInstance.value)
+  await geoLayer.value.removeFrom(mapInstance.value)
   // await mapInstance.value.remove();
   mapInstance.value = null;
 });

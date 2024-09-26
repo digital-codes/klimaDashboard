@@ -15,7 +15,8 @@
         "downimage": "Get Image",
         "rangetitle": "Range Title",
         "dsname": [
-            "Weather Stations"
+            "Cityclim Stations", 
+            "LUBW Stations"
         ],
         "dsleft": "First",
         "dsright": "Second",
@@ -40,7 +41,8 @@
         "downimage": "Als Bild laden",
         "rangetitle": "Range Title",
         "dsname": [
-            "Wetter Stationen"
+            "Cityclim Stationen",
+            "LUBW Stationen"
         ],
         "dsleft": "Eins",
         "dsright": "Zwei",

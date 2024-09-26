@@ -1,5 +1,11 @@
 {
   "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
   "features": [
     {
       "type": "Feature",
@@ -10,6 +16,7 @@
       "properties": {
         "name": "Albtalbahnhof",
         "url": "https://upload.wikimedia.org/wikipedia/commons/6/60/J31_791_Bf_Karlsruhe_Albtalbahnhof%2C_ET_858.jpg",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/6/60/J31_791_Bf_Karlsruhe_Albtalbahnhof%2C_ET_858.jpg",
         "attribution":"Falk2, CC BY-SA 3.0 DE <https://creativecommons.org/licenses/by-sa/3.0/de/deed.en>, via Wikimedia Commons"
       }
     },
@@ -21,20 +28,7 @@
       },
       "properties": {
         "name": "Sonnenbad",
-        "url": "https://upload.wikimedia.org/wikipedia/commons/0/00/Sonnenbad_am_Rheinhafen_-_panoramio_%281%29.jpg",
-        "attribution":"Baden de, CC BY 3.0 <https://creativecommons.org/licenses/by/3.0>, via Wikimedia Commons"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [8.409374, 49.006647]
-      },
-      "properties": {
-        "name": "LUBW - Heinrich-Hübsch-Schule",
-        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Karlsruhe_Heinrich-H%C3%BCbsch-Schule.jpg",
-        "attribution":"Photo: Andreas Praefcke, CC BY 3.0 <https://creativecommons.org/licenses/by/3.0>, via Wikimedia Commons"
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/00/Sonnenbad_am_Rheinhafen_-_panoramio_%281%29.jpg"
       }
     },
     {
@@ -45,7 +39,7 @@
       },
       "properties": {
         "name": "Kaiserplatz",
-        "url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Blick_Richtung_M%C3%BChlburger_Tor_-_panoramio.jpg",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Blick_Richtung_M%C3%BChlburger_Tor_-_panoramio.jpg",
         "attribution":"2AgentSmith2, CC BY 3.0 <https://creativecommons.org/licenses/by/3.0>, via Wikimedia Commons"
       }
     }
