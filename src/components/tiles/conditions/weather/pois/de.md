@@ -1,4 +1,4 @@
-## Daten der Wetterstationen
+## Standorte der Wetterstationen
 
 Die Messstationen befinden sich an folgenden Standorten:
 
@@ -7,7 +7,8 @@ Die Messstationen befinden sich an folgenden Standorten:
   * Sonnenbad (CityClim )
   * Heinrich Hübsch Schule (LUBW)
 
+<hr>
 
-Jeweils Temperatur, Luftfeuchtigkeit, Luftdruck und Einstrahlung
+dmqfdqmfpoewf
 
 

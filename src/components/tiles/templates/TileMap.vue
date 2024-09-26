@@ -2,11 +2,20 @@
   <div class="card">
     <div class="dataheader">
       <VaAvatar  title="Klima Dashboard" :src="basePath + props.logo" size="3rem"/>
-      <h1 >{{ $t($props.name + ".title") }}</h1>
+      <h1>{{ cardMessages[locale].title }}</h1>
     </div>
 
 
-    <div class="mdcontent" v-html="content[locale]"></div>
+    <div class="mdcontent">
+      <div v-html="content[locale]"></div>
+      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="cardMessages[locale].more"
+        icon="more_horiz" class="morehdr">
+        <template #content>
+          <div v-html="contentMore[locale]"></div>
+        </template>
+      </VaCollapse>
+
+    </div>
    
     <div class="row">
           <VaSlider v-if="controls.range.present" 
@@ -42,8 +51,11 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleMap :dataUrl="dataUrl" @data="capture"></SimpleMap>
+      <SimpleMap :dataUrl="dataUrl" :dataName="dataName" 
+      :ariaLabel="ariaLabel" :locale="chartLocale" 
+      :dataProps="dataProps" @data="capture"></SimpleMap>
     </div>
+
 
     <div class="chartfooter">
       <!-- source, license, download button -->
@@ -57,12 +69,12 @@
       </VaChip>
       -->
 
-      <VaButton round @click="downJson" icon="download">
-        {{ $t($props.name + ".download") }}
+      <VaButton round @click="csvDown" icon="download" v-if="controls.downloads.data">
+        {{ cardMessages[locale].download }}
       </VaButton>
 
-      <VaButton round @click="exportMap" icon="download">
-        {{ $t($props.name + ".downimage") }}
+      <VaButton round @click="imgDown" icon="download" v-if="controls.downloads.img">
+        {{ cardMessages[locale].downimage }}
       </VaButton>
 
     </div>
@@ -90,6 +102,14 @@ const props = defineProps({
     type: String,
     default: "card",
   },
+  section: {
+    type: String,
+    default: "",
+  },
+  part: {
+    type: String,
+    default: "",
+  },
   logo: {
     type: String,
     // no leading / here 
@@ -99,11 +119,28 @@ const props = defineProps({
 });
 console.log("Card name:", props.name);
 
+// config flaag
+const confgComplete = ref(false);
 // read localized card content
-import cardContent from "./text.json";
+//import cardContent from "./text.json";
 
-// read card specs and localization
-import cardMessages from "./card.json";
+// read localized card messages
+// import cardMessages from "./lang.json";
+const cardMessages = ref({});
+
+// read card cardSpecs.value
+//import cardSpecs from "./card.json";
+const cardSpecs = ref({});
+
+// content pane
+const content = ref({});
+const contentMore = ref({});
+const showMore = ref(false);
+
+const chartLocale = ref(locale);
+const ariaLabel = ref("Aria TileMap");
+
+const dataCtl = ref(false);
 const dataUrl = ref(null)
 const dataName = ref(null)
 const dataLicense = ref(null)
@@ -112,14 +149,10 @@ const dataLicense = ref(null)
 const controls = ref({
   range: false,
   dataswitch: false,
+  downloads: { "data": true, "img": true },
   animate: false
 })
-const rangeCtl = ref(0)
-const dataCtl = ref(0)
-const aniCtl = ref(0)
 
-// content pane
-const content = ref({})
 
 const checkUrl = (url) => {
     // create new data uris here: use as is if starting with http else prepend base path
@@ -129,6 +162,16 @@ const checkUrl = (url) => {
     return basePath + url
   }
 }
+
+watch(locale, (lang) => {
+  // console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
+  dataName.value = cardMessages.value[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
+  // console.log("dsname:", dataName.value);
+  ariaLabel.value = cardMessages.value[lang].aria + ": " + dataName.value
+  chartLocale.value = lang;
+  // updateData(0)
+});
+
 
 const mapData = ref(null)
 const mapInstance = ref(null)
@@ -191,35 +234,68 @@ watch(dataCtl, (index) => {
   dataLicense.value = cardMessages.specs.data[dataCtl.value?1:0].license
 })
 
-onBeforeMount(() => {
+
+onBeforeMount(async () => {
   // Code to execute when the component is mounted
   // localized content
+  //currentLocale.value = configStore.getCurrentLocale
+  // a <hr> in the text splits the content into two parts: main content and more content
   const supportedLanguages = configStore.getLanguages;
+  console.log("Props:", props);
+  const cardContent = await import(`../${props.section}/${props.part}/${props.name}/text.json`);
+  //const cardContent = await import(`../tileSpecs/${props.name}/text.json`); 
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
-    content.value[key] = cardContent[key];
+    const txt = cardContent[key].split("<hr>");
+    content.value[key] = txt[0] || "";
+    contentMore.value[key] = txt[1] || "";
   }
 
-  // localization data
-  for (const key in cardMessages) {
-    if (!supportedLanguages.includes(key)) continue;
-    messages.value[key][props.name] = cardMessages[key];
+  cardMessages.value = await import(`../${props.section}/${props.part}/${props.name}/lang.json`)
+
+  for (const key in supportedLanguages) {
+    const lang = supportedLanguages[key]
+    if (cardMessages.value[lang].aria === undefined)
+      cardMessages.value[lang].aria = "Aria " + lang;
   }
 
-  const specs = cardMessages.specs
-// create default data uri here
-	dataUrl.value = checkUrl(specs.data[0].url)
-	dataLicense.value = specs.data[0].license
-	dataName.value = specs.data[0].name
+  cardSpecs.value = await import(`../${props.section}/${props.part}/${props.name}/card.json`)
+  if (cardSpecs.value.controls) {
+    if (cardSpecs.value.controls.range.present) {
+      controls.value.range = cardSpecs.value.controls.range;
+      console.log("Range:", controls.value.range);
+      /*
+      if (controls.value.range.step === undefined) {
+        controls.value.range.step = Math.ceil(controls.value.range.max / 10)
+      }
+      rangeCtl.value = cardSpecs.value.controls.range.max;
+      */
+      rangeAxis.value = cardSpecs.value.controls.range.axis || "y";
+      noslider.value = cardSpecs.value.controls.range.noslider || false;
+    }
+    else {
+      controls.value.range = false;
+    }
+    if (cardSpecs.value.controls.dataswitch.present && cardSpecs.value.data.length > 1)
+      controls.value.dataswitch = cardSpecs.value.controls.dataswitch;
+    else controls.value.dataswitch = false;
 
-  if (specs.controls) {
-    console.log("Specs:", specs)
-    if (specs.controls.range.present) controls.value.range = specs.controls.range
-    if ((specs.controls.dataswitch.present) && (cardMessages.specs.data.length > 1))controls.value.dataswitch = specs.controls.dataswitch
-    if (specs.controls.animate.present) controls.value.animate = specs.controls.animate
-    console.log("Ctls:", controls.value)
+    if (cardSpecs.value.controls.stacked.present)
+      controls.value.stacked = cardSpecs.value.controls.stacked;
+    else controls.value.stacked = false;
+    if (cardSpecs.value.controls.animate.present)
+      controls.value.animate = cardSpecs.value.controls.animate;
+    else controls.value.animate = false;
+    console.log("Ctls:", controls.value);
   }
+  if (cardSpecs.value.controls.downloads !== undefined) {
+    controls.value.downloads.img = cardSpecs.value.controls.downloads.image;
+    controls.value.downloads.data = cardSpecs.value.controls.downloads.data;
+  }
+
+  confgComplete.value = true
+  // updateData(0);
 });
 
 </script>
@@ -244,6 +320,14 @@ onBeforeMount(() => {
   border-color: light-dark($dash-border-light, $dash-border-dark) !important;
   border:1px solid;
   border-radius: 16px;
+}
+.morehdr {
+  text-align: left;
+}
+
+.smallhdr {
+  font-size: 1.5rem;
+  line-height: 3rem;
 }
 
 </style>

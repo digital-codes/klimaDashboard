@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "url": "data/karlsruhe/weatherPois.json",
+      "license": "CC-BY-4.0",
+      "name": "Wetterstationen Karlsruhe",
+      "format": "json",
+      "properties": {
+        "name": "name",
+        "url": "url",
+        "attribution": "attribution",
+        "description": "description"
+      },
+      "columns":[],
+      "classes": []
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "controls": {
+    "range": {
+      "present": false,
+      "min": 1,
+      "max": 100
+    },
+    "type": {
+      "present": false,
+      "options": [
+        "line",
+        "bar"
+      ]
+    },
+    "stacked": {
+      "present": false
+    },
+    "dataswitch": {
+      "present": false
+    },
+    "animate": {
+      "present": false
+    }
+  }
+}
