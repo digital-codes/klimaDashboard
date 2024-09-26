@@ -67,10 +67,10 @@ const geojsonData1 = {
 //import geojsonData2 from "@/assets/data/ka_geschwindigkeiten.json";
 //import geojsonData3 from "@/assets/data/ka_escooter.json";
 //import geojsonData4 from "@/assets/data/ka_stadtteile.json";
-import geojsonData_ from "@/assets/data/weatherPois.json";
+//import geojsonData_ from "@/assets/data/weatherPois.json";
 
 
-const geojsonData = ref(geojsonData_);
+const geojsonData = ref(null);
 
 
 const tileSource = [
@@ -88,8 +88,19 @@ const tileSource = [
 
 const tileIdx = 1 // which tiles to use
 
-onMounted(() => {
+onMounted(async () => {
   console.log("Map mounted")
+  // get geojson data
+  try {
+    const response = await fetch("/data/karlsruhe/weatherPois.json");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    geojsonData.value = await response.json();
+  } catch (error) {
+    console.error("Failed to fetch geojson data:", error);
+    return
+  }
   if (!mapInstance.value) {
     Lref.value = L;
     // Fix Leaflet's default icon paths
