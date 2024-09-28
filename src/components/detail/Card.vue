@@ -1,9 +1,11 @@
 <template>
-  <VaCard class="detailCard">
+  <div style="text-align:left;">
+    <VaButton class="backButton" @click="back" icon="arrow_back" color="primary" size="large" round></VaButton>
+  </div>
 
-    <h2> {{  props.topic  }}</h2>
+  <VaCard class="detailCard">
     <div class="flex xs12">
-      <div class="mdcontent fullheight" v-html="cardMessages[locale].mdpane"></div>
+      <div class="mdcontent fullheight" v-html="content"></div>
     </div>
 
   </VaCard>
@@ -11,14 +13,11 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-const { messages, locale } = useI18n();
-import { onBeforeMount } from "vue";
-
-import { useConfigStore } from '@/services/configStore';
-const configStore = useConfigStore();
-
-import { useBreakpoint } from "vuestic-ui";
-
+const { locale } = useI18n();
+import { onMounted, ref, watch } from "vue";
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const content = ref("");
 
 // name für i18n key
 const props = defineProps({
@@ -34,20 +33,53 @@ const props = defineProps({
 
 console.log("Card name:", props.name);
 
-// messages i18n
-import cardMessages from "./card.json";
+const errorMsg = {
+  de: "Fehler beim Laden des Inhalts",
+  en: "Error loading content"
+};
+
+const back = () => {
+  router.go(-1)
+};
+
+watch(() => props.topic, () => {
+  fetchContent();
+});
+
+watch(locale, () => {
+  fetchContent();
+});
 
 
-onBeforeMount(() => {
-  // Code to execute when the component is mounted
-  // Merge card specific messages with global
-  const supportedLanguages = configStore.getLanguages;
-
-  // localization data
-  for (const key in cardMessages) {
-    if (!supportedLanguages.includes(key)) continue;
-    messages.value[key][props.name] = cardMessages[key];
+const fetchContent = async () => {
+  console.log("Fetching content for topic:", props.topic, locale.value);
+  try {
+    //const response = await fetch(`http://localhost:9000/php/details.php`, {
+    const response = await fetch(`/php/details.php`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'text/html',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        topic: props.topic,
+        lang: locale.value
+      })
+    });
+    if (response.status === 200) {
+      content.value = await response.text();
+    } else {
+      console.error('Failed to fetch content:', response.status);
+      content.value = errorMsg[locale.value];
+    }
+  } catch (error) {
+    console.error('Error fetching content:', error);
+    content.value = errorMsg[locale.value];
   }
+};
+
+onMounted(() => {
+  fetchContent();
 });
 </script>
 
@@ -61,6 +93,4 @@ onBeforeMount(() => {
   display: flex;
   flex-wrap: wrap;
 }
-
-
 </style>

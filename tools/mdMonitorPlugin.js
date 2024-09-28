@@ -38,6 +38,7 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/tiles/conditions/energyCharts/renewableShare'),
   path.resolve(__dirname, '../src/components/tiles/conditions/statistics/energyQuarters'),
   path.resolve(__dirname, '../src/components/tiles/protect/status/byProgress'),
+  path.resolve(__dirname, '../src/components/tiles/protect/actions/A1.3_MWh'),
 
 ];
 

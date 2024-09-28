@@ -99,4 +99,10 @@ else
 		cd $P 
 	done
 
+
+	# compile details
+	node $P/tools/detailsCompile.cjs $P/src/assets/details/de $P/public/details/de
+	node $P/tools/detailsCompile.cjs $P/src/assets/details/en $P/public/details/en
+
+
 fi
