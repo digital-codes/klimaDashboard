@@ -15,17 +15,18 @@ if [ $# -gt 0 ]; then
 	directory_path=$(dirname "$file_path")
 	echo "Compile in : $directory_path"
 	cd $directory_path
-	node $P/tools/mdCompile.cjs
+	node $P/tools/mdCompile.cjs $P
 	exit 0
 else
 	echo "Compile all"
 
+	# provide project base directory
 	# sidebar. this is stuff to go into App.vue
 	# so far, there is no MD content yet, only
 	# localized messages
 	cd $P/src/components/sidebar/
 	if test -f card.json;
-		then node $P/tools/mdCompile.cjs
+		then node $P/tools/mdCompile.cjs $P
 	else
 		echo "`pwd`: No header"
 	fi
@@ -35,7 +36,7 @@ else
 	# header
 	cd $P/src/components/header/
 	if test -f card.json;
-		then node $P/tools/mdCompile.cjs
+		then node $P/tools/mdCompile.cjs  $P
 	else
 		echo "No header"
 	fi
@@ -44,7 +45,7 @@ else
 	# footer
 	cd $P/src/components/footer/
 	if test -f card.json;
-		then node $P/tools/mdCompile.cjs
+		then node $P/tools/mdCompile.cjs  $P
 	else
 		echo "No footer"
 	fi
@@ -52,7 +53,7 @@ else
 	# home
 	cd $P/src/components/home/
 	if test -f card.json;
-		then node $P/tools/mdCompile.cjs
+		then node $P/tools/mdCompile.cjs $P
 	else
 		echo "No home"
 	fi
@@ -60,7 +61,7 @@ else
 	# imprint
 	cd $P/src/components/imprint/
 	if test -f card.json;
-		then node $P/tools/mdCompile.cjs
+		then node $P/tools/mdCompile.cjs $P
 	else
 		echo "No imprint"
 	fi
@@ -68,7 +69,7 @@ else
 	# gdpr
 	cd $P/src/components/gdpr/
 	if test -f card.json;
-		then node $P/tools/mdCompile.cjs
+		then node $P/tools/mdCompile.cjs $P
 	else
 		echo "No gdpr"
 	fi
@@ -78,7 +79,7 @@ else
 		echo $i;
 		cd $i
 		if test -f card.json;
-			then node $P/tools/mdCompile.cjs
+			then node $P/tools/mdCompile.cjs $P
 		else
 			echo "Skipping `pwd`"
 		fi
@@ -91,7 +92,7 @@ else
 		echo $i;
 		cd $i
 		if test -f card.json;
-			then node $P/tools/mdCompile.cjs
+			then node $P/tools/mdCompile.cjs $P
 		else
 			echo "Skipping `pwd`"
 		fi

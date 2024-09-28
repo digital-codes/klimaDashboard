@@ -5,7 +5,11 @@ const purify = require("isomorphic-dompurify")
 
 //console.log(marked)
 
+const args = process.argv.slice(2);
+const basedir = args[0] || process.cwd();
+
 const directory = process.cwd();
+const globalMsgs = path.join(basedir, "src/locales/",'lang.json');
 const cardFile = path.join(directory, 'card.json');
 const langFile = path.join(directory, 'lang.json');
 const contentFile = path.join(directory, 'text.json');
@@ -18,9 +22,15 @@ const compile = async () => {
         let data = await fs.promises.readFile(cardFile, 'utf8');
         const specs = await JSON.parse(data);
 
+        data = await fs.promises.readFile(globalMsgs, 'utf8');
+        const globals  = await JSON.parse(data);
+        const languages = Object.keys(globals)
+
         data = await fs.promises.readFile(langFile, 'utf8');
-        const msgs  = await JSON.parse(data);
-        const languages = Object.keys(msgs)
+        let msgs  = await JSON.parse(data);
+        for (const language of languages) {
+            msgs[language] = { ...globals[language], ...msgs[language] };
+        }
 
         // to insert urls we need data from specs.data and specs.control
         const dataSpecs = specs.data || []
