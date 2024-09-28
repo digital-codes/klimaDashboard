@@ -23,6 +23,11 @@
     "dataswitch": {
       "present": true
     },
+    "downloads": {
+      "present": true,
+      "data": false,
+      "img": false
+    },
     "animate": {
       "present": false
     }

@@ -342,6 +342,10 @@ onBeforeMount(async () => {
     if (cardSpecs.value.controls.dataswitch.present && cardSpecs.value.data.length > 1)
       controls.value.dataswitch = cardSpecs.value.controls.dataswitch;
     else controls.value.dataswitch = false;
+    if (cardSpecs.value.controls.downloads.present) {
+      controls.value.downloads = cardSpecs.value.controls.downloads;
+    }
+    else controls.value.dataswitch = false;
   }
   console.log("CardSpecs:", cardSpecs.value);
   configComplete.value = true
