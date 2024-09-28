@@ -57,7 +57,7 @@
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
         <VaSwitch v-if="controls.type" v-model="typeCtl" :label="t('type')"
-        :false-inner-label="cardMessages[locale].typeleft" :true-inner-label="cardMessages[locale].typeright"
+        :false-inner-label="t(controls.type.options[0])" :true-inner-label="t(controls.type.options[1])"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
       <VaSwitch v-if="controls.stacked" v-model="stackCtl" :label="t('stacked')"
