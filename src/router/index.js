@@ -109,7 +109,7 @@ const router = createRouter({
 // Global navigation guard to close the sidebar on every route transition
 router.beforeEach((to, from, next) => {
   // Emit an event or call a method to close the sidebar
-  console.log("Router gard", to, from, next)
+  //console.log("Router gard", to, from, next)
   // simple filter here is not enough, because of the params
   let ok = routes.filter((r) => r.path === to.path)
   if (ok.length === 0) {

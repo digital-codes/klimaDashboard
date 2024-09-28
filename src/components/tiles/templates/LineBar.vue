@@ -33,12 +33,19 @@
 
     <div class="mdcontent">
       <div v-html="content[locale]"></div>
+      <div v-if="controls.detail.present" style="text-align:left;margin:1rem 0 1rem 0;">
+        <VaButton @click="showDetails" icon="more_horiz" color="primary" size="small" round>
+        {{ $t("more") }}
+      </VaButton>
+      </div>
+      <div v-else>
       <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')"
         icon="more_horiz" class="morehdr">
         <template #content>
           <div v-html="contentMore[locale]"></div>
         </template>
       </VaCollapse>
+    </div>
 
     </div>
 
@@ -112,6 +119,8 @@ import { ref, onBeforeMount, onMounted, watch, nextTick, computed } from "vue";
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 import { useBreakpoint } from "vuestic-ui";
 const breakpoint = useBreakpoint();
@@ -233,6 +242,7 @@ const controls = ref({
   type: false,
   stacked: false,
   downloads: { "data": true, "img": true },
+  detail: { "present": false, "name": "" }
 });
 
 const rangeCtl = ref(0);
@@ -331,6 +341,10 @@ const imgDown = () => {
   document.body.removeChild(link);
 };
 
+const showDetails = () => {
+  console.log("Show Details:", controls.value.detail.name);
+  router.push({ name: "Detail", params: { topic: controls.value.detail.name } });
+};
 
 watch(stackCtl, () => {
   // also reset animation when stacking changed
@@ -460,6 +474,11 @@ onBeforeMount(async () => {
   if (cardSpecs.value.controls.downloads !== undefined) {
     controls.value.downloads.img = cardSpecs.value.controls.downloads.image;
     controls.value.downloads.data = cardSpecs.value.controls.downloads.data;
+  }
+  if (cardSpecs.value.detail !== undefined) {
+    console.log("Detail:", cardSpecs.value.detail);
+    controls.value.detail.present = true
+    controls.value.detail.name = cardSpecs.value.detail.name
   }
 
   confgComplete.value = true

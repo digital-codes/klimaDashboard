@@ -79,7 +79,6 @@ import { use } from "echarts/core";
 import { SVGRenderer, CanvasRenderer } from "echarts/renderers";
 // normally, only a single chart type is needed
 // unless toolbox allows to switch types (like here ...)
-import { LineChart, BarChart } from "echarts/charts";
 import {
   TitleComponent,
   TooltipComponent,

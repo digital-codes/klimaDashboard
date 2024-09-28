@@ -19,6 +19,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const content = ref("");
 
+
+
 // name für i18n key
 const props = defineProps({
   name: {
@@ -68,6 +70,9 @@ const fetchContent = async () => {
     });
     if (response.status === 200) {
       content.value = await response.text();
+      if (content.value.startsWith("<?")) {
+        content.value = errorMsg[locale.value];
+      }
     } else {
       console.error('Failed to fetch content:', response.status);
       content.value = errorMsg[locale.value];

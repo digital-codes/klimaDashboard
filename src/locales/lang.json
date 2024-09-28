@@ -39,7 +39,8 @@
         "intermediate": "Intermediate",
         "cancelled": "Cancelled",
         "undefined": "Undefined",
-        "replaced": "Replaced"
+        "replaced": "Replaced",
+        "detail": "Detail"
    
     },
     "de": {
@@ -82,6 +83,7 @@
         "intermediate": "Mittel",
         "cancelled": "Abgebrochen",
         "undefined": "Undefiniert",
-        "replaced": "Ersetzt"
+        "replaced": "Ersetzt",
+        "detail": "Detail"
         }
 }
