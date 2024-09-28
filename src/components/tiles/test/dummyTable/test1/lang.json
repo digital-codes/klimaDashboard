@@ -1,0 +1,14 @@
+{
+    "en": {
+        "title": "Title EN",
+        "aria": "Aria Label",
+        "chart": "Chart EN",
+        "dsname": ["Dataset","Dataset2"]
+    },
+    "de": {
+        "title": "Titel DE",
+        "aria": "Aria Label",
+        "chart": "Chart DE",
+        "dsname": ["Datensatz","Datensatz2"]
+    }
+}

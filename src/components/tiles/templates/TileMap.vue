@@ -87,7 +87,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-const { t, messages, locale } = useI18n();
+const { t, locale } = useI18n();
 import { ref, onBeforeMount, nextTick, watch } from "vue";
 
 import { useConfigStore } from '@/services/configStore';

@@ -36,13 +36,14 @@ import icon_l from "@/assets/icons/dashboard/protection.svg?url"
 import icon_d from "@/assets/icons/dashboard/protection_d.svg?url"
 
 import LineBar from "@/components/tiles/templates/LineBar.vue"
+import DataTable from "@/components/tiles/templates/DataTable.vue"
 import DummyGauge from "@/components/tiles/test/dummyGauge/Card.vue"
-const comps = { "LineBar": LineBar, "DummyGauge": DummyGauge }
+const comps = { "LineBar": LineBar, "DummyGauge": DummyGauge, "DataTable": DataTable }
 
 
 const tilesCompleted = ref(false)
 // import tiles from "./configs/PublicProtectTiles.json"
-import tileConfig from "@/views/configs/ProtectPrivateView.json"
+import tileConfig from "@/views/configs/ProtectPublic.json"
 
 const tiles = shallowRef([])
 /*
@@ -102,13 +103,21 @@ onBeforeMount(async () => {
           case "LineBar":
             tile.component = defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue"))
             break
+            case "DataTable":
+            tile.component = defineAsyncComponent(() => import("@/components/tiles/templates/DataTable.vue"))
+            break
+            case "ChoroMap":
+            tile.component = defineAsyncComponent(() => import("@/components/tiles/templates/ChoroMap.vue"))
+            break
+            case "TileMap":
+            tile.component = defineAsyncComponent(() => import("@/components/tiles/templates/TileMap.vue"))
+            break
             default:
               alert("Unknown template:" + tile.specs.template)
         }
       } else {
         tile.component = comps[tile.specs.template]
       }
-      tile.component = comps[tile.specs.template]
       tile.type = "template"
     } else {
       console.log("Plain Comp:", tile.specs)

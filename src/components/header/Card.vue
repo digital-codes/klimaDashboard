@@ -1,5 +1,5 @@
 <template>
-  <VaCard class="headerCard" ref="theCard">
+  <VaCard class="headerCard" ref="theCard"  v-if="confgComplete">
     <!-- 
     <div>
       <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? climate_d : climate_l" :size="breakpoint.smUp ? 'medium' : 'small'" />
@@ -10,7 +10,7 @@
 
     <div class="dataheader">
       <VaAvatar title="Klima Dashboard" :src="modeSwitch == 'dark' ? props.icons[1] : props.icons[0]" size="3rem" />
-      <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : ''">{{ $t($props.name + ".title") }}</h1>
+      <h1 class="headertitle" :class="breakpoint.xs ? 'headertitlesm' : ''">{{  cardMessages[locale].title }}</h1>
     </div>
     <!--
     <FilterInfo :name="infoName" :content="infoContent" :link="infoLink" :img="infoImg" :open="infoOpen" @close="infoOpen=false"/>
@@ -47,7 +47,7 @@
         round icon="help" 
         />
         <VaSwitch class="filter" :key="index" v-model="filter.value"
-        :label="t(props.name + '.' + filter.label)" right-label @input="action(filter.name)" >
+        :label="cardMessages[locale][filter.label]" right-label @input="action(filter.name)" >
         <template #innerLabel>
           <div class="va-text-center">
             <VaIcon :name="filter.icon" />
@@ -107,6 +107,12 @@ const breakpoint = useBreakpoint();
 const theCard = ref(null);
 const filterPane = ref(null);
 
+const cardMessages = ref({});
+const cardSpecs = ref({});
+const confgComplete = ref(false);
+// content pane
+const content = ref({});
+
 // mode switch 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -163,15 +169,6 @@ const action = (tag) => {
   emit("filter", tag);
 };
 
-// read localized card content
-//import cardContent from "./text.json";
-
-// read localized card messages
-//import cardMessages from "./lang.json";
-
-// content pane
-const content = ref({});
-
 
 import { loadMsgs, loadText, loadSpecs } from "@/composables/LoadSpecs"
 
@@ -184,7 +181,8 @@ const infoAction = async (tag) => {
       infoOpen.value = false
   } else {
     infoTag.value = tag
-    infoName.value = t(props.name + "." + filters.value[tag].label)
+    // console.log("Info action:", tag)
+    infoName.value = cardMessages.value[locale.value][filters.value[tag].label]
     infoContent.value = filters.value[tag].content || "No content defined"
     infoLink.value = filters.value[tag].link
     infoImg.value = filters.value[tag].img || null
@@ -205,14 +203,8 @@ onBeforeMount(async () => {
   const supportedLanguages = configStore.getLanguages;
 
   const cardContent = await loadText(props, supportedLanguages, "hdr")
-  const cardMessages = await loadMsgs(props, supportedLanguages, "hdr")
-  const cardSpecs = await loadSpecs(props, "hdr")
-
-  // localization data
-  for (const key in cardMessages) {
-    if (!supportedLanguages.includes(key)) continue;
-    messages.value[key][props.name] = cardMessages[key];
-  }
+  cardMessages.value = await loadMsgs(props, supportedLanguages, "hdr")
+  cardSpecs.value = await loadSpecs(props, "hdr")
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
@@ -224,9 +216,10 @@ onBeforeMount(async () => {
   modeSwitch.value = configStore.getTheme
 
   // filters, optional
-  if (cardSpecs.filters) {
-    filters.value = cardSpecs.filters
+  if (cardSpecs.value.filters) {
+    filters.value = cardSpecs.value.filters
   }
+  confgComplete.value = true
 
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="confgComplete">
+  <div class="card" v-if="configComplete">
     <div class="dataheader">
       <VaAvatar title="Klima Dashboard" :src="basePath + props.logo" size="3rem" />
       <h1>{{ cardMessages[locale].title }}</h1>
@@ -33,8 +33,8 @@
 
     <div class="mdcontent">
       <div v-html="content[locale]"></div>
-      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')"
-        icon="more_horiz" class="morehdr">
+      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')" icon="more_horiz"
+        class="morehdr">
         <template #content>
           <div v-html="contentMore[locale]"></div>
         </template>
@@ -44,47 +44,36 @@
 
 
     <div class="row">
-
-      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
-        :false-inner-label="t('dsleft')" :true-inner-label="t('dsright')"
-        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
-
-        <VaSwitch v-if="controls.type" v-model="typeCtl" :label="t('type')"
-        :false-inner-label="cardMessages[locale].typeleft" :true-inner-label="cardMessages[locale].typeright"
-        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
-
-      <VaSwitch v-if="controls.stacked" v-model="stackCtl" :label="t('stacked')"
-        :false-inner-label="t('no')" :true-inner-label="t('yes')"
-        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
-
-      <VaSwitch v-if="controls.animate" ref="animateSwitch" v-model="aniCtl" :label="cardMessages[locale].animation"
-        :false-inner-label="cardMessages[locale].no" :true-inner-label="cardMessages[locale].yes"
-        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
-
-        <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
-        :min="controls.range.min" :max="controls.range.max" :step="controls.range.step"
-        :disabled="stackCtl && (rangeAxis === 'y')" class="flex lg6 sm12 xs12 control " :class="noslider?'rangeCnt':'range'" track-label-visible>
+      <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+        class="flex lg6 sm12 xs12 control range" track-label-visible>
         <template #prepend>
-          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="slcnt" />
+          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="w-[110px]" />
         </template>
       </VaSlider>
 
+      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
+        :false-inner-label="t('dsleft')" :true-inner-label="t('dsright')"
+        class="flex lg2 control switch" />
+
+      <VaSwitch v-if="controls.animate" v-model="aniCtl" :label="cardMessages[locale].animation"
+        :false-inner-label="t('no')" :true-inner-label="t('yes')"
+        class="flex lg2 control switch" />
     </div>
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleLine v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl ? 1 : 0"
-        :dataColumns="dataColumns" :dataClasses="dataClasses" :dataX="dataX" :dataY="dataY" :rangeValue="rangeCtl"
-        :rangeAxis="rangeAxis" :dataFormat="dataFormat" :dataDelimiter="dataDelimiter" :labelX="labelX" :labelY="labelY" :type="chartType"
-        :stacked="stackCtl" :animate="aniCtl" :ariaLabel="ariaLabel" :locale="chartLocale" @xrange="setXrange"
-        @yrange="setYrange" @series="capture"></SimpleLine>
+      <SimpleTable v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl ? 1 : 0"
+        :dataColumns="dataColumns" :dataClasses="dataClasses" 
+         :dataFormat="dataFormat" :dataDelimiter="dataDelimiter" 
+         :ariaLabel="ariaLabel" :locale="chartLocale"
+        @series="capture"></SimpleTable>
     </div>
 
     <div class="chartfooter">
       <!-- source, license, download button -->
 
       <VaChip disabled outline>
-        {{ cardMessages[locale].license }}: {{ dataLicense }}
+        {{ $t("license")  }}: {{ dataLicense }}
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >
@@ -101,6 +90,7 @@
       </VaButton>
 
     </div>
+
   </div>
 </template>
 
@@ -112,16 +102,17 @@ import { ref, onBeforeMount, onMounted, watch, nextTick, computed } from "vue";
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
-
 import { useBreakpoint } from "vuestic-ui";
 const breakpoint = useBreakpoint();
-
-import SimpleLine from "@/components/charts/SimpleLine.vue";
 
 import { downloadDataAsCSV, downloadDataAsJSON } from "@/composables/DataDown";
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL;
+
+import SimpleTable from "@/components/charts/SimpleTable.vue";
+
+
 
 // name für i18n key
 const props = defineProps({
@@ -147,7 +138,7 @@ const props = defineProps({
 console.log("Card name:", props.name);
 
 // config flag
-const confgComplete = ref(false);
+const configComplete = ref(false);
 // read localized card content
 //import cardContent from "./text.json";
 
@@ -205,10 +196,6 @@ const progressColor = computed(() => {
 const dataUrl = ref(null);
 const dataName = ref(null);
 const dataLicense = ref(null);
-const dataX = ref(null);
-const dataY = ref(null);
-const labelX = ref(null);
-const labelY = ref(null);
 const dataFormat = ref("json"); // json is default
 const dataDelimiter = ref(";"); // csv default ; and US numbers
 // we can create series from classes and columns
@@ -218,9 +205,6 @@ const dataDelimiter = ref(";"); // csv default ; and US numbers
 const dataColumns = ref(null);
 // classes is an array starting with the class identifier followed by the class names
 const dataClasses = ref(null);
-// chart options
-const dataType = ref(null);
-const dataStacked = ref(false);
 
 // needed to force re-render when dataurl reused
 const chartValid = ref(true);
@@ -229,30 +213,17 @@ const chartValid = ref(true);
 const controls = ref({
   range: false,
   dataswitch: false,
-  animate: false,
-  type: false,
-  stacked: false,
   downloads: { "data": true, "img": true },
 });
 
-const rangeCtl = ref(0);
-const noslider = ref(false) // slider or only counter with slider
-const rangeAxis = ref("");
 const dataCtl = ref(false);
-const aniCtl = ref(false);
-const typeCtl = ref(false);
-const stackCtl = ref(false);
-const chartType = ref("line");
 const chartLocale = ref(locale);
 const ariaLabel = ref("Aria LineChart");
 
-const downCtl = ref({"data":true,"img":true})
-
-const animateSwitch = ref(null);
+const downCtl = ref({ "data": true, "img": true })
 
 // data from chart => download
 const seriesData = ref(null);
-const chartInstance = ref(null);
 
 
 // content pane
@@ -270,11 +241,10 @@ const checkUrl = (url) => {
 };
 
 watch(locale, (lang) => {
-  console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
+  console.log(props.name, " - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
   dataName.value = cardMessages.value[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
   // console.log("dsname:", dataName.value);
   ariaLabel.value = cardMessages.value[lang].aria + ": " + dataName.value
-  chartLocale.value = lang;
   // updateData(0)
 });
 
@@ -287,10 +257,6 @@ const updateData = async (index) => {
   }
   dataUrl.value = newUrl;
   dataLicense.value = cardSpecs.value.data[index].license;
-  dataX.value = cardSpecs.value.data[index].xaxis || "";
-  dataY.value = cardSpecs.value.data[index].yaxis || "";
-  labelX.value = cardSpecs.value.data[index].xlabel || "";
-  labelY.value = cardSpecs.value.data[index].ylabel || "";
   dataFormat.value = cardSpecs.value.data[index].format || "json";
   dataDelimiter.value = cardSpecs.value.data[index].delimiter || ";";
   dataColumns.value = cardSpecs.value.data[index].columns || [];
@@ -332,58 +298,14 @@ const imgDown = () => {
 };
 
 
-watch(stackCtl, () => {
-  // also reset animation when stacking changed
-  aniCtl.value = false;
-});
-
-
-
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index);
   updateData(index ? 1 : 0);
-  // also reset animation
-  aniCtl.value = false;
 });
-
-watch(typeCtl, (index) => {
-  console.log("TypeCtl:", index);
-  chartType.value = index
-    ? controls.value.type.options[1]
-    : controls.value.type.options[0];
-});
-
-
-const setXrange = async (range) => {
-  console.log("Xrange:", range);
-  if (rangeAxis.value === "x") {
-    rangeCtl.value = 0 // force update 
-    await nextTick()
-    controls.value.range.min = range[0]
-    controls.value.range.max = range[1]
-    rangeCtl.value = controls.value.range.min;
-    controls.value.range.step = 1 // use 1 for x axis steps
-  }
-};
-
-const setYrange = async (range) => {
-  console.log("Yrange:", range);
-  if (rangeAxis.value === "y") {
-    /*
-    rangeCtl.value = 0 // force update. probably not needed for y
-    await nextTick()
-    */
-    controls.value.range.min = range[0]
-    controls.value.range.max = range[1]
-    rangeCtl.value = controls.value.range.max;
-    controls.value.range.step = Math.ceil(controls.value.range.max / 10)
-  }
-};
 
 const capture = async (data, instance) => {
   chartInstance.value = instance;
   // capture data from chart after update
-  data.xLabel = labelX.value;
   seriesData.value = data;
 };
 
@@ -417,52 +339,12 @@ onBeforeMount(async () => {
 
   cardSpecs.value = await import(`../${props.section}/${props.part}/${props.name}/card.json`)
   if (cardSpecs.value.controls) {
-    if (cardSpecs.value.controls.range.present) {
-      controls.value.range = cardSpecs.value.controls.range;
-      console.log("Range:", controls.value.range);
-      /*
-      if (controls.value.range.step === undefined) {
-        controls.value.range.step = Math.ceil(controls.value.range.max / 10)
-      }
-      rangeCtl.value = cardSpecs.value.controls.range.max;
-      */
-      rangeAxis.value = cardSpecs.value.controls.range.axis || "y";
-      noslider.value = cardSpecs.value.controls.range.noslider || false;
-    }
-    else {
-      controls.value.range = false;
-    }
     if (cardSpecs.value.controls.dataswitch.present && cardSpecs.value.data.length > 1)
       controls.value.dataswitch = cardSpecs.value.controls.dataswitch;
     else controls.value.dataswitch = false;
-    if (cardSpecs.value.controls.type) {
-      chartType.value = cardSpecs.value.controls.type.options[0];
-      console.log("Type:", chartType.value);
-      if (cardSpecs.value.controls.type.present) controls.value.type = cardSpecs.value.controls.type;
-    } else {
-      controls.value.type = false;
-    }
-
-    if (cardSpecs.value.controls.stacked.present)
-      controls.value.stacked = cardSpecs.value.controls.stacked;
-    else controls.value.stacked = false;
-    if (cardSpecs.value.controls.animate.present)
-      controls.value.animate = cardSpecs.value.controls.animate;
-    else controls.value.animate = false;
-    console.log("Ctls:", controls.value);
   }
-  if (cardSpecs.value.progress) {
-    progress.value = cardSpecs.value.progress;
-    console.log("progress:", progress.value);
-  } else {
-    progress.value = 0;
-  }
-  if (cardSpecs.value.controls.downloads !== undefined) {
-    controls.value.downloads.img = cardSpecs.value.controls.downloads.image;
-    controls.value.downloads.data = cardSpecs.value.controls.downloads.data;
-  }
-
-  confgComplete.value = true
+  console.log("CardSpecs:", cardSpecs.value);
+  configComplete.value = true
   updateData(0);
 });
 </script>
@@ -484,12 +366,13 @@ onBeforeMount(async () => {
 .rangeCnt {
   text-align: left;
 }
+
 .rangeCnt :deep(.va-slider__input-wrapper) {
   //display:none;
   flex: unset;
 }
 
-.rangeCnt :deep(.va-slider__container) { 
+.rangeCnt :deep(.va-slider__container) {
   display: none;
 }
 
@@ -498,11 +381,6 @@ onBeforeMount(async () => {
   border-color: light-dark($dash-border-light, $dash-border-dark) !important;
   //border:1px solid;
   border-radius: 16px;
-}
-
-.slcnt {
-  width: 130px;
-  text-align: center;
 }
 
 .morehdr {

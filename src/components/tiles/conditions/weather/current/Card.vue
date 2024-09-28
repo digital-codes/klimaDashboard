@@ -2,7 +2,7 @@
   <div class="card">
     <div class="dataheader">
       <VaAvatar title="Klima Dashboard" :src="basePath + props.logo" size="3rem" />
-      <h1>{{ $t($props.name + ".title") }}</h1>
+      <h1>{{ cardMessages[locale].title }}</h1>
     </div>
 
     <div class="mdcontent" v-html="content[locale]"></div>
@@ -46,7 +46,7 @@
       <!-- source, license, download button -->
 
       <VaChip disabled outline>
-        {{ $t($props.name + ".license") }}: {{ dataLicense }}
+        {{ $t("license") }}: {{ dataLicense }}
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >
@@ -55,11 +55,11 @@
       -->
 
       <VaButton round @click="console.log('Click')" icon="download">
-        {{ $t($props.name + ".download") }}
+        {{ $t("download") }}
       </VaButton>
 
       <VaButton round @click="console.log('Click')" icon="download">
-        {{ $t($props.name + ".downimage") }}
+        {{ $t("downimage") }}
       </VaButton>
     </div>
   </div>
@@ -67,7 +67,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-const { t, messages, locale } = useI18n();
+const { t, locale } = useI18n();
 import { ref, onBeforeMount, computed, watch, nextTick } from "vue";
 
 import { useConfigStore } from '@/services/configStore';
@@ -366,12 +366,6 @@ onBeforeMount(async () => {
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
     content.value[key] = cardContent[key];
-  }
-
-  // localization data
-  for (const key in cardMessages) {
-    if (!supportedLanguages.includes(key)) continue;
-    messages.value[key][props.name] = cardMessages[key];
   }
 
   const specs = cardSpecs;

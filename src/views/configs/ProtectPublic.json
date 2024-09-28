@@ -3,7 +3,7 @@
         "name": "A1.3_MWh",
         "section": "protect",
         "part": "actions",
-        "tag": "A",
+        "tag": "B",
         "specs": {
             "template": "LineBar"
         }
@@ -12,7 +12,7 @@
         "name": "a2_1_fernwaerme",
         "section": "protect",
         "part": "actions",
-        "tag": "A",
+        "tag": "B",
         "specs": {
             "template": "LineBar"
         }

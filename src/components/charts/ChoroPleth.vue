@@ -363,11 +363,6 @@ onMounted(async () => {
   await loadData();
 });
 
-onUnmounted(() => {
-  if (animTimer.value) {
-    clearInterval(animTimer.value);
-  }
-});
 </script>
 
 <template>

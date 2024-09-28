@@ -7,7 +7,7 @@
 
     <div class="mdcontent">
       <div v-html="content[locale]"></div>
-      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="cardMessages[locale].more"
+      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')"
         icon="more_horiz" class="morehdr">
         <template #content>
           <div v-html="contentMore[locale]"></div>
@@ -45,7 +45,7 @@
       <!-- source, license, download button -->
 
       <VaChip disabled outline>
-        {{ $t($props.name + ".license") }}: {{ dataLicense }}
+        {{ $t("license") }}: {{ dataLicense }}
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >
@@ -54,11 +54,11 @@
       -->
 
       <VaButton round @click="csvDown" icon="download" v-if="controls.downloads.data">
-        {{ cardMessages[locale].download }}
+        {{ $t("download") }}
       </VaButton>
 
       <VaButton round @click="imgDown" icon="download" v-if="controls.downloads.img">
-        {{ cardMessages[locale].downimage }}
+        {{ $t("downimage") }}
       </VaButton>
     </div>
   </div>
@@ -66,7 +66,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-const { t, messages, locale } = useI18n();
+const { t, locale } = useI18n();
 import { ref, onBeforeMount, onMounted, watch, nextTick } from "vue";
 
 import { useConfigStore } from '@/services/configStore';
