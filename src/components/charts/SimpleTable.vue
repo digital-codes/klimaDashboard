@@ -24,14 +24,30 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    range: {
-        type: Number,
-        default: 50
+    ariaLabel: {
+        type: String,
+        default: "Aria LineChart",
     },
-    animate: {
-        type: Boolean,
-        default: false
+    // optional format
+    dataFormat: {
+        type: String,
+        default: "json",
     },
+    // optional format
+    dataDelimiter: {
+        type: String,
+        default: ";",
+    },
+    // optional columns to be selected
+    dataColumns: {
+        type: Array,
+        default: [],
+    },
+    // optional classes to be selected
+    dataClasses: {
+        type: Array,
+        default: [],
+    }
 });
 
 const theChart = ref(null);
@@ -45,18 +61,11 @@ watch(currentPresetName, (newValue, oldValue) => {
     chartTheme.value = newValue;
 });
 
-watch(() => props.range, (newValue, oldValue) => {
-    console.log("Range changed:", newValue);
-});
 
 watch(() => props.dataUrl, async (newValue, oldValue) => {
     console.log("Data URL changed:", newValue);
     await loadData();
 
-});
-
-watch(() => props.animate, (newValue, oldValue) => {
-    console.log("Animate changed:", newValue);
 });
 
 const loadData = async () => {
@@ -67,25 +76,33 @@ const loadData = async () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         datakeys.value = []
-        if (props.dataUrl.endsWith(".json")) {
+        if (props.dataFormat == "json") {
             data.value = await response.json();
         } else { // assume csv
             const csvString = await response.text();
             Papa.parse(csvString, {
                 header: true,
                 dynamicTyping: true,
+                delimiter: props.dataDelimiter,
                 complete: function (results) {
                     console.log("CSV parsed:", results.data);
                     data.value = results.data;
                 }
             });
         }
+        // empty columns array will add all keys
         for (const key in data.value[0]) {
-            datakeys.value.push(key)
+            if (props.dataColumns.length === 0 || props.dataColumns.includes(key)) {
+                datakeys.value.push(key);
+            }
         }
-        dataLoaded.value = true;
+        // va-table shows all columns if keys are empty. So we need to set prevent display if no keys
+        dataLoaded.value = datakeys.value.length > 0;
         await nextTick();
         console.log("Data loaded");
+        if (datakeys.value.length == 0) {
+            alert("No valid columns");
+        }
     } catch (error) {
         console.error("Failed to load chart data:", error);
     }
@@ -106,7 +123,6 @@ onMounted(async () => {
 
 
 <style scoped>
-
 .tablechart {
     --va-data-table-thead-font-size: .9rem;
     --va-scroll-color: #000;
@@ -115,22 +131,15 @@ onMounted(async () => {
 
 /* Works on Firefox */
 .tablechart {
-  scrollbar-width: .5rem;
-  scrollbar-color: blue orange;
+    scrollbar-width: .5rem;
+    scrollbar-color: blue orange;
 }
 
 /* Works on Chrome, Edge, and Safari */
 .tablechart::-webkit-scrollbar {
-  width: .5rem;
-  scrollbar-color: blue orange;
+    width: .5rem;
+    scrollbar-color: blue orange;
 }
-
-
 </style>
 
-<style>
-
-
-</style>
-
-
+<style></style>

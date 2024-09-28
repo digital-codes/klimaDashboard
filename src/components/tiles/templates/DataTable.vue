@@ -62,10 +62,10 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleTable v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :dataIdx="dataCtl ? 1 : 0"
+      <SimpleTable v-if="chartValid" :dataUrl="dataUrl" :dataIdx="dataCtl ? 1 : 0"
         :dataColumns="dataColumns" :dataClasses="dataClasses" 
          :dataFormat="dataFormat" :dataDelimiter="dataDelimiter" 
-         :ariaLabel="ariaLabel" :locale="chartLocale"
+         :ariaLabel="ariaLabel" 
         @series="capture"></SimpleTable>
     </div>
 

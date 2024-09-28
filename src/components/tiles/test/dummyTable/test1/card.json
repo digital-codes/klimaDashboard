@@ -3,11 +3,16 @@
     {
       "url": "data/testing/tbl1.json",
       "license": "CC BY 4.0",
-      "name": "First Dataset"
+      "format": "json",
+      "name": "First Dataset",
+      "columns": ["key1","key3", "key4"]
     },
     {
       "url": "https://transparenz.karlsruhe.de/dataset/7306d25b-8b18-445f-9351-6eec030c7753/resource/fd9de911-5142-4083-9d1b-5e09788022b3/download/treibhausgase.csv",
       "license": "CC-BY-4.0",
+      "format": "csv",
+      "delimiter": ",",
+      "columns": ["year","category","co2","note"],
       "name": "Treibhausgasbilanz KA"
     }
   ],
