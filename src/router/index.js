@@ -53,6 +53,11 @@ const routes = [
     name: 'GDPR',
     component: () => import('@/views/GdprView.vue'),
   },
+  {
+    path: '/detail/:topic?',
+    name: 'Detail',
+    component: () => import('@/views/DetailView.vue'),
+  },
 ];
 
 const router = createRouter({
@@ -105,7 +110,22 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // Emit an event or call a method to close the sidebar
   console.log("Router gard", to, from, next)
+  // simple filter here is not enough, because of the params
+  let ok = routes.filter((r) => r.path === to.path)
+  if (ok.length === 0) {
+    // check details
+    if ((to.path == "/detail") || (to.path.startsWith('/detail/'))) {
+      console.log("Detail page")
+      ok = true
+    } else {
+      alert("404: Redirecting to Home")
+      next({ name: 'Home' });
+    }
+  }
+
+  /*  
   const ok = routes.filter((r) => r.path === to.path)
+  */
   if (ok.length === 0) {
     alert("404: Redirecting to Home")
     next({ name: 'Home' });
