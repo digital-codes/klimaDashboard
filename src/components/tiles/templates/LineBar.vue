@@ -33,7 +33,7 @@
 
     <div class="mdcontent">
       <div v-html="content[locale]"></div>
-      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="cardMessages[locale].more"
+      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')"
         icon="more_horiz" class="morehdr">
         <template #content>
           <div v-html="contentMore[locale]"></div>
@@ -46,15 +46,15 @@
     <div class="row">
 
       <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
-        :false-inner-label="cardMessages[locale].dsleft" :true-inner-label="cardMessages[locale].dsright"
+        :false-inner-label="t('dsleft')" :true-inner-label="t('dsright')"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-        <VaSwitch v-if="controls.type" v-model="typeCtl" :label="cardMessages[locale].type"
+        <VaSwitch v-if="controls.type" v-model="typeCtl" :label="t('type')"
         :false-inner-label="cardMessages[locale].typeleft" :true-inner-label="cardMessages[locale].typeright"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-      <VaSwitch v-if="controls.stacked" v-model="stackCtl" :label="cardMessages[locale].stacked"
-        :false-inner-label="cardMessages[locale].no" :true-inner-label="cardMessages[locale].yes"
+      <VaSwitch v-if="controls.stacked" v-model="stackCtl" :label="t('stacked')"
+        :false-inner-label="t('no')" :true-inner-label="t('yes')"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
       <VaSwitch v-if="controls.animate" ref="animateSwitch" v-model="aniCtl" :label="cardMessages[locale].animation"
@@ -88,16 +88,16 @@
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >
-        {{ $t($props.name + ".source") }}
+        {{ $t("source") }}
       </VaChip>
       -->
 
       <VaButton round @click="csvDown" icon="download" v-if="controls.downloads.data">
-        {{ cardMessages[locale].download }}
+        {{ $t("download") }}
       </VaButton>
 
       <VaButton round @click="imgDown" icon="download" v-if="controls.downloads.img">
-        {{ cardMessages[locale].downimage }}
+        {{ $t("downimage") }}
       </VaButton>
 
     </div>
@@ -270,7 +270,7 @@ const checkUrl = (url) => {
 };
 
 watch(locale, (lang) => {
-  // console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
+  console.log(props.name," - Locale:", lang, "index:", dataCtl.value ? 1 : 0);
   dataName.value = cardMessages.value[lang].dsname[dataCtl.value ? 1 : 0] || "Data";
   // console.log("dsname:", dataName.value);
   ariaLabel.value = cardMessages.value[lang].aria + ": " + dataName.value

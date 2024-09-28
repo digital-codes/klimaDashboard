@@ -1,49 +1,17 @@
 {
   "en": {
-    "yes": "Yes",
-    "no": "No",
     "title": "Renewable Share",
-    "source": "Source",
     "aria" : "Chart of Energy Consumption", 
-    "license": "License",
     "chart": "Chart EN",
-    "type": "Type",
-    "typeleft": "Line",
-    "typeright": "Bar",
-    "stacked": "Stacked",
-    "download": "Download Data",
-    "downimage": "Get Image",
     "rangetitle": "X Range",
-    "dsname": ["Percentage","Sectors"],
-    "dsleft": "First",
-    "dsright": "Second",
-    "animation": "Animation",
-    "anistart": "Start",
-    "anistop": "Stop",
-    "more": "More"
+    "dsname": ["Percentage","Sectors"]
   },
   "de": {
-    "yes": "Ja",
-    "no": "Nein",
     "title": "Anteil erneuerbarer Energie",
-    "source": "Quelle",
     "aria" : "Diagramm Energieverbrauch",
-    "license": "Lizenz",
     "chart": "Chart DE",
-    "type": "Typ",
-    "typeleft": "Linie",
-    "typeright": "Balken",
-    "stacked": "Gestapelt",
-    "download": "Daten herunterladen",
-    "downimage": "Als Bild laden",
     "rangetitle": "X Bereich",
-    "dsname": ["Anteil","Sektoren"],
-    "dsleft": "Eins",
-    "dsright": "Zwei",
-    "animation": "Animation DE",
-    "anistart": "Start",
-    "anistop": "Stop",
-    "more": "Mehr"
+    "dsname": ["Anteil","Sektoren"]
 
   }
 }
