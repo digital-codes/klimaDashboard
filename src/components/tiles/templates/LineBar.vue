@@ -488,6 +488,8 @@ onBeforeMount(async () => {
 
 <style scoped lang="scss">
 @import "@/style/colors.scss";
+@import "vuestic-ui/styles/grid";
+@import '@/style/style.scss';
 
 /* Add your card styles here */
 
@@ -534,6 +536,3 @@ onBeforeMount(async () => {
 }
 </style>
 
-<style lang="scss" scoped>
-@import "vuestic-ui/styles/grid";
-</style>

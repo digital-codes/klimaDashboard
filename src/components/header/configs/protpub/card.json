@@ -1,4 +1,9 @@
 {
+  "detail":
+  {
+    "present": true,
+    "name": "hdr_protpub"
+  },
   "filters":
   [
   {

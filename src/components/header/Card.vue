@@ -21,8 +21,13 @@
     <p class="headertext">{{ $t($props.name + ".text") }}</p>
     -->
 
-    <div class="flex xs12">
-      <div class="mdcontent" v-html="content[locale]"></div>
+    <div class="flex xs12 mdcontent">
+      <div v-html="content[locale]"></div>
+      <div v-if="controls.detail.present" style="text-align:left;margin:1rem 0 1rem 0;">
+        <VaButton @click="showDetails" icon="more_horiz" color="primary" size="small" round>
+        {{ $t("more") }}
+      </VaButton>
+      </div>
     </div>
     <!-- 
     <div class="flex flex-wrap">
@@ -95,6 +100,9 @@ import climate_d from "@/assets/icons/dashboard/climate_d.svg?url"
 
 import { useBreakpoint } from "vuestic-ui";
 
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 import FilterInfo from "@/components/pops/FilterInfo.vue";
 const infoName = ref("Infoname")
 const infoContent = ref("")
@@ -113,6 +121,12 @@ const confgComplete = ref(false);
 // content pane
 const content = ref({});
 
+// controls
+const controls = ref({
+  detail: { "present": false, "name": "" }
+});
+
+
 // mode switch 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
@@ -123,27 +137,15 @@ watch(() => configStore.getTheme, (newVal, oldVal) => {
   modeSwitch.value = configStore.getTheme
 })
 
+const showDetails = () => {
+  console.log("Show Details:", controls.value.detail.name);
+  router.push({ name: "Detail", params: { topic: controls.value.detail.name } });
+};
 
-/*
-const modeSwitch = computed({
-  get() {
-    return currentPresetName
-  }
-})
-*/
 
 const filters = ref([
 ]);
 
-/*
-const brkPnt = () => {
-  if (breakpoint.xs) {
-    console.log("It's XS breakpoint!");
-  } else {
-    console.log("Not XS")
-  }
-};
-*/
 
 // name für i18n key
 const props = defineProps({
@@ -219,13 +221,22 @@ onBeforeMount(async () => {
   if (cardSpecs.value.filters) {
     filters.value = cardSpecs.value.filters
   }
+  if (cardSpecs.value.detail !== undefined) {
+    console.log("Detail:", cardSpecs.value.detail);
+    controls.value.detail.present = true
+    controls.value.detail.name = cardSpecs.value.detail.name
+  }
+
   confgComplete.value = true
 
 });
 </script>
 
-<style scoped>
-/* Add your card styles here */
+
+<style scoped lang="scss">
+@import "@/style/colors.scss";
+@import "vuestic-ui/styles/grid";
+@import '@/style/style.scss';
 
 .headerCard {
   margin: .5rem 0 .5rem 0;
@@ -276,12 +287,6 @@ onBeforeMount(async () => {
   margin-right: 1rem;
   margin-bottom: .3rem;
 }
-
-</style>
-
-<style scoped lang="scss">
-
-@import '@/style/style.scss';
 
 .infoicon  {
   margin-left: 0;
