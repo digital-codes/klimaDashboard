@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [8.409374, 49.006647]
+      },
+      "properties": {
+        "name": "LUBW - Heinrich-Hübsch-Schule2",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Karlsruhe_Heinrich-H%C3%BCbsch-Schule.jpg",
+        "attribution":"Photo: Andreas Praefcke, CC BY 3.0 <https://creativecommons.org/licenses/by/3.0>, via Wikimedia Commons"
+      }
+    }
+  ]
+}
