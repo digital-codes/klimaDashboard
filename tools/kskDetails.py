@@ -5,7 +5,7 @@ import os
 import sys
 
 
-kskdir = "./ksk_extracted"
+kskdir = "../docs/karlsruhe/ksk_extracted"
 
 files = os.listdir(kskdir)
 
@@ -15,10 +15,16 @@ keys = [
     "\nWas und Wen?\n",
     "\nWer?\n",
     "\nWo noch?\n",
+    "\nWas bringt es?\n",
+    "\nWieviel?\n",
+    "\nRisiken & Herausforderungen?\n",
     "\nWann?\n",
     "\nUmsetzungszeitraum:",
     "\nWirkzeitraum:"
     ]
+
+skip_key = "\nWann?\n"
+
 # with wann:
 #Umsetzungszeitraum
 #Wirkzeitraum
@@ -34,7 +40,6 @@ def separate(txt,base):
     txt = "\n".join(lines)
     sections = {}
     for k in keys:
-        print(k)
         if txt.find(k) >= 0:
             sections[k] = txt.index(k)
         else:
@@ -46,9 +51,8 @@ def separate(txt,base):
     items = {}
     startPositions = [sorted_sections[x] for x in sorted_sections]
     for i,s in enumerate(startPositions):
-        print("i",i)
         rawKey = list(sorted_sections.keys())[i]
-        if rawKey == keys[5]:
+        if rawKey == skip_key:
             continue
         if i < len(startPositions) - 1:
             t = txt[startPositions[i]:startPositions[i+1]]
@@ -58,25 +62,10 @@ def separate(txt,base):
         items[key] = t.split(rawKey)[1]
 
     return items
-        
-           
-    for s in sorted_sections:
-        print(s)
-        start = txt.index(s)
-        end = len(txt)
-        for key in sorted_sections:
-            if sorted_sections[key] > start:
-                end = sorted_sections[key]
-                break
-        print(start,end)
-        section = txt[start:end]
-        #print(section)
-        #with open (os.sep.join([kskdir,base,s.replace("\n","").replace(" ","_")+".txt"]),"w") as f:
-        #    f.write(section)
-
-    return sorted_sections    
 
 for file in files:
+    if not file.endswith(".txt"):
+        continue
     base = file.split(".txt")[0]
     if base == "":
         continue

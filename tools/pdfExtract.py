@@ -33,9 +33,9 @@ def extract_text_from_pdf(pdf_path):
         parsed = parser.from_file(pdf_path)
         meta = parsed["metadata"]   
         print("meta: ", meta)
-        sys.exit()
+        #sys.exit()
         text = parsed["content"]
-        return text
+        return text.strip()
     except Exception as e:
         print(f"Fehler beim Lesen der PDF-Datei '{pdf_path}': {e}")
         exit(1)
@@ -76,7 +76,8 @@ def extract_table_of_contents(text):
         toc_items = []
         txt_lines = []
         for i, line in enumerate(textLines):
-            if line.lower().startswith("inhaltsverzeichnis"):
+            #if line.lower().startswith("inhaltsverzeichnis"):
+            if line.lower().startswith("handlungsfeld "):
                 inToc = True
                 continue
             elif not inToc or not line.strip():
@@ -151,7 +152,7 @@ if text:
 
 def writeSegment(seg,id):
     print("write segment: ", id)
-    with open(f"{id}_extracted.txt", "w") as f:
+    with open(os.sep.join(["ksk_extracted",f"{id}_extracted.txt"]), "w") as f:
         f.write("\n".join(seg))
 
 m = None
