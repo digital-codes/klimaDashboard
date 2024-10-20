@@ -2,11 +2,21 @@
 
   <HeaderCard name="test" @filter="filterTag" id="dh" />
 
-  <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
-    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
-      :part="tile.part" class="tile">
-    </component>
-  </div>
+      <div v-if="tilesVisible > 0">
+        <div v-for="(tile, index) in tileList" :key="index" :id="tile.anchor">
+          <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
+            :part="tile.part" class="tile">
+          </component>
+        </div>
+      </div>
+
+      <div v-if="tilesVisible < tiles.length">
+        <VaButton @click="apeendTiles" class="btt-button" :aria-label="$t('more')"
+          >
+          <VaIcon name="keyboard_arrow_down" size="medium" />{{ $t('more') }}
+        </VaButton>
+      </div>
+
 
 </template>
 
@@ -15,21 +25,34 @@
 import { useI18n } from 'vue-i18n';
 const { t, locale, availableLocales } = useI18n();
 
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue'
+import { VaButton } from 'vuestic-ui';
 
 // special header for the datavies
 const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.vue"))
 
+// reactive structue to enable something like infinitescroll, as vaInfiniteScroll is not working
+// with cards (?)
+const scrollTarget = ref(null)
+const tileList = ref([])
+const tilesVisible = ref(0)
+const apeendTiles = async () => {
+  if (tilesVisible.value < tiles.length) {
+    tileList.value.push(tiles[tilesVisible.value]);
+    tilesVisible.value += 1
+  }
+}
 
 const tiles = [
-// using template for linebar. maybe still loads component multiple times. 
-{ "name": "test1", "section": "test", "part": "dummyTable", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/DataTable.vue")) },
-{ "name": "energyQuarters", "section": "conditions", "part": "statistics", "tag": "E", "component": defineAsyncComponent(() => import("@/components/tiles/templates/ChoroMap.vue")) },
-{ "name": "byProgress", "section": "protect", "part": "status", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
-//{ "name": "DummyLineCjs", "section": "dummyLineCjs", "part": ".", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyLineCjs/Card.vue")) },
-//{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
+  // using template for linebar. maybe still loads component multiple times. 
+  { "name": "test1", "section": "test", "part": "dummyTable", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/DataTable.vue")) },
+  { "name": "energyQuarters", "section": "conditions", "part": "statistics", "tag": "E", "component": defineAsyncComponent(() => import("@/components/tiles/templates/ChoroMap.vue")) },
+  { "name": "byProgress", "section": "protect", "part": "status", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
+  //{ "name": "DummyLineCjs", "section": "dummyLineCjs", "part": ".", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/test/dummyLineCjs/Card.vue")) },
+  //{ "name": "DummyLineApx", "tag": "A",  "component": defineAsyncComponent(() => import("@/components/tiles/dummyLineApx/Card.vue")) },
 ]
+
 
 // use anchor to give a unique reference to each tile
 tiles.map(tile => {
@@ -57,5 +80,11 @@ const filterTag = (tag) => {
   }
 }
 
+onMounted(async () => {
+  // Code to execute when the component is mounted
+  console.log('mounted')
+  await apeendTiles()
+  await nextTick()
+})
 
 </script>
