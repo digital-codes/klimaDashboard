@@ -367,6 +367,7 @@ const chartData = ref([
     value: 10,
     upperLabel: {
       show: true,
+      color:"#fff",
       height: 30,
     },
     children: [
@@ -384,6 +385,7 @@ const chartData = ref([
     name: "nodeB",
     upperLabel: {
       show: true,
+      color:"#fff",
       height: 30,
     },
     children: [
