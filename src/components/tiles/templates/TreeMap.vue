@@ -54,7 +54,7 @@
       <!-- Chart component goes here -->
       <SimpleTree  v-if="chartValid"  :dataUrl="dataUrl" :dataName="dataName" 
       :ariaLabel="ariaLabel" :locale="chartLocale" 
-      :dataProps="dataProps" @data="capture"></SimpleTree>
+      :dataProps="dataProps" @series="capture"></SimpleTree>
     </div>
 
 
@@ -62,20 +62,20 @@
       <!-- source, license, download button -->
 
       <VaChip disabled outline>
-        {{ cardMessages[locale].license }}: {{ dataLicense }}
+        {{ $t("license") }}: {{ dataLicense }}
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >
-        {{ $t($props.name + ".source") }}
+        {{ $t("source") }}
       </VaChip>
       -->
 
-      <VaButton round @click="downJson" icon="download" v-if="controls.downloads.data">
-        {{ cardMessages[locale].download }}
+      <VaButton round @click="jsonDown" icon="download" v-if="controls.downloads.data">
+        {{ $t("download") }}
       </VaButton>
 
-      <VaButton round @click="exportMap" icon="download" v-if="controls.downloads.img">
-        {{ cardMessages[locale].downimage }}
+      <VaButton round @click="imgDown" icon="download" v-if="controls.downloads.img">
+        {{ $t("downimage") }}
       </VaButton>
 
 
@@ -186,8 +186,9 @@ const mapData = ref(null)
 const mapInstance = ref(null)
 
 const capture = (data) => {
+  console.log("Capture:", data)
   mapData.value = data.content
-  mapInstance.value = data.map
+  mapInstance.value = data.chart
 } 
 
 const exportMap = async () => {
@@ -224,7 +225,7 @@ const exportMap = async () => {
       }
     };
 
-const downJson = async () => {
+const jsonDown = async () => {
   const data = JSON.stringify(mapData.value);
   const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -236,6 +237,25 @@ const downJson = async () => {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 };
+
+
+const imgDown = () => {
+  console.log("ImgDown:", mapInstance.value)
+  if (!mapInstance.value) return;
+  const imgUrl = mapInstance.value.getDataURL({
+    pixelRatio: 2,
+    backgroundColor: '#fff'
+  });
+  const filename = dataName.value + ".png";
+  const link = document.createElement("a");
+  link.href = imgUrl;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+
 
 watch(dataCtl, (index) => {
   console.log("DataCtl:", index)
@@ -330,8 +350,9 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
-
-@import '@/style/colors.scss';
+@import "@/style/colors.scss";
+@import "vuestic-ui/styles/grid";
+@import '@/style/style.scss';
 
 /* Add your card styles here */
 
@@ -376,13 +397,5 @@ onBeforeMount(async () => {
   font-size: 1.5rem;
   line-height: 3rem;
 }
-
-</style>
-
-
-<style lang="scss" scoped>
-
-@import "vuestic-ui/styles/grid";
-
 </style>
 

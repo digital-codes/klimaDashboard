@@ -11,9 +11,9 @@
       </div>
 
       <div v-if="tilesVisible < tiles.length">
-        <VaButton @click="apeendTiles" class="btt-button" :aria-label="$t('more')"
+        <VaButton @click="appendTiles" class="btt-button" :aria-label="$t('continue')"
           >
-          <VaIcon name="keyboard_arrow_down" size="medium" />{{ $t('more') }}
+          <VaIcon name="keyboard_arrow_down" size="medium" />{{ $t('continue') }}
         </VaButton>
       </div>
 
@@ -37,7 +37,7 @@ const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.v
 const scrollTarget = ref(null)
 const tileList = ref([])
 const tilesVisible = ref(0)
-const apeendTiles = async () => {
+const appendTiles = async () => {
   if (tilesVisible.value < tiles.length) {
     tileList.value.push(tiles[tilesVisible.value]);
     tilesVisible.value += 1
@@ -46,7 +46,7 @@ const apeendTiles = async () => {
 
 const tiles = [
   // using template for linebar. maybe still loads component multiple times. 
-  { "name": "test1", "section": "test", "part": "dummyTable", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/TreeMap.vue")) },
+  { "name": "test1", "section": "test", "part": "dummyTree", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/TreeMap.vue")) },
 //  { "name": "test1", "section": "test", "part": "dummyTable", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/DataTable.vue")) },
   { "name": "energyQuarters", "section": "conditions", "part": "statistics", "tag": "E", "component": defineAsyncComponent(() => import("@/components/tiles/templates/ChoroMap.vue")) },
   { "name": "byProgress", "section": "protect", "part": "status", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },
@@ -84,7 +84,7 @@ const filterTag = (tag) => {
 onMounted(async () => {
   // Code to execute when the component is mounted
   console.log('mounted')
-  await apeendTiles()
+  await appendTiles()
   await nextTick()
 })
 

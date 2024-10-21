@@ -6,7 +6,7 @@
       target="_blank"
       >
         <VaListItemSection avatar style="max-width:60%;">
-          <VaListItemLabel style="-webkit-line-clamp:unset;">
+          <VaListItemLabel style="-webkit-line-clamp:unset;" class="supported_by_label">
             {{ $t("supported_by") }}
           </VaListItemLabel>
         </VaListItemSection>
@@ -15,8 +15,8 @@
           <VaAvatar size="large">
             <img
               :src="supported"
-              :alt="t('supported_by')"
-              :ariaLabel="t('supported_by')"
+              :alt="t('supported_by_long')"
+              :ariaLabel="t('supported_by_long')"
             />
           </VaAvatar>
         </VaListItemSection>
@@ -95,4 +95,11 @@ onBeforeMount(() => {
   margin-right:auto;
   padding:1rem;
 }
+
+.supported_by_label {
+  color: light-dark(#000, #fff);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 </style>

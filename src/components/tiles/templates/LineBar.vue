@@ -91,7 +91,7 @@
       <!-- source, license, download button -->
 
       <VaChip disabled outline>
-        {{ cardMessages[locale].license }}: {{ dataLicense }}
+        {{ $t("license") }}: {{ dataLicense }}
       </VaChip>
       <!-- 
       <VaChip :href="dataUrl" target="_blank" >

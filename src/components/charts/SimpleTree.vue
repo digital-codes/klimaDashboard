@@ -299,8 +299,20 @@ const updateOptions = async () => {
 };
 
 const loadData = async () => {
+  data.value = chartData.value;
   dataLoaded.value = true
-  return
+  await nextTick();
+  // emit data after data loaded, else chart intance is not ready
+  emit(
+    "series",
+    {
+      chart: theChart.value,
+      content: data.value,
+    },
+    theChart.value
+  );
+
+    return
   try {
     console.log("Fetching: ", props.dataUrl);
     const response = await fetch(props.dataUrl);
@@ -366,7 +378,7 @@ const chartData = ref([
     name: "nodeA",
     upperLabel: {
       show: true,
-      color:"#fff",
+      color: "#fff",
       height: 30,
     },
     children: [
@@ -376,7 +388,7 @@ const chartData = ref([
       },
       {
         name: "nodeAb",
-        value: 6,
+        value: 7,
       },
     ],
   },
@@ -384,7 +396,7 @@ const chartData = ref([
     name: "nodeB",
     upperLabel: {
       show: true,
-      color:"#fff",
+      color: "#fff",
       height: 30,
     },
     children: [
@@ -396,6 +408,11 @@ const chartData = ref([
             value: 8,
           },
           {
+            upperLabel: {
+              show: true,
+              color: "#fff",
+              height: 30,
+            },
             name: "nodeBa2",
             children: [
               {
@@ -409,7 +426,7 @@ const chartData = ref([
             ],
           },
           {
-            name: "nodeBa2",
+            name: "nodeBa3",
             value: 4,
           },
         ],
@@ -420,7 +437,7 @@ const chartData = ref([
     name: "nodeC",
     upperLabel: {
       show: true,
-      color:"#fff",
+      color: "#fff",
       height: 30,
     },
     children: [
@@ -432,12 +449,12 @@ const chartData = ref([
             value: 8,
           },
           {
+            upperLabel: {
+              show: true,
+              color: "#fff",
+              height: 30,
+            },
             name: "nodeCa2",
-    upperLabel: {
-      show: true,
-      color:"#fff",
-      height: 30,
-    },
             children: [
               {
                 name: "nodeCa2a1",
@@ -458,7 +475,7 @@ const chartData = ref([
             ],
           },
           {
-            name: "nodeCa2",
+            name: "nodeCa3",
             value: 4,
           },
         ],
@@ -476,17 +493,18 @@ const ttFormatter = (info) => {
   }
   return [
     '<div class="tooltip-title">' +
-      // echarts.format.encodeHTML(treePath.join("/")) +
-      treePath.join("/") +
-      "</div>",
-      "Value: " + String(value) + " Unit",
-//    "Value: " + echarts.format.addCommas(value) + " KB",
-      ].join("");
+    // echarts.format.encodeHTML(treePath.join("/")) +
+    treePath.join("/") +
+    "</div>",
+    "Value: " + String(value) + " Unit",
+    //    "Value: " + echarts.format.addCommas(value) + " KB",
+  ].join("");
 };
 
 const chartOptions = ref({
   title: {
     text: props.dataName,
+    left: 'center'
   },
   tooltip: {
     formatter: ttFormatter
@@ -500,13 +518,16 @@ const chartOptions = ref({
         gapWidth: 5,
       },
       emphasis: {
-          itemStyle: {
-            borderColor: '#00f'
-          }
-        },
+        itemStyle: {
+          borderColor: '#00f'
+        }
+      },
       label: {
         show: true,
         formatter: "{b}\n{c}",
+      },
+      upperLabel: {
+        show: false,
       },
       data: chartData.value,
     },
@@ -575,17 +596,8 @@ option && myChart.setOption(option);
 </script>
 
 <template>
-  <v-chart
-    v-if="dataLoaded"
-    ref="theChart"
-    :option="chartOptions"
-    :style="{ height: '100%' }"
-    :theme="chartTheme"
-    :init-options="{ renderer: 'canvas' }"
-    autoresize
-    :aria-label="ariaLabel"
-    @ready="onChartReady"
-  >
+  <v-chart v-if="dataLoaded" ref="theChart" :option="chartOptions" :style="{ height: '100%' }" :theme="chartTheme"
+    :init-options="{ renderer: 'canvas' }" autoresize :aria-label="ariaLabel" @ready="onChartReady">
   </v-chart>
 </template>
 
