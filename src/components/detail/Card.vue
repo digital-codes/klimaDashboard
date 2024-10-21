@@ -6,6 +6,9 @@
   <VaCard class="detailCard">
     <div class="flex xs12">
       <div class="mdcontent fullheight" v-html="content"></div>
+      <div v-if="fetchError">
+        <VaAlert type="error" icon="error" title="Error" description="Details not working in dev mode!" />
+      </div>
     </div>
 
   </VaCard>
@@ -44,6 +47,8 @@ const back = () => {
   router.go(-1)
 };
 
+const fetchError = ref(false);
+
 watch(() => props.topic, () => {
   fetchContent();
 });
@@ -70,16 +75,20 @@ const fetchContent = async () => {
     });
     if (response.status === 200) {
       content.value = await response.text();
+      fetchError.value = false;
       if (content.value.startsWith("<?")) {
         content.value = errorMsg[locale.value];
+        fetchError.value = true;
       }
     } else {
       console.error('Failed to fetch content:', response.status);
       content.value = errorMsg[locale.value];
+      fetchError.value = true;
     }
   } catch (error) {
     console.error('Error fetching content:', error);
     content.value = errorMsg[locale.value];
+    fetchError.value = true;
   }
 };
 

@@ -1,1 +1,1 @@
-all markdown files file be compiled to html and copied to /public/details/<language>
+all markdown files must be compiled to html and copied to /public/details/<language>
