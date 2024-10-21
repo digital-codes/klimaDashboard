@@ -1,6 +1,27 @@
 <template>
   <VaCard class="footerCard">
 
+      <VaListItem class="list__item supported_by"
+      :href="supported_by_url"
+      target="_blank"
+      >
+        <VaListItemSection avatar style="max-width:60%;">
+          <VaListItemLabel style="-webkit-line-clamp:unset;">
+            {{ $t("supported_by") }}
+          </VaListItemLabel>
+        </VaListItemSection>
+
+        <VaListItemSection>
+          <VaAvatar size="large">
+            <img
+              :src="supported"
+              :alt="t('supported_by')"
+              :ariaLabel="t('supported_by')"
+            />
+          </VaAvatar>
+        </VaListItemSection>
+      </VaListItem>
+
     <div class="flex xs12">
       <div class="mdcontent" v-html="content[locale]"></div>
     </div>
@@ -10,21 +31,23 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-const { messages, locale } = useI18n();
+const { messages, locale, t } = useI18n();
 import { ref, onBeforeMount } from "vue";
 
-import { useConfigStore } from '@/services/configStore';
+import { useConfigStore } from "@/services/configStore";
 const configStore = useConfigStore();
 
 import { useBreakpoint } from "vuestic-ui";
 
+import supported from "@/assets/images/support.png";
+const supported_by_url = "https://www.karlsruhe.de/umwelt-klima/klimaschutz-klimawandel/klimaschutzkampagne"
 
 // name für i18n key
 const props = defineProps({
   name: {
     type: String,
     default: "card",
-  }
+  },
 });
 console.log("Card name:", props.name);
 
@@ -36,8 +59,6 @@ import cardMessages from "./lang.json";
 
 // content pane
 const content = ref({});
-
-
 
 onBeforeMount(() => {
   // Code to execute when the component is mounted
@@ -55,7 +76,6 @@ onBeforeMount(() => {
     if (!supportedLanguages.includes(key)) continue;
     content.value[key] = cardContent[key];
   }
-
 });
 </script>
 
@@ -63,12 +83,16 @@ onBeforeMount(() => {
 /* Add your card styles here */
 
 .footerCard {
-  margin: .5rem 0 .5rem 0;
-  padding: .5rem;
+  margin: 0.5rem 0 0.5rem 0;
+  padding: 0.5rem;
   text-align: left;
   display: flex;
   flex-wrap: wrap;
 }
 
-
+.supported_by {
+  margin-left:auto;
+  margin-right:auto;
+  padding:1rem;
+}
 </style>

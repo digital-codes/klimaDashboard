@@ -40,7 +40,8 @@
         "cancelled": "Cancelled",
         "undefined": "Undefined",
         "replaced": "Replaced",
-        "detail": "Detail"
+        "detail": "Detail",
+        "supported_by":"Supported by 'KA° - Wir machen Klima'"
    
     },
     "de": {
@@ -84,6 +85,7 @@
         "cancelled": "Abgebrochen",
         "undefined": "Undefiniert",
         "replaced": "Ersetzt",
-        "detail": "Detail"
+        "detail": "Detail",
+        "supported_by": "Mit Unterstützung durch die Karlsruher Klimakampagne 'KA° - Wir machen Klima'"
         }
 }

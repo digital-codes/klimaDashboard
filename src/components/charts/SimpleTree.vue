@@ -364,7 +364,6 @@ const chartOptions = ref(
 const chartData = ref([
   {
     name: "nodeA",
-    value: 10,
     upperLabel: {
       show: true,
       color:"#fff",
@@ -417,6 +416,55 @@ const chartData = ref([
       },
     ],
   },
+  {
+    name: "nodeC",
+    upperLabel: {
+      show: true,
+      color:"#fff",
+      height: 30,
+    },
+    children: [
+      {
+        name: "nodeCa",
+        children: [
+          {
+            name: "nodeCa1",
+            value: 8,
+          },
+          {
+            name: "nodeCa2",
+    upperLabel: {
+      show: true,
+      color:"#fff",
+      height: 30,
+    },
+            children: [
+              {
+                name: "nodeCa2a1",
+                value: 3,
+              },
+              {
+                name: "nodeCa2a2",
+                value: 1,
+              },
+              {
+                name: "nodeCa2a3",
+                value: 1,
+              },
+              {
+                name: "nodeCa2a4",
+                value: 3,
+              },
+            ],
+          },
+          {
+            name: "nodeCa2",
+            value: 4,
+          },
+        ],
+      },
+    ],
+  },
 ]);
 
 const ttFormatter = (info) => {
@@ -451,6 +499,11 @@ const chartOptions = ref({
         borderWidth: 2,
         gapWidth: 5,
       },
+      emphasis: {
+          itemStyle: {
+            borderColor: '#00f'
+          }
+        },
       label: {
         show: true,
         formatter: "{b}\n{c}",
