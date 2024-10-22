@@ -1,6 +1,6 @@
 {
   "support": {
-  "present" : true,
-  "icon":"support.png"
+    "present" : true,
+    "icon":"support.png"
   }
 }

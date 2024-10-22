@@ -39,9 +39,6 @@ const configStore = useConfigStore();
 
 import { useBreakpoint } from "vuestic-ui";
 
-//import supported from "@/assets/images/support.png";
-//const supported_by_url = "https://www.karlsruhe.de/umwelt-klima/klimaschutz-klimawandel/klimaschutzkampagne"
-
 // name für i18n key
 const props = defineProps({
   name: {
@@ -56,7 +53,6 @@ import cardConfig from "./card.json"
 // check support present for subsequent display of support info 
 const supportPresent = (cardConfig.support && cardConfig.support.present) || false
 const supportIcon = "/images/" + cardConfig.support.icon
-// import supported from "@/assets/images/" + cardConfig.support.icon // cardConfig.support.icon
 
 // read localized card content
 import cardContent from "./text.json";
