@@ -509,17 +509,18 @@ const chartOptions = ref({
   tooltip: {
     formatter: ttFormatter
   },
+  backgroundColor: "#ddd",
   series: [
     {
       type: "treemap",
       itemStyle: {
-        borderColor: "#707",
-        borderWidth: 2,
+        borderColor: "#444",
+        borderWidth: 3,
         gapWidth: 5,
       },
       emphasis: {
         itemStyle: {
-          borderColor: '#00f'
+          borderColor: '#888',
         }
       },
       label: {

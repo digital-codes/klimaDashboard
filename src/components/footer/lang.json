@@ -1,14 +1,12 @@
 {
   "en": {
-    "mdpane": "<h2>More Information</h2>\n<h3>Source Code</h3>\n<img alt=\"github\" src=\"/icons/github-mark.png\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Credits</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
+    "supported_by":"Supported by",
+    "supported_by_long":"Supported by 'KA° - Wir machen Klima'",
+    "supported_by_url":"https://www.karlsruhe.de/umwelt-klima/klimaschutz-klimawandel/klimaschutzkampagne"
   },
   "de": {
-    "mdpane": "<h2>Weitere Infos</h2>\n<h3>Source Code</h3>\n<img alt=\"github\" src=\"/icons/github-mark.png\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Credits</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
-  },
-  "fr": {
-    "mdpane": "<h2>Plus d'informations</h2>\n<h3>Source Code</h3>\n<img alt=\"github\" src=\"/icons/github-mark.png\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Crédits</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
-  },
-  "es": {
-    "mdpane": "<h2>Más Información</h2>\n<h3>Source Code</h3>\n<img alt=\"github\" src=\"/icons/github-mark.png\" class=\"footerimg\">\n\n<p><a href=\"https://github.com/digital-codes/klimaDashboard\">Github</a></p>\n<h3>Créditos</h3>\n<p><a href=\"https://vuejs.org/\">https://vuejs.org/</a></p>\n<p><a href=\"https://ui.vuestic.dev/\">https://ui.vuestic.dev/</a></p>\n"
+    "supported_by": "Mit Unterstützung durch",
+    "supported_by_long": "Mit Unterstützung durch die Karlsruher Klimakampagne 'KA° - Wir machen Klima'",
+    "supported_by_url":"https://www.karlsruhe.de/umwelt-klima/klimaschutz-klimawandel/klimaschutzkampagne"
   }
 }

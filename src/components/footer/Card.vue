@@ -1,22 +1,22 @@
 <template>
   <VaCard class="footerCard">
 
-      <VaListItem class="list__item supported_by"
-      :href="supported_by_url"
+      <VaListItem v-if="supportPresent" class="list__item supported_by"
+      :href="cardMessages[locale].supported_by_url"
       target="_blank"
       >
         <VaListItemSection avatar style="max-width:60%;">
           <VaListItemLabel style="-webkit-line-clamp:unset;" class="supported_by_label">
-            {{ $t("supported_by") }}
+            {{ cardMessages[locale].supported_by }}
           </VaListItemLabel>
         </VaListItemSection>
 
         <VaListItemSection>
           <VaAvatar size="large">
             <img
-              :src="supported"
-              :alt="t('supported_by_long')"
-              :ariaLabel="t('supported_by_long')"
+              :src="supportIcon"
+              :alt="cardMessages[locale].supported_by_long"
+              :ariaLabel="cardMessages[locale].supported_by_long"
             />
           </VaAvatar>
         </VaListItemSection>
@@ -39,8 +39,8 @@ const configStore = useConfigStore();
 
 import { useBreakpoint } from "vuestic-ui";
 
-import supported from "@/assets/images/support.png";
-const supported_by_url = "https://www.karlsruhe.de/umwelt-klima/klimaschutz-klimawandel/klimaschutzkampagne"
+//import supported from "@/assets/images/support.png";
+//const supported_by_url = "https://www.karlsruhe.de/umwelt-klima/klimaschutz-klimawandel/klimaschutzkampagne"
 
 // name für i18n key
 const props = defineProps({
@@ -51,11 +51,19 @@ const props = defineProps({
 });
 console.log("Card name:", props.name);
 
+// read config
+import cardConfig from "./card.json"
+// check support present for subsequent display of support info 
+const supportPresent = (cardConfig.support && cardConfig.support.present) || false
+const supportIcon = "/images/" + cardConfig.support.icon
+// import supported from "@/assets/images/" + cardConfig.support.icon // cardConfig.support.icon
+
 // read localized card content
 import cardContent from "./text.json";
 
 // read localized card messages
 import cardMessages from "./lang.json";
+
 
 // content pane
 const content = ref({});
@@ -65,12 +73,6 @@ onBeforeMount(() => {
   // Merge card specific messages with global
   // localized content
   const supportedLanguages = configStore.getLanguages;
-
-  // localization data
-  for (const key in cardMessages) {
-    if (!supportedLanguages.includes(key)) continue;
-    messages.value[key][props.name] = cardMessages[key];
-  }
 
   for (const key in cardContent) {
     if (!supportedLanguages.includes(key)) continue;
