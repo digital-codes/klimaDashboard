@@ -101,7 +101,7 @@ onBeforeMount(() => {
 }
 
 .supported_by_label {
-  color: light-dark(#000, #fff);
+  color: light-dark($black, $white);
   font-size: 1.2rem;
   font-weight: bold;
 }
