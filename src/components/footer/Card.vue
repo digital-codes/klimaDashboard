@@ -1,6 +1,7 @@
 <template>
   <VaCard class="footerCard">
 
+      <!-- 
       <VaListItem v-if="supportPresent" class="list__item supported_by"
       :href="cardMessages[locale].supported_by_url"
       target="_blank"
@@ -25,6 +26,35 @@
     <div class="flex xs12">
       <div class="mdcontent" v-html="content[locale]"></div>
     </div>
+    -->
+
+    <div class="flex xs12">
+      <div class="mdcontent" >
+        <VaListItem v-if="supportPresent" class="list__item supported_by2"
+      :href="cardMessages[locale].supported_by_url"
+      target="_blank"
+      >
+        <VaListItemSection avatar style="max-width:60%;">
+          <VaListItemLabel style="-webkit-line-clamp:unset;" class="supported_by_label">
+            {{ cardMessages[locale].supported_by }}
+          </VaListItemLabel>
+        </VaListItemSection>
+
+        <VaListItemSection>
+          <VaAvatar size="large">
+            <img
+              :src="supportIcon"
+              :alt="cardMessages[locale].supported_by_long"
+              :ariaLabel="cardMessages[locale].supported_by_long"
+            />
+          </VaAvatar>
+        </VaListItemSection>
+      </VaListItem>
+
+      <div v-html="content[locale]"></div>
+    </div>
+    </div>
+
 
   </VaCard>
 </template>
@@ -97,7 +127,22 @@ onBeforeMount(() => {
   border: solid 3px;
   border-radius: .5rem;
   border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);
+}
 
+.supported_by2 {
+  display:inline-flex;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom:.5rem;
+  //border-bottom: solid 2px;
+  border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);
+}
+
+.supported_by2 img{
+  max-width: unset;
+  width:100%;
+  height:100%;
+  margin:0;
 }
 
 .supported_by_label {
