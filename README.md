@@ -19,7 +19,7 @@ Dark mode supported
 Text input is markdown format, one file per tile per langage (en.md, de.md etc.). Support for teaser/more (collapsible or full page).
 
 ### Visualization
-Variety of charts from [Apache Echarts library](https://echarts.apache.org), e.g. line, bar, tree, choropleth and [Leaflet maps](https://leafletjs.com/).
+Variety of charts from [Apache Echarts library](https://echarts.apache.org), e.g. line, bar, tree, choropleth, a simple data table and [Leaflet maps](https://leafletjs.com/).
 
 ### Data
 Data loaded from internal (same site) sources or external sources. Format: csv, json, geojson. Limited data preprocessing capabilites like column selection and class building. Sample (and simple) PHP proxy codes for CORS bypass and API access.
