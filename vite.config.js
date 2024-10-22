@@ -8,6 +8,14 @@ import Sitemap from 'vite-plugin-sitemap'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // new sass prefers moden option
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler', // or "modern", "legacy"
+      },
+    },
+  },  
   plugins: [
     vue(),
     Sitemap({

@@ -8,7 +8,9 @@
 // https://medium.com/@brcsndr/you-dont-know-css-dark-mode-theming-and-swapping-with-css-and-design-tokens-ac1273936940
 
 
-@import '@/style/colors.scss';
+//@import '@/style/colors.scss';
+@use "sass:color";
+@use '@/style/colors.scss';
 
 :root {
   /*
@@ -138,7 +140,7 @@ h1 {
 
 h2 {
   font-family: "Noto Sans";
-  color: light-dark($dash-h-text-light, $dash-h-text-dark);
+  color: light-dark(colors.$dash-h-text-light, colors.$dash-h-text-dark);
 }
 
 button {
@@ -148,12 +150,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: light-dark($dash-link-light,$dash-link-dark);
+  background-color: light-dark(colors.$dash-link-light,colors.$dash-link-dark);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: light-dark($dash-accent-light,$dash-accent-dark);
+  border-color: light-dark(colors.$dash-accent-light,colors.$dash-accent-dark);
 }
 button:focus,
 button:focus-visible {
@@ -166,16 +168,16 @@ button:focus-visible {
   background-color: light-dark(var(--card-light-bg), var(--card-dark-bg));
   color: light-dark(var(--card-light-color), var(--card-dark-color));
   */
-  background-color: light-dark($dash-bg2-light,$dash-bg2-dark);
-  color: light-dark($dash-text-light,$dash-text-dark);
-  border-color: light-dark($dash-border-light,$dash-border-dark);   // #535bf2;
+  background-color: light-dark(colors.$dash-bg2-light,colors.$dash-bg2-dark);
+  color: light-dark(colors.$dash-text-light,colors.$dash-text-dark);
+  border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);   // #535bf2;
 
   /* Add your card styles here */
   //border: 2px solid light-dark(var(--card-light-border), var(--card-dark-border));
   border: 2px solid;
   border-radius: 8px;
   //box-shadow: 0 2px 4px rgba(1, 100, 100, 1);
-  box-shadow: 0 2px 4px light-dark($dash-shadow-light,$dash-shadow-dark);   // #535bf2;
+  box-shadow: 0 2px 4px light-dark(colors.$dash-shadow-light,colors.$dash-shadow-dark);   // #535bf2;
 
 }
 
@@ -222,21 +224,21 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: $dash-text-light;
-    background-color: $dash-bg1-light;
+    color: colors.$dash-text-light;
+    background-color: colors.$dash-bg1-light;
   }
   a {
-    color: $dash-link-light;
+    color: colors.$dash-link-light;
   }
   a:hover {
-    color: darken($dash-link-light,10);
+    color: color.adjust(colors.$dash-link-light,$lightness: -10%);
   }
   button {
-    background-color: $dash-link-light;
-    color: $dash-h-text-light;
+    background-color: colors.$dash-link-light;
+    color: colors.$dash-h-text-light;
   }
   button:hover {
-    background-color: $dash-accent-light;
+    background-color: colors.$dash-accent-light;
   }
 
   
@@ -244,21 +246,21 @@ button:focus-visible {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    background-color: $dash-bg1-dark;
-    color: $dash-text-dark;
+    background-color: colors.$dash-bg1-dark;
+    color: colors.$dash-text-dark;
   }
   a {
-    color: $dash-link-dark;
+    color: colors.$dash-link-dark;
   }
   a:hover {
-    color: lighten($dash-link-dark,10);
+    color: color.adjust(colors.$dash-link-dark,$lightness: 10%);
   }
   button {
-    background-color: $dash-link-dark;
-    color: $dash-h-text-dark;
+    background-color: colors.$dash-link-dark;
+    color: colors.$dash-h-text-dark;
   }
   button:hover {
-    background-color: $dash-accent-dark;
+    background-color: colors.$dash-accent-dark;
   }
 }
 
@@ -283,8 +285,8 @@ button:focus-visible {
   background-color: light-dark(var(--tile-light-bg), var(--tile-dark-bg));
   color: light-dark(var(--tile-light-color), var(--tile-dark-color));
   */
-  background-color: light-dark($dash-bg2-light,$dash-bg2-dark);
-  color: light-dark($dash-text-light,$dash-text-dark);
+  background-color: light-dark(colors.$dash-bg2-light,colors.$dash-bg2-dark);
+  color: light-dark(colors.$dash-text-light,colors.$dash-text-dark);
   /*
   background-color: light-dark($dark-white,$light-black);
   color: light-dark($dark-dark-gray, $light-light-gray);
@@ -320,7 +322,7 @@ button:focus-visible {
 
 .chartpane {
   border-radius: 8px;
-  border: solid 3px light-dark($dash-border-light,$dash-border-dark);
+  border: solid 3px light-dark(colors.$dash-border-light,colors.$dash-border-dark);
   height: 16rem;
   padding: 0.5rem;
   margin-top: 1rem;
@@ -348,13 +350,13 @@ button:focus-visible {
   //background-color: light-dark(var(--md-light-bg), var(--md-dark-bg));
   //color: light-dark(var(--md-light-color), var(--md-dark-color));
 
-  background-color: light-dark($dash-bg1-light,$dash-bg1-dark);
-  color: light-dark($dash-text-light,$dash-text-dark);
+  background-color: light-dark(colors.$dash-bg1-light,colors.$dash-bg1-dark);
+  color: light-dark(colors.$dash-text-light,colors.$dash-text-dark);
 
   width: 100%;
   height: auto;  
   border-radius: 8px;
-  border-color: light-dark($dash-border-light, $dash-border-dark);
+  border-color: light-dark(colors.$dash-border-light, colors.$dash-border-dark);
   border-style: solid;
   border-width: 3px;
   padding: 0.5rem;
@@ -375,9 +377,9 @@ button:focus-visible {
   color: light-dark($dark-dark-gray, $light-light-gray);
   border-color: light-dark($dark-gray,$light-gray);   // #535bf2;
   */
-  background-color: light-dark($dash-bg1-light,$dash-bg1-dark);
-  color: light-dark($dash-text-light,$dash-text-dark);
-  border-color: light-dark($dash-border-light,$dash-border-dark);   // #535bf2;  
+  background-color: light-dark(colors.$dash-bg1-light,colors.$dash-bg1-dark);
+  color: light-dark(colors.$dash-text-light,colors.$dash-text-dark);
+  border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);   // #535bf2;  
 
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -454,7 +456,7 @@ button:focus-visible {
     max-height: 4rem;
     margin: .5rem;
     padding: .3rem;
-    background-color: darken($dash-bg1-light,20);
+    background-color: color.adjust(colors.$dash-bg1-light,$lightness: -20%);
   }
 }
 

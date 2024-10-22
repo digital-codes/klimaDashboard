@@ -46,16 +46,16 @@ $dash-bg-dark: #000;
 $dash-bg1-light:#ffffff;
 $dash-bg2-light:#f7f9f5;
 $dash-bg1-dark:#000000;
-$dash-bg2-dark:darken($dash-bg2-light,90);
+$dash-bg2-dark:color.adjust($dash-bg2-light,$lightness: -90%);
 
-$dash-shadow-light: darken($dash-bg1-light,10);
-$dash-shadow-dark: lighten($dash-bg1-dark,10);
+$dash-shadow-light: color.adjust($dash-bg1-light,$lightness: -10%);
+$dash-shadow-dark: color.adjust($dash-bg1-dark,$lightness: 10%);
 
-$dash-border-light: lighten($dash-bg1-dark,20);
-$dash-border-dark: darken($dash-bg1-light,20);
+$dash-border-light: color.adjust($dash-bg1-dark,$lightness: 20%);
+$dash-border-dark: color.adjust($dash-bg1-light,$lightness: -20%);
 
-$dash-accent-light: lighten($base-orange,10);
-$dash-accent-dark: darken($base-orange,10);
+$dash-accent-light: color.adjust($base-orange,$lightness: 10%);
+$dash-accent-dark: color.adjust($base-orange,$lightness: -10%);
 
 $dash-link-light:$dash-green;
 $dash-link-dark: $dash-green;
@@ -63,7 +63,7 @@ $dash-link-dark: $dash-green;
 $dash-h-text-light: #000;
 $dash-text-light: #404040;
 $dash-h-text-dark: #fff;
-$dash-text-dark:lighten($dash-text-light,90);
+$dash-text-dark:color.adjust($dash-text-light,$lightness: 90%);
 
 /* 
 

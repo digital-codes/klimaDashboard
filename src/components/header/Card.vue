@@ -234,9 +234,9 @@ onBeforeMount(async () => {
 
 
 <style scoped lang="scss">
-@import "@/style/colors.scss";
-@import "vuestic-ui/styles/grid";
-@import '@/style/style.scss';
+@use "sass:color";
+@use '@/style/colors.scss';
+@use "vuestic-ui/styles/grid";
 
 .headerCard {
   margin: .5rem 0 .5rem 0;
@@ -301,7 +301,7 @@ button.infoicon {
 
 
 .infoicon :deep(i) {
-  color: light-dark($dash-accent-light, $dash-accent-dark)!important;
+  color: light-dark(colors.$dash-accent-light, colors.$dash-accent-dark)!important;
 }
 
 .filterInfo {

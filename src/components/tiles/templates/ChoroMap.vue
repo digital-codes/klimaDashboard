@@ -279,7 +279,9 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
-@import "@/style/colors.scss";
+@use "sass:color";
+@use '@/style/colors.scss';
+@use "vuestic-ui/styles/grid";
 
 /* Add your card styles here */
 
@@ -294,7 +296,7 @@ onBeforeMount(async () => {
 
 .switch {
   min-width: 10%;
-  border-color: light-dark($dash-border-light, $dash-border-dark) !important;
+  border-color: light-dark(colors.$dash-border-light, colors.$dash-border-dark) !important;
   //border:1px solid;
   border-radius: 16px;
 }
@@ -315,6 +317,3 @@ onBeforeMount(async () => {
 
 </style>
 
-<style lang="scss" scoped>
-@import "vuestic-ui/styles/grid";
-</style>

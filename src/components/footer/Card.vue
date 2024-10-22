@@ -78,9 +78,9 @@ onBeforeMount(() => {
 </script>
 
 <style scoped lang="scss">
-@import "@/style/colors.scss";
-@import "vuestic-ui/styles/grid";
-@import '@/style/style.scss';
+@use "sass:color";
+@use '@/style/colors.scss';
+@use "vuestic-ui/styles/grid";
 
 .footerCard {
   margin: 0.5rem 0 0.5rem 0;
@@ -96,12 +96,12 @@ onBeforeMount(() => {
   padding:1rem;
   border: solid 3px;
   border-radius: .5rem;
-  border-color: light-dark($dash-border-light,$dash-border-dark);
+  border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);
 
 }
 
 .supported_by_label {
-  color: light-dark($black, $white);
+  color: light-dark(colors.$black, colors.$white);
   font-size: 1.2rem;
   font-weight: bold;
 }
