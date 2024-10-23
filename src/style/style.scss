@@ -51,36 +51,36 @@
   --tile-dark-bg: #033;
   --tile-dark-color: #ccc;
   */
-  --md-light-bg: $dash-bg1-light; // #ddd;
-  --md-light-color: $dash-text-light; //#333;
+  --md-light-bg: colors.$dash-bg1-light; // #ddd;
+  --md-light-color: colors.$dash-text-light; //#333;
 
   //--md-dark-bg: light-dark(var($dash-bg-light), var($dash-bg-dark));
   //--md-dark-color: light-dark(var($dash-normal-text-light), var($dash-normal-text-dark));
-  --md-dark-bg: $dash-bg1-dark;
-  --md-dark-color: $dash-text-dark;
+  --md-dark-bg: colors.$dash-bg1-dark;
+  --md-dark-color: colors.$dash-text-dark;
 
-  --card-light-bg: $dash-bg-green-light;
-  --card-light-color: $dash-text-light;
+  --card-light-bg: colors.$dash-bg-green-light;
+  --card-light-color: colors.$dash-text-light;
 
-  --card-dark-bg: $dash-bg-green-light;
-  --card-dark-color: $dash-text-dark;
+  --card-dark-bg: colors.$dash-bg-green-light;
+  --card-dark-color: colors.$dash-text-dark;
 
-  --card-dark-border: $dash-border-dark;
-  --card-light-border: $dash-border-light;
+  --card-dark-border: colors.$dash-border-dark;
+  --card-light-border: colors.$dash-border-light;
 
-  --chart-light-bg: $dash-bg2-light;
-  --chart-light-color: $dash-h-text-light;
+  --chart-light-bg: colors.$dash-bg2-light;
+  --chart-light-color: colors.$dash-h-text-light;
 
-  --chart-dark-bg: $dash-bg2-dark,
-  --chart-dark-color: $dash-h-text-dark;
+  --chart-dark-bg: colors.$dash-bg2-dark,
+  --chart-dark-color: colors.$dash-h-text-dark;
 
-  --link-light-color: $dash-link-light;
-  --link-dark-color: $dash-link-dark;
+  --link-light-color: colors.$dash-link-light;
+  --link-dark-color: colors.$dash-link-dark;
   --linkhover-light-color: darken($dash-link-light,10);
   --linkhover-dark-color: lighten($dash-link-dark,10);
 
-  --dash-accent-light: $dash-accent-light;
-  --dash-accent-dark: $dash-accent-dark;
+  --dash-accent-light: colors.$dash-accent-light;
+  --dash-accent-dark: colors.$dash-accent-dark;
 
   /*
   --tile-light-bg: #ff0;
@@ -104,6 +104,8 @@
   --va-font-family: "Roboto";
   //--va-background-primary: #ff0000;
   --va-background-primary: light-dark($dash-bg1-light,$dash-bg1-dark);
+
+  --va-list-item-label-color: light-dark($dash-text-light,$dash-text-dark);
 
 }
 // use condensed font for small screens

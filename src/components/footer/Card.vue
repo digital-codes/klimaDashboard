@@ -1,7 +1,7 @@
 <template>
   <VaCard class="footerCard">
 
-      <!-- 
+    <!-- 
       <VaListItem v-if="supportPresent" class="list__item supported_by"
       :href="cardMessages[locale].supported_by_url"
       target="_blank"
@@ -29,30 +29,25 @@
     -->
 
     <div class="flex xs12">
-      <div class="mdcontent" >
-        <VaListItem v-if="supportPresent" class="list__item supported_by2"
-      :href="cardMessages[locale].supported_by_url"
-      target="_blank"
-      >
-        <VaListItemSection avatar style="max-width:60%;">
-          <VaListItemLabel style="-webkit-line-clamp:unset;" class="supported_by_label">
-            {{ cardMessages[locale].supported_by }}
-          </VaListItemLabel>
-        </VaListItemSection>
+      <div class="mdcontent">
+        <VaListItem v-if="supportPresent" class="list__item supported_by" :href="cardMessages[locale].supported_by_url"
+          target="_blank">
+          <VaListItemSection avatar style="max-width:60%;">
+            <VaListItemLabel style="-webkit-line-clamp:unset;" class="supported_by_label">
+              {{ cardMessages[locale].supported_by }}
+            </VaListItemLabel>
+          </VaListItemSection>
 
-        <VaListItemSection>
-          <VaAvatar size="large">
-            <img
-              :src="supportIcon"
-              :alt="cardMessages[locale].supported_by_long"
-              :ariaLabel="cardMessages[locale].supported_by_long"
-            />
-          </VaAvatar>
-        </VaListItemSection>
-      </VaListItem>
+          <VaListItemSection>
+            <VaAvatar size="large">
+              <img :src="supportIcon" :alt="cardMessages[locale].supported_by_long"
+                :ariaLabel="cardMessages[locale].supported_by_long" />
+            </VaAvatar>
+          </VaListItemSection>
+        </VaListItem>
 
-      <div v-html="content[locale]"></div>
-    </div>
+        <div v-html="content[locale]"></div>
+      </div>
     </div>
 
 
@@ -120,35 +115,50 @@ onBeforeMount(() => {
   flex-wrap: wrap;
 }
 
+
 .supported_by {
-  margin-left:auto;
-  margin-right:auto;
-  padding:1rem;
-  border: solid 3px;
-  border-radius: .5rem;
-  border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);
-}
-
-.supported_by2 {
-  display:inline-flex;
-  margin-left:auto;
-  margin-right:auto;
-  padding-bottom:.5rem;
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  -webkit-text-fill-color: inherit; /* Inherit color from parent instead of default link color */
+  color: light-dark(colors.$dash-text-light, colors.$dash-text-dark);
   //border-bottom: solid 2px;
-  border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);
+  //border-color: light-dark(colors.$dash-border-light,colors.$dash-border-dark);
 }
 
-.supported_by2 img{
+.supported_by img {
   max-width: unset;
-  width:100%;
-  height:100%;
-  margin:0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
+
+/*
+.supported_by a {
+  color: light-dark(colors.$dash-text-light, colors.$dash-text-dark);
+}
+*/
 
 .supported_by_label {
-  color: light-dark(colors.$black, colors.$white);
+  -webkit-text-fill-color: inherit; /* Inherit color from parent instead of default link color */
+  color: light-dark(colors.$dash-text-light, colors.$dash-text-dark) !important;
   font-size: 1.2rem;
   font-weight: bold;
 }
 
+.supported_by_label a {
+  -webkit-text-fill-color: inherit; /* Inherit color from parent instead of default link color */
+  color: light-dark(colors.$dash-text-light, colors.$dash-text-dark) !important;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.supported_by_label a:link, .supported_by a:link  {
+  -webkit-text-fill-color: inherit; /* Inherit color from parent instead of default link color */
+  color: light-dark(colors.$dash-text-light, colors.$dash-text-dark) !important;
+}
+
 </style>
+
