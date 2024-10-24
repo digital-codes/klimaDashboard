@@ -1,6 +1,6 @@
 ## MD Text DE
 
-bla bla bla
+bla bla bla 123 xxx
 
 [link](https://www.google.com)
 
@@ -10,6 +10,7 @@ bla bla bla
 
 ![image](/images/testing.jpg)  
 
+<hr>
 
 bla bla bla
 

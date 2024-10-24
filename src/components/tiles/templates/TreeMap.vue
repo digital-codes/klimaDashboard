@@ -8,7 +8,7 @@
 
     <div class="mdcontent">
       <div v-html="content[locale]"></div>
-      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="cardMessages[locale].more"
+      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')"
         icon="more_horiz" class="morehdr">
         <template #content>
           <div v-html="contentMore[locale]"></div>
@@ -19,15 +19,15 @@
    
     <div class="row">
 
-      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="cardMessages[locale].dstitle"
-        :false-inner-label="cardMessages[locale].dsleft" :true-inner-label="cardMessages[locale].dsright"
+      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="t('source')"
+        :false-inner-label="t('dsleft')" :true-inner-label="t('dsright')"
         class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
         <VaSwitch v-if="controls.animate" 
            v-model="aniCtl" 
-          :label="cardMessages[locale].animation" 
-          :false-inner-label='cardMessages[locale].no'
-          :true-inner-label='cardMessages[locale].yes'
+          :label="t('animation')" 
+          :false-inner-label="t('no')"
+          :true-inner-label="t('yes')"
           class="flex lg2 control switch"/>
 
 

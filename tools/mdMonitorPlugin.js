@@ -24,6 +24,8 @@ const markdownDirs = [
   path.resolve(__dirname, '../src/components/tiles/test/dummyLineApx'),
   path.resolve(__dirname, '../src/components/tiles/test/dummyMap'),
   path.resolve(__dirname, '../src/components/tiles/test/dummyTable'),
+  path.resolve(__dirname, '../src/components/tiles/test/dummyTree'),
+  path.resolve(__dirname, '../src/components/tiles/test/dummyTree/test1'),
   path.resolve(__dirname, '../src/components/tiles/protect/actions/KskKa_d_consulting'),
   path.resolve(__dirname, '../src/components/tiles/protect/actions/KskKa_d_electricity'),
   path.resolve(__dirname, '../src/components/tiles/protect/actions/KskKa_d_energy'),
