@@ -41,7 +41,8 @@
         "cancelled": "Cancelled",
         "undefined": "Undefined",
         "replaced": "Replaced",
-        "detail": "Detail"
+        "detail": "Detail",
+        "prototype":"Prototype"
     },
     "de": {
         "yes": "Ja",
@@ -85,6 +86,7 @@
         "cancelled": "Abgebrochen",
         "undefined": "Undefiniert",
         "replaced": "Ersetzt",
-        "detail": "Detail"
+        "detail": "Detail",
+        "prototype":"Prototyp"
         }
 }

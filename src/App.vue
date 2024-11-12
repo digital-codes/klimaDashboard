@@ -204,6 +204,7 @@ const mlist1 = ref([true]) // accordion open state
       </VaNavbar>
     </template>
 
+
     <template #left>
       <VaSidebar v-model="showSidebar" v-if="msgsLoaded" width="20rem">
         <VaSidebarItem @click="goto('/')" tabindex="0" role="link">
@@ -352,6 +353,8 @@ const mlist1 = ref([true]) // accordion open state
         <va-icon class="emoji"> &#x1F600; Click me! &#x1F389;</va-icon>
         -->
 
+      <h2 class="prototype"> {{ $t("prototype") }}</h2>
+
         <router-view />
 
         <FooterCard name="footer" id="df" />
@@ -431,6 +434,12 @@ main {
   overflow-x: hidden;
 }
 
+.prototype {
+  color: #ff0000;
+  background-color: #ff0;
+  font-size: 120%;
+  padding:.3rem;
+}
 
 </style>
 
