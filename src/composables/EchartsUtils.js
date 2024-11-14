@@ -1,7 +1,10 @@
 // echarts utilities besides color/symbols config which are elsewhere
 // https://www.data-forge-js.com/
 // https://github.com/data-forge/data-forge-ts/blob/master/docs/guide.md
-import * as dataForge from 'data-forge'
+//import * as dataForge from 'data-forge'
+
+// custom dataframe library
+import DataFrame from "dflib"
 
 import getDataSymbol from '@/composables/DataSymbol';
 
@@ -146,18 +149,21 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   // we have to know if we get 1 or 2 series from data.
   // assume we always have an array. 
   // in case the inner data is an array too, we have multiple series
-  let df = new dataForge.DataFrame(data)
+  // let df = new dataForge.DataFrame(data)
+  let df = new DataFrame(data)
+  // console.log("dflib:",df.toArray())
   //console.log(df.toString())
   //console.log("Dataframe:", df.head(3).toString());
-  let cols = df.getColumnNames()
-  //console.log("Cols:", cols)
+  // let cols = df.getColumnNames()
+  let cols = df.columnNames()
+  // console.log("Cols:", cols)
 
   if (cols.length == 0) {
-    console.log("No columns");
+    // console.log("No columns");
     cols = Object.keys(data)
-    // console.log("Keys:", cols);
+    // // console.log("Keys:", cols);
     if (cols.length == 0) {
-      console.log("Again no columns")
+      // console.log("Again no columns")
       return chartOptions
     }
     const tabularData = [];
@@ -169,7 +175,9 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
       }
     }
 
-    df = new dataForge.DataFrame(tabularData);
+    // df = new dataForge.DataFrame(tabularData);
+    df = new DataFrame(tabularData);
+    // console.log("dflib:",df.toArray())
     // df = new dataForge.DataFrame(data[keys[0]])
     //console.log("Dataframe:", df.toString());
   }
@@ -179,10 +187,10 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   let seriesData
 
   if (dataX == "") {  // no X-axis given 
-    console.log("No X-Axis")
+    // console.log("No X-Axis")
     return chartOptions
   }
-  // console.log("X-Axis:", dataX)
+  // // console.log("X-Axis:", dataX)
 
   // convert timestamp for energy-charts timeseries data
   // SPECIAL - ENERGYCHARTS
@@ -195,15 +203,28 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     const isoString = date.toISOString();
     */
     // Create a new column 'iso_datetime' based on the 'unix_timestamp' column
+    /*
     df = df.withSeries('iso_datetime', df.getSeries('unix_seconds').select(unix_seconds => 
       new Date(unix_seconds * 1000).toISOString()
     )); 
+    */
+
+    // get seconds colummn
+    // console.log("x",df.toJSON())
+    const unix_seconds = df.selectCols(['unix_seconds']).toArray(false)
+    // console.log("Unix Seconds:", unix_seconds)
+    const iso_datetime = unix_seconds.map(item => new Date(item * 1000).toISOString())
+    // console.log("ISO Datetime:", iso_datetime)
+    df.addColumn('iso_datetime', iso_datetime)
+    // console.log("dflib:",df.toJSON())
+
     dataX = 'iso_datetime'
-    // console.log("Converted timestamp:", df.head(3).toString());
+    // // console.log("Converted timestamp:", df.head(3).toString());
   }
 
-  const chartData = df.toArray();
+  const chartData = df.toJSON() //df.toArray();
   // console.log("Chart Data:", chartData)
+  // console.log("X:", dataX)
   let categories = chartData.map(item => item[dataX]).filter((value, index, self) => self.indexOf(value) === index);
   categories = categories.filter(category => ((category !== null) && (category !== undefined)));
   // console.log("Categories:", categories, categories.length) 
@@ -221,7 +242,8 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     if (classList.length > 1) {
       classes = classList.slice(1)
     } else {
-      classes = df.getSeries(classId).distinct().toArray()
+      // classes = df.getSeries(classId).distinct().toArray()
+      classes = df.unique(classId)
     }
     // console.log("Filtering classes:", classes)
     seriesData = chartData.filter(item => classes.includes(item[classId]));
@@ -235,7 +257,8 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     columns = columnList
   } else {
     //console.log("No columns given")
-    columns = df.getColumnNames()
+    // columns = df.getColumnNames()
+    columns = df.columnNames()
   }
   //console.log("Initial  columns:", columns)
   /*
@@ -256,27 +279,27 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
 
   // don't exclude class name from columns here
   const excludeCols = [dataX]
-  // console.log(" Excluding columns:", excludeCols)
+  // // console.log(" Excluding columns:", excludeCols)
   // instead, include the class column here
   const includedColumns = columns.filter(column => !(excludeCols.includes(column)))
   if (classList && Array.isArray(classList) && classList.length > 0) {
     includedColumns.push(classList[0])
   }
-  // console.log("Included columns:", includedColumns) // DROP
+  // // console.log("Included columns:", includedColumns) // DROP
 
   // series created from either classes or columns
   // if length of classes > 1 we have multiple series and length of columns must be 1
   // if length of columns > 1 we have multiple series and length of classes must be 1
 
-  // console.log("Classes:", classes, "Columns:", includedColumns)
+  // // console.log("Classes:", classes, "Columns:", includedColumns)
 
   if (classes.length >= 1) {
-    // console.log("Creating series from classes")
+    // // console.log("Creating series from classes")
     // create names from classes
     seriesData = classes.map((name, index) => {
-      // console.log("Name:",name,", Index:",index) // DROP
+      // // console.log("Name:",name,", Index:",index) // DROP
       const filteredData = chartData.filter(item => item[classList[0]] === name);
-      // console.log("Filtered Data:", filteredData) // DROP
+      // // console.log("Filtered Data:", filteredData) // DROP
       return {
         name: name,
         //data: filteredData.map(item => parseData(item[columnList[0]])),
@@ -312,7 +335,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
     });
   } else {
     // create names from columns
-    // console.log("Creating series from columns:", includedColumns)
+    // // console.log("Creating series from columns:", includedColumns)
     // if we have classes, remove the corresponding column from included columns
     const valueColumns = classes.length > 0 ? includedColumns.filter(item => item != classList[0]) : includedColumns
     seriesData = valueColumns.map((column, index) => {
@@ -366,7 +389,7 @@ const updateEchartsOptions = async (chartOptions, data, dataX, classList,
   chartOptions.tooltip.valueFormatter = (value) => value != null ? Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value) : "N/A"
 
 
-  // console.log("Final Series:", seriesData)
+  // // console.log("Final Series:", seriesData)
 
   chartOptions.xAxis.type = "category"
   chartOptions.xAxis.data = categories

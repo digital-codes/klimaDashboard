@@ -398,7 +398,7 @@ const loadData = async () => {
     // emit data after data loaded, else chart intance is not ready
     emit("series", {"x":chartOptions.value.xAxis.data,"cols":fullData.value, "chart":theChart.value},theChart.value);
   } catch (error) {
-    console.error("Failed to load chart data:", error);
+    console.error("Failed to load chart data for ", props.dataUrl, ": ", error);
   }
 };
 
