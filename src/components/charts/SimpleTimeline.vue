@@ -309,7 +309,7 @@ const loadData = async () => {
             var categoryIndex = categories.indexOf(milestone.category);
             chartData.push({
                 name: milestone.name,
-                value: [categoryIndex, milestone.start, milestone.start + milestone.duration, milestone.duration],
+                value: [categoryIndex, milestone.start, milestone.start + milestone.duration, milestone.duration,milestone.name],
                 itemStyle: {
                     normal: {
                         color: colors[categoryIndex]
@@ -380,6 +380,7 @@ const renderItem = (params, api) => {
   var end = api.coord([api.value(2), categoryIndex]);
   var height = api.size([0, 1])[1] * 0.6;
   var width = Math.max(10, end[0] - start[0]); // Ensure a minimum width
+  const name = api.value(4);
   var rectShape = graphic.clipRectByRect(
     {
       x: start[0],
@@ -394,6 +395,7 @@ const renderItem = (params, api) => {
       height: params.coordSys.height
     }
   );
+  /*
   return (
     rectShape && {
       type: 'rect',
@@ -402,11 +404,49 @@ const renderItem = (params, api) => {
       style: api.style()
     }
   );
+  */
+  const textYPosition = start[1] + height / 2 + 10; // Position text below the rectangle
+
+return {
+    type: 'group',
+    children: [
+        // Rectangle shape
+        {
+            type: 'rect',
+            shape: {
+                x: start[0],
+                y: start[1] - height / 2,
+                width: width,
+                height: height
+            },
+            style: api.style()
+        },
+        // Text shape
+        {
+            type: 'text',
+            style: {
+                x: start[0] + width / 2, // Center text horizontally within the rectangle
+                y: textYPosition,
+                text: name, //"bla bla bla", //api.value(4), // Use the description from data
+                textAlign: 'center',
+                textVerticalAlign: 'top',
+                fontSize: 12,
+                fill: '#000' // Text color
+            }
+        }
+    ]
+}; 
 }
 
 const ttFormatter = (params) => {
   return params.marker + params.name + ': ' + new Date(params.value[1]).toDateString();
 }
+
+const lblFormatter = (params) => {
+  console.log(params)
+  return "123"; //params.marker + params.name + ': ' + new Date(params.value[1]).toDateString();
+}
+
 
 const chartOptions = ref({
   title: {
@@ -424,7 +464,7 @@ const chartOptions = ref({
       filterMode: 'weakFilter',
       showDataShadow: false,
       //top: 400,
-      labelFormatter: ''
+      labelFormatter: ""
     },
     {
       type: 'inside',
