@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
+      "license": "CC-BY-4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "€",
+      "columns": ["Wert"],
+      "classes": ["Kennzahl",
+        "Fördervolumen KlimaBonus Karlsruhe (davor Bonus-Programm) (genehmigte zw. ausbezahlte Beträge)*",
+        "Fördervolumen Modernisierungsmaßnahmen Sanierungsgebiete (nur energetische Maßnahmen und nur städt. Anteil, exkl. Landes-/Bundesmittel*-zu 60% vom Land gefördert",
+        " Fördervolumen Kühlschranktauschprogramm*",
+        "Fördervolumen Stadtwerke-Förderprogramme*"
+      ]
+    },
+    {
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
+      "license": "CC BY 4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "€/EW",
+      "columns": ["Wert"],
+      "classes": ["Kennzahl",
+        "Städt. Zuschüsse für private Energie- und Klimaschutzmaßnahmen*/**"
+      ]
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "progress": 3,
+  "controls": {
+    "range": {
+      "axis":"y",
+      "present": true
+    },
+    "type": {
+      "present": true,
+      "options": [
+        "line","bar"
+      ]
+    },
+    "stacked": {
+      "present": true
+    },
+    "dataswitch": {
+      "present": true
+    },
+    "animate": {
+      "present": false
+    }
+  }
+}

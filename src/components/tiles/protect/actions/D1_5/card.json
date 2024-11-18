@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
+      "license": "CC-BY-4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "Anzahl",
+      "columns": ["Wert"],
+      "classes": ["Maßnahme%Kennzahl%Maßeinheit",
+        "D1.5%Carsharing%?%Angemeldete Carsharing-Nutzer*%Anzahl",
+        "D1.5%?%?%ausgewiesene Carsharing-Stellplätze im öffentl. Raum%Anzahl",
+        "D1.5%?%?%D1.5 - keine Kennzahl%Anzahl Fahrzeuge Stadtmobil",
+        "D1.5%?%?%D1.5 - keine Kennzahl%Anzahl E-Mobile Stadtmobil"
+      ]
+    },
+    {
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
+      "license": "CC BY 4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "Anzahl/1000EW",
+      "columns": ["Wert"],
+      "classes": ["Maßnahme%Kennzahl%Maßeinheit",
+        "D1.5%Carsharing%?%Anteil Carsharingnutzer*%Anzahl/1.000 EW"
+      ]
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "progress": 3,
+  "controls": {
+    "range": {
+      "axis":"y",
+      "present": true
+    },
+    "type": {
+      "present": true,
+      "options": [
+        "line","bar"
+      ]
+    },
+    "stacked": {
+      "present": true
+    },
+    "dataswitch": {
+      "present": true
+    },
+    "animate": {
+      "present": false
+    }
+  }
+}

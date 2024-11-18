@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
+      "license": "CC-BY-4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "",
+      "columns": ["Wert"],
+      "classes": ["Kennzahl",
+        "A1.1 - keine Kennzahl"
+      ]
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "progress": 3,
+  "controls": {
+    "range": {
+      "axis":"x",
+      "present": false
+    },
+    "type": {
+      "present": false,
+      "options": [
+        "line","bar"
+      ]
+    },
+    "stacked": {
+      "present": false
+    },
+    "dataswitch": {
+      "present": false
+    },
+    "animate": {
+      "present": false
+    }
+  }
+}

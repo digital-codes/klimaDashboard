@@ -1,0 +1,30 @@
+{
+    "en": {
+        "title": "D1.5",
+        "aria": "Carsharing",
+        "chart": "Chart EN",
+        "typeleft": "Line",
+        "typeright": "Bar",
+        "rangetitle": "Value Range",
+        "dsname": [
+            "Amount of Users, Parking Spaces, Vehicles",
+            "Fraction of Users"
+        ],
+        "dsleft": "First",
+        "dsright": "Second"
+    },
+    "de": {
+        "title": "D1.5",
+        "aria": "Carsharing",
+        "chart": "Chart DE",
+        "typeleft": "Linie",
+        "typeright": "Balken",
+        "rangetitle": "Wertebereich",
+        "dsname": [
+            "Anzahl Nutzer, Stellplätze, Fahrzeuge",
+            "Anteil Nuzer"
+        ],
+        "dsleft": "Eins",
+        "dsright": "Zwei"
+    }
+}

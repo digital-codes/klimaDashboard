@@ -1,0 +1,30 @@
+{
+    "en": {
+        "title": "E2.2",
+        "aria": "Support Policy",
+        "chart": "Chart EN",
+        "typeleft": "Line",
+        "typeright": "Bar",
+        "rangetitle": "Value range",
+        "dsname": [
+            "Amount",
+            "Fraction"
+        ],
+        "dsleft": "First",
+        "dsright": "Second"
+    },
+    "de": {
+        "title": "E2.2",
+        "aria": "Förderprogrammatik",
+        "chart": "Chart DE",
+        "typeleft": "Linie",
+        "typeright": "Balken",
+        "rangetitle": "Wertebereich",
+        "dsname": [
+            "Förderung gesamt",
+            "Förderung/EW"
+        ],
+        "dsleft": "Eins",
+        "dsright": "Zwei"
+    }
+}

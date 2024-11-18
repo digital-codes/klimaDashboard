@@ -1,0 +1,26 @@
+{
+    "en": {
+        "title": "A1.3",
+        "aria": "STWKA Product Design",
+        "chart": "Chart EN",
+        "typeleft": "Line",
+        "typeright": "Bar",
+        "rangetitle": "X Range",
+        "dsname": [
+            "Amount",
+            "Fraction"
+        ]
+    },
+    "de": {
+        "title": "A1.3",
+        "aria": "STWKA Produktgestaltung",
+        "chart": "Chart DE",
+        "typeleft": "Linie",
+        "typeright": "Balken",
+        "rangetitle": "X Bereich",
+        "dsname": [
+            "Anzahl",
+            "Anteil"
+        ]
+    }
+}

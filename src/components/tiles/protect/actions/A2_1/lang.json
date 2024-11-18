@@ -1,0 +1,30 @@
+{
+    "en": {
+        "title": "A2.1",
+        "aria": "District Heating",
+        "chart": "Chart EN",
+        "typeleft": "Line",
+        "typeright": "Bar",
+        "rangetitle": "X Range",
+        "dsname": [
+            "Amount",
+            "Fraction"
+        ],
+        "dsleft": "First",
+        "dsright": "Second"
+    },
+    "de": {
+        "title": "A2.1",
+        "aria": "Fernwärme",
+        "chart": "Chart DE",
+        "typeleft": "Linie",
+        "typeright": "Balken",
+        "rangetitle": "X Bereich",
+        "dsname": [
+            "Anzahl",
+            "Anteil"
+        ],
+        "dsleft": "Eins",
+        "dsright": "Zwei"
+    }
+}

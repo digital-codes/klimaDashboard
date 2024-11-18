@@ -1,0 +1,53 @@
+{
+  "data": [
+    {
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
+      "license": "CC-BY-4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "Anzahl",
+      "columns": ["Wert"],
+      "classes": ["Kennzahl",
+        "Fernwärmebeheizte Wohnungen*"
+      ]
+    },
+    {
+      "url": "data/karlsruhe/Kennzahlenwerte_zu_Maßnahme_mit.csv",
+      "license": "CC BY 4.0",
+      "format": "csv",
+      "xaxis": "Jahr",
+      "xlabel": "Jahr",
+      "ylabel": "%",
+      "columns": ["Wert"],
+      "classes": ["Kennzahl",
+        "Anteil fernwärmebeheizter Wohnungen* "
+      ]
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "progress": 3,
+  "controls": {
+    "range": {
+      "axis":"x",
+      "present": false
+    },
+    "type": {
+      "present": true,
+      "options": [
+        "line","bar"
+      ]
+    },
+    "stacked": {
+      "present": false
+    },
+    "dataswitch": {
+      "present": true
+    },
+    "animate": {
+      "present": false
+    }
+  }
+}

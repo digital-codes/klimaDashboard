@@ -35,10 +35,11 @@ const HeaderCard = defineAsyncComponent(() => import("@/components/header/Card.v
 import icon_l from "@/assets/icons/dashboard/protection.svg?url"
 import icon_d from "@/assets/icons/dashboard/protection_d.svg?url"
 
+import TimeLine from "@/components/tiles/templates/TimeLine.vue"
 import LineBar from "@/components/tiles/templates/LineBar.vue"
 import DataTable from "@/components/tiles/templates/DataTable.vue"
 import DummyGauge from "@/components/tiles/test/dummyGauge/Card.vue"
-const comps = { "LineBar": LineBar, "DummyGauge": DummyGauge, "DataTable": DataTable }
+const comps = { "LineBar": LineBar, "DummyGauge": DummyGauge, "DataTable": DataTable, "TimeLine": TimeLine }
 
 
 const tilesCompleted = ref(false)
@@ -67,6 +68,7 @@ tileConfig.map(tile => {
   tile.anchor = tile.name
   console.log("Tile:", tile.name, tile.tag, tile.anchor)
   if (!currentTags.value.includes(tile.tag)) {
+    console.log("Add Tag:", tile.tag)
     currentTags.value.push(tile.tag)
   }
 })

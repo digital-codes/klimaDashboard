@@ -1,69 +1,42 @@
 [
     {
-        "name": "A1.3_MWh",
+        "name": "A1_1",
         "section": "protect",
         "part": "actions",
-        "tag": "B",
+        "tag": "A",
         "specs": {
-            "template": "LineBar"
+            "template": "TimeLine"
         }
     },
     {
-        "name": "a2_1_fernwaerme",
+        "name": "A1_3",
         "section": "protect",
         "part": "actions",
-        "tag": "B",
+        "tag": "A",
         "specs": {
             "template": "LineBar"
         }
     },
     {
-        "name": "B2.1_EuroEW",
+        "name": "A2_1",
         "section": "protect",
         "part": "actions",
-        "tag": "B",
+        "tag": "A",
         "specs": {
             "template": "LineBar"
         }
     },
     {
-        "name": "D3.1_Anzahl",
+        "name": "A4_1",
         "section": "protect",
         "part": "actions",
-        "tag": "D",
+        "tag": "A",
         "specs": {
             "template": "LineBar"
         }
     },
     {
-        "name": "E1.3_kWpproJahr",
-        "section": "protect",
-        "part": "actions",
-        "tag": "E",
-        "specs": {
-            "template": "LineBar"
-        }
-    },
-    {
-        "name": "KskKa_d_energy",
-        "section": "protect",
-        "part": "actions",
-        "tag": "B",
-        "specs": {
-            "template": "LineBar"
-        }
-    },
-    {
-        "name": "KskKa_d_ghg",
-        "section": "protect",
-        "part": "thg",
-        "tag": "C",
-        "specs": {
-            "template": "LineBar"
-        }
-    },
-    {
-        "name": "KskKa_d_stwkenergy",
+        "name": "D1_5",
         "section": "protect",
         "part": "actions",
         "tag": "D",
@@ -72,9 +45,9 @@
         }
     },
     {
-        "name": "renewableShare",
-        "section": "conditions",
-        "part": "energyCharts",
+        "name": "E2_2",
+        "section": "protect",
+        "part": "actions",
         "tag": "E",
         "specs": {
             "template": "LineBar"

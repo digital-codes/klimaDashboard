@@ -46,7 +46,7 @@ const appendTiles = async () => {
 
 const tiles = [
   // using template for linebar. maybe still loads component multiple times. 
-  { "name": "test1", "section": "test", "part": "dummyTree", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/TreeMap.vue")) },
+  { "name": "test1", "section": "test", "part": "dummyTree", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/TimeLine.vue")) },
 //  { "name": "test1", "section": "test", "part": "dummyTable", "tag": "A", "component": defineAsyncComponent(() => import("@/components/tiles/templates/DataTable.vue")) },
   { "name": "energyQuarters", "section": "conditions", "part": "statistics", "tag": "E", "component": defineAsyncComponent(() => import("@/components/tiles/templates/ChoroMap.vue")) },
   { "name": "byProgress", "section": "protect", "part": "status", "tag": "C", "component": defineAsyncComponent(() => import("@/components/tiles/templates/LineBar.vue")) },

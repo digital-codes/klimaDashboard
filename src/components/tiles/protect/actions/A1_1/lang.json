@@ -1,0 +1,24 @@
+{
+    "en": {
+        "title": "A1.1",
+        "aria": "Energe Masterplan",
+        "chart": "Chart EN",
+        "typeleft": "Line",
+        "typeright": "Bar",
+        "rangetitle": "X Range",
+        "dsname": [
+            "Milestones"
+        ]
+    },
+    "de": {
+        "title": "A1.1",
+        "aria": "Energieleitplan",
+        "chart": "Chart DE",
+        "typeleft": "Linie",
+        "typeright": "Balken",
+        "rangetitle": "X Bereich",
+        "dsname": [
+            "Meilensteine"
+        ]
+    }
+}

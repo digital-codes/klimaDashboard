@@ -1,0 +1,26 @@
+{
+    "en": {
+        "title": "A4.1",
+        "aria": "Photovlatic Counselling",
+        "chart": "Chart EN",
+        "typeleft": "Line",
+        "typeright": "Bar",
+        "rangetitle": "X Range",
+        "dsname": [
+            "Amount",
+            "Fraction"
+        ]
+    },
+    "de": {
+        "title": "A4.1",
+        "aria": "Photovlatik Beratung",
+        "chart": "Chart DE",
+        "typeleft": "Linie",
+        "typeright": "Balken",
+        "rangetitle": "X Bereich",
+        "dsname": [
+            "Anzahl",
+            "Anteil"
+        ]
+    }
+}
