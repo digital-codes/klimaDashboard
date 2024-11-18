@@ -1,60 +1,62 @@
 <template>
   <div class="card" v-if="confgComplete">
     <div class="dataheader">
-      <VaAvatar  title="Klima Dashboard" :src="basePath + props.logo" size="3rem"/>
+      <VaAvatar title="Klima Dashboard" :src="basePath + props.logo" size="3rem" />
       <h1>{{ cardMessages[locale].title }}</h1>
+
+      <div v-if="breakpoint.xs">
+
+        <div style="display:flex;margin-left: 1rem;" v-if="progress > 0">
+          <VaIcon class="material-icons-outlined" :name="progressIcon" :color="progressColor" style="line-height:3rem;"
+            size="1.5rem" />
+        </div>
+
+      </div>
+      <div v-else>
+        <div style="display:flex;margin-left: 1rem;" v-if="progress > 0">
+          <span style="font-size:1.5rem;line-height:3rem;margin-right:.5rem;">{{ $t("progress") }}:</span>
+          <VaIcon class="material-icons-outlined" :name="progressIcon" :color="progressColor" style="line-height:3rem;"
+            size="1.5rem" />
+          <span style="font-size:1rem;line-height:3rem;margin-left:.2rem;">{{ progressText }}</span>
+        </div>
+      </div>
     </div>
 
 
     <div class="mdcontent">
       <div v-html="content[locale]"></div>
-      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')"
-        icon="more_horiz" class="morehdr">
+      <VaCollapse v-if="contentMore[locale] > ''" v-model="showMore" :header="t('more')" icon="more_horiz"
+        class="morehdr">
         <template #content>
           <div v-html="contentMore[locale]"></div>
         </template>
       </VaCollapse>
 
     </div>
-   
+
     <div class="row">
 
-      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="t('source')"
-        :false-inner-label="t('dsleft')" :true-inner-label="t('dsright')"
-        class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
+      <VaSwitch v-if="controls.dataswitch" v-model="dataCtl" :label="t('source')" :false-inner-label="t('dsleft')"
+        :true-inner-label="t('dsright')" class="flex lg2 control switch" offColor="rgba(100,100,100,.4)" leftLabel />
 
-        <VaSwitch v-if="controls.animate" 
-           v-model="aniCtl" 
-          :label="t('animation')" 
-          :false-inner-label="t('no')"
-          :true-inner-label="t('yes')"
-          class="flex lg2 control switch"/>
+      <VaSwitch v-if="controls.animate" v-model="aniCtl" :label="t('animation')" :false-inner-label="t('no')"
+        :true-inner-label="t('yes')" class="flex lg2 control switch" />
 
 
-          <VaSlider v-if="controls.range.present" 
-          v-model="rangeCtl" 
-          :label="cardMessages[locale].rangetitle"
-          class="flex lg6 sm12 xs12 control range"
-          track-label-visible
-          >
-          <template #prepend>
-            <VaCounter
-              v-model="rangeCtl"
-              :min="controls.range.min"
-              :max="controls.range.max"
-              class="w-[110px]"
-              />
-            </template>
-         </VaSlider>
+      <VaSlider v-if="controls.range.present" v-model="rangeCtl" :label="cardMessages[locale].rangetitle"
+        class="flex lg6 sm12 xs12 control range" track-label-visible>
+        <template #prepend>
+          <VaCounter v-model="rangeCtl" :min="controls.range.min" :max="controls.range.max" class="w-[110px]" />
+        </template>
+      </VaSlider>
 
 
     </div>
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <SimpleTimeline  v-if="chartValid"  :dataUrl="dataUrl" :dataName="dataName" 
-      :ariaLabel="ariaLabel" :locale="chartLocale" 
-      :dataProps="dataProps" @series="capture"></SimpleTimeline>
+      <SimpleTimeline v-if="chartValid" :dataUrl="dataUrl" :dataName="dataName" :ariaLabel="ariaLabel"
+        :locale="chartLocale" :dataProps="dataProps" @series="capture"></SimpleTimeline>
     </div>
 
 
@@ -88,16 +90,65 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
-import { ref, onBeforeMount, nextTick, watch } from "vue";
+import { ref, onBeforeMount, nextTick, watch, computed } from "vue";
 
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
+
+import { useBreakpoint } from "vuestic-ui";
+const breakpoint = useBreakpoint();
 
 import SimpleTimeline from "@/components/charts/SimpleTimeline.vue"
 import html2canvas from 'html2canvas';
 
 // for relocated base we need to prepend the base path to dynamic imports
 const basePath = import.meta.env.BASE_URL
+
+const progress = ref(0);
+
+const progressText = computed(() => {
+  switch (progress.value) {
+    case 1:
+      return t("unknown")
+    case 2:
+      return t("delayed")
+    case 3:
+    case 4:
+      return t("inprogress")
+    default:
+      return t("completed")
+  }
+});
+
+const progressIcon = computed(() => {
+  switch (progress.value) {
+    case 1:
+      return "help_outline";
+    case 2:
+      return "alarm_on"
+    case 3:
+    case 4:
+      return "schedule";
+    default:
+      return "check_circle_outline";
+  }
+});
+
+const progressColor = computed(() => {
+  switch (progress.value) {
+    case 1:
+      return "#808080";
+    case 2:
+      return "#ff0000"
+    case 3:
+    case 4:
+      return "#0000ff";
+    default:
+      return "#00ff00";
+  }
+});
+
+
 
 // name für i18n key
 const props = defineProps({
@@ -162,8 +213,8 @@ const controls = ref({
 
 
 const checkUrl = (url) => {
-    // create new data uris here: use as is if starting with http else prepend base path
-    if (url && url.toLowerCase().startsWith("http")) {
+  // create new data uris here: use as is if starting with http else prepend base path
+  if (url && url.toLowerCase().startsWith("http")) {
     return url
   } else {
     return basePath + url
@@ -189,41 +240,41 @@ const capture = (data) => {
   console.log("Capture:", data)
   mapData.value = data.content
   mapInstance.value = data.chart
-} 
+}
 
 const exportMap = async () => {
-      if (mapInstance.value) {
-        try {
-          /*
-          const panes = mapInstance.value.getPanes();
-          panes.tilePane.style.zIndex = '1';    // Tiles should be at the bottom
-          panes.overlayPane.style.zIndex = '2'; // Overlays (markers, etc.)
-          panes.markerPane.style.zIndex = '3';  // Markers should be higher
-          panes.popupPane.style.zIndex = '4';   // Popups and tooltips on top
-          */
-          const canvas = await html2canvas(mapInstance.value._container, {
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: null,
-            logging: false,
-            scrollX: 0,
-            scrollY: 0,
-            width: mapInstance.value.offsetWidth,
-            height: mapInstance.value.offsetHeight,
-          });
-          const imageUrl = await canvas.toDataURL('image/png');
-          const filename = dataName.value + ".png";
-          const link = document.createElement("a");
-          link.href = imageUrl;
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } catch (error) {
-          console.error('Error exporting map:', error);
-        }
-      }
-    };
+  if (mapInstance.value) {
+    try {
+      /*
+      const panes = mapInstance.value.getPanes();
+      panes.tilePane.style.zIndex = '1';    // Tiles should be at the bottom
+      panes.overlayPane.style.zIndex = '2'; // Overlays (markers, etc.)
+      panes.markerPane.style.zIndex = '3';  // Markers should be higher
+      panes.popupPane.style.zIndex = '4';   // Popups and tooltips on top
+      */
+      const canvas = await html2canvas(mapInstance.value._container, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null,
+        logging: false,
+        scrollX: 0,
+        scrollY: 0,
+        width: mapInstance.value.offsetWidth,
+        height: mapInstance.value.offsetHeight,
+      });
+      const imageUrl = await canvas.toDataURL('image/png');
+      const filename = dataName.value + ".png";
+      const link = document.createElement("a");
+      link.href = imageUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error exporting map:', error);
+    }
+  }
+};
 
 const jsonDown = async () => {
   const data = JSON.stringify(mapData.value);
@@ -343,6 +394,13 @@ onBeforeMount(async () => {
     controls.value.downloads.img = cardSpecs.value.controls.downloads.image;
     controls.value.downloads.data = cardSpecs.value.controls.downloads.data;
   }
+  if (cardSpecs.value.progress) {
+    progress.value = cardSpecs.value.progress;
+    console.log("progress:", progress.value);
+  } else {
+    progress.value = 0;
+  }
+
   await updateData(0);
   confgComplete.value = true
 });
@@ -368,12 +426,13 @@ onBeforeMount(async () => {
 .rangeCnt {
   text-align: left;
 }
+
 .rangeCnt :deep(.va-slider__input-wrapper) {
   //display:none;
   flex: unset;
 }
 
-.rangeCnt :deep(.va-slider__container) { 
+.rangeCnt :deep(.va-slider__container) {
   display: none;
 }
 
@@ -398,4 +457,3 @@ onBeforeMount(async () => {
   line-height: 3rem;
 }
 </style>
-
