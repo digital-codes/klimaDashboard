@@ -1,3 +1,4 @@
+
 <script setup>
 import { ref, onMounted, watch, onUnmounted } from "vue";
 import { nextTick } from "vue";
@@ -318,9 +319,9 @@ const loadData = async () => {
         };
   data.value = chartData;
   console.log("Data loaded:", data.value);
-  await nextTick();
   dataLoaded.value = true
   chartOptions.value.series[0].data = data.value;
+  await nextTick();
   // emit data after data loaded, else chart intance is not ready
   emit(
     "series",

@@ -9,7 +9,9 @@
       "ylabel": "Anzahl",
       "columns": ["Wert"],
       "classes": ["Kennzahl",
-        "Tarifkunden Ökostrom (OK power)*"
+        "Tarifkunden Ökostrom (OK power)*",
+        "Tarifkunden klimaneutrales Gas",
+        "Tarifkunden mit 10 % Bioerdgas-Beimischung"
       ]
     },
     {
@@ -21,7 +23,9 @@
       "ylabel": "MWh",
       "columns": ["Wert"],
       "classes": ["Kennzahl",
-        "Absatz Ökostrom (OK power) an Tarifkunden*"
+        "Absatz Ökostrom (OK power) an Tarifkunden*",
+        "Absatz Tarifkunden klimaneutrales Gas",
+        "Absatz Tarifkunden mit 10 % Bioerdgas-Beimischung"
       ]
     }
   ],
