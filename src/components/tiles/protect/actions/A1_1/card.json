@@ -16,7 +16,7 @@
   "chart": {
     "updating": false
   },
-  "progress": 5,
+  "progress": 6,
   "controls": {
     "range": {
       "axis":"x",

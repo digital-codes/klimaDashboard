@@ -309,7 +309,7 @@ const loadData = async () => {
             var categoryIndex = categories.indexOf(milestone.category);
             chartData.push({
                 name: milestone.name,
-                value: [categoryIndex, milestone.start, milestone.start + milestone.duration, milestone.duration,milestone.name],
+                value: [categoryIndex, milestone.start, milestone.start + milestone.duration, milestone.duration,milestone.name,milestone.lblPos],
                 itemStyle: {
                     normal: {
                         color: colors[categoryIndex]
@@ -358,15 +358,15 @@ const chartOptions = ref(
 );
 */
 
-const colors = ['#7b9ce1', '#bd6d6c', '#75d874', '#e0bc78']
-const categories = ['Entscheidungen', 'Veranstaltungen', 'Einreichungen'];
+const colors = ["",'#7b9ce1', '#bd6d6c', '#75d874']
+const categories = ["",'GR', 'Öffentl.', 'Land'];
 const milestones = [
-  { name: 'Beschluss zur Erstellung', category: 'Entscheidungen', start: new Date('2020-01-01').getTime(), duration: 10 },
-  { name: 'Klimaforum abgehalten', category: 'Veranstaltungen', start: new Date('2023-09-01').getTime(), duration: 30 },
-  { name: 'Entwurf vorgestellt', category: 'Veranstaltungen', start: new Date('2023-10-04').getTime(), duration: 15 },
-  { name: 'Genehmigung durch den Stadtrat', category: 'Entscheidungen', start: new Date('2023-11-28').getTime(), duration: 10 },
-  { name: 'Einreichung beim Land', category: 'Einreichungen', start: new Date('2023-12-31').getTime(), duration: 20 },
-  { name: 'Bestätigung der Wärmeplanung', category: 'Einreichungen', start: new Date('2024-04-01').getTime(), duration: 10 },
+  { name: 'Beauftragt', category: 'GR', start: new Date('2020-01-01').getTime(), duration: 10, lblPos:0 },
+  { name: 'Klimaforum\nabgehalten', category: 'Öffentl.', start: new Date('2023-09-01').getTime(), duration: 30, lblPos:0 },
+  { name: 'Entwurf\nvorgestellt', category: 'Öffentl.', start: new Date('2023-10-04').getTime(), duration: 15, lblPos:1 },
+  { name: 'Beschlossen', category: 'GR', start: new Date('2023-11-28').getTime(), duration: 10, lblPos:0 },
+  { name: 'Vorgelegt', category: 'Land', start: new Date('2023-12-31').getTime(), duration: 20, lblPos:0 },
+  { name: 'Bestätigt', category: 'Land', start: new Date('2024-04-01').getTime(), duration: 10, lblPos:0 },
 //  { name: 'Klimaneutralität erreicht', category: 'Ziele', start: new Date('2040-01-01').getTime(), duration: 365 }
 ];
 
@@ -375,36 +375,20 @@ const endTime = milestones[milestones.length - 1].start + 365*24*3600*1000;
 
 
 const renderItem = (params, api) => {
-  var categoryIndex = api.value(0);
-  var start = api.coord([api.value(1), categoryIndex]);
-  var end = api.coord([api.value(2), categoryIndex]);
-  var height = api.size([0, 1])[1] * 0.6;
-  var width = Math.max(10, end[0] - start[0]); // Ensure a minimum width
+  const categoryIndex = api.value(0);
+  const start = api.coord([api.value(1), categoryIndex]);
+  const end = api.coord([api.value(2), categoryIndex]);
+  const height = api.size([0, 1])[1] * 0.6;
+  const width = Math.max(10, end[0] - start[0]); // Ensure a minimum width
   const name = api.value(4);
-  var rectShape = graphic.clipRectByRect(
-    {
-      x: start[0],
-      y: start[1] - height / 2,
-      width: width,
-      height: height
-    },
-    {
-      x: params.coordSys.x,
-      y: params.coordSys.y,
-      width: params.coordSys.width,
-      height: params.coordSys.height
-    }
-  );
-  /*
-  return (
-    rectShape && {
-      type: 'rect',
-      transition: ['shape'],
-      shape: rectShape,
-      style: api.style()
-    }
-  );
-  */
+
+  const dataZoom = theChart.value.getOption().dataZoom[0]; // Assume the first dataZoom component
+  //console.log(dataZoom);
+  //const xAxis = theChart.value.getOption().xAxis[0]; // First x-axis configuration
+  //console.log(xAxis);
+  const zoomStartPercent = dataZoom.start; // Zoom start (percentage)
+  const zoomEndPercent = dataZoom.end; // Zoom end (percentage)
+  const zoomSize = zoomEndPercent - zoomStartPercent; // Zoom size (percentage)
   const textYPosition = start[1] + height / 2 + 10; // Position text below the rectangle
 
 return {
@@ -426,8 +410,8 @@ return {
             type: 'text',
             style: {
                 x: start[0] + width / 2, // Center text horizontally within the rectangle
-                y: textYPosition,
-                text: name, //"bla bla bla", //api.value(4), // Use the description from data
+                y: api.value(5)? start[1] - height * 2 : textYPosition,
+                text: zoomSize < 50 ? name : name.substring(0, 3) + "...", 
                 textAlign: 'center',
                 textVerticalAlign: 'top',
                 fontSize: 12,
@@ -441,12 +425,6 @@ return {
 const ttFormatter = (params) => {
   return params.marker + params.name + ': ' + new Date(params.value[1]).toDateString();
 }
-
-const lblFormatter = (params) => {
-  console.log(params)
-  return "123"; //params.marker + params.name + ': ' + new Date(params.value[1]).toDateString();
-}
-
 
 const chartOptions = ref({
   title: {
@@ -472,7 +450,7 @@ const chartOptions = ref({
     }
   ],
   grid: {
-    //height: 200
+    //height: 50
   },
   xAxis: {
     min: startTime,
@@ -485,6 +463,9 @@ const chartOptions = ref({
     }
   },
   yAxis: {
+    axisLabel: {
+      show:true,
+    },
     type: 'category',
     data: categories
   },

@@ -115,6 +115,8 @@ const progressText = computed(() => {
     case 3:
     case 4:
       return t("inprogress")
+    case 5:
+      return t("permanent")
     default:
       return t("completed")
   }
@@ -129,6 +131,8 @@ const progressIcon = computed(() => {
     case 3:
     case 4:
       return "schedule";
+    case 5:
+      return "all_inclusive";
     default:
       return "check_circle_outline";
   }
@@ -137,6 +141,7 @@ const progressIcon = computed(() => {
 const progressColor = computed(() => {
   switch (progress.value) {
     case 1:
+    case 5:
       return "#808080";
     case 2:
       return "#ff0000"
@@ -147,7 +152,6 @@ const progressColor = computed(() => {
       return "#00ff00";
   }
 });
-
 
 
 // name für i18n key

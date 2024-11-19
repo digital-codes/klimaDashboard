@@ -42,7 +42,8 @@
         "undefined": "Undefined",
         "replaced": "Replaced",
         "detail": "Detail",
-        "prototype":"Prototype"
+        "prototype":"Prototype",
+        "permanent":"Perpetual"
     },
     "de": {
         "yes": "Ja",
@@ -87,6 +88,7 @@
         "undefined": "Undefiniert",
         "replaced": "Ersetzt",
         "detail": "Detail",
-        "prototype":"Prototyp"
+        "prototype":"Prototyp",
+        "permanent":"Daueraufgabe"
         }
 }

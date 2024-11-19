@@ -28,7 +28,7 @@
   "chart": {
     "updating": false
   },
-  "progress": 3,
+  "progress": 5,
   "controls": {
     "range": {
       "axis":"x",
