@@ -411,7 +411,7 @@ return {
             style: {
                 x: start[0] + width / 2, // Center text horizontally within the rectangle
                 y: api.value(5)? start[1] - height * 2 : textYPosition,
-                text: zoomSize < 50 ? name : name.substring(0, 3) + "...", 
+                text: zoomSize < (breakpoint.smUp ?  50 : 20) ? name : name.substring(0, 3) + "...", 
                 textAlign: 'center',
                 textVerticalAlign: 'top',
                 fontSize: 12,
@@ -451,6 +451,8 @@ const chartOptions = ref({
   ],
   grid: {
     //height: 50
+    //left: breakpoint.smUp ?  "20%" : "10%"
+    left: 50
   },
   xAxis: {
     min: startTime,
