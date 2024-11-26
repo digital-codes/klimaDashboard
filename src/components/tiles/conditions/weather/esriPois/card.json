@@ -18,7 +18,7 @@
       "classes": []
     },
     {
-      "url": "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer",
+      "url": "https://geoportal.karlsruhe.de/server/rest/services/Hosted/Regiokarte_farbig_Vektor/VectorTileServer",
       "pois" : "data/karlsruhe/weatherPois2.json",
       "license": "CC-BY-4.0",
       "name": "LUBW Stationen",

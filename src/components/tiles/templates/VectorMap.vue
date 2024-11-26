@@ -188,38 +188,21 @@ watch(locale, (lang) => {
 
 
 const mapData = ref(null)
-const mapInstance = ref(null)
+let mapInstance = null
 
 const capture = (data) => {
   console.log("Capture:", data)
   mapData.value = data.content
-  mapInstance.value = data.view
+  mapInstance = data.view
 } 
 
 const exportMap = async () => {
-      if (mapInstance.value) {
+      if (mapInstance) {
         try {
-          /*
-          const panes = mapInstance.value.getPanes();
-          panes.tilePane.style.zIndex = '1';    // Tiles should be at the bottom
-          panes.overlayPane.style.zIndex = '2'; // Overlays (markers, etc.)
-          panes.markerPane.style.zIndex = '3';  // Markers should be higher
-          panes.popupPane.style.zIndex = '4';   // Popups and tooltips on top
-          */
-          const canvas = await html2canvas(mapInstance.value._container, {
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: null,
-            logging: false,
-            scrollX: 0,
-            scrollY: 0,
-            width: mapInstance.value.offsetWidth,
-            height: mapInstance.value.offsetHeight,
-          });
-          const imageUrl = await canvas.toDataURL('image/png');
+          const img = await mapInstance.takeScreenshot({ format: 'png', quality: 100 });
           const filename = dataName.value + ".png";
           const link = document.createElement("a");
-          link.href = imageUrl;
+          link.href = img.dataUrl;
           link.download = filename;
           document.body.appendChild(link);
           link.click();

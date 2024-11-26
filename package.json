@@ -10,9 +10,9 @@
     "quick": "vite",
     "preview": "vite preview",
     "copy:all": "npm run copy:components && npm run copy:core",
-    "copy:components": "cpx ./node_modules/@arcgis/map-components/dist/arcgis-map-components/assets/**/*.* ./public/assets",
-    "copy:core": "cpx ./node_modules/@arcgis/core/assets/**/*.* ./public/assets",
-    "copy:calcite": "cpx ./node_modules/@esri/calcite-components/dist/calcite/assets/**/*.* ./public/assets"
+    "copy:components": "cpx ./node_modules/@arcgis/map-components/dist/arcgis-map-components/assets/**/*.* ./public/esri",
+    "copy:core": "cpx ./node_modules/@arcgis/core/assets/**/*.* ./public/esri",
+    "copy:calcite": "cpx ./node_modules/@esri/calcite-components/dist/calcite/assets/**/*.* ./public/esri"
   },
   "dependencies": {
     "@fontsource/noto-color-emoji": "^5.0.28",

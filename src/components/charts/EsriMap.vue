@@ -32,6 +32,23 @@ import LayerList from "@arcgis/core/widgets/LayerList";
 import Home from "@arcgis/core/widgets/Home";
 import Expand from "@arcgis/core/widgets/Expand";
 
+import esriConfig from "@arcgis/core/config.js";
+import { setAssetPath as setCalciteAssetPath } from "@esri/calcite-components/dist/components";
+import { setArcgisAssetPath as setCodingAssetPath } from "@arcgis/coding-components/dist/components";
+
+// Set assets path for @arcgis/core, @esri/calcite-components and @arcgis/coding-components
+// need orogin to get the correct path
+
+const ESRI_ASSETS_PATH = "esri";
+const url = new URL(location.href);
+const assetPathUrl = `${url.origin}/${ESRI_ASSETS_PATH}`;
+console.log("assetPathUrl", assetPathUrl);
+
+esriConfig.assetsPath = assetPathUrl;
+setCalciteAssetPath(`${assetPathUrl}/components/assets`);
+setCodingAssetPath(assetPathUrl);
+
+
 import "@arcgis/coding-components/dist/arcgis-coding-components/arcgis-coding-components.css";
 import "@esri/calcite-components/dist/calcite/calcite.css";
 import "@arcgis/core/assets/esri/themes/light/main.css";
@@ -123,8 +140,19 @@ const poiData = ref(null); // point of interest layer, geojson
 
 watch(() => props.dataUrl, async (newVal, oldVal) => {
   console.log("Data URL changed", newVal, oldVal);
-  await loadData();
+  // start over
+  if (viewInstance) {
+    console.log("Destroying view");
+    viewInstance.destroy();
+    viewInstance = null;
+    poiLayer = null;
+    featureLayer = null;
+    mapInstance = null;
+    console.log("setupMap");
+    setupView()
+  }
 });
+
 watch(() => props.poiUrl, async (newVal, oldVal) => {
   console.log("POI URL changed", newVal, oldVal);
   //await loadData();
@@ -193,106 +221,106 @@ const createPoiLayer = (data) => {
 
 const plzFeaturePreps = (data) => {
   const plzFeatures = data.features.map((feature, index) => {
-      return {
-        geometry: {
-          type: feature.geometry.type.toLowerCase(), // e.g., "polygon"
-          rings: feature.geometry.coordinates[0], // Coordinates for polygon
-        },
-        attributes: {
-          ...feature.properties,
-          OBJECTID: index + 1, // Generate OBJECTID for Esri FeatureLayer
-        },
-      };
-    });
-
-    // Define the fields for the FeatureLayer
-    const plzFields = [
-      {
-        name: "OBJECTID",
-        alias: "Object ID",
-        type: "oid",
+    return {
+      geometry: {
+        type: feature.geometry.type.toLowerCase(), // e.g., "polygon"
+        rings: feature.geometry.coordinates[0], // Coordinates for polygon
       },
-      {
-        name: "PLZ",
-        alias: "Postal Code",
-        type: "string",
+      attributes: {
+        ...feature.properties,
+        OBJECTID: index + 1, // Generate OBJECTID for Esri FeatureLayer
       },
-      {
-        name: "SHAPE_Area",
-        alias: "Shape Area",
-        type: "double",
-      },
-    ];
-
-    // Define color mapping for the PLZs
-    const colorMap = {
-      "76131": [255, 0, 0, 0.1],    // Red
-      "76133": [0, 255, 0, 0.1],    // Green
-      "76135": [0, 0, 255, 0.1],    // Blue
-      "76137": [255, 255, 0, 0.1],  // Yellow
-      "76139": [255, 0, 255, 0.1],  // Magenta
-      "76141": [0, 255, 255, 0.1],  // Cyan
-      "76149": [128, 0, 128, 0.1],  // Purple
-      "76187": [255, 165, 0, 0.1],  // Orange
-      "76199": [0, 128, 128, 0.1],  // Teal
-      "76227": [128, 128, 0, 0.1],  // Olive
-      "76228": [128, 0, 0, 0.1],    // Maroon
-      "76229": [0, 128, 0, 0.1],    // Dark Green
-      "76275": [0, 0, 128, 0.1],    // Navy
-      "76297": [192, 192, 192, 0.1], // Silver
-      "76307": [105, 105, 105, 0.1], // Dim Gray
-      "76185": [105, 70, 105, 0.1], // 
-      "76189": [60, 70, 135, 0.1], // 
     };
+  });
 
-    // Create unique value renderer
-    const uniqueValueInfos = Object.keys(colorMap).map((plz) => ({
-      value: plz,
-      symbol: {
-        type: "simple-fill",
-        color: colorMap[plz], // Color from the color map
-        outline: {
-          color: [0, 0, 0], // White outline
-          width: 2,
-        },
+  // Define the fields for the FeatureLayer
+  const plzFields = [
+    {
+      name: "OBJECTID",
+      alias: "Object ID",
+      type: "oid",
+    },
+    {
+      name: "PLZ",
+      alias: "Postal Code",
+      type: "string",
+    },
+    {
+      name: "SHAPE_Area",
+      alias: "Shape Area",
+      type: "double",
+    },
+  ];
+
+  // Define color mapping for the PLZs
+  const colorMap = {
+    "76131": [255, 0, 0, 0.1],    // Red
+    "76133": [0, 255, 0, 0.1],    // Green
+    "76135": [0, 0, 255, 0.1],    // Blue
+    "76137": [255, 255, 0, 0.1],  // Yellow
+    "76139": [255, 0, 255, 0.1],  // Magenta
+    "76141": [0, 255, 255, 0.1],  // Cyan
+    "76149": [128, 0, 128, 0.1],  // Purple
+    "76187": [255, 165, 0, 0.1],  // Orange
+    "76199": [0, 128, 128, 0.1],  // Teal
+    "76227": [128, 128, 0, 0.1],  // Olive
+    "76228": [128, 0, 0, 0.1],    // Maroon
+    "76229": [0, 128, 0, 0.1],    // Dark Green
+    "76275": [0, 0, 128, 0.1],    // Navy
+    "76297": [192, 192, 192, 0.1], // Silver
+    "76307": [105, 105, 105, 0.1], // Dim Gray
+    "76185": [105, 70, 105, 0.1], // 
+    "76189": [60, 70, 135, 0.1], // 
+  };
+
+  // Create unique value renderer
+  const uniqueValueInfos = Object.keys(colorMap).map((plz) => ({
+    value: plz,
+    symbol: {
+      type: "simple-fill",
+      color: colorMap[plz], // Color from the color map
+      outline: {
+        color: [0, 0, 0], // White outline
+        width: 2,
       },
-      label: `PLZ: ${plz}`,
-    }));
+    },
+    label: `PLZ: ${plz}`,
+  }));
 
-    const renderer = {
-      type: "unique-value",
-      field: "PLZ", // Field to match
-      uniqueValueInfos: uniqueValueInfos,
-      defaultSymbol: {
-        type: "simple-fill",
-        color: [200, 200, 200, 0.4], // Default gray for unmatched
-        outline: {
-          color: [255, 255, 255],
-          width: 1,
-        },
+  const renderer = {
+    type: "unique-value",
+    field: "PLZ", // Field to match
+    uniqueValueInfos: uniqueValueInfos,
+    defaultSymbol: {
+      type: "simple-fill",
+      color: [200, 200, 200, 0.4], // Default gray for unmatched
+      outline: {
+        color: [255, 255, 255],
+        width: 1,
       },
-      defaultLabel: "Other PLZs",
-    };
+    },
+    defaultLabel: "Other PLZs",
+  };
 
-    // Create the FeatureLayer
-    const plzFeatureLayer = new FeatureLayer({
-      title: "PLZ",
-      visible: false, // start invisible
-      source: plzFeatures, // GeoJSON features as Esri Graphics
-      fields: plzFields,
-      objectIdField: "OBJECTID", // Required for Esri FeatureLayer
-      geometryType: "polygon", // Geometry type
-      renderer: renderer, // Unique value renderer
-      popupTemplate: {
-        title: "PLZ: {PLZ}",
-        content: `
+  // Create the FeatureLayer
+  const plzFeatureLayer = new FeatureLayer({
+    title: "PLZ",
+    visible: false, // start invisible
+    source: plzFeatures, // GeoJSON features as Esri Graphics
+    fields: plzFields,
+    objectIdField: "OBJECTID", // Required for Esri FeatureLayer
+    geometryType: "polygon", // Geometry type
+    renderer: renderer, // Unique value renderer
+    popupTemplate: {
+      title: "PLZ: {PLZ}",
+      content: `
                         <ul>
                             <li><b>Fläche:</b> {SHAPE_Area} m²</li>
                         </ul>
                     `,
-      },
-    });
-    return plzFeatureLayer;
+    },
+  });
+  return plzFeatureLayer;
 }
 
 
@@ -301,7 +329,7 @@ const createFeatureLayer = (data) => {
   if (featureLayer) {
     mapInstance.value.remove(featureLayer);
     featureLayer.destroy()
-  } 
+  }
   const plzLayer = plzFeaturePreps(data);
   return plzLayer;
 }
@@ -357,61 +385,65 @@ const loadData = async () => {
   emit("data", { content: [poiData.value, featureData.value], id: theMap.value, view: viewInstance });
 };
 
+const setupView = () => {
+  mapInstance = new Map();
+
+  // Make map view and bind it to the map
+  const view = new MapView({
+    container: theMap.value,
+    map: mapInstance,
+    center: [8.4, 49.01],
+    zoom: 13,
+    minzoom: 13,
+    maxzoom: 18
+  });
+  viewInstance = view;
+
+  const layerList = new LayerList({
+    view: viewInstance
+  });
+
+  const llExpand = new Expand({
+    view: viewInstance,
+    content: layerList,
+    expanded: false,
+  })
+  viewInstance.ui.add(llExpand, "top-right");
+  /*
+  const legend = new Legend({
+    view: view
+  });
+  view.ui.add(legend, "bottom-right");
+  */
+  const homeWidget = new Home({
+    view: viewInstance
+  });
+
+  viewInstance.ui.add(homeWidget, 'top-left')
+  viewInstance.ui.add(logoDiv.value, "bottom-right");
+
+  console.log("Loading tiles from ", props.dataUrl);
+  tileLayer = new VectorTileLayer({
+    url: props.dataUrl,
+    title: "Karlsruhe",
+    copyright: "©Stadt Karlsruhe, OK Lab Karlsruhe"
+  });
+  console.log("tileLayer loaded", tileLayer);
+  mapInstance.add(tileLayer);
+
+}
 
 onMounted(async () => {
   console.log("Map mounted", theMap.value);
-  console.log("Props", props);  
+  console.log("Props", props);
   if (!mapInstance) {
     console.log("setupMap");
-    mapInstance = new Map();
-
-    // Make map view and bind it to the map
-    const view = new MapView({
-      container: theMap.value,
-      map: mapInstance,
-      center: [8.4, 49.01],
-      zoom: 13,
-      minzoom: 13,
-      maxzoom: 18
-    });
-    viewInstance = view;
-
-    const layerList = new LayerList({
-      view: viewInstance
-    });
-
-    const llExpand = new Expand({
-      view: viewInstance,
-      content: layerList,
-      expanded: false,
-    })
-    viewInstance.ui.add(llExpand, "top-right");
-    /*
-    const legend = new Legend({
-      view: view
-    });
-    view.ui.add(legend, "bottom-right");
-    */
-    const homeWidget = new Home({
-      view: viewInstance
-    });
-
-    viewInstance.ui.add(homeWidget, 'top-left')
-    viewInstance.ui.add(logoDiv.value, "bottom-right");
-
-    console.log("Loading tiles from ", props.dataUrl);  
-    tileLayer = new VectorTileLayer({
-      url: props.dataUrl,
-      title: "Karlsruhe",
-      copyright: "©Stadt Karlsruhe, OK Lab Karlsruhe"
-    });
-    console.log("tileLayer loaded", tileLayer);
-    mapInstance.add(tileLayer);
-
+    await setupView()
   }
 
   await loadData()
 });
+
 
 onUnmounted(async () => {
   console.log("Map unmounted");
@@ -447,7 +479,6 @@ onUnmounted(async () => {
 </style>
 
 <style>
-
 .esri-widget .esrilogo {
   padding: 0.25rem;
   height: 3rem;
