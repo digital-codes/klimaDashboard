@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="map" ref="theMap"></div>
-    <div ref="logoDiv" class="logo">
-      <img src="/icons/favicon.svg" alt="Logo" />
+    <div ref="logoDiv" class="esri-widget">
+      <img src="/icons/favicon.svg" class="esrilogo" alt="Logo" />
     </div>
   </div>
 </template>
@@ -40,16 +40,15 @@ const props = defineProps({
   dataUrl: {
     // basemap url
     type: String,
-    //required: true,
-    default: "https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Regiokarte_farbig_reduziert/VectorTileServer"
+    required: true,
   },
   poiUrl: {
-    type: String | null,
-    default: "/data/karlsruhe/weatherPois.json",
+    type: String,
+    default: null // "/data/karlsruhe/weatherPois.json",
   },
   featureUrl: {
-    type: String | null,
-    default: "/data/karlsruhe/plz.geojson"
+    type: String,
+    default: null // "/data/karlsruhe/plz.geojson"
   },
   dataName: {
     type: String,
@@ -100,16 +99,18 @@ const props = defineProps({
   },
 });
 
-//const Lref = ref(L);
-const mapInstance = ref(null);
-const viewInstance = ref(null);
+//const mapInstance = ref(null);
+//const viewInstance = ref(null);
+
+let mapInstance = null
+let viewInstance = null;
 const logoDiv = ref(null);
 const theMap = ref(null);
 
 
-const tileLayer = ref(null); // map tiles
-const featureLayer = ref(null); // geojson layer for features
-const poiLayer = ref(null); // point of interest layer, geojson
+let tileLayer = null; // map tiles
+let featureLayer = null; // geojson layer for features
+let poiLayer = null; // point of interest layer, geojson
 const featureData = ref(null); // geojson layer for features
 const poiData = ref(null); // point of interest layer, geojson
 
@@ -121,11 +122,11 @@ watch(() => props.dataUrl, async (newVal, oldVal) => {
 });
 watch(() => props.poiUrl, async (newVal, oldVal) => {
   console.log("POI URL changed", newVal, oldVal);
-  await loadData();
+  //await loadData();
 });
 watch(() => props.featureUrl, async (newVal, oldVal) => {
   console.log("Feature URL changed", newVal, oldVal);
-  await loadData();
+  //await loadData();
 });
 
 const addPoi = (longitude, latitude, title, content) => {
@@ -154,11 +155,15 @@ const addPoi = (longitude, latitude, title, content) => {
 
 const createPoiLayer = (data) => {
   // create the layer
-  if (poiLayer.value)
-    poiLayer.value.removeAll();
+  if (poiLayer)
+    poiLayer.removeAll();
   else {
-    poiLayer.value = new GraphicsLayer();
-    mapInstance.value.add(poiLayer.value);
+    poiLayer = new GraphicsLayer(
+      {
+        title: "Points of Interest",
+        visible: true
+      }
+    );
   }
   // add the points
 
@@ -176,8 +181,9 @@ const createPoiLayer = (data) => {
       }
     }
     const poi = addPoi(coords[0], coords[1], title, content);
-    poiLayer.value.add(poi);
+    poiLayer.add(poi);
   });
+  return poiLayer;
 }
 
 const plzFeaturePreps = (data) => {
@@ -272,19 +278,6 @@ const plzFeaturePreps = (data) => {
       objectIdField: "OBJECTID", // Required for Esri FeatureLayer
       geometryType: "polygon", // Geometry type
       renderer: renderer, // Unique value renderer
-      /*
-      renderer: {
-        type: "simple", // Simple renderer
-        symbol: {
-          type: "simple-fill",
-          color: [0, 0, 0, 0.2], // Fill color with transparency
-          outline: {
-            color: [255, 255, 255],
-            width: 1,
-          },
-        },
-      },
-      */
       popupTemplate: {
         title: "PLZ: {PLZ}",
         content: `
@@ -300,16 +293,16 @@ const plzFeaturePreps = (data) => {
 
 const createFeatureLayer = (data) => {
   // create the layer
-  if (featureLayer.value) {
-    featureLayer.value.removeAll();
-    mapInstance.value.remove(featureLayer.value);
+  if (featureLayer) {
+    mapInstance.value.remove(featureLayer);
+    featureLayer.destroy()
   } 
   const plzLayer = plzFeaturePreps(data);
-  mapInstance.value.add(plzLayer);
+  return plzLayer;
 }
 
 const loadData = async () => {
-  if (!mapInstance.value) {
+  if (!mapInstance) {
     console.log("Map not yet initialized");
     return;
   }
@@ -321,15 +314,15 @@ const loadData = async () => {
       throw new Error("Network response was not ok");
     }
     poiData.value = await response.json();
-    console.log("POI data loaded", poiData.value);
-    if (poiLayer.value) {
+    console.log("POI data loaded", poiData);
+    if (poiLayer) {
       console.log("Removing POI layer");
-      poiLayer.value.removeAll();
-      mapInstance.value.remove(poiLayer.value);
-      poiLayer.value = null;
+      poiLayer.removeAll();
+      mapInstance.remove(poiLayer);
+      poiLayer = null;
     }
-    poiLayer.value = createPoiLayer(poiData.value)
-    mapInstance.value.add(poiLayer.value);
+    poiLayer = createPoiLayer(poiData.value)
+    mapInstance.add(poiLayer);
   } else {
     console.log("No POI data available");
     poiData.value = null;
@@ -343,51 +336,51 @@ const loadData = async () => {
     }
     featureData.value = await response.json();
     console.log("Feature data loaded", featureData.value);
-    if (featureLayer.value) {
+    if (featureLayer) {
       console.log("Removing Feature layer");
-      featureLayer.value.removeAll();
-      mapInstance.value.remove(featureLayer.value);
-      featureLayer.value = null;
+      mapInstance.remove(featureLayer);
+      featureLayer.destroy()
+      featureLayer = null;
     }
-    featureLayer.value = createFeatureLayer(featureData.value)
-    mapInstance.value.add(featureLayer.value);
+    featureLayer = createFeatureLayer(featureData.value)
+    mapInstance.add(featureLayer);
   } else {
     console.log("No Feature data available");
     featureData.value = null;
   }
 
-  emit("data", { content: [poiData.value, featureData.value], id: theMap.value, view: viewInstance.value });
+  emit("data", { content: [poiData.value, featureData.value], id: theMap.value, view: viewInstance });
 };
 
 
 onMounted(async () => {
   console.log("Map mounted", theMap.value);
-  if (!mapInstance.value) {
-    console.log("setupMap", element);
-    const map = new Map();
-    mapInstance.value = map;
+  console.log("Props", props);  
+  if (!mapInstance) {
+    console.log("setupMap");
+    mapInstance = new Map();
 
     // Make map view and bind it to the map
     const view = new MapView({
-      container: theMap.value.id,
-      map: map,
+      container: theMap.value,
+      map: mapInstance,
       center: [8.4, 49.01],
       zoom: 13,
       minzoom: 13,
       maxzoom: 18
     });
-    viewInstance.value = view;
+    viewInstance = view;
 
     const layerList = new LayerList({
-      view: view
+      view: viewInstance
     });
     //view.ui.add(layerList, "top-right");
     const llExpand = new Expand({
-      view: view,
+      view: viewInstance,
       content: layerList,
       expanded: false
     })
-    view.ui.add(llExpand, "top-right");
+    viewInstance.ui.add(llExpand, "top-right");
     /*
     const legend = new Legend({
       view: view
@@ -395,21 +388,20 @@ onMounted(async () => {
     view.ui.add(legend, "bottom-right");
     */
     const homeWidget = new Home({
-      view: view
+      view: viewInstance
     });
 
-    view.ui.add(homeWidget, 'top-left')
-    console.log("Logodiv", logoDiv.value);
-    view.ui.add(logoDiv.value.id, "bottom-right");
+    viewInstance.ui.add(homeWidget, 'top-left')
+    viewInstance.ui.add(logoDiv.value, "bottom-right");
 
-    const tiles = new VectorTileLayer({
+    console.log("Loading tiles from ", props.dataUrl);  
+    tileLayer = new VectorTileLayer({
       url: props.dataUrl,
       title: "Karlsruhe",
       copyright: "©Stadt Karlsruhe, OK Lab Karlsruhe"
     });
-    console.log("tileLayer loaded", tiles);
-    tileLayer.value = tiles;
-    map.add(tiles);
+    console.log("tileLayer loaded", tileLayer);
+    mapInstance.add(tileLayer);
 
   }
 
@@ -417,15 +409,17 @@ onMounted(async () => {
 });
 
 onUnmounted(async () => {
+  /*
   console.log("Map unmounted");
   if (viewInstance.value) {
     console.log("Destroying view");
     viewInstance.value.destroy();
     viewInstance.value = null;
     poiLayer.value = null;
-    featureLayer.value = null;
+    featureLayer = null;
     mapInstance.value = null;
   }
+    */
 });
 
 
@@ -460,7 +454,15 @@ onUnmounted(async () => {
   --calcite-sheet-scrim-background: rgba(0, 0, 0, .1);
 }
 */
-.esri-widget .logo {
+.map {
+  padding: 0;
+  margin: 0;
+  height: 60vh;
+  width: 80vw;
+  border:solid 1px blue;
+  --calcite-sheet-scrim-background: rgba(0, 0, 0, .1);
+}
+.esri-widget .esrilogo {
   padding: 0.25rem;
   height: 3rem;
   width: auto;
@@ -515,7 +517,7 @@ onUnmounted(async () => {
     border-radius: 0;
   }
 
-  .esri-widget .logo {
+  .esri-widget .esrilogo {
     padding: 0.25rem;
     height: 2rem;
   }

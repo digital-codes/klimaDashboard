@@ -52,7 +52,8 @@
 
     <div class="chartpane">
       <!-- Chart component goes here -->
-      <EsriMap  v-if="chartValid"  :dataUrl="dataUrl" :dataName="dataName" 
+      <EsriMap v-if="chartValid"  
+      :dataUrl="dataUrl" :dataName="dataName" 
       :poiUrl="poiUrl" :featureUrl="featureUrl"
       :ariaLabel="ariaLabel" :locale="chartLocale" 
       :dataProps="dataProps" @data="capture"></EsriMap>
@@ -94,7 +95,7 @@ import { ref, onBeforeMount, nextTick, watch } from "vue";
 import { useConfigStore } from '@/services/configStore';
 const configStore = useConfigStore();
 
-import EsriMap from "@/components/charts/SimpleMap.vue"
+import EsriMap from "@/components/charts/EsriMap.vue"
 import html2canvas from 'html2canvas';
 
 // for relocated base we need to prepend the base path to dynamic imports
@@ -137,7 +138,7 @@ const cardMessages = ref({});
 const cardSpecs = ref({});
 
 // needed to force re-render when dataurl reused
-const chartValid = ref(true);
+const chartValid = ref(false);
 
 // content pane
 const content = ref({});
@@ -256,7 +257,7 @@ watch(dataCtl, (index) => {
 
 const updateData = async (index) => {
   const newUrl = checkUrl(cardSpecs.value.data[index].url);
-  //console.log("UpdateData:", index, newUrl)
+  console.log("UpdateData:", index, newUrl)
   if (newUrl === dataUrl.value) {
     chartValid.value = false;
     await nextTick();
@@ -264,12 +265,23 @@ const updateData = async (index) => {
   dataUrl.value = newUrl;
   dataLicense.value = cardSpecs.value.data[index].license;
   dataProps.value = cardSpecs.value.data[index].properties;
-  poiUrl.value = cardSpecs.value.data[index].pois ? checkUrl(cardSpecs.value.data[index].pois) : null;
-  featureUrl.value = cardSpecs.value.data[index].features ? checkUrl(cardSpecs.value.data[index].features) : null;
+  console.log("urls:", cardSpecs.value.data[index].pois, cardSpecs.value.data[index].features)
+  if (cardSpecs.value.data[index].pois) {
+    poiUrl.value = checkUrl(cardSpecs.value.data[index].pois);
+  } else {
+    poiUrl.value = null;
+  }
+  if (cardSpecs.value.data[index].features) {
+    featureUrl.value = checkUrl(cardSpecs.value.data[index].features);
+  } else {
+    featureUrl.value = null;
+  }
   // name is localized!
   // dataName.value = cardSpecs.value.data[index].name || "Data"
   dataName.value = cardMessages.value[locale.value].dsname[index] || "Data";
   ariaLabel.value = cardMessages.value[locale.value].aria + ": " + dataName.value
+  console.log("Pois:", poiUrl.value, featureUrl.value)
+  await nextTick();
   chartValid.value = true;
 };
 
@@ -333,8 +345,9 @@ onBeforeMount(async () => {
     controls.value.downloads.img = cardSpecs.value.controls.downloads.image;
     controls.value.downloads.data = cardSpecs.value.controls.downloads.data;
   }
-  await updateData(0);
   confgComplete.value = true
+  await nextTick(); 
+  await updateData(0);
 });
 
 </script>

@@ -1,0 +1,63 @@
+{
+  "data": [
+    {
+      "url": "https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Regiokarte_farbig_reduziert/VectorTileServer",
+      "pois" : "data/karlsruhe/weatherPois.json",
+      "features" : "data/karlsruhe/plz.geojson",
+      "license": "CC-BY-4.0",
+      "name": "Cityclim Stationen",
+      "format": "json",
+      "properties": {
+        "name": "name",
+        "img": "img",
+        "url": "url",
+        "attribution": "attribution",
+        "description": "description"
+      },
+      "columns":[],
+      "classes": []
+    },
+    {
+      "url": "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer",
+      "pois" : "data/karlsruhe/weatherPois2.json",
+      "license": "CC-BY-4.0",
+      "name": "LUBW Stationen",
+      "format": "json",
+      "properties": {
+        "name": "name",
+        "url": "url",
+        "img": "img",
+        "attribution": "attribution",
+        "description": "description"
+      },
+      "columns":[],
+      "classes": []
+    }
+  ],
+  "chart": {
+    "updating": false
+  },
+  "controls": {
+    "range": {
+      "present": false,
+      "min": 1,
+      "max": 100
+    },
+    "type": {
+      "present": false,
+      "options": [
+        "line",
+        "bar"
+      ]
+    },
+    "stacked": {
+      "present": false
+    },
+    "dataswitch": {
+      "present": true
+    },
+    "animate": {
+      "present": false
+    }
+  }
+}
