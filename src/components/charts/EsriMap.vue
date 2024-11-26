@@ -32,6 +32,11 @@ import LayerList from "@arcgis/core/widgets/LayerList";
 import Home from "@arcgis/core/widgets/Home";
 import Expand from "@arcgis/core/widgets/Expand";
 
+import "@arcgis/coding-components/dist/arcgis-coding-components/arcgis-coding-components.css";
+import "@esri/calcite-components/dist/calcite/calcite.css";
+import "@arcgis/core/assets/esri/themes/light/main.css";
+
+
 
 const emit = defineEmits(["data"]);
 
@@ -136,9 +141,9 @@ const addPoi = (longitude, latitude, title, content) => {
     latitude: latitude
   };
   var markerSymbol = new PictureMarkerSymbol({
-    url: "assets/custom/icons/marker-icon-2x.png",  // Path to your custom icon
+    url: "/icons/oklab.svg",  // Path to your custom icon
     width: "32px", // Adjust size as needed
-    height: "50px",
+    height: "32px",
     // Optionally, set an anchor point to position the icon correctly
     yoffset: 16 // Moves the icon up by half its height
   });
@@ -374,11 +379,11 @@ onMounted(async () => {
     const layerList = new LayerList({
       view: viewInstance
     });
-    //view.ui.add(layerList, "top-right");
+
     const llExpand = new Expand({
       view: viewInstance,
       content: layerList,
-      expanded: false
+      expanded: false,
     })
     viewInstance.ui.add(llExpand, "top-right");
     /*
@@ -409,17 +414,15 @@ onMounted(async () => {
 });
 
 onUnmounted(async () => {
-  /*
   console.log("Map unmounted");
-  if (viewInstance.value) {
+  if (viewInstance) {
     console.log("Destroying view");
-    viewInstance.value.destroy();
-    viewInstance.value = null;
-    poiLayer.value = null;
+    viewInstance.destroy();
+    viewInstance = null;
+    poiLayer = null;
     featureLayer = null;
-    mapInstance.value = null;
+    mapInstance = null;
   }
-    */
 });
 
 
@@ -430,7 +433,6 @@ onUnmounted(async () => {
 .container {
   height: 100%;
   width: 100%;
-  position: relative;
   display: flex;
 }
 
@@ -439,29 +441,13 @@ onUnmounted(async () => {
   width: 100%;
   padding: 0;
   margin: 0;
+  border: unset;
   --calcite-sheet-scrim-background: rgba(0, 0, 0, .1);
 }
 </style>
 
 <style>
-/*
-.map {
-  padding: 0;
-  margin: 0;
-  height: 60vh;
-  width: 80vw;
-  border:solid 1px blue;
-  --calcite-sheet-scrim-background: rgba(0, 0, 0, .1);
-}
-*/
-.map {
-  padding: 0;
-  margin: 0;
-  height: 60vh;
-  width: 80vw;
-  border:solid 1px blue;
-  --calcite-sheet-scrim-background: rgba(0, 0, 0, .1);
-}
+
 .esri-widget .esrilogo {
   padding: 0.25rem;
   height: 3rem;
@@ -517,6 +503,17 @@ onUnmounted(async () => {
     border-radius: 0;
   }
 
+  /*
+  .esri-expand__panel {
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    border-radius: 0;
+  }
+*/
   .esri-widget .esrilogo {
     padding: 0.25rem;
     height: 2rem;

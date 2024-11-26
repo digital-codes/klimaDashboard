@@ -50,7 +50,7 @@
 
     </div>
 
-    <div class="chartpane">
+    <div class="chartpane map">
       <!-- Chart component goes here -->
       <EsriMap v-if="chartValid"  
       :dataUrl="dataUrl" :dataName="dataName" 
@@ -358,6 +358,10 @@ onBeforeMount(async () => {
 @use "vuestic-ui/styles/grid";
 
 /* Add your card styles here */
+
+.chartpane.map {
+  height: 400px;
+}
 
 .control {
   margin-right: 1rem;
