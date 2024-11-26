@@ -150,6 +150,7 @@ watch(() => props.dataUrl, async (newVal, oldVal) => {
     mapInstance = null;
     console.log("setupMap");
     setupView()
+    await loadData()
   }
 });
 
