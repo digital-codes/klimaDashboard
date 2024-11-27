@@ -405,7 +405,9 @@ const setupView = () => {
   });
 
   const llExpand = new Expand({
-    view: viewInstance,
+    // container is better for mobile.
+    // view: viewInstance,
+    container: document.createElement("div"),
     content: layerList,
     expanded: false,
   })
