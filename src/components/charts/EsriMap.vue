@@ -36,6 +36,9 @@ import esriConfig from "@arcgis/core/config.js";
 import { setAssetPath as setCalciteAssetPath } from "@esri/calcite-components/dist/components";
 import { setArcgisAssetPath as setCodingAssetPath } from "@arcgis/coding-components/dist/components";
 
+// import * as intl from "@arcgis/core/intl.js";
+import {setLocale} from "@arcgis/core/intl.js";
+
 // Set assets path for @arcgis/core, @esri/calcite-components and @arcgis/coding-components
 // need orogin to get the correct path
 
@@ -162,6 +165,7 @@ watch(() => props.featureUrl, async (newVal, oldVal) => {
   console.log("Feature URL changed", newVal, oldVal);
   //await loadData();
 });
+
 
 const addPoi = (longitude, latitude, title, content) => {
   var point = {
@@ -388,6 +392,8 @@ const loadData = async () => {
 
 const setupView = () => {
   mapInstance = new Map();
+  //intl.setLocale(props.locale);
+  setLocale(props.locale);
 
   // Make map view and bind it to the map
   const view = new MapView({
