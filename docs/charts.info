@@ -1,0 +1,90 @@
+
+For creating visualizations with line charts (symbols and colors) and bar charts (colors and hatches) both in the display and the legend, several open-source JavaScript libraries meet these requirements. Here's a comparison of a few that should work well:
+
+### 1. **Apache ECharts**
+- **License**: Apache 2.0
+- **Features**:
+  - Excellent for **line charts** with **symbols and colors** for both lines and points. Supports customizing colors for individual data series.
+  - Allows customization of both **line symbols** (e.g., circle, triangle, etc.) and their colors in the **legend**.
+  - For **bar charts**, supports custom **colors** and **hatch patterns** using `markArea` and `markPoint` or external image patterns.
+  - Highly customizable with a rich API.
+  - Supports responsive design and interaction.
+- **Strengths**: 
+  - Extensive set of features.
+  - Flexible, with support for customizing visuals in both chart displays and legends.
+
+**Pros**: Good documentation, flexibility in theming and styling.  
+**Cons**: More complex setup compared to simpler libraries like Chart.js.
+
+
+### 4. **D3.js**
+- **License**: BSD
+- **Features**:
+  - **D3.js** is highly flexible and fully customizable for creating any type of chart.
+  - It can easily support **line charts** with **symbols and colors** for lines, points, and the legend.
+  - **Bar charts** can be customized with **colors and hatch patterns**, but this requires a bit more manual effort since D3.js is a low-level library.
+  - Custom hatches, patterns, colors, and any other visual elements can be created by manipulating SVG directly.
+- **Strengths**: 
+  - Maximum flexibility and control over every aspect of the visualization.
+  - Can create nearly any type of visualization with full legend control.
+- **Weaknesses**: 
+  - Steep learning curve, requires detailed setup for even basic charts.
+
+**Pros**: Extremely powerful and flexible, can create any visualization style you need.  
+**Cons**: Requires more coding effort, no out-of-the-box chart types or styling.
+
+
+### Recommendation
+
+- **Apache ECharts** is the most balanced option, providing flexibility in creating both line charts (with symbols and colors) and bar charts (with colors and hatch patterns), and ensuring they display correctly in the legend.
+- **Chart.js** is a good lightweight alternative, but you may need to use plugins for hatch patterns.
+- If you need maximum control over customization, **D3.js** is the most powerful, but it comes with a steeper learning curve.
+
+
+
+------------------------
+
+echarts additional charts:
+funnel:
+https://echarts.apache.org/examples/en/editor.html?c=funnel
+https://echarts.apache.org/examples/en/editor.html?c=funnel-mutiple
+https://echarts.apache.org/examples/en/editor.html?c=funnel-align
+
+sankey:
+https://echarts.apache.org/examples/en/editor.html?c=sankey-simple
+https://echarts.apache.org/examples/en/editor.html?c=sankey-vertical
+https://echarts.apache.org/examples/en/editor.html?c=sankey-itemstyle
+https://echarts.apache.org/examples/en/editor.html?c=sankey-levels
+
+scatter:
+https://echarts.apache.org/examples/en/editor.html?c=scatter-simple
+https://echarts.apache.org/examples/en/editor.html?c=scatter-single-axis
+https://echarts.apache.org/examples/en/editor.html?c=scatter-clustering-process
+
+
+themeriver:
+https://echarts.apache.org/examples/en/editor.html?c=themeRiver-basic
+
+heatmap:
+https://echarts.apache.org/examples/en/editor.html?c=heatmap-cartesian
+https://echarts.apache.org/examples/en/editor.html?c=heatmap-large-piecewise
+
+
+rich text:
+https://echarts.apache.org/examples/en/editor.html?c=bar-rich-text
+
+3d:
+https://echarts.apache.org/examples/en/editor.html?c=line3d-orthographic&gl=1
+https://echarts.apache.org/examples/en/editor.html?c=simple-surface&gl=1
+https://echarts.apache.org/examples/en/editor.html?c=surface-wave&gl=1
+https://echarts.apache.org/examples/en/editor.html?c=scatter3d-simplex-noise&gl=1&theme=dark
+https://echarts.apache.org/examples/en/editor.html?c=image-surface-sushuang&gl=1
+https://echarts.apache.org/examples/en/editor.html?c=map3d-buildings&gl=1
+https://echarts.apache.org/examples/en/editor.html?c=flowGL-noise&gl=1&theme=dark
+  flowgl: vary particleSpeed and particleTrail
+
+graph:
+https://echarts.apache.org/examples/en/editor.html?c=graph-simple
+https://echarts.apache.org/examples/en/editor.html?c=graph-force
+https://echarts.apache.org/examples/en/editor.html?c=graph-force-dynamic
+https://echarts.apache.org/examples/en/editor.html?c=graph-npm

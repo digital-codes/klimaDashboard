@@ -1,0 +1,21 @@
+anlagenbetreiberpersonenart,hauptausrichtung,SUM(gesamtbruttoleistung)
+Organisation,Nord-Ost,730.806
+Organisation,Nord,393.555
+Natürliche Person,Ost,2389.87
+Natürliche Person,Nord-West,607.35
+Natürliche Person,Süd,12652.569
+Natürliche Person,Süd-West,8733.374
+Organisation,Süd,14259.847
+Natürliche Person,Süd-Ost,5746.018
+Organisation,Süd-Ost,10299.118
+Organisation,Süd-West,11242.782
+Organisation,West,3800.996
+Organisation,Ost-West,7223.06
+Organisation,Nord-West,929.5
+Natürliche Person,Ost-West,9767.149
+Natürliche Person,Nord-Ost,526.485
+Natürliche Person,Nord,320.925
+Natürliche Person,West,4174.567
+Organisation,nachgeführt,37.38
+Organisation,Ost,4481.177
+Natürliche Person,nachgeführt,75.34

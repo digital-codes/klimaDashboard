@@ -1,0 +1,5 @@
+owner: sankey
+pp: chropleth
+size: scatter on map
+type: pie 
+
