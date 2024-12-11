@@ -3,7 +3,10 @@
   <HeaderCard name="adapt" @filter="filterTag" id="dh"  :icons="[icon_l, icon_d]"/>
 
   <div v-for="(tile, index) in tiles" :key="index" :id="tile.anchor">
-    <component v-if="currentTags.includes(tile.tag)" :is="tile.component" :name="tile.name" :section="tile.section"
+    <component v-if="currentTags.includes(tile.tag)" 
+      :is="tile.component" 
+      :name="tile.name" 
+      :section="tile.section"
       :part="tile.part" class="tile">
     </component>
   </div>

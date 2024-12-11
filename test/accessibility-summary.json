@@ -1,0 +1,212 @@
+[
+  {
+    "component": "AdaptView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "DataView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "DetailView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "GdprView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "GhgView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "HomeView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "ImprintView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "ProtectPrivateView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "ProtectPublicView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  },
+  {
+    "component": "WeatherView",
+    "violations": [
+      {
+        "description": "Ensure each HTML document contains a non-empty <title> element",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/document-title?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      },
+      {
+        "description": "Ensure every HTML document has a lang attribute",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+        "impact": "serious",
+        "nodes": [
+          "<html><head><style>* { pointer-events: all }</style></head><body></body></html>"
+        ]
+      }
+    ]
+  }
+]
