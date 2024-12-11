@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, h, Fragment } from 'vue'
 import App from './App.vue'
 
 import router from '@/router';
@@ -81,7 +81,6 @@ const i18n = createI18n({
 //const configStore = useStore('configStore'); // Replace 'configStore' with the name of your specific store
 import { createPinia } from 'pinia'
 const pinia = createPinia()
-
 
 const app = createApp(App)
 app.use(pinia)

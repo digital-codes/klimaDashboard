@@ -7,6 +7,7 @@ import path from 'path';
 import { JSDOM } from 'jsdom';
 
 
+
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
     t: (key) => key // Simple mock of the `t` function

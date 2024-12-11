@@ -15,7 +15,7 @@ export default defineConfig({
         api: 'modern-compiler', // or "modern", "legacy"
       },
     },
-  },  
+  },
   plugins: [
     vue(),
     Sitemap({
@@ -24,10 +24,13 @@ export default defineConfig({
       //dynamicRoutes,
     }),
     mdMonitorPlugin(), // Register the custom plugin
-    ],
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
+    },
+    optimizeDeps: {
+      include: ['axe-core']
     }
   }
 })
