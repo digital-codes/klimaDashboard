@@ -1,12 +1,10 @@
 import os
-#from openai import OpenAI
 import sys
 import requests
 import re
 import nltk
+
 import private_remote as pr
-
-
 
 debug = False
 
@@ -79,15 +77,16 @@ class Embedder():
 
 
 class Llm():
-    def __init__(self, provider: str = "deepinfra"):
+    def __init__(self, provider: str = "deepinfra", lang = "german"):
         if provider == "deepinfra":
             self.api_key = pr.mdlApiKey
             self.model = pr.lngMdl
             self.url = "https://api.deepinfra.com/v1/openai/chat/completions"
+            self.lang = lang
         else:
             raise ValueError("Invalid provider")
 
-    def queryByText(self, query):
+    def query(self, query):
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}"
@@ -96,7 +95,7 @@ class Llm():
         You are an intelligent assistant.
         The question is:
         {query}
-        Respond in German language with a limit of 100 words.
+        Respond in {self.lang} language with a limit of 100 {self.lang} words.
         """
         data = {
             "model": self.model,
@@ -113,17 +112,44 @@ class Llm():
         else:
             return None
 
-    def queryWithContext(self, context, query):
+    def summarize(self, text, size=500):
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}"
         }
         richQuery = f"""
-        You are an intelligent assistant. Use the following context to answer the question.
+        You are an intelligent assistant.
+        Summarize the following {self.lang} text into {self.lang}:
+        {text}
+        Respond in {self.lang} language. Keep the summary to {size} {self.lang} words.
+        """
+        data = {
+            "model": self.model,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": richQuery
+                }
+            ]
+        }
+        if debug: print(richQuery)
+        response = requests.post(self.url, headers=hdrs, json=data) 
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return None
+
+    def queryWithContext(self, context, query, size=500):
+        hdrs = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}"
+        }
+        richQuery = f"""
+        You are an intelligent assistant. Use the following {self.lang} context to answer the question in {self.lang}.
         {context}
-        The question is:
+        The {self.lang} question is:
         {query}
-        Respond in German language with a limit of 500 words.
+        Respond in {self.lang} language. Keep the summary to {size} {self.lang} words.
         """
         data = {
             "model": self.model,
