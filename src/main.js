@@ -76,6 +76,10 @@ const i18n = createI18n({
     },
 });
 
+// Set lang attribute dynamically
+document.documentElement.lang = i18n.global.locale.value;
+
+
 // pinia 
 //import { useStore } from 'pinia';
 //const configStore = useStore('configStore'); // Replace 'configStore' with the name of your specific store

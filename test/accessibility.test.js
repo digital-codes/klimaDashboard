@@ -27,12 +27,15 @@ config.global.mocks = {
 vi.mock('vue-router', () => ({
   useRoute: () => ({
     params: { topic: 'mocked-topic' }, // Mock route params
+    meta: { title: 'AdaptView - Test Title' }
   }),
   useRouter: () => ({
     push: vi.fn(), // Mock router push
     replace: vi.fn(), // Mock router replace
+    beforeEach: (callback) => callback({ meta: { title: 'AdaptView - Test Title' } }, {}, () => {})
   })
 }));
+
 
 
 

@@ -111,6 +111,9 @@ watch(langSel, (newValue, oldValue) => {
   console.log(newValue)
   configStore.setCurrentLocale(newValue);
   locale.value = newValue
+  // Set lang attribute dynamically
+  document.documentElement.lang = locale.value;
+
 });
 
 onBeforeMount(async () => {

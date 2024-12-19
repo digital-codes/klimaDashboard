@@ -11,6 +11,9 @@ const routes = [
   {
     path: '/',
     name: 'Home',
+    meta: {
+      title: 'Home',
+    },
     component: HomeView,
   },
   {
@@ -130,6 +133,7 @@ router.beforeEach((to, from, next) => {
     alert("404: Redirecting to Home")
     next({ name: 'Home' });
   }
+  document.title = to.meta.title || 'Default Title';
   next()
 });
 
