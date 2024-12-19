@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # private python
-private.py
+private*.py
 
 # generated content from localized markdown
 text.json

@@ -3,7 +3,7 @@ import sys
 import re
 import nltk
 
-debug = False
+DEBUG = False
 
 class PreProcessor():
     def __init__(self,lang="german"):
@@ -14,6 +14,11 @@ class PreProcessor():
         self.lang = lang
 
     def clean(self, text):
+        # Remove special characters
+        text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces, tabs, and newlines with a single space
+        text = re.sub(r'\.{2,}', '.', text)  # Replace multiple periods with a single period
+        text = text.strip()  # Remove leading and trailing whitespace
+        # tokenize the text into sentences
         sents_raw = nltk.sent_tokenize(text,language=self.lang)
         sents = []
         wordcount = 0
@@ -21,29 +26,39 @@ class PreProcessor():
             words = nltk.wordpunct_tokenize(s)
             wordcount += len(words)
             sents.append(" ".join(words).strip())
-            
-        text_cleaned = ".".join(sents)
-        return text_cleaned
+        # merge the sentences back into a single text            
+        # return merged text, wordcount, sentences
+        return "".join(sents), wordcount, sents
 
 
-    def chunk(self, text, size=200, overlap=30):
+    def chunk(self, text, size=200):
         """
         Split the text into smaller chunks of a fixed size with an overlap.
         
         Args:
             text (str): The text to split.
             chunk_size (int): The size of each chunk (in tokens, not characters).
-            overlap (int): The number of tokens to overlap between chunks.
-        
         Returns:
             list: A list of text chunks.
         """
-        overlap = size // 2 if overlap >= size else overlap
-        words = text.split()  # Split text into words
-        chunks = []
-        for i in range(0, len(words), size - overlap):
-            chunk = ' '.join(words[i:i + size])
-            chunks.append(chunk)
-        return chunks
+        if DEBUG: print(f"Chunking text: {text}")
+        ctext , wc, sents = self.clean(text)
+        if wc <= size:
+            return [ctext]
+        else:
+            chunks = []
+            idx = 0
+            chunk = ""
+            while idx < len(sents):
+                if DEBUG: print(f"idx: {idx}, chunk: {chunk}")
+                chunk = f"{chunk}.{sents[idx]}".strip()
+                if len(chunk.split()) >= size:
+                    if DEBUG: print(f"Chunk: {chunk},{idx}")
+                    chunks.append(chunk)
+                    chunk =  ""
+                    # no idx incremtent here. overlapping chunks
+                else:
+                    idx += 1
+            return chunks
 
 

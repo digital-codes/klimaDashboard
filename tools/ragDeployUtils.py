@@ -16,7 +16,7 @@ class Embedder():
         else:
             raise ValueError("Invalid provider")
 
-    def embed(self, input):
+    def encode(self, input):
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}"
@@ -65,7 +65,10 @@ class Llm():
         }
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            text = data["choices"][0]["message"]["content"].strip()
+            tokens = data["usage"]["total_tokens"]
+            return text , tokens
         else:
             return None
 
@@ -92,7 +95,10 @@ class Llm():
         if debug: print(richQuery)
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            text = data["choices"][0]["message"]["content"].strip()
+            tokens = data["usage"]["total_tokens"]
+            return text , tokens
         else:
             return None
 
@@ -119,7 +125,10 @@ class Llm():
         if debug: print(richQuery)
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            text = data["choices"][0]["message"]["content"].strip()
+            tokens = data["usage"]["total_tokens"]
+            return text , tokens
         else:
             return None
 
@@ -146,7 +155,10 @@ class Llm():
         }
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            text = data["choices"][0]["message"]["content"].strip()
+            tokens = data["usage"]["total_tokens"]
+            return text , tokens
         else:
             return None
 
@@ -277,7 +289,7 @@ class VectorDb():
             print(response.status_code)
             return None
 
-    def searchItem(self,collection, item, limit=3, fields=["*"]):
+    def searchItem(self,collection, vectors, limit=3, fields=["*"]):
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}"
@@ -286,7 +298,7 @@ class VectorDb():
             collection = self.collection
         data = {
             "collectionName":collection,
-            "data":[item],
+            "data":[vectors],
             "limit":limit,
             "outputFields":fields
         }
