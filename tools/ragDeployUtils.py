@@ -132,7 +132,7 @@ class Llm():
         else:
             return None
 
-    def queryWithContext(self, context, query, size=500):
+    def queryWithContext(self, context, query, msgHistory = [], size=500):
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}"
@@ -144,6 +144,11 @@ class Llm():
         {query}
         Respond in {self.lang} language. Keep the summary to {size} {self.lang} words.
         """
+        msgHistory.append({
+                    "role": "user",
+                    "content": richQuery
+                    }
+                )
         data = {
             "model": self.model,
             "messages": [
