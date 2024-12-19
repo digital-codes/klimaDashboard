@@ -51,19 +51,28 @@ def readSummary(id):
 
 # Step 5: Run the RAG system
 if __name__ == "__main__":
+    msgHistory = []
     query = input("\nEnter your query: ")
-    embedding = embedder.encode(query)
-    searchVector = embedding["data"][0]["embedding"]
-    searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["title","file","meta"])
-    if DEBUG: print(searchResult)
-    files = [f["file"] for f in searchResult["data"]]
-    if DEBUG: print(files)
-    
-    context = ""
-    for f in files:
-        context = "".join([context,readSummary(f)])
-    if DEBUG: print(context)
-    answer ,tokens = llm.queryWithContext(context, query)
-    print("Answer:", answer)
+    while len(query) > 0:
+        embedding = embedder.encode(query)
+        searchVector = embedding["data"][0]["embedding"]
+        searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["title","file","meta"])
+        if DEBUG: print(searchResult)
+        files = [f["file"] for f in searchResult["data"]]
+        if DEBUG: print(files)
+        
+        context = ""
+        for f in files:
+            context = "".join([context,readSummary(f)])
+        if DEBUG: print(context)
+        answer ,tokens = llm.queryWithContext(context, query, msgHistory)
+        print("Answer:", answer,files)
+        if DEBUG: print("History",msgHistory)
+        if DEBUG: print("Len History",len(msgHistory))
+        if len(msgHistory) > 8:
+            msgHistory.pop(0)
+            msgHistory.pop(0)
+        query = input("\nEnter your query: ")
+
     
     

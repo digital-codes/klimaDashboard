@@ -59,7 +59,8 @@ class Llm():
             "messages": [
                 {
                     "role": "user",
-                    "content": richQuery
+                    "content": richQuery,
+                    "temperature": 0.4
                 }
             ]
         }
@@ -88,7 +89,8 @@ class Llm():
             "messages": [
                 {
                     "role": "user",
-                    "content": richQuery
+                    "content": richQuery,
+                    "temperature": 0.4
                 }
             ]
         }
@@ -118,7 +120,8 @@ class Llm():
             "messages": [
                 {
                     "role": "user",
-                    "content": richQuery
+                    "content": richQuery,
+                    "temperature": 0.4
                 }
             ]
         }
@@ -151,18 +154,21 @@ class Llm():
                 )
         data = {
             "model": self.model,
-            "messages": [
-                {
-                    "role": "user",
-                    "content": richQuery
-                }
-            ]
+            "messages": msgHistory,
+            "temperature": 0.4
         }
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
             data = response.json()
+            print(data)
             text = data["choices"][0]["message"]["content"].strip()
             tokens = data["usage"]["total_tokens"]
+            try:
+                msgHistory.append({"role":data["choices"][0]["message"]["role"],
+                                   "content":text})
+            except Exception as e:
+                print("Error:",e)
+                print(data)
             return text , tokens
         else:
             return None
