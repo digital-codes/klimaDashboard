@@ -4,7 +4,7 @@ import requests
 
 import private_remote as pr
 
-debug = False
+DEBUG = False
 
 
 class Embedder():
@@ -94,7 +94,7 @@ class Llm():
                 }
             ]
         }
-        if debug: print(richQuery)
+        if DEBUG: print(richQuery)
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
             data = response.json()
@@ -125,7 +125,7 @@ class Llm():
                 }
             ]
         }
-        if debug: print(richQuery)
+        if DEBUG: print(richQuery)
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
             data = response.json()
@@ -160,7 +160,7 @@ class Llm():
         response = requests.post(self.url, headers=hdrs, json=data) 
         if response.status_code == 200:
             data = response.json()
-            print(data)
+            if DEBUG: print(data)
             text = data["choices"][0]["message"]["content"].strip()
             tokens = data["usage"]["total_tokens"]
             try:
@@ -322,7 +322,7 @@ class VectorDb():
             return None
 
 
-    def queryText(self,collection, condition):
+    def queryText(self,collection, condition, limit=3, fields=["*"]):
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}"

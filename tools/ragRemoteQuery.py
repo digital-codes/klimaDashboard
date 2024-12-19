@@ -53,6 +53,7 @@ def readSummary(id):
 if __name__ == "__main__":
     msgHistory = []
     query = input("\nEnter your query: ")
+    followUp = False
     while len(query) > 0:
         embedding = embedder.encode(query)
         searchVector = embedding["data"][0]["embedding"]
@@ -61,10 +62,11 @@ if __name__ == "__main__":
         files = [f["file"] for f in searchResult["data"]]
         if DEBUG: print(files)
         
-        context = ""
-        for f in files:
-            context = "".join([context,readSummary(f)])
-        if DEBUG: print(context)
+        if not followUp:
+            context = ""
+            for f in files:
+                context = "".join([context,readSummary(f)])
+            if DEBUG: print(context)
         answer ,tokens = llm.queryWithContext(context, query, msgHistory)
         print("Answer:", answer,files)
         if DEBUG: print("History",msgHistory)
@@ -72,6 +74,7 @@ if __name__ == "__main__":
         if len(msgHistory) > 8:
             msgHistory.pop(0)
             msgHistory.pop(0)
+        followUp = True
         query = input("\nEnter your query: ")
 
     
