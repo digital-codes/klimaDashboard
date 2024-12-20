@@ -7,7 +7,7 @@ import ragTextUtils as textUtils
 import ragDeployUtils as deployUtils
 
 
-DEBUG = False
+DEBUG = True
 
 # maybe basedir needed for source information
 basedir = '../docs/karlsruhe/ksk_extracted'
@@ -63,18 +63,21 @@ if __name__ == "__main__":
         if DEBUG: print(files)
         
         if not followUp:
+            followUp = True
             context = ""
             for f in files:
                 context = "".join([context,readSummary(f)])
             if DEBUG: print(context)
-        answer ,tokens = llm.queryWithContext(context, query, msgHistory)
-        print("Answer:", answer,files)
+        answer, tokens = llm.queryWithContext(context, query, msgHistory)
+        if answer == None:
+            print("No answer found")    
+        print("Answer:", answer, files)
         if DEBUG: print("History",msgHistory)
         if DEBUG: print("Len History",len(msgHistory))
         if len(msgHistory) > 8:
-            msgHistory.pop(0)
-            msgHistory.pop(0)
-        followUp = True
+            # keep 1 and 2, initial context and query
+            msgHistory.pop(2)
+            msgHistory.pop(2)
         query = input("\nEnter your query: ")
 
     
