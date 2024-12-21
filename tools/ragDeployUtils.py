@@ -41,6 +41,7 @@ class Llm:
         else:
             raise ValueError("Invalid provider")
 
+    @measure_execution_time
     def query(self, query, size = 100):
         hdrs = {
             "Content-Type": "application/json",
@@ -92,6 +93,7 @@ class Llm:
         else:
             return None
 
+    @measure_execution_time
     def translate(self, text, src="english"):
         hdrs = {
             "Content-Type": "application/json",
@@ -156,6 +158,7 @@ class Llm:
 
 # https://cloud.zilliz.com/orgs/org-vuubdaymoyjvtgcqjczdsp/projects/proj-11d29d1ea430702a07c431/clusters/in03-eb450554ac4fcc5/collections/ksk/playground?collection=ksk&type=QUERY_DATA
 class VectorDb:
+    """ make sure to check parameter names. rest api is different from python"""
     def __init__(self, provider: str = "zilliz"):
         self.api_key = pr.dbApiKey
         self.collection = pr.dbCollection
@@ -164,6 +167,7 @@ class VectorDb:
         self.url = f"https://{pr.dbCluster}.serverless.{pr.dbRegion}.cloud.zilliz.com"
         print(self.url)
 
+    @measure_execution_time
     def describeCollection(self, collection):
         hdrs = {
             "Content-Type": "application/json",
@@ -180,6 +184,7 @@ class VectorDb:
             print(response.status_code)
             return None
 
+    @measure_execution_time
     def indexCollection(self, collection, field):
         hdrs = {
             "Content-Type": "application/json",
@@ -206,6 +211,7 @@ class VectorDb:
             print(response.status_code)
             return None
 
+    @measure_execution_time
     def indexDescribeCollection(self, collection, field):
         hdrs = {
             "Content-Type": "application/json",
@@ -222,6 +228,7 @@ class VectorDb:
             print(response.status_code)
             return None
 
+    @measure_execution_time
     def indexListCollection(self, collection):
         hdrs = {
             "Content-Type": "application/json",
@@ -238,6 +245,7 @@ class VectorDb:
             print(response.status_code)
             return None
 
+    @measure_execution_time
     def statCollection(self, collection):
         hdrs = {
             "Content-Type": "application/json",
@@ -254,6 +262,7 @@ class VectorDb:
             print(response.status_code)
             return None
 
+    @measure_execution_time
     def upsertItem(self, collection, item):
         hdrs = {
             "Content-Type": "application/json",
@@ -270,7 +279,8 @@ class VectorDb:
             print(response.status_code)
             return None
 
-    def searchItem(self, collection, vectors, limit=3, fields=["*"]):
+    @measure_execution_time
+    def searchItem(self, collection, vectors, limit=3, fields=["*"], groupByFile=True):
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}",
@@ -283,6 +293,8 @@ class VectorDb:
             "limit": limit,
             "outputFields": fields,
         }
+        if groupByFile:
+            data["groupingField"] = "file"
         url = f"{self.url}/v2/vectordb/entities/search"
         response = requests.post(url, headers=hdrs, json=data)
         if response.status_code == 200:
@@ -291,6 +303,7 @@ class VectorDb:
             print(response.status_code)
             return None
 
+    @measure_execution_time
     def queryText(self, collection, condition, limit=3, fields=["*"]):
         hdrs = {
             "Content-Type": "application/json",

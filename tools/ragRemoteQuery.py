@@ -5,7 +5,7 @@ import pandas as pd
 
 import ragTextUtils as textUtils
 import ragDeployUtils as deployUtils
-from ragInstrumentation import measure_execution_time
+from ragInstrumentation import measure_execution_time, log_query
 
 
 DEBUG = False
@@ -42,14 +42,17 @@ summary = pd.read_json(summaryFile)
 
 
 @measure_execution_time
-def readSummary(id):
+def readSummary(id,title):
     item = summary.loc[summary["filename"]==id]
     if item.empty:
         print(f"Summary not found for   {id}")
         return None
-    return item["text"].values[0]
+    return f"{id.split('_extracted')[0]}:{title}\n{item['text'].values[0]}\n\n"
 
-
+@log_query
+def queryLlm(context, query, history):
+    answer, tokens = llm.queryWithContext(context, query, history)
+    return answer, tokens
 
 # Step 5: Run the RAG system
 if __name__ == "__main__":
@@ -61,16 +64,17 @@ if __name__ == "__main__":
         searchVector = embedding["data"][0]["embedding"]
         searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["title","file","meta"])
         if DEBUG: print(searchResult)
-        files = [f["file"] for f in searchResult["data"]]
+        files = [(f["file"],f["title"]) for f in searchResult["data"]]
         if DEBUG: print(files)
         
         if not followUp:
             followUp = True
             context = ""
             for f in files:
-                context = "".join([context,readSummary(f)])
+                context = "".join([context,readSummary(f[0],f[1])])
             if DEBUG: print(context)
-        answer, tokens = llm.queryWithContext(context, query, msgHistory)
+        # answer, tokens = llm.queryWithContext(context, query, msgHistory)
+        answer, tokens = queryLlm(context, query, msgHistory)
         if answer == None:
             print("No answer found")    
         print("Answer:", answer, files)
