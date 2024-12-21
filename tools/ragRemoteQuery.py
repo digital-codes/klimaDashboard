@@ -5,9 +5,10 @@ import pandas as pd
 
 import ragTextUtils as textUtils
 import ragDeployUtils as deployUtils
+from ragInstrumentation import measure_execution_time
 
 
-DEBUG = True
+DEBUG = False
 
 # maybe basedir needed for source information
 basedir = '../docs/karlsruhe/ksk_extracted'
@@ -40,6 +41,7 @@ embedder = deployUtils.Embedder()
 summary = pd.read_json(summaryFile)
 
 
+@measure_execution_time
 def readSummary(id):
     item = summary.loc[summary["filename"]==id]
     if item.empty:

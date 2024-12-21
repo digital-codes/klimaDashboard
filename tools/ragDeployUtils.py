@@ -1,10 +1,11 @@
 import os
 import sys
 import requests
+from ragInstrumentation import measure_execution_time
 
 import private_remote as pr
 
-DEBUG = True
+DEBUG = False
 
 
 class Embedder:
@@ -16,6 +17,7 @@ class Embedder:
         else:
             raise ValueError("Invalid provider")
 
+    @measure_execution_time
     def encode(self, input):
         hdrs = {
             "Content-Type": "application/json",
@@ -63,6 +65,7 @@ class Llm:
         else:
             return None
 
+    @measure_execution_time
     def summarize(self, text, size=500):
         hdrs = {
             "Content-Type": "application/json",
@@ -114,7 +117,8 @@ class Llm:
             return text, tokens
         else:
             return None
-
+    
+    @measure_execution_time
     def queryWithContext(self, context, query, msgHistory=[], size=100):
         hdrs = {
             "Content-Type": "application/json",

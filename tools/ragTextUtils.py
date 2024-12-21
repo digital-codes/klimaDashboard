@@ -2,6 +2,7 @@ import os
 import sys
 import re
 import nltk
+from ragInstrumentation import measure_execution_time
 
 DEBUG = False
 
@@ -13,6 +14,7 @@ class PreProcessor():
             raise ValueError("Invalid language")
         self.lang = lang
 
+    @measure_execution_time
     def clean(self, text):
         # Remove special characters
         text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces, tabs, and newlines with a single space
@@ -31,6 +33,7 @@ class PreProcessor():
         return "".join(sents), wordcount, sents
 
 
+    @measure_execution_time
     def chunk(self, text, size=200):
         """
         Split the text into smaller chunks of a fixed size with an overlap.
