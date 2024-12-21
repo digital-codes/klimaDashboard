@@ -80,7 +80,7 @@ if __name__ == "__main__":
             print("No answer found")    
         print("Answer:", answer,files)
         if DEBUG: print("History",msgHistory)
-        if DEBUG: print("Len History",len(msgHistory))
+        print("Len History",len(msgHistory))
         if len(msgHistory) > 8:
             # keep 1 and 2, initial context and query
             msgHistory.pop(2)
