@@ -49,10 +49,22 @@ def readSummary(id,title):
         return None
     return f"{id.split('_extracted')[0]}:{title}\n{item['text'].values[0]}\n\n"
 
+
+
 @log_query
 def queryLlm(context, query, history,size=200):
     answer, tokens = llm.queryWithContext(context, query, history,size)
     return answer, tokens
+
+@log_query
+def initQuery(context, query, size=200):
+    answer, tokens, msgs  = llm.initChat(context, query, size)
+    return answer, tokens, msgs
+
+@log_query
+def followQuery(query, history, size=200):
+    answer, tokens, msgs  = llm.followChat(query, history, size)
+    return answer, tokens, msgs
 
 # Step 5: Run the RAG system
 if __name__ == "__main__":
@@ -60,22 +72,25 @@ if __name__ == "__main__":
     query = input("\nEnter your query: ")
     followUp = False
     while len(query) > 0:
-        embedding = embedder.encode(query)
-        searchVector = embedding["data"][0]["embedding"]
-        searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["itemId","title","file","meta","text"])
-        if DEBUG: print(searchResult)
-        files = [f["file"] for f in searchResult["data"]]
-        results = [(f["itemId"],f["title"],f["text"]) for f in searchResult["data"]]
-        if DEBUG: print(results)
-        
         if not followUp:
             followUp = True
+            embedding = embedder.encode(query)
+            searchVector = embedding["data"][0]["embedding"]
+            searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["itemId","title","file","meta","text"])
+            if DEBUG: print(searchResult)
+            files = [f["file"] for f in searchResult["data"]]
+            results = [(f["itemId"],f["title"],f["text"]) for f in searchResult["data"]]
+            if DEBUG: print(files)
             context = ""
             for r in results:
                 context = "\n".join([f"{r[0].split("_chunk")[0]}:{r[1]}",r[2],context])
             if DEBUG: print(context)
-        # answer, tokens = llm.queryWithContext(context, query, msgHistory)
-        answer, tokens = queryLlm(context, query, msgHistory)
+            answer, tokens, msgs = initQuery(context, query)
+        else:
+            # add assistant answer to msgs
+            msgs.append({"role":"assistant","content":answer})
+            answer, tokens, msgs = followQuery(query,msgs)
+            
         if answer == None:
             print("No answer found")    
         print("Answer:", answer,files)

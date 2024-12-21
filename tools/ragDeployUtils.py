@@ -155,6 +155,87 @@ class Llm:
             print("LLM failed:",response.status_code)
             return None, None
 
+    @measure_execution_time
+    def initChat(self, context, query, size=100):
+        hdrs = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
+        msgs = []
+        msgs.append({
+            "role": "system", 
+            "content": """
+                You are an expert assistant designed to provide detailed and accurate responses 
+                based on user queries and retrieved context. 
+                If the retrieved context is insufficient or ambiguous, 
+                ask for clarification or provide a logical extrapolation."
+            """
+                })
+        msgs.append({
+            "role": "system", 
+            "content": f"""
+                Context in {self.lang}:\n
+                {context}
+                """
+                })
+        msgs.append({
+            "role": "user", 
+            "content": f"""
+                The {self.lang} question is:
+                {query}
+                Respond in {self.lang} language. Limit your response to {size} {self.lang} words.
+                """
+                })
+                
+        data = {
+            "model": self.model,
+            "messages": msgs,  # msgHistory,
+            "temperature": 0.4,
+        }
+        response = requests.post(self.url, headers=hdrs, json=data)
+        if response.status_code == 200:
+            data = response.json()
+            if DEBUG:
+                print(data)
+            text = data["choices"][0]["message"]["content"].strip()
+            tokens = data["usage"]["total_tokens"]
+            return text, tokens, msgs
+        else:
+            print("LLM failed:",response.status_code)
+            return None, None, None
+
+    @measure_execution_time
+    def followChat(self, query, msgHistory=[], size=100):
+        hdrs = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
+        msgHistory.append({
+            "role": "user", 
+            "content": f"""
+                The {self.lang} question is:
+                {query}
+                Respond in {self.lang} language. Limit your response to {size} {self.lang} words.
+                """
+            })
+        data = {
+            "model": self.model,
+            "messages": msgHistory,  # msgHistory,
+            "temperature": 0.4,
+        }
+        response = requests.post(self.url, headers=hdrs, json=data)
+        if response.status_code == 200:
+            data = response.json()
+            if DEBUG:
+                print(data)
+            text = data["choices"][0]["message"]["content"].strip()
+            tokens = data["usage"]["total_tokens"]
+            return text, tokens, msgHistory
+        else:
+            print("LLM failed:",response.status_code)
+            return None, None, None
+
+
 
 # https://cloud.zilliz.com/orgs/org-vuubdaymoyjvtgcqjczdsp/projects/proj-11d29d1ea430702a07c431/clusters/in03-eb450554ac4fcc5/collections/ksk/playground?collection=ksk&type=QUERY_DATA
 class VectorDb:
