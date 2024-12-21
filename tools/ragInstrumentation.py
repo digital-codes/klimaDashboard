@@ -67,8 +67,7 @@ def log_query(func):
             logfile.write(f"  Params: {a}\n")
         if DEBUG: 
             print(fn)
-            print(f"  ")
-            print(f"{fn},  Params: {a},Result: {result}")
+            #print(f"{fn},  Params: {a},Result: {result}")
         return result
     return wrapper
 
