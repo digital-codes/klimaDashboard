@@ -213,9 +213,12 @@ class Llm:
         msgHistory.append({
             "role": "user", 
             "content": f"""
-                The {self.lang} question is:
+                The {self.lang} question is:\n
                 {query}
-                Respond in {self.lang} language. Limit your response to {size} {self.lang} words.
+                
+                Respond in {self.lang} language. Limit your response to {size} {self.lang} words. 
+                Verify the question is related to the context provided. 
+                Do not offer assistance if the question is unrelated.
                 """
             })
         data = {

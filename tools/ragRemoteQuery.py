@@ -73,15 +73,19 @@ if __name__ == "__main__":
     followUp = False
     while len(query) > 0:
         if not followUp:
-            followUp = True
             embedding = embedder.encode(query)
             searchVector = embedding["data"][0]["embedding"]
             searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["itemId","title","file","meta","text"])
             if DEBUG: print(searchResult)
             files = [f["file"] for f in searchResult["data"]]
-            results = [(f["itemId"],f["title"],f["text"]) for f in searchResult["data"]]
+            results = [(f["itemId"], f["title"], f["text"]) for f in searchResult["data"] if f["distance"] >= .35]
             if DEBUG: print(files)
+            if len(results) == 0:
+                print("No relevant documents found")
+                query = input("\nEnter your query: ")
+                continue
             context = ""
+            followUp = True
             for r in results:
                 context = "\n".join([f"{r[0].split("_chunk")[0]}:{r[1]}",r[2],context])
             if DEBUG: print(context)
