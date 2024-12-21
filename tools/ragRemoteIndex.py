@@ -49,29 +49,28 @@ if __name__ == "__main__":
     for item in summary.itertuples(index=False):
         meta = json.loads(item.meta)
         text = item.text
+        filename = item.filename
         chunks = preprocessor.chunk(text)
         for i, chunk in enumerate(chunks):
             # create item
             itemId = f"{meta['area']}_{meta['bundle']}_{meta['topic']}_chunk_{i}"
-            if DEBUG: print(itemId)
+            itemCode = (ord(meta['area']) << 16 ) | (int(meta['bundle']) << 8) | (int(meta['topic']))
+            if DEBUG: print(itemId,itemCode)
             embedding = embedder.encode(chunk)
             vectors = embedding["data"][0]["embedding"]
             if DEBUG: print(itemId,embedding["usage"],vectors)
             dbitem = { 
-                "primary_key": itemId, 
+                "itemId": itemId, 
                 "vector": vectors,
-                "chunk": i,
-                "area": ord(meta['area']),
-                "bundle": int(meta['bundle']),
-                "topic": int(meta['topic']),
+                "file": filename,
                 "title": meta['title'],
-                "text": chunk,
-                "file": meta['filename'],
+                "text": text, # full text
+                "itemCode": itemCode,
                 "meta": json.dumps(meta)
               }
             if DEBUG: print("Item:",dbitem)
             try:
-                print(item.filename)
+                print(filename)
                 result = dbClient.upsertItem(dbCollection,dbitem)
                 if DEBUG: print(result)
             except :

@@ -50,8 +50,8 @@ def readSummary(id,title):
     return f"{id.split('_extracted')[0]}:{title}\n{item['text'].values[0]}\n\n"
 
 @log_query
-def queryLlm(context, query, history):
-    answer, tokens = llm.queryWithContext(context, query, history)
+def queryLlm(context, query, history,size=200):
+    answer, tokens = llm.queryWithContext(context, query, history,size)
     return answer, tokens
 
 # Step 5: Run the RAG system
@@ -62,22 +62,23 @@ if __name__ == "__main__":
     while len(query) > 0:
         embedding = embedder.encode(query)
         searchVector = embedding["data"][0]["embedding"]
-        searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["title","file","meta"])
+        searchResult = dbClient.searchItem(dbCollection, searchVector, limit=5, fields=["itemId","title","file","meta","text"])
         if DEBUG: print(searchResult)
-        files = [(f["file"],f["title"]) for f in searchResult["data"]]
-        if DEBUG: print(files)
+        files = [f["file"] for f in searchResult["data"]]
+        results = [(f["itemId"],f["title"],f["text"]) for f in searchResult["data"]]
+        if DEBUG: print(results)
         
         if not followUp:
             followUp = True
             context = ""
-            for f in files:
-                context = "".join([context,readSummary(f[0],f[1])])
+            for r in results:
+                context = "\n".join([f"{r[0].split("_chunk")[0]}:{r[1]}",r[2],context])
             if DEBUG: print(context)
         # answer, tokens = llm.queryWithContext(context, query, msgHistory)
         answer, tokens = queryLlm(context, query, msgHistory)
         if answer == None:
             print("No answer found")    
-        print("Answer:", answer, files)
+        print("Answer:", answer,files)
         if DEBUG: print("History",msgHistory)
         if DEBUG: print("Len History",len(msgHistory))
         if len(msgHistory) > 8:

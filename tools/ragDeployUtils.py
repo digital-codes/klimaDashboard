@@ -281,6 +281,19 @@ class VectorDb:
 
     @measure_execution_time
     def searchItem(self, collection, vectors, limit=3, fields=["*"], groupByFile=True):
+        """_summary_
+
+        Args:
+            collection (_type_): _description_
+            vectors (_type_): _description_
+            limit (int, optional): _description_. Defaults to 3.
+            fields (list, optional): _description_. Defaults to ["*"].
+            groupByFile (bool, optional): _description_. Defaults to True.
+            L2      Smaller L2 distances indicate higher similarity.
+            IP      Larger IP distances indicate higher similarity.
+            COSINE  Larger cosine value indicates higher similarity.
+        """
+
         hdrs = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}",
@@ -294,11 +307,13 @@ class VectorDb:
             "outputFields": fields,
         }
         if groupByFile:
-            data["groupingField"] = "file"
+            data["groupingField"] = "itemCode"
         url = f"{self.url}/v2/vectordb/entities/search"
         response = requests.post(url, headers=hdrs, json=data)
         if response.status_code == 200:
-            return response.json()
+            if response.json()["code"] == 0:
+                return response.json()
+            raise ValueError(response.json())
         else:
             print(response.status_code)
             return None
