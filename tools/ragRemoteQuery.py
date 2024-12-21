@@ -93,13 +93,9 @@ if __name__ == "__main__":
             
         if answer == None:
             print("No answer found")    
-        print("Answer:", answer,files)
-        if DEBUG: print("History",msgHistory)
-        print("Len History",len(msgHistory))
-        if len(msgHistory) > 8:
-            # keep 1 and 2, initial context and query
-            msgHistory.pop(2)
-            msgHistory.pop(2)
+        print("Answer:", answer,tokens, files)
+        if DEBUG: print("History",msgs)
+        print("Len History",len(msgs))
         query = input("\nEnter your query: ")
 
     
