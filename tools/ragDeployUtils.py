@@ -103,7 +103,7 @@ class Llm:
         You are an intelligent assistant.
         Translate the following {src} text into {self.lang}:
         {text}
-        Respond in {self.lang} language.
+        Respond in {self.lang} language, translation only, no comments. Do not add any leading or trailing comments on translation process.
         """
         data = {
             "model": self.model,
