@@ -10,10 +10,18 @@ from ragInstrumentation import measure_execution_time, log_query
 
 DEBUG = False
 
+if len(sys.argv) > 1:
+    lang = sys.argv[1]
+else:
+    lang = "de"
+
+
 # maybe basedir needed for source information
 basedir = '../docs/karlsruhe/ksk_extracted'
-dbCollection = "ksk" # kskSum using summary, ksk using raw content
-summaryFile = dbCollection + "_summary.json"
+if lang == "de":
+    dbCollection = "ksk" # kskSum using summary, ksk using raw content
+elif lang == "en":
+    dbCollection = "ksk_en"
 
 dbClient = deployUtils.VectorDb()
 # items to retrieve on search 
@@ -35,20 +43,12 @@ except Exception as e:
 preprocessor = textUtils.PreProcessor()
 
 # get models
-llm = deployUtils.Llm()
+if lang == "de":
+    llm = deployUtils.Llm(lang="german")
+elif lang == "en":
+    llm = deployUtils.Llm(lang="english")
+
 embedder = deployUtils.Embedder()
-
-summary = pd.read_json(summaryFile)
-
-
-@measure_execution_time
-def readSummary(id,title):
-    item = summary.loc[summary["filename"]==id]
-    if item.empty:
-        print(f"Summary not found for   {id}")
-        return None
-    return f"{id.split('_extracted')[0]}:{title}\n{item['text'].values[0]}\n\n"
-
 
 
 @log_query

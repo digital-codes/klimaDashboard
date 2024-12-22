@@ -184,6 +184,7 @@ class Llm:
                 The {self.lang} question is:
                 {query}
                 Respond in {self.lang} language. Limit your response to {size} {self.lang} words.
+                Offer assistance for follow-up question.
                 """
                 })
                 
@@ -217,7 +218,7 @@ class Llm:
                 {query}
                 
                 Respond in {self.lang} language. Limit your response to {size} {self.lang} words. 
-                Verify the question is related to the context provided. 
+                Silently verify the question is related to the context provided. 
                 Do not offer assistance if the question is unrelated.
                 """
             })
