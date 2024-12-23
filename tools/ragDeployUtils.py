@@ -41,6 +41,16 @@ class Llm:
         else:
             raise ValueError("Invalid provider")
 
+    @staticmethod
+    def getDefaultModel():
+        return pr.lngMdl
+
+    def getModel(self):
+        return self.model
+    
+    def setModel(self, model):
+        self.model = model
+
     @measure_execution_time
     def query(self, query, size = 100):
         hdrs = {
