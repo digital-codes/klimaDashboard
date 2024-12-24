@@ -16,7 +16,7 @@ config = {
     # maybe basedir needed for source information
     "basedir":'../docs/karlsruhe/ksk_extracted',
     "lang": "de",
-    "dbCollection": "ksk" , # dbCollection = "ksk_en"
+    "dbCollection": "ksk_de" , # dbCollection = "ksk_en"
     "dbItems" : 5,
     "dbClient" : None,
     "preprocessor" : None,
@@ -32,12 +32,7 @@ def initialize():
     # models
     config["embedder"] = deployUtils.Embedder()
     # llm
-    if config["lang"] == "de":
-        config["llm"] = deployUtils.Llm(lang="german")
-    elif config["lang"] == "en":
-        config["llm"] = deployUtils.Llm(lang="english")
-    else:
-        raise ValueError("Language not supported")
+    config["llm"] = deployUtils.Llm(lang=config["lang"])
 
 
 def checkDb():
@@ -78,7 +73,7 @@ if __name__ == "__main__":
     print(args.count, args.lang) 
 
     config["lang"] = args.lang
-    config["dbCollection"] = f"ksk_{args.lang}" if args.lang in ["en"] else "ksk"
+    config["dbCollection"] = f"ksk_{args.lang}"
     config["dbItems"] = int(args.count)
     if DEBUG: print(config)
     initialize()

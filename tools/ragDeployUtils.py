@@ -32,12 +32,12 @@ class Embedder:
 
 
 class Llm:
-    def __init__(self, provider: str = "deepinfra", lang="german"):
+    def __init__(self, provider: str = "deepinfra", lang="de"):
         if provider == "deepinfra":
             self.api_key = pr.mdlApiKey
             self.model = pr.lngMdl
             self.url = "https://api.deepinfra.com/v1/openai/chat/completions"
-            self.lang = lang
+            self.lang = "german" if lang == "de" else "english"
         else:
             raise ValueError("Invalid provider")
 
