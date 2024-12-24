@@ -1,3 +1,25 @@
+"""This script provides tools for querying a remote database using a Retrieval-Augmented Generation (RAG) system. 
+It includes functions for initializing the system, checking the database, and querying a language model (LLM).
+Modules:
+    - json
+    - os
+    - sys
+    - pandas as pd
+    - argparse
+    - ragTextUtils as textUtils
+    - ragDeployUtils as deployUtils
+    - measure_execution_time, log_query from ragInstrumentation
+Functions:
+    - initialize(): Initializes the configuration for the application, setting up the database client, preprocessor, embedder, and language model.
+    - checkDb(): Checks if the specified database collection exists and is accessible.
+    - queryLlm(context, query, history, size=200): Queries the language model (LLM) with the given context, query, and history.
+    - initQuery(context, query, size=200): Initializes a query using the provided context and query parameters.
+    - followQuery(query, history, size=200): Executes a follow-up query using the provided LLM configuration.
+Main Execution:
+    - Parses command-line arguments for items, language, and collection.
+    - Initializes the configuration and database.
+    - Continuously prompts the user for queries, processes them, and prints the answers.
+"""
 import json
 import os
 import sys
@@ -25,6 +47,17 @@ config = {
 }
 
 def initialize():
+    """
+    Initializes the configuration for the application.
+
+    This function sets up the following components:
+    - Database client using `deployUtils.VectorDb()`.
+    - Preprocessor for text processing using `textUtils.PreProcessor` with the specified language.
+    - Embedder model using `deployUtils.Embedder()`.
+    - Language model (LLM) using `deployUtils.Llm` with the specified language.
+
+    The function also calls `checkDb()` to ensure the database is properly set up.
+    """
     config["dbClient"] = deployUtils.VectorDb()
     checkDb()
     # text stuff
@@ -36,6 +69,19 @@ def initialize():
 
 
 def checkDb():
+    """
+    Checks if the specified database collection exists and is accessible.
+
+    This function attempts to describe the collection specified in the configuration.
+    If the collection does not exist or an error occurs, it raises a ValueError.
+
+    Raises:
+        ValueError: If the collection does not exist or an error occurs during the check.
+
+    Prints:
+        Collection details if DEBUG is enabled.
+        Error message if the collection check fails.
+    """
     # check collection exists
     try:
         collection = config["dbClient"].describeCollection(config["dbCollection"])
@@ -51,30 +97,66 @@ def checkDb():
 
 @log_query
 def queryLlm(context, query, history,size=200):
+    def queryLlm(context, query, history, size=200):
+        """
+        Queries the language model (LLM) with the given context, query, and history.
+
+        Args:
+            context (str): The context to provide to the LLM.
+            query (str): The query to ask the LLM.
+            history (list): The history of previous interactions with the LLM.
+            size (int, optional): The maximum number of tokens for the response. Defaults to 200.
+
+        Returns:
+            tuple: A tuple containing the answer from the LLM and the number of tokens used.
+        """
     answer, tokens = config["llm"].queryWithContext(context, query, history,size)
     return answer, tokens
 
 @log_query
 def initQuery(context, query, size=200):
+    """
+    Initializes a query using the provided context and query parameters.
+
+    Args:
+        context (str): The context in which the query is being made.
+        query (str): The query string to be processed.
+        size (int, optional): The size parameter for the query. Defaults to 200.
+
+    Returns:
+        tuple: A tuple containing the answer, tokens, and messages from the query.
+    """
     answer, tokens, msgs  = config["llm"].initChat(context, query, size)
     return answer, tokens, msgs
 
 @log_query
 def followQuery(query, history, size=200):
+    """
+    Executes a follow-up query using the provided LLM configuration.
+
+    Args:
+        query (str): The query string to be followed.
+        history (list): The history of previous interactions or messages.
+        size (int, optional): The size parameter for the LLM follow-up chat. Defaults to 200.
+
+    Returns:
+        tuple: A tuple containing the answer, tokens, and messages from the LLM follow-up chat.
+    """
     answer, tokens, msgs  = config["llm"].followChat(query, history, size)
     return answer, tokens, msgs
 
 # Step 5: Run the RAG system
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--count', default = 5)      # option that takes a value
+    parser.add_argument('-i', '--items', default = 5)      # option that takes a value
     parser.add_argument('-l', '--lang',default = "de")      # option that takes a value
+    parser.add_argument('-c', '--collection',default = "ksk")      # option that takes a value
     args = parser.parse_args()
-    print(args.count, args.lang) 
+    print(args.items, args.lang, args.collection) 
 
     config["lang"] = args.lang
-    config["dbCollection"] = f"ksk_{args.lang}"
-    config["dbItems"] = int(args.count)
+    config["dbCollection"] = f"{args.collection}_{args.lang}"
+    config["dbItems"] = int(args.items)
     if DEBUG: print(config)
     initialize()
     
