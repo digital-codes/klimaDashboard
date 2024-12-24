@@ -7,12 +7,12 @@ from ragInstrumentation import measure_execution_time
 DEBUG = False
 
 class PreProcessor():
-    def __init__(self,lang="german"):
+    def __init__(self,lang="de"):
         nltk.download('punkt_tab')
         #nltk.download('words')
-        if lang not in ["german","english"]:
+        if lang not in ["de","en"]:
             raise ValueError("Invalid language")
-        self.lang = lang
+        self.lang = "german" if lang == "de" else "english"
 
     @measure_execution_time
     def clean(self, text):

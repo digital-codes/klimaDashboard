@@ -28,7 +28,7 @@ def initialize():
     config["dbClient"] = deployUtils.VectorDb()
     checkDb()
     # text stuff
-    config["preprocessor"] = textUtils.PreProcessor()
+    config["preprocessor"] = textUtils.PreProcessor(config["lang"])
     # models
     config["embedder"] = deployUtils.Embedder()
     # llm
@@ -78,8 +78,9 @@ if __name__ == "__main__":
     print(args.count, args.lang) 
 
     config["lang"] = args.lang
+    config["dbCollection"] = f"ksk_{args.lang}" if args.lang in ["en"] else "ksk"
     config["dbItems"] = int(args.count)
-    
+    if DEBUG: print(config)
     initialize()
     
     msgHistory = []
