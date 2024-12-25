@@ -11,9 +11,9 @@ DEBUG = False
 class Embedder:
     def __init__(self, provider: str = "deepinfra"):
         if provider == "deepinfra":
-            self.api_key = pr.mdlApiKey
-            self.model = pr.embMdl
-            self.url = "https://api.deepinfra.com/v1/openai/embeddings"
+            self.api_key = pr.deepInfra["apiKey"]
+            self.model = pr.deepInfra["embMdl"]
+            self.url = pr.deepInfra["embUrl"]
         else:
             raise ValueError("Invalid provider")
 
@@ -34,16 +34,17 @@ class Embedder:
 class Llm:
     def __init__(self, provider: str = "deepinfra", lang="de"):
         if provider == "deepinfra":
-            self.api_key = pr.mdlApiKey
-            self.model = pr.lngMdl
-            self.url = "https://api.deepinfra.com/v1/openai/chat/completions"
-            self.lang = "german" if lang == "de" else "english"
+            self.api_key = pr.deepInfra["apiKey"]
+            self.model = pr.deepInfra["lngMdl"]
+            self.url = pr.deepInfra["lngUrl"]
+        elif provider == "openai":
+            self.api_key = pr.openAi["apiKey"]
+            self.model = pr.openAi["lngMdl"]
+            self.url = pr.openAi["lngUrl"]
         else:
             raise ValueError("Invalid provider")
-
-    @staticmethod
-    def getDefaultModel():
-        return pr.lngMdl
+        self.lang = "german" if lang == "de" else "english"
+        self.provider = provider
 
     def getModel(self):
         return self.model
@@ -254,12 +255,15 @@ class Llm:
 # https://cloud.zilliz.com/orgs/org-vuubdaymoyjvtgcqjczdsp/projects/proj-11d29d1ea430702a07c431/clusters/in03-eb450554ac4fcc5/collections/ksk/playground?collection=ksk&type=QUERY_DATA
 class VectorDb:
     """ make sure to check parameter names. rest api is different from python"""
-    def __init__(self, provider: str = "zilliz"):
-        self.api_key = pr.dbApiKey
-        self.collection = pr.dbCollection
-        # like
-        # https://in03-eb450554ac4fcc5.serverless.gcp-us-west1.cloud.zilliz.com
-        self.url = f"https://{pr.dbCluster}.serverless.{pr.dbRegion}.cloud.zilliz.com"
+    def __init__(self, provider: str = "zilliz", lang = "de", collection="ksk"):
+        if provider == "zilliz":
+            self.api_key = pr.zilliz["apiKey"]
+            self.lang = "german" if lang == "de" else "english"
+            self.collection = f'{collection}_{lang}'
+            self.url = f'https://{pr.zilliz["cluster"]}.serverless.{pr.zilliz["region"]}.cloud.zilliz.com'
+        else:
+            raise ValueError("Invalid provider")
+
         print(self.url)
 
     @measure_execution_time

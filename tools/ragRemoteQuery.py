@@ -43,7 +43,10 @@ config = {
     "dbClient" : None,
     "preprocessor" : None,
     "embedder" : None,
-    "llm" : None
+    "llm" : None,
+    "embProvider":None,
+    "llmProvider":None,
+    "dbProvider":"zilliz"
 }
 
 def initialize():
@@ -58,14 +61,14 @@ def initialize():
 
     The function also calls `checkDb()` to ensure the database is properly set up.
     """
-    config["dbClient"] = deployUtils.VectorDb()
+    config["dbClient"] = deployUtils.VectorDb(provider=config["dbProvider"])
     checkDb()
     # text stuff
     config["preprocessor"] = textUtils.PreProcessor(config["lang"])
     # models
-    config["embedder"] = deployUtils.Embedder()
+    config["embedder"] = deployUtils.Embedder(provider=config["embProvider"])
     # llm
-    config["llm"] = deployUtils.Llm(lang=config["lang"])
+    config["llm"] = deployUtils.Llm(lang=config["lang"],provider=config["llmProvider"])
 
 
 def checkDb():
@@ -151,15 +154,19 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--items', default = 5)      # option that takes a value
     parser.add_argument('-l', '--lang',default = "de")      # option that takes a value
     parser.add_argument('-c', '--collection',default = "ksk")      # option that takes a value
+    parser.add_argument('-e', '--embProvider',default = "deepinfra")      # option that takes a value
+    parser.add_argument('-m', '--llmProvider',default = "deepinfra")      # option that takes a value
     args = parser.parse_args()
     print(args.items, args.lang, args.collection) 
 
     config["lang"] = args.lang
     config["dbCollection"] = f"{args.collection}_{args.lang}"
     config["dbItems"] = int(args.items)
+    config["embProvider"] = args.embProvider
+    config["llmProvider"] = args.llmProvider
     if DEBUG: print(config)
     initialize()
-    
+    print(config["llm"].getModel())
     msgHistory = []
     query = input("\nEnter your query: ")
     followUp = False
