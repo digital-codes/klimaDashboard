@@ -19,9 +19,9 @@
     "copy:calcite": "cpx ./node_modules/@esri/calcite-components/dist/calcite/assets/**/*.* ./public/esri"
   },
   "dependencies": {
-    "@arcgis/coding-components": "^4.31.6",
-    "@arcgis/core": "^4.31.6",
-    "@arcgis/map-components": "^4.31.6",
+    "@arcgis/coding-components": "^4.32.11",
+    "@arcgis/core": "^4.32.7",
+    "@arcgis/map-components": "^4.32.11",
     "@fontsource/noto-color-emoji": "^5.2.5",
     "@fontsource/noto-sans": "^5.2.5",
     "@fontsource/roboto": "^5.2.5",
