@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
 
-export const useConfigStore = defineStore({
-    id: 'config',
+// update for pinia 3. store name is now a string
+// https://pinia.vuejs.org/cookbook/migration-v2-v3.html
+
+export const useConfigStore = defineStore('config', {
     state: () => ({
         locale: 'de', // default locale
         languages: [], // supported languages
