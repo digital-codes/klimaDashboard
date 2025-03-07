@@ -38,7 +38,7 @@
     "vue": "^3.5.12",
     "vue-chartjs": "^5.3.1",
     "vue-echarts": "^7.0.3",
-    "vue-i18n": "^10.0.4",
+    "vue-i18n": "^11.1.2",
     "vue-router": "^4.4.5",
     "vuestic-ui": "^1.10.3"
   },
@@ -50,14 +50,14 @@
     "cpx2": "^8.0.0",
     "cypress": "^13.16.1",
     "cypress-axe": "^1.5.0",
-    "isomorphic-dompurify": "^2.16.0",
-    "jsdom": "^25.0.1",
-    "marked": "^14.1.3",
-    "sass": "^1.80.3",
-    "sass-migrator": "^2.2.0",
-    "vite": "^6.2.0",
+    "isomorphic-dompurify": "^2.22.0",
+    "jsdom": "^26.0.0",
+    "marked": "^15.0.7",
+    "sass": "^1.85.1",
+    "sass-migrator": "^2.3.1",
+    "vite": "^6.2.1",
     "vite-plugin-sitemap": "^0.7.1",
-    "vitest": "^3.0.7",
-    "vue-axe": "^3.1.2"
+    "vitest": "^3.0.8",
+    "vue-axe": "^2.4.4"
   }
 }
