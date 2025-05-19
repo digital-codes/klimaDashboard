@@ -58,8 +58,10 @@ const props = defineProps({
   // optional columns to be selected
   dataProps: {
     type: Object,
-    default: { "name": "name", "url": "url", "date":"date",
-      "attribution": "attribution", "description": "description" },
+    default: {
+      "name": "name", "url": "url", "date": "date",
+      "attribution": "attribution", "description": "description"
+    },
   },
   locale: {
     type: String,
@@ -73,6 +75,7 @@ const theMap = ref(null);
 const Lref = ref(null);
 const tileLayer = ref(null);
 const geoLayer = ref(null);
+
 
 // coordinate conversion
 import proj4 from "proj4";
@@ -122,6 +125,18 @@ const geojsonDataExample = {
 
 
 const geojsonData = ref(null);
+
+const useOverlay = true
+
+const overlyAdjust = {
+  "centerLat": 49.0048,
+  "centerLon": 8.4025,
+  "sizeX": 0.19,
+  "sizeY": 0.07,
+  "imageUrl": "/data/karlsruhe/useum-map.jpg",
+  "opacity": 0.60,
+}
+
 
 
 const tileSource = [
@@ -243,46 +258,63 @@ const loadData = async () => {
   })
   geoLayer.value.addTo(mapInstance.value);
   emit("data", { content: geojsonData.value, id: theMap.value, L: Lref.value, map: mapInstance.value });
-};
 
-
-onMounted(async () => {
-  console.log("Map mounted")
-  console.log("Props", props);
-  if (!mapInstance.value) {
-    Lref.value = L;
-    // Fix Leaflet's default icon paths
-    delete Lref.value.Icon.Default.prototype._getIconUrl;
-
-    Lref.value.Icon.Default.mergeOptions({
-      iconRetinaUrl: markerIcon2x,
-      iconUrl: markerIcon,
-      shadowUrl: markerShadow,
-    });
-
-    mapInstance.value = Lref.value.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
-  }
-
-  tileLayer.value = Lref.value.tileLayer(
-    tileSource[tileIdx].url,
-    {
-      maxZoom: 19,
-      attribution: tileSource[tileIdx].attr,
+  if (useOverlay) {
+    console.log("Using overlay")
+    const centerLat = overlyAdjust.centerLat
+    const centerLon = overlyAdjust.centerLon
+    const sizeX = overlyAdjust.sizeX
+    const sizeY = overlyAdjust.sizeY
+    const imageUrl = overlyAdjust.imageUrl
+    const bounds = [
+      [centerLat - sizeY / 2, centerLon - sizeX / 2],
+      [centerLat + sizeY / 2, centerLon + sizeX / 2]
+    ]
+    let overlay = L.imageOverlay(imageUrl, bounds, {
+      opacity: overlyAdjust.opacity,
+      zIndex: 2,
+    }).addTo(mapInstance.value);
     }
-  )
-  tileLayer.value.addTo(mapInstance.value);
-  // load geojson ...
-  await loadData()
-});
+  };
 
-onUnmounted(async () => {
-  console.log("Map unmounted");
-  await geoLayer.value.clearLayers();
-  await tileLayer.value.removeFrom(mapInstance.value)
-  await geoLayer.value.removeFrom(mapInstance.value)
-  // await mapInstance.value.remove();
-  mapInstance.value = null;
-});
+
+  onMounted(async () => {
+    console.log("Map mounted")
+    console.log("Props", props);
+    if (!mapInstance.value) {
+      Lref.value = L;
+      // Fix Leaflet's default icon paths
+      delete Lref.value.Icon.Default.prototype._getIconUrl;
+
+      Lref.value.Icon.Default.mergeOptions({
+        iconRetinaUrl: markerIcon2x,
+        iconUrl: markerIcon,
+        shadowUrl: markerShadow,
+      });
+
+      mapInstance.value = Lref.value.map(theMap.value).setView([49.0069, 8.4037], 13); // Karlsruhe coordinates
+    }
+
+    tileLayer.value = Lref.value.tileLayer(
+      tileSource[tileIdx].url,
+      {
+        maxZoom: 19,
+        attribution: tileSource[tileIdx].attr,
+      }
+    )
+    tileLayer.value.addTo(mapInstance.value);
+    // load geojson ...
+    await loadData()
+  });
+
+  onUnmounted(async () => {
+    console.log("Map unmounted");
+    await geoLayer.value.clearLayers();
+    await tileLayer.value.removeFrom(mapInstance.value)
+    await geoLayer.value.removeFrom(mapInstance.value)
+    // await mapInstance.value.remove();
+    mapInstance.value = null;
+  });
 
 
 
