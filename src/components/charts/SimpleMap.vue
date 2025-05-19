@@ -58,7 +58,8 @@ const props = defineProps({
   // optional columns to be selected
   dataProps: {
     type: Object,
-    default: {"name": "name", "url": "url", "attribution": "attribution","description": "description"},
+    default: { "name": "name", "url": "url", "date":"date",
+      "attribution": "attribution", "description": "description" },
   },
   locale: {
     type: String,
@@ -132,8 +133,8 @@ const tileSource = [
   {
     "name": "stadiaOsm",
     "url": "https://tiles-eu.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}@2x.png",
-    "attr": 
-    '\
+    "attr":
+      '\
       &copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>|\
       &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a>|\
       &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>\
@@ -141,10 +142,10 @@ const tileSource = [
     //'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
   },
   {
-    "name" : "BaseMapDE",
-  "url": "https://sgx.geodatenzentrum.de/wmts_basemapde/tile/1.0.0/de_basemapde_web_raster_farbe/default/GLOBAL_WEBMERCATOR/{z}/{y}/{x}.png",
-  "attr":'\
-&copy; <a href="https://www.bkg.bund.de" target="_blank">GeoBasis-DE/BKG (' + new Date().getFullYear() +')</a>|\
+    "name": "BaseMapDE",
+    "url": "https://sgx.geodatenzentrum.de/wmts_basemapde/tile/1.0.0/de_basemapde_web_raster_farbe/default/GLOBAL_WEBMERCATOR/{z}/{y}/{x}.png",
+    "attr": '\
+&copy; <a href="https://www.bkg.bund.de" target="_blank">GeoBasis-DE/BKG (' + new Date().getFullYear() + ')</a>|\
 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>\
 '
   }
@@ -223,18 +224,20 @@ const loadData = async () => {
 
   geoLayer.value = Lref.value.geoJSON(geojsonData.value, {
     onEachFeature: (feature, layer) => {
-      if (feature.properties && feature.properties.name) {
+      if (feature.properties && feature.properties[props.dataProps.name]) {
         // layer.bindPopup(feature.properties.name);
-        let popupContent = "<b>" + feature.properties.name + "</b><br>"
-        if (feature.properties.description)
-          popupContent += feature.properties.description + "<br>"
-        if (feature.properties.img)
+        let popupContent = "<b>" + feature.properties[props.dataProps.name] + "</b><br>"
+        if (feature.properties[props.dataProps.description])
+          popupContent += feature.properties[props.dataProps.description] + "<br>"
+        if (feature.properties[props.dataProps.date])
+          popupContent += "Date: " + feature.properties[props.dataProps.date] + "<br>"
+        if (feature.properties[props.dataProps.img])
           popupContent +=
-            "<img src='" + feature.properties.img + "' width='160'><br>" +
-            "<em>" + feature.properties.attribution + "</em><br>"
-        if (feature.properties.url)
-          popupContent += "<a href='" + feature.properties.url + "' target=_blank>More</a><br>"
-        layer.bindPopup(popupContent);        
+            "<img src='" + feature.properties[props.dataProps.img] + "' width='160'><br>" +
+            "<em>" + feature.properties[props.dataProps.attribution] + "</em><br>"
+        if (feature.properties[props.dataProps.url])
+          popupContent += "<a href='" + feature.properties[props.dataProps.url] + "' target=_blank>More</a><br>"
+        layer.bindPopup(popupContent);
       }
     },
   })
@@ -245,6 +248,7 @@ const loadData = async () => {
 
 onMounted(async () => {
   console.log("Map mounted")
+  console.log("Props", props);
   if (!mapInstance.value) {
     Lref.value = L;
     // Fix Leaflet's default icon paths
@@ -267,7 +271,7 @@ onMounted(async () => {
     }
   )
   tileLayer.value.addTo(mapInstance.value);
-    // load geojson ...
+  // load geojson ...
   await loadData()
 });
 
