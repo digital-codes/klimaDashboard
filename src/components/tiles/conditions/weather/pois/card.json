@@ -1,14 +1,18 @@
 {
   "data": [
     {
-      "url": "data/karlsruhe/kkb.geojson",
+      "url_alt": "data/karlsruhe/kkb.geojson",
+      "url": "data/karlsruhe/weatherPois.json",
       "license": "CC-BY-4.0",
       "name": "Cityclim Stationen",
       "format": "json",
       "properties": {
-        "name": "title",
-        "img": "eventImage",
-        "url": "eventLink",
+        "name": "name",
+        "name_alt": "title",
+        "img_alt": "eventImage",
+        "img": "img",
+        "url_alt": "eventLink",
+        "url": "url",
         "date": "eventDate",
         "attribution": "locationName",
         "description": "description"

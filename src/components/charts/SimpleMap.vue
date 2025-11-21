@@ -126,7 +126,7 @@ const geojsonDataExample = {
 
 const geojsonData = ref(null);
 
-const useOverlay = true
+const useOverlay = false //true
 
 const overlyAdjust = {
   "centerLat": 49.0048,
