@@ -54,7 +54,8 @@
       <!-- Chart component goes here -->
       <SimpleMap  v-if="chartValid"  :dataUrl="dataUrl" :dataName="dataName" 
       :ariaLabel="ariaLabel" :locale="chartLocale" 
-      :dataProps="dataProps" @data="capture"></SimpleMap>
+      :dataProps="dataProps" @data="capture"
+      :tileIdx="tileIdx"></SimpleMap>
     </div>
 
 
@@ -151,6 +152,7 @@ const dataUrl = ref(null)
 const dataName = ref(null)
 const dataLicense = ref(null)
 const dataProps = ref(null)
+const tileIdx = ref(null);
 
 // controls
 const controls = ref({
@@ -252,11 +254,13 @@ watch(dataCtl, (index) => {
 const updateData = async (index) => {
   const newUrl = checkUrl(cardSpecs.value.data[index].url);
   //console.log("UpdateData:", index, newUrl)
-  if (newUrl === dataUrl.value) {
+  if (newUrl !== dataUrl.value) {
     chartValid.value = false;
     await nextTick();
   }
   dataUrl.value = newUrl;
+  tileIdx.value = cardSpecs.value.data[index].tileIdx || 2;
+  console.log("TileIdx:", tileIdx.value);
   dataLicense.value = cardSpecs.value.data[index].license;
   dataProps.value = cardSpecs.value.data[index].properties;
   // name is localized!

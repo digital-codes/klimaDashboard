@@ -13,6 +13,11 @@ const emit = defineEmits(["data"]);
 
 const props = defineProps({
   /* Add your props here */
+  // optionally add tile index for url.
+  tileIdx : {
+    type: Number,
+    default: 2,
+  },
   dataUrl: {
     type: String,
     required: true,
@@ -163,11 +168,19 @@ const tileSource = [
 &copy; <a href="https://www.bkg.bund.de" target="_blank">GeoBasis-DE/BKG (' + new Date().getFullYear() + ')</a>|\
 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>\
 '
+  },
+  {
+    "name": "GeoPortal KA Raster",
+    "url": "https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Regiokarte_farbig_Raster/MapServer/tile/{z}/{y}/{x}",
+    "attr": 'Esri Community Maps Contributors, LVermGeo RP, Esri, TomTom, Garmin, GeoTechnologies, Inc, METI/NASA, USGS | © Stadt Karlsruhe | Liegenschaftsamt'
+  },
+  {
+    "name": "GeoPortal KA Luftbilder",
+    "url": "https://geoportal.karlsruhe.de/ags04/rest/services/Luftbilder2024_Cache/MapServer/tile/{z}/{y}/{x}",
+    "attr": 'Esri Community Maps Contributors, LVermGeo RP, Esri, TomTom, Garmin, GeoTechnologies, Inc, METI/NASA, USGS | © Stadt Karlsruhe | Liegenschaftsamt'
   }
 
 ]
-
-const tileIdx = 2 // which tiles to use
 
 
 watch(() => props.dataUrl, async (newVal, oldVal) => {
@@ -237,6 +250,7 @@ const loadData = async () => {
   if (geoLayer.value)
     await geoLayer.value.removeFrom(mapInstance.value)
 
+
   geoLayer.value = Lref.value.geoJSON(geojsonData.value, {
     onEachFeature: (feature, layer) => {
       if (feature.properties && feature.properties[props.dataProps.name]) {
@@ -296,10 +310,10 @@ const loadData = async () => {
     }
 
     tileLayer.value = Lref.value.tileLayer(
-      tileSource[tileIdx].url,
+      tileSource[props.tileIdx].url,
       {
-        maxZoom: 19,
-        attribution: tileSource[tileIdx].attr,
+        maxZoom: props.tileIdx == 3 ? 16 : 19,
+        attribution: tileSource[props.tileIdx].attr,
       }
     )
     tileLayer.value.addTo(mapInstance.value);

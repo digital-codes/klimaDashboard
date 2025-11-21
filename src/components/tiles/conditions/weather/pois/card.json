@@ -1,8 +1,9 @@
 {
   "data": [
     {
-      "url_alt": "data/karlsruhe/kkb.geojson",
       "url": "data/karlsruhe/weatherPois.json",
+      "url_alt": "data/karlsruhe/kkb.geojson",
+      "tileIdx": 2,
       "license": "CC-BY-4.0",
       "name": "Cityclim Stationen",
       "format": "json",
@@ -22,6 +23,7 @@
     },
     {
       "url": "data/karlsruhe/weatherPois2.json",
+      "tileIdx": 3,
       "license": "CC-BY-4.0",
       "name": "LUBW Stationen",
       "format": "json",
