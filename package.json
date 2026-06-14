@@ -45,7 +45,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/vue": "^8.1.0",
-    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue": "^6.0.7",
     "axe-core": "^4.10.2",
     "cpx2": "^8.0.0",
     "cypress": "^15.15.0",
@@ -55,7 +55,7 @@
     "marked": "^15.0.7",
     "sass": "^1.85.1",
     "sass-migrator": "^2.3.1",
-    "vite": "^6.4.2",
+    "vite": "^8.0.16",
     "vite-plugin-sitemap": "^0.7.1",
     "vitest": "^4.1.0",
     "vue-axe": "^2.4.4"
