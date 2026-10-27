@@ -57,7 +57,7 @@
     "sass-migrator": "^2.6.1",
     "vite": "^8.3.5",
     "vite-plugin-sitemap": "^0.7.1",
-    "vitest": "^4.1.11",
+    "vitest": "^4.1.12",
     "vue-axe": "^2.4.4"
   }
 }
