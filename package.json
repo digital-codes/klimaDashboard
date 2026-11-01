@@ -38,7 +38,7 @@
     "vue": "^3.5.43",
     "vue-chartjs": "^5.3.4",
     "vue-echarts": "^8.3.1",
-    "vue-i18n": "^11.4.12",
+    "vue-i18n": "^11.4.17",
     "vue-router": "^4.6.4",
     "vuestic-ui": "^1.10.3"
   },
